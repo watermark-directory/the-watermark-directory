@@ -1,0 +1,1665 @@
+meta:
+  subject: Hocking-basin NPDES wastewater dischargers
+  scope: all active CWA-permitted dischargers
+  source: EPA ECHO — cwa_rest_services (CWA v2017-10-13)
+  watershed: Hocking River — 1 HUC-8 subbasin (05030204 Hocking), subregion 0503 (Upper
+    Ohio, draining directly to the Ohio River)
+  huc8s:
+    '05030204': Hocking
+  dedup_key: FRS RegistryID
+  count: 82
+  caveats:
+  - ECHO's CWA facility service has no CWNS column; the POTW flag rests on CWPFacilityTypeIndicator.
+  - Facilities link to HUCs via WATERS (FacDerivedHuc); a permit that didn't geocode
+    can be missed.
+  - design_flow_mgd is null where ECHO returned no value; it is never estimated.
+  - THE INVENTORY IS PULLED; NO HOCKING GAGE IS REGISTERED. mainstem-gages.yaml holds
+    no entry for this basin, so a discharger here reports no_7q10 — UNSCREENABLE,
+    NEVER UNAFFECTED — until one is registered with its drainage-area rationale.
+  - This basin reaches the Ohio River on its own, so it is a sibling of the Scioto
+    and the Muskingum, not part of either, and a Hocking discharger must never borrow
+    either basin's denominator or an Ohio River mainstem one.
+facilities:
+- frs_registry_id: '110016767453'
+  name: ALBANY WWTP
+  npdes_id: OH0127809
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.13
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: 050302040802
+  county: ATHENS
+  latitude: 39.2277
+  longitude: -82.2033
+  compliance_status: null
+  informal_enf_count: 2
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110009668476'
+  name: AMANDA WWTP
+  npdes_id: OH0048194
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.1269
+  design_flow_missing: false
+  receiving_water: CLEAR CREEK
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040301'
+  county: FAIRFIELD
+  latitude: 39.64937
+  longitude: -82.74325
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110072332192'
+  name: AMESVILLE PWS
+  npdes_id: OHGW00030
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: 050302040903
+  county: null
+  latitude: 39.403735
+  longitude: -81.962336
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110009153575'
+  name: ATHENS COUNTY 691 LANDFILL
+  npdes_id: OH0124737
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: UT TO HOCKING RIVER
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: 050302040801
+  county: ATHENS
+  latitude: 39.39953
+  longitude: -82.19793
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110008643575'
+  name: ATHENS HOCKING C&DD/RECLAMATION CENTER LANDFILL
+  npdes_id: OHP000198
+  npdes_ids_secondary:
+  - OH0076449
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: Individual IU Permit (Non-NPDES)
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040606'
+  county: ATHENS
+  latitude: 39.46145
+  longitude: -82.280543
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110040027538'
+  name: ATHENS WWTP
+  npdes_id: OH0023931
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 4.8
+  design_flow_missing: false
+  receiving_water: HOCKING RIVER
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302041001'
+  county: ATHENS
+  latitude: 39.337601
+  longitude: -82.0788
+  compliance_status: null
+  informal_enf_count: 2
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110009820989'
+  name: BIGHAM'S APARTMENTS WWTP
+  npdes_id: OH0124010
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: LITTLE WALNUT CREEK
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: 050600011806
+  county: FAIRFIELD
+  latitude: 39.637912
+  longitude: -82.761877
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110000893187'
+  name: BLACKHORSE ENERGY-LANCASTER BULK
+  npdes_id: OH0121452
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040401'
+  county: FAIRFIELD
+  latitude: 39.71649
+  longitude: -82.61893
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110040145330'
+  name: BLUE HERON CAMPGROUND
+  npdes_id: OH0139866
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0077
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302041004'
+  county: ATHENS
+  latitude: 39.20153
+  longitude: -81.76923
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110006351401'
+  name: BOBO RV CAMPGROUND
+  npdes_id: OH0115037
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302020404'
+  county: ATHENS
+  latitude: 39.19635
+  longitude: -81.77126
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110010577321'
+  name: BREMEN WWTP
+  npdes_id: OH0021491
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.336
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040204'
+  county: FAIRFIELD
+  latitude: 39.69392
+  longitude: -82.42819
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110024560303'
+  name: BROOKDALE MHP
+  npdes_id: OH0136298
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040404'
+  county: FAIRFIELD
+  latitude: 39.65898
+  longitude: -82.57028
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110027991724'
+  name: BUCKINGHAM MINE COMPLEX
+  npdes_id: OH0135151
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: UT TO DOTSON CR, UT TO DOTSON CREEK, UT TO SUNDAY CR, UT TO SUNDAY
+    CREEK
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040702'
+  county: PERRY
+  latitude: 39.6273
+  longitude: -82.0927
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110000559707'
+  name: BURR OAK REGIONAL WATER DISTRICT
+  npdes_id: OH0030333
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040704'
+  county: ATHENS
+  latitude: 39.544554
+  longitude: -82.058455
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110006310250'
+  name: CAMP AKITA
+  npdes_id: OH0144665
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040204'
+  county: HOCKING
+  latitude: 39.619472
+  longitude: -82.46125
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110006233450'
+  name: CAMP WYANDOT-LODGE
+  npdes_id: OH0139777
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040302'
+  county: HOCKING
+  latitude: 39.586944
+  longitude: -82.573889
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110004720357'
+  name: CARBORUNDUM WHEEL GRINDING COMPANY
+  npdes_id: OH0004766
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040603'
+  county: HOCKING
+  latitude: 39.53686
+  longitude: -82.39208
+  compliance_status: null
+  informal_enf_count: 3
+  formal_enf_count: 1
+  queried_huc8: '05030204'
+- frs_registry_id: '110009153584'
+  name: CCU COAL & CONSTRUCTION LLC D-1163
+  npdes_id: OH0124869
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: UNNAMED TRIBUTARY TO SUNDAY CREEK, UNT TO SUNDAY CREEK
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040704'
+  county: ATHENS
+  latitude: 39.51334
+  longitude: -82.07387
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110006351429'
+  name: CHAUNCEY WWTP
+  npdes_id: OH0024368
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.345
+  design_flow_missing: false
+  receiving_water: HOCKING RIVER
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: 050302040801
+  county: ATHENS
+  latitude: 39.39996
+  longitude: -82.12887
+  compliance_status: null
+  informal_enf_count: 2
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110004690228'
+  name: CITY OF ATHENS WATER TREATMENT PLANT
+  npdes_id: OH0030139
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: 050302040804
+  county: ATHENS
+  latitude: 39.33394
+  longitude: -82.11892
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110011014909'
+  name: CITY OF LANCASTER - STONEWALL CEMETERY LANDFILL
+  npdes_id: OH0124087
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040302'
+  county: FAIRFIELD
+  latitude: 39.68973
+  longitude: -82.63958
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110006357691'
+  name: CITY OF NELSONVILLE WWTP
+  npdes_id: OH0020541
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 1.2
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040606'
+  county: ATHENS
+  latitude: 39.4466
+  longitude: -82.2297
+  compliance_status: null
+  informal_enf_count: 5
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110007893039'
+  name: CLAUDIA A STALEY
+  npdes_id: WVG610782
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: OHIO RIVER
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302020102'
+  county: WOOD
+  latitude: 39.333942
+  longitude: -81.836012
+  compliance_status: Failure to Report DMR - Not Received
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110006327590'
+  name: COLONY VILLAGE
+  npdes_id: OH0114081
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040403'
+  county: FAIRFIELD
+  latitude: 39.66928
+  longitude: -82.56075
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110000840519'
+  name: COOPER STANDARD AUTOMOTIVE INC
+  npdes_id: OHP000084
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: Individual IU Permit (Non-NPDES)
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040102'
+  county: PERRY
+  latitude: 39.724432
+  longitude: -82.203321
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110028299222'
+  name: CORNING WWTP
+  npdes_id: OH0135097
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.06
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040702'
+  county: PERRY
+  latitude: 39.602381
+  longitude: -82.086244
+  compliance_status: Effluent - Monthly Average Limit
+  informal_enf_count: 2
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110006375494'
+  name: COUNTRY LANE GARDENS HC
+  npdes_id: OH0038458
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040202'
+  county: FAIRFIELD
+  latitude: 39.80593
+  longitude: -82.43958
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110071235684'
+  name: EDWARDS MEATS
+  npdes_id: OH0149098
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: BUCK RUN
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040405'
+  county: HOCKING COUNTY
+  latitude: 39.575
+  longitude: -82.535556
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110006351483'
+  name: FEDERAL HOCKING LOCAL SCHOOL
+  npdes_id: OH0124800
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.009
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302041004'
+  county: ATHENS
+  latitude: 39.31375
+  longitude: -81.88015
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110011014927'
+  name: GENEVA HILLS
+  npdes_id: OH0124192
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.007
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040404'
+  county: FAIRFIELD
+  latitude: 39.64264
+  longitude: -82.57873
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110008575023'
+  name: HAYDENVILLE WASTEWATER TREATMENT PLANT
+  npdes_id: OH0107735
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0225
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040606'
+  county: HOCKING
+  latitude: 39.47598
+  longitude: -82.32988
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110006351606'
+  name: HEALTH RECOVERY SERVICES
+  npdes_id: OH0107841
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0065
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: 050302040802
+  county: ATHENS
+  latitude: 39.281306
+  longitude: -82.110194
+  compliance_status: null
+  informal_enf_count: 2
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110071905763'
+  name: JBH INVESTMENTS LLC
+  npdes_id: OH0151703
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302041001'
+  county: null
+  latitude: 39.310047
+  longitude: -81.980535
+  compliance_status: Failure to Report DMR - Not Received
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110009655934'
+  name: LAKE MOOR ESTATES SUBDIV
+  npdes_id: OH0050237
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.03
+  design_flow_missing: false
+  receiving_water: LAKE LOGAN
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040601'
+  county: HOCKING
+  latitude: 39.534384
+  longitude: -82.468998
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110064036868'
+  name: LAKESIDE ESTATES WATER RECLAMATION FACILITY
+  npdes_id: OH0054852
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.03
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040403'
+  county: FAIRFIELD
+  latitude: 39.749652
+  longitude: -82.535183
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110000550458'
+  name: LANCASTER WPCF
+  npdes_id: OH0026026
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 10.0
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040404'
+  county: FAIRFIELD
+  latitude: 39.70909
+  longitude: -82.58533
+  compliance_status: null
+  informal_enf_count: 2
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110064266155'
+  name: LE-AX WATER DISTRICT
+  npdes_id: OH0120782
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: 050302040801
+  county: ATHENS
+  latitude: 39.38177
+  longitude: -82.17521
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110070669072'
+  name: LI'L JUGS LLC  DBA HOCKING HILLS INN & COFFEE EMP
+  npdes_id: OH0148962
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0006
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040602'
+  county: HOCKING COUNTY
+  latitude: 39.52602
+  longitude: -82.460521
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110006309976'
+  name: LOGAN WTP
+  npdes_id: OH0008656
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040605'
+  county: HOCKING
+  latitude: 39.53355
+  longitude: -82.41083
+  compliance_status: null
+  informal_enf_count: 3
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110006309967'
+  name: LOGAN WWTP
+  npdes_id: OH0023388
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 1.6
+  design_flow_missing: false
+  receiving_water: HOCKING RIVER
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040605'
+  county: HOCKING
+  latitude: 39.53335
+  longitude: -82.39356
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110008579680'
+  name: LUDOWICI ROOF TILE INC
+  npdes_id: OH0004570
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: RUSH CREEK
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040102'
+  county: PERRY
+  latitude: 39.72115
+  longitude: -82.24032
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110070563517'
+  name: MANSFIELD TRAILER PARK
+  npdes_id: OH0418938
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: UTT HOCKING RIVER
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302041002'
+  county: ATHENS COUNTY
+  latitude: 39.29167
+  longitude: -81.92522
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110040145349'
+  name: MAR-ZANE MATERIALS INC
+  npdes_id: OH0139882
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: UT HOCKING RIVER
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040605'
+  county: HOCKING
+  latitude: 39.56335
+  longitude: -82.46908
+  compliance_status: Failure to Report DMR - Not Received
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110072329857'
+  name: MOC55763 2024 TGP 205-1 REPLACEMENT
+  npdes_id: OHGH00792
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: 050302040804
+  county: null
+  latitude: 39.356787
+  longitude: -82.136558
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110067577768'
+  name: MOORE'S JUNCTION WASTEWATER TREATMENT FACILITY
+  npdes_id: OH0144843
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.02
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050400040502'
+  county: PERRY COUNTY
+  latitude: 39.71081
+  longitude: -82.19685
+  compliance_status: null
+  informal_enf_count: 2
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110006700187'
+  name: NEW LEXINGTON WWTP
+  npdes_id: OH0023531
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.87
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040102'
+  county: PERRY
+  latitude: 39.724415
+  longitude: -82.236802
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110009822594'
+  name: ODNR BURR OAK STATE PARK LODGE & CABINS
+  npdes_id: OH0036137
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.035
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040701'
+  county: ATHENS
+  latitude: 39.53082
+  longitude: -82.03509
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110045504110'
+  name: ODOT HOLLISTER OUTPOST
+  npdes_id: OH0140023
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040703'
+  county: ATHENS
+  latitude: 39.507778
+  longitude: -82.119444
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110011014856'
+  name: ODOT TORCH REST AREA WWTP
+  npdes_id: OH0124931
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.01
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302041004'
+  county: ATHENS COUNTY
+  latitude: 39.235904
+  longitude: -81.764494
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110009699415'
+  name: OLD GREEN
+  npdes_id: OH0115169
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040606'
+  county: HOCKING
+  latitude: 39.49487
+  longitude: -82.32901
+  compliance_status: null
+  informal_enf_count: 2
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110046587065'
+  name: PINE LAKES ESTATE NO 1
+  npdes_id: OH0136387
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: TRIBUTARY TO HOCKING RIVER, UNNAMED TRIB TO HOCKING RIVER
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040404'
+  county: FAIRFIELD
+  latitude: 39.66359
+  longitude: -82.59498
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110009822157'
+  name: PLEASANT LEA WATER RECLAMATION FACILITY
+  npdes_id: OH0054879
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.04
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040403'
+  county: FAIRFIELD
+  latitude: 39.75941
+  longitude: -82.5359
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110006309985'
+  name: PROPERTY OWNERS ASSOC INC LOST HOLLOW CAMPGROUNDS
+  npdes_id: OH0099210
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040602'
+  county: HOCKING
+  latitude: 39.4869
+  longitude: -82.4744
+  compliance_status: null
+  informal_enf_count: 3
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110009603081'
+  name: REPUBLIC SERVICES PINE GROVE REGIONAL FACILITY
+  npdes_id: OH0121045
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040301'
+  county: FAIRFIELD
+  latitude: 39.590035
+  longitude: -82.712419
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110006196455'
+  name: RESTOVER MHP
+  npdes_id: OH0136301
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: HOCKING RIVER
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040404'
+  county: FAIRFIELD
+  latitude: 39.66623
+  longitude: -82.56219
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110071785439'
+  name: RHONEMUS CELLARS
+  npdes_id: OH0151664
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0042
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040403'
+  county: null
+  latitude: 39.74517
+  longitude: -82.528907
+  compliance_status: Failure to Report DMR - Not Received
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110009821121'
+  name: ROCKBRIDGE WWTP
+  npdes_id: OH0120430
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.028
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040405'
+  county: HOCKING
+  latitude: 39.5866
+  longitude: -82.52107
+  compliance_status: null
+  informal_enf_count: 3
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110070254823'
+  name: RON CAMPBELL APARTMENTS
+  npdes_id: OH0145131
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: 050302040803
+  county: ATHENS COUNTY
+  latitude: 39.344831
+  longitude: -82.137894
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110006327073'
+  name: RUSHVILLE LAGOONS
+  npdes_id: OH0102016
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040202'
+  county: FAIRFIELD
+  latitude: 39.77057
+  longitude: -82.45016
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110006327082'
+  name: RUSTIC RIDGE MHP
+  npdes_id: OH0106046
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040404'
+  county: FAIRFIELD
+  latitude: 39.66412
+  longitude: -82.58435
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110006550035'
+  name: RVM REALTY INC NEW LEXINGTON BULK PLANT
+  npdes_id: OH0124591
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: UT OF RUSH CREEK
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040102'
+  county: PERRY
+  latitude: 39.717596
+  longitude: -82.214871
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110000840243'
+  name: RVM REALTY SOUTH INC - MOORE'S ATHENS BULK PLANT
+  npdes_id: OH0120901
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302041001'
+  county: ATHENS
+  latitude: 39.33153
+  longitude: -82.09302
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110006214382'
+  name: SOMERSET WWTP
+  npdes_id: OH0023566
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.25
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040101'
+  county: PERRY
+  latitude: 39.7925
+  longitude: -82.304
+  compliance_status: null
+  informal_enf_count: 4
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110070876604'
+  name: SOUTH LANCASTER GAS STATION
+  npdes_id: OH0149799
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0025
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040404'
+  county: FAIRFIELD COUNTY
+  latitude: 39.66
+  longitude: -82.559722
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110001623164'
+  name: SOUTHEASTERN CORRECTIONAL INST
+  npdes_id: OH0101630
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: TRIBUTARY TO ARNEY RUN, UNN. TRIB TO ARNEY RUN
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040302'
+  county: FAIRFIELD
+  latitude: 39.64229
+  longitude: -82.62203
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110006370729'
+  name: SOUTHERN LOCAL SCHOOL DISTRICT
+  npdes_id: OH0104396
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.01
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040703'
+  county: PERRY
+  latitude: 39.59
+  longitude: -82.142222
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110072331716'
+  name: 'SPEEDWAY LLC #9925'
+  npdes_id: OHGU01057
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040605'
+  county: null
+  latitude: 39.54337
+  longitude: -82.42684
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110010297295'
+  name: SUGAR GROVE WWTP
+  npdes_id: OH0020401
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.07
+  design_flow_missing: false
+  receiving_water: RUSH CREEK
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040204'
+  county: FAIRFIELD
+  latitude: 39.624023
+  longitude: -82.549069
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110009689006'
+  name: THE PLAINS SD NO 1 BUCHTEL
+  npdes_id: OH0050580
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.6
+  design_flow_missing: false
+  receiving_water: HOCKING RIVER
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: 050302040804
+  county: ATHENS
+  latitude: 39.36412
+  longitude: -82.11695
+  compliance_status: Failure to Report DMR - Not Received
+  informal_enf_count: 5
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110008643129'
+  name: THE PORT CAMPGROUND & DOCKS
+  npdes_id: OH0107875
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: UNNAMED TRIBUTARY TO THE OHIO RIVER
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302041004'
+  county: ATHENS
+  latitude: 39.19154
+  longitude: -81.75771
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110008609023'
+  name: TNT EQUIPMENT COMPANY
+  npdes_id: OH0048399
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040101'
+  county: PERRY
+  latitude: 39.797087
+  longitude: -82.277738
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110000815538'
+  name: TRANSCANADA-CRAWFORD COMPRESSOR
+  npdes_id: OH0142671
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: STUCKY RUN OF HOCKING RIVER
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040404'
+  county: FAIRFIELD
+  latitude: 39.63127
+  longitude: -82.55441
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110006351385'
+  name: TRIMBLE TOWNSHIP WASTEWATER TREATMENT DISTRICT
+  npdes_id: OH0099619
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.283
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040704'
+  county: ATHENS
+  latitude: 39.47004
+  longitude: -82.0808
+  compliance_status: null
+  informal_enf_count: 3
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110039134530'
+  name: TUNNEL HILL RECLAMATION LANDFILL
+  npdes_id: OH0128147
+  npdes_ids_secondary:
+  - OHP000194
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050400040502'
+  county: PERRY
+  latitude: 39.735838
+  longitude: -82.158251
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110037514302'
+  name: UPPER HOCKING WPCF
+  npdes_id: OH0136603
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 4.0
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040401'
+  county: FAIRFIELD
+  latitude: 39.74096
+  longitude: -82.66591
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110064274020'
+  name: VILLAGE OF AMESVILLE
+  npdes_id: OH0135208
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0302
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: 050302040905
+  county: ATHENS
+  latitude: 39.39988
+  longitude: -81.95275
+  compliance_status: null
+  informal_enf_count: 2
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110044901979'
+  name: VILLAGE OF COOLVILLE WWT FACILITY
+  npdes_id: OH0139815
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0789
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302041004'
+  county: ATHENS
+  latitude: 39.221473
+  longitude: -81.79785
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110006284109'
+  name: VILLAGE OF JUNCTION CITY WASTEWATER TREATMENT WORK
+  npdes_id: OH0041114
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.1
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040102'
+  county: PERRY
+  latitude: 39.719855
+  longitude: -82.302988
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: 1
+  queried_huc8: '05030204'
+- frs_registry_id: '110011016694'
+  name: VILLAGE OF NEW STRAITSVILLE
+  npdes_id: OH0050571
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040502'
+  county: PERRY
+  latitude: 39.57497
+  longitude: -82.231568
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110071539753'
+  name: VILLAGE OF SHAWNEE WWTP
+  npdes_id: OH6127671
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.093
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040502'
+  county: null
+  latitude: 39.618056
+  longitude: -82.233333
+  compliance_status: Failure to Report DMR - Not Received
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110009820694'
+  name: VILLAGE OF SHAWNEE WWTP
+  npdes_id: OH0127671
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.093
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040502'
+  county: PERRY
+  latitude: 39.6069
+  longitude: -82.2184
+  compliance_status: Effluent - Monthly Average Limit
+  informal_enf_count: 3
+  formal_enf_count: null
+  queried_huc8: '05030204'
+- frs_registry_id: '110024560447'
+  name: YOGI'S MHP
+  npdes_id: OH0136328
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: HOCKING, HOCKING RIVER
+  huc8: '05030204'
+  huc8_name: Hocking
+  huc12: '050302040404'
+  county: FAIRFIELD
+  latitude: 39.66794
+  longitude: -82.56355
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030204'

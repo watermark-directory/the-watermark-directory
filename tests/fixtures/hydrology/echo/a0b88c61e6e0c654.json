@@ -5,25 +5,25 @@
     "p_huc": "04100008",
     "p_act": "Y"
   },
-  "fetched_at": "2026-06-06T13:45:11.143595+00:00",
+  "fetched_at": "2026-11-02T18:22:58.628341+00:00",
   "payload": {
     "Results": {
       "Message": "Success",
       "Version": "CWA v2017-10-13 1325",
-      "QueryRows": "37",
+      "QueryRows": "41",
       "IndianCountryRows": "0",
-      "SVRows": "4",
-      "CVRows": "14",
+      "SVRows": "3",
+      "CVRows": "16",
       "V3Rows": "24",
-      "FEARows": "0",
-      "InfFEARows": "9",
+      "FEARows": "1",
+      "InfFEARows": "8",
       "INSPRows": "34",
       "BioCVRows": "0",
       "BioV3Rows": "1",
-      "VioLast4QRows": "16",
+      "VioLast4QRows": "19",
       "TotalPenalties": "$0",
       "BadSystemIDs": null,
-      "QueryID": "501"
+      "QueryID": "236"
     }
   }
 }

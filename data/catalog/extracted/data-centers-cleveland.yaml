@@ -1,0 +1,27 @@
+id: data-centers-cleveland
+title: "Cleveland / Cuyahoga Co., OH — Data-Center Activity Register"
+scope: extracted
+status: needs-review
+producer:
+  kind: manual
+  source: >-
+    data-center-sweep skill, network-wide manual web pass (2026-11-02) — verify every figure
+    against its cited source before promoting status to reviewed.
+license: Curated from cited public sources
+access_tier: public
+site_scope: site:cleveland
+storage:
+- relpath: extracted/cleveland/data-centers.md
+  media_type: text/markdown
+  lfs: false
+refresh:
+  cadence: on-demand
+provenance: reference
+tags:
+- data-center
+- cleveland
+- sweep
+notes: >-
+  2026-11-02 network sweep. Register opened for a registered tracking site; nothing here is in the
+  corpus yet. Press is [reference]; [verified] only for instruments read in the sweep — see the
+  register's Sources and "Instruments to pull".

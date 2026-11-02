@@ -1,0 +1,15 @@
+meta:
+  subject: Mahoning-basin NPDES inventory — per-HUC counts
+  source: EPA ECHO — cwa_rest_services (CWA v2017-10-13)
+  watershed: Mahoning River — 1 HUC-8 subbasin (05030103 Mahoning), subregion 0503
+    (Upper Ohio, reaching the Ohio through the Beaver River in Pennsylvania)
+huc_counts:
+- huc8: '05030103'
+  name: Mahoning
+  reported_count: 216
+  rows_pulled: 216
+  potw_rows_pulled: 39
+totals:
+  raw: 216
+  deduped: 213
+  potw: 39

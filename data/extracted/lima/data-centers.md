@@ -1,7 +1,7 @@
 # Lima / Allen County, OH — Data-Center Activity Register
 
 Discover-and-pin register for the **reference site** — the Ottawa River watershed point, Lima's
-municipal loop, the Cole St / Bluelick corridor. Status **as of 2026-09-16**.
+municipal loop, the Cole St / Bluelick corridor. Status **as of 2026-09-16; §1 passage updated 2026-11-02**.
 
 Tags are BOSC evidentiary discipline: `[verified]` = read off a cited primary instrument this
 corpus holds; `[inference]` = reasoned from `[verified]` inputs, labelled; `[reference]` =
@@ -58,7 +58,13 @@ limbs below before reading anything else in this file.
   Graduate Medical Education Center auditorium, 751 W. Market St. `[verified]` (agenda p. 0).
   ⚠️ **Not 2026-09-15.** Every secondary source carries 09-15, which is the Tuesday the coverage was
   filed; the meeting was the Monday, and the agenda's own text layer says so.
-- **Passage:** `[open]`. See "What is not established" below — this is not a quibble.
+- **Passage:** **passed on first reading, 2026-09-14, 6–0 with one abstention** `[verified]` — the
+  City's own minutes of meeting 359, published on PrimeGov 2026-09-29
+  (`https://limaoh.primegov.com/Public/CompiledDocument/7793`, compiled p. 17 of 22, printed
+  "Page 15 of 20"). **Read off the portal 2026-11-02; not yet committed to this corpus** — the
+  minutes are a scan with no text layer, read by OCR, so check the page image before quoting.
+  Whether it passed *as an emergency*, and so its effective date, is a separate question and is
+  only an `[inference]` — see "What the minutes establish, and what they do not" below.
 
 ### The two limbs, which have different geographies
 
@@ -122,9 +128,10 @@ JD, MBA, Mayor and Mike Caprella, Utilities Director, dated 2026-09-08.
      data centers within the City of Lima, Ohio, or new requests for City-supplied water for data
      center developments outside the corporate limits of the City"; or
   2. *the outer limit* — "eighteen-months from the date of passage of this ordinance".
-- **End date:** `[open]`, and **uncomputable from the instrument** — both branches run from a
-  passage date this record does not have. No end date is stated anywhere in this file for that
-  reason.
+- **End date:** `[open]`. The passage date is now `[verified]` (2026-09-14), so the outer limit
+  would fall on **2028-03-14** — but only if 2026-09-14 is also the effective date, which is an
+  `[inference]` (below). Branch (1), the early exit, has not been triggered: no standards ordinance
+  exists.
 - Note the early exit tracks **both** limbs. On this text, standards for the city-limits limb alone
   would not end the water limb.
 
@@ -168,6 +175,34 @@ upground reservoirs holding **approximately 15 billion gallons**; treatment capa
 **17.4 MGD**.
 
 ### What is not established, and why it matters
+
+#### What the minutes establish, and what they do not (added 2026-11-02)
+
+The paragraphs after this block were written 2026-09-16, when no minutes had posted. They are kept
+as written because the negative was true when stated. The minutes have since posted:
+
+- `[verified]` **Roll call** (meeting 359 minutes, p. 17): "Glenn moved, seconded by Neeper, that
+  the ordinance be passed on the first reading. Councilor Lowe advised he will be abstaining as he
+  does not have enough information on what might be coming. … Yea, 6; Gordon, Jordan, Dixon, Jones,
+  Glenn, Neeper. Nay, none. Abstain, 1; Lowe. The Chair declared the ordinance passed on the first
+  reading by a 6—0 vote with 1 abstention." Wilkerson is not in the roll call. The two ordinances
+  before it in the same session, 196-26 and 197-26, passed 7–0.
+- `[verified]` The minutes record **no separate vote on the emergency clause**. The motion, as
+  minuted, is to pass "on the first reading".
+- `[verified]` as a negative: **198-26 does not appear** in the minutes of 2026-09-28 (meeting
+  360, published 2026-10-13) or 2026-10-12 (meeting 373, published 2026-10-27), nor on the
+  2026-10-26 agenda. No second or third reading was taken.
+- `[inference]` **It took effect 2026-09-14.** §5 makes it effective "forthwith upon passage by an
+  affirmative vote of at least two-thirds of the members elected to council at the first reading".
+  Six of eight members elected is three-quarters, and the absence of any later reading is what a
+  first-reading emergency passage looks like. Two links are not closed: Charter §33's own text has
+  not been read (only the ordinance's paraphrase of it), and whether the Clerk counts it as an
+  emergency passage is not stated in the minutes. The certified ordinance closes both.
+- So the 2026-09-16 "What is not established" list below now reads: passage, tally, mover and
+  seconder, and reading are `[verified]`; **effective date and end date remain `[open]`**, with
+  2026-09-14 / 2028-03-14 the `[inference]`.
+
+#### As written 2026-09-16
 
 ⚠️ **The passage record does not exist in public yet.** `[verified]` as a negative:
 
@@ -405,10 +440,12 @@ Each negative is a check that was run, not an absence of curiosity.
    largest hole in the record. Ordinance 198-26's preexisting-contracts sentence turns on it, the
    Mayor's memo characterizes it, and this corpus does not hold it. PAAC recorded it as "underway"
    2025-05-01. Route: R.C. 149.43 to the Lima Clerk of Council / Utilities.
-2. **Ordinance 198-26 as passed, certified, with the roll call and the journal entry** — `[open]`.
-   The eighteen-month clock cannot be computed without a passage date. Drafted at
-   `data/extracted/lima/council/2026-09-16-lima-clerk-of-council.records-request.md`; the cheap
-   alternative is to re-pull PrimeGov meeting 359 once minutes post.
+2. **Ordinance 198-26 as passed, certified, with the journal entry** — still `[open]`, but
+   narrowed. The minutes have posted (meeting 359, PrimeGov compiled document 7793) and carry the
+   roll call; **ingest them** into `data/documents/lima/council/` first. What is left is the signed
+   ordinance and Charter §33's text, which together settle whether the 6–0–1 first reading was an
+   emergency passage and so whether the clock runs from 2026-09-14. Drafted at
+   `data/extracted/lima/council/2026-09-16-lima-clerk-of-council.records-request.md`.
 3. **Resolution #582-26, the Second Amendment to the Sanitary Sewer Development Agreement** —
    the text, plus the vote. It would convert the whole 2026-07-30 sewer-redesign paragraph from
    `[reference]` to `[verified]` and settle whether excess really routes to the City of Lima WWTP.
@@ -422,7 +459,8 @@ Each negative is a check that was run, not an absence of curiosity.
 ## Open questions
 
 - `[open]` End use / workload class of the campus, and who may use it.
-- `[open]` Passage, tally, sponsor, reading and effective date of Ordinance 198-26.
+- `[open]` Effective date of Ordinance 198-26, and so its end date. Passage, tally (6–0–1), mover
+  (Glenn), seconder (Neeper) and reading (first) are now `[verified]` off the minutes.
 - `[open]` Whether "standalone" excludes an ancillary data center, and whether a pending request is
   a "new request".
 - `[open]` Actual campus water withdrawal as metered — every draw figure here is derived.

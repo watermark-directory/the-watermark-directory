@@ -533,7 +533,7 @@
     },
     "observed_network": {
       "sites_present": 9,
-      "sites_total": 27
+      "sites_total": 37
     },
     "citation": {
       "source": "Hand-authored per-site footprint record — the boundary drawn from that site's committed parcel GIS (reference/<site>/parcel-assemblage.geojson), planar acreage measured from the same geometry, hydrologic soil group from a SSURGO read over it, and every quantity tagged with its own source kind",
@@ -1161,19 +1161,509 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "e8a1f0258afc68ce076e1cfd37b7861524ea1da91bd7ca1d48cc92d19a29f424",
-      "size_bytes": 32246,
+      "sha256": "ba1f4bca54fc7433220702b19b8b915178ea80ab55c49f7057c111d3f2c388d4",
+      "size_bytes": 35303,
       "lfs_materialized": true,
       "file_count": 1,
       "stale": false,
       "asof": null
     },
     "observed_network": {
-      "sites_present": 17,
-      "sites_total": 27
+      "sites_present": 35,
+      "sites_total": 37
     },
     "citation": {
       "source": "BOSC site-onboarding discovery — verified public-record register of per-site data-center activity (Columbus/New Albany/Springfield)",
+      "source_kind": "reference",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": false
+    }
+  },
+  {
+    "id": "data-centers-akron",
+    "title": "Akron / Summit Co., OH — Data-Center Activity Register",
+    "scope": "extracted",
+    "collection": "akron",
+    "status": "needs-review",
+    "producer_kind": "manual",
+    "command": null,
+    "connector_ref": null,
+    "source": "data-center-sweep skill, network-wide manual web pass (2026-11-02) — verify every figure against its cited source before promoting status to reviewed.",
+    "external_url": null,
+    "license": "Curated from cited public sources",
+    "access_tier": "public",
+    "site_scope": "site:akron",
+    "cadence": "on-demand",
+    "ttl_days": null,
+    "last_refreshed": null,
+    "tags": [
+      "data-center",
+      "akron",
+      "sweep"
+    ],
+    "storage": [
+      {
+        "relpath": "extracted/akron/data-centers.md",
+        "media_type": "text/markdown",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "b5fe69bdadca777368fac13afa74bf52e85c7a60990d050777a5d6885eff3add",
+      "size_bytes": 3580,
+      "lfs_materialized": true,
+      "file_count": 1,
+      "stale": false,
+      "asof": null
+    },
+    "observed_network": null,
+    "citation": {
+      "source": "data-center-sweep skill, network-wide manual web pass (2026-11-02) — verify every figure against its cited source before promoting status to reviewed.",
+      "source_kind": "reference",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": false
+    }
+  },
+  {
+    "id": "data-centers-ashville",
+    "title": "Ashville / Pickaway Co., OH — Data-Center Activity Register",
+    "scope": "extracted",
+    "collection": "ashville",
+    "status": "needs-review",
+    "producer_kind": "manual",
+    "command": null,
+    "connector_ref": null,
+    "source": "data-center-sweep skill, network-wide manual web pass (2026-11-02) — verify every figure against its cited source before promoting status to reviewed.",
+    "external_url": null,
+    "license": "Curated from cited public sources",
+    "access_tier": "public",
+    "site_scope": "site:ashville",
+    "cadence": "on-demand",
+    "ttl_days": null,
+    "last_refreshed": null,
+    "tags": [
+      "data-center",
+      "ashville",
+      "sweep"
+    ],
+    "storage": [
+      {
+        "relpath": "extracted/ashville/data-centers.md",
+        "media_type": "text/markdown",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "d9c6c79313c3791baf9e41fb25e50a3ff874155c450bb5f1b9db8622ca1cd29a",
+      "size_bytes": 5733,
+      "lfs_materialized": true,
+      "file_count": 1,
+      "stale": false,
+      "asof": null
+    },
+    "observed_network": null,
+    "citation": {
+      "source": "data-center-sweep skill, network-wide manual web pass (2026-11-02) — verify every figure against its cited source before promoting status to reviewed.",
+      "source_kind": "reference",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": false
+    }
+  },
+  {
+    "id": "data-centers-athens",
+    "title": "Athens / Athens Co., OH — Data-Center Activity Register",
+    "scope": "extracted",
+    "collection": "athens",
+    "status": "needs-review",
+    "producer_kind": "manual",
+    "command": null,
+    "connector_ref": null,
+    "source": "data-center-sweep skill, network-wide manual web pass (2026-11-02) — verify every figure against its cited source before promoting status to reviewed.",
+    "external_url": null,
+    "license": "Curated from cited public sources",
+    "access_tier": "public",
+    "site_scope": "site:athens",
+    "cadence": "on-demand",
+    "ttl_days": null,
+    "last_refreshed": null,
+    "tags": [
+      "data-center",
+      "athens",
+      "sweep"
+    ],
+    "storage": [
+      {
+        "relpath": "extracted/athens/data-centers.md",
+        "media_type": "text/markdown",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "d9e334b323f2e7ce746b139a2148b91c468b819e1f67844ee6e14fd01a20a475",
+      "size_bytes": 3098,
+      "lfs_materialized": true,
+      "file_count": 1,
+      "stale": false,
+      "asof": null
+    },
+    "observed_network": null,
+    "citation": {
+      "source": "data-center-sweep skill, network-wide manual web pass (2026-11-02) — verify every figure against its cited source before promoting status to reviewed.",
+      "source_kind": "reference",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": false
+    }
+  },
+  {
+    "id": "data-centers-canton",
+    "title": "Canton / Stark Co., OH — Data-Center Activity Register",
+    "scope": "extracted",
+    "collection": "canton",
+    "status": "needs-review",
+    "producer_kind": "manual",
+    "command": null,
+    "connector_ref": null,
+    "source": "data-center-sweep skill, network-wide manual web pass (2026-11-02) — verify every figure against its cited source before promoting status to reviewed.",
+    "external_url": null,
+    "license": "Curated from cited public sources",
+    "access_tier": "public",
+    "site_scope": "site:canton",
+    "cadence": "on-demand",
+    "ttl_days": null,
+    "last_refreshed": null,
+    "tags": [
+      "data-center",
+      "canton",
+      "sweep"
+    ],
+    "storage": [
+      {
+        "relpath": "extracted/canton/data-centers.md",
+        "media_type": "text/markdown",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "1f26cb0f9e9cb55418a866902cd790fdcecfa6824c7d6a327980f3934d5271f3",
+      "size_bytes": 5227,
+      "lfs_materialized": true,
+      "file_count": 1,
+      "stale": false,
+      "asof": null
+    },
+    "observed_network": null,
+    "citation": {
+      "source": "data-center-sweep skill, network-wide manual web pass (2026-11-02) — verify every figure against its cited source before promoting status to reviewed.",
+      "source_kind": "reference",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": false
+    }
+  },
+  {
+    "id": "data-centers-cleveland",
+    "title": "Cleveland / Cuyahoga Co., OH — Data-Center Activity Register",
+    "scope": "extracted",
+    "collection": "cleveland",
+    "status": "needs-review",
+    "producer_kind": "manual",
+    "command": null,
+    "connector_ref": null,
+    "source": "data-center-sweep skill, network-wide manual web pass (2026-11-02) — verify every figure against its cited source before promoting status to reviewed.",
+    "external_url": null,
+    "license": "Curated from cited public sources",
+    "access_tier": "public",
+    "site_scope": "site:cleveland",
+    "cadence": "on-demand",
+    "ttl_days": null,
+    "last_refreshed": null,
+    "tags": [
+      "data-center",
+      "cleveland",
+      "sweep"
+    ],
+    "storage": [
+      {
+        "relpath": "extracted/cleveland/data-centers.md",
+        "media_type": "text/markdown",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "3293af4e768cc840ca5a7ac4da8a4f8c00ae1d4a2094e346e45763766d9c49f6",
+      "size_bytes": 4735,
+      "lfs_materialized": true,
+      "file_count": 1,
+      "stale": false,
+      "asof": null
+    },
+    "observed_network": null,
+    "citation": {
+      "source": "data-center-sweep skill, network-wide manual web pass (2026-11-02) — verify every figure against its cited source before promoting status to reviewed.",
+      "source_kind": "reference",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": false
+    }
+  },
+  {
+    "id": "data-centers-coshocton",
+    "title": "Coshocton / Coshocton Co., OH — Data-Center Activity Register",
+    "scope": "extracted",
+    "collection": "coshocton",
+    "status": "needs-review",
+    "producer_kind": "manual",
+    "command": null,
+    "connector_ref": null,
+    "source": "data-center-sweep skill, network-wide manual web pass (2026-11-02) — verify every figure against its cited source before promoting status to reviewed.",
+    "external_url": null,
+    "license": "Curated from cited public sources",
+    "access_tier": "public",
+    "site_scope": "site:coshocton",
+    "cadence": "on-demand",
+    "ttl_days": null,
+    "last_refreshed": null,
+    "tags": [
+      "data-center",
+      "coshocton",
+      "sweep"
+    ],
+    "storage": [
+      {
+        "relpath": "extracted/coshocton/data-centers.md",
+        "media_type": "text/markdown",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "127bb2355b657441a1cad737e0b7124ba98d8e36a355dd5c9229630e2cebd6d0",
+      "size_bytes": 2686,
+      "lfs_materialized": true,
+      "file_count": 1,
+      "stale": false,
+      "asof": null
+    },
+    "observed_network": null,
+    "citation": {
+      "source": "data-center-sweep skill, network-wide manual web pass (2026-11-02) — verify every figure against its cited source before promoting status to reviewed.",
+      "source_kind": "reference",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": false
+    }
+  },
+  {
+    "id": "data-centers-defiance",
+    "title": "Defiance / Defiance Co., OH — Data-Center Activity Register",
+    "scope": "extracted",
+    "collection": "defiance",
+    "status": "needs-review",
+    "producer_kind": "manual",
+    "command": null,
+    "connector_ref": null,
+    "source": "data-center-sweep skill, network-wide manual web pass (2026-11-02) — verify every figure against its cited source before promoting status to reviewed.",
+    "external_url": null,
+    "license": "Curated from cited public sources",
+    "access_tier": "public",
+    "site_scope": "site:defiance",
+    "cadence": "on-demand",
+    "ttl_days": null,
+    "last_refreshed": null,
+    "tags": [
+      "data-center",
+      "defiance",
+      "sweep"
+    ],
+    "storage": [
+      {
+        "relpath": "extracted/defiance/data-centers.md",
+        "media_type": "text/markdown",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "2fbcc7b67b619d57457ac08074927597b75f7a7d2fcce219a1059291ef482141",
+      "size_bytes": 2466,
+      "lfs_materialized": true,
+      "file_count": 1,
+      "stale": false,
+      "asof": null
+    },
+    "observed_network": null,
+    "citation": {
+      "source": "data-center-sweep skill, network-wide manual web pass (2026-11-02) — verify every figure against its cited source before promoting status to reviewed.",
+      "source_kind": "reference",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": false
+    }
+  },
+  {
+    "id": "data-centers-fort-wayne",
+    "title": "Fort Wayne / Allen Co., IN — Data-Center Activity Register",
+    "scope": "extracted",
+    "collection": "fort-wayne",
+    "status": "needs-review",
+    "producer_kind": "manual",
+    "command": null,
+    "connector_ref": null,
+    "source": "data-center-sweep skill, network-wide manual web pass (2026-11-02) — verify every figure against its cited source before promoting status to reviewed.",
+    "external_url": null,
+    "license": "Curated from cited public sources",
+    "access_tier": "public",
+    "site_scope": "site:fort-wayne",
+    "cadence": "on-demand",
+    "ttl_days": null,
+    "last_refreshed": null,
+    "tags": [
+      "data-center",
+      "fort-wayne",
+      "sweep"
+    ],
+    "storage": [
+      {
+        "relpath": "extracted/fort-wayne/data-centers.md",
+        "media_type": "text/markdown",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "f709dee0511008041410da61cca58ccc089d5c512f975d84a97432b238c36791",
+      "size_bytes": 6398,
+      "lfs_materialized": true,
+      "file_count": 1,
+      "stale": false,
+      "asof": null
+    },
+    "observed_network": null,
+    "citation": {
+      "source": "data-center-sweep skill, network-wide manual web pass (2026-11-02) — verify every figure against its cited source before promoting status to reviewed.",
+      "source_kind": "reference",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": false
+    }
+  },
+  {
+    "id": "data-centers-fremont",
+    "title": "Fremont / Sandusky Co., OH — Data-Center Activity Register",
+    "scope": "extracted",
+    "collection": "fremont",
+    "status": "needs-review",
+    "producer_kind": "manual",
+    "command": null,
+    "connector_ref": null,
+    "source": "data-center-sweep skill, network-wide manual web pass (2026-11-02) — verify every figure against its cited source before promoting status to reviewed.",
+    "external_url": null,
+    "license": "Curated from cited public sources",
+    "access_tier": "public",
+    "site_scope": "site:fremont",
+    "cadence": "on-demand",
+    "ttl_days": null,
+    "last_refreshed": null,
+    "tags": [
+      "data-center",
+      "fremont",
+      "sweep"
+    ],
+    "storage": [
+      {
+        "relpath": "extracted/fremont/data-centers.md",
+        "media_type": "text/markdown",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "5eb738b225d306d7386d1efecf7edaa7fd2d89d1baba11e347457d536bd1eda7",
+      "size_bytes": 1635,
+      "lfs_materialized": true,
+      "file_count": 1,
+      "stale": false,
+      "asof": null
+    },
+    "observed_network": null,
+    "citation": {
+      "source": "data-center-sweep skill, network-wide manual web pass (2026-11-02) — verify every figure against its cited source before promoting status to reviewed.",
+      "source_kind": "reference",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": false
+    }
+  },
+  {
+    "id": "data-centers-greenville",
+    "title": "Greenville / Darke Co., OH — Data-Center Activity Register",
+    "scope": "extracted",
+    "collection": "greenville",
+    "status": "needs-review",
+    "producer_kind": "manual",
+    "command": null,
+    "connector_ref": null,
+    "source": "data-center-sweep skill, network-wide manual web pass (2026-11-02) — verify every figure against its cited source before promoting status to reviewed.",
+    "external_url": null,
+    "license": "Curated from cited public sources",
+    "access_tier": "public",
+    "site_scope": "site:greenville",
+    "cadence": "on-demand",
+    "ttl_days": null,
+    "last_refreshed": null,
+    "tags": [
+      "data-center",
+      "greenville",
+      "sweep"
+    ],
+    "storage": [
+      {
+        "relpath": "extracted/greenville/data-centers.md",
+        "media_type": "text/markdown",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "1e56a9b7f60b6508facbc5acf803665b59fc1a0fef9d048999c757c34f55a958",
+      "size_bytes": 2084,
+      "lfs_materialized": true,
+      "file_count": 1,
+      "stale": false,
+      "asof": null
+    },
+    "observed_network": null,
+    "citation": {
+      "source": "data-center-sweep skill, network-wide manual web pass (2026-11-02) — verify every figure against its cited source before promoting status to reviewed.",
       "source_kind": "reference",
       "page": null,
       "pages": null,
@@ -1222,8 +1712,8 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "a9ee2d9f91e3be746b8edc0ff7d3204d8c3513db91a854e5bdc385186fe7dae6",
-      "size_bytes": 23549,
+      "sha256": "51e15a8fb6f5710b1d5b07275318d89c5653973dbbe2d02a285f32a6d379a933",
+      "size_bytes": 28500,
       "lfs_materialized": true,
       "file_count": 2,
       "stale": false,
@@ -1232,6 +1722,55 @@
     "observed_network": null,
     "citation": {
       "source": "Data Center Dynamics; Journal-News (CRA/tax filing); WVXU; WCPO; Duke Energy Ohio Woodsdale 345-kV transmission project page; City of Trenton water/sewer pages; Butler County wastewater (LeSourdsville WRF); stopohiodatacenters.org (advocacy, leads only)",
+      "source_kind": "reference",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": false
+    }
+  },
+  {
+    "id": "data-centers-lancaster",
+    "title": "Lancaster / Fairfield Co., OH — Data-Center Activity Register",
+    "scope": "extracted",
+    "collection": "lancaster",
+    "status": "needs-review",
+    "producer_kind": "manual",
+    "command": null,
+    "connector_ref": null,
+    "source": "data-center-sweep skill, network-wide manual web pass (2026-11-02) — verify every figure against its cited source before promoting status to reviewed.",
+    "external_url": null,
+    "license": "Curated from cited public sources",
+    "access_tier": "public",
+    "site_scope": "site:lancaster",
+    "cadence": "on-demand",
+    "ttl_days": null,
+    "last_refreshed": null,
+    "tags": [
+      "data-center",
+      "lancaster",
+      "sweep"
+    ],
+    "storage": [
+      {
+        "relpath": "extracted/lancaster/data-centers.md",
+        "media_type": "text/markdown",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "18d87d4f1d8d3bed61e287ab9373494740a0eebe21f9153d53c41abda7b24c84",
+      "size_bytes": 4985,
+      "lfs_materialized": true,
+      "file_count": 1,
+      "stale": false,
+      "asof": null
+    },
+    "observed_network": null,
+    "citation": {
+      "source": "data-center-sweep skill, network-wide manual web pass (2026-11-02) — verify every figure against its cited source before promoting status to reviewed.",
       "source_kind": "reference",
       "page": null,
       "pages": null,
@@ -1282,8 +1821,8 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "5389ed7a18a2daac60b356b254c36a6cc79cb64bb50138b8ce6d7175f6cfab19",
-      "size_bytes": 40144,
+      "sha256": "43db2cf639c19805d47497a81d057f094b69cd4cbe3c66be9e3643b667654161",
+      "size_bytes": 43201,
       "lfs_materialized": true,
       "file_count": 2,
       "stale": false,
@@ -1292,6 +1831,55 @@
     "observed_network": null,
     "citation": {
       "source": "`watermark --site lima sweep data-centers` (2026-09-16), then a full hand pass against the committed extractions. The sweep's draft was NOT committed as written: it emitted its own chat summary into the register file rather than a register, and two of its figures were corrected against the instruments that own them — the genset count (\"114/115\" -> 115 = 114 data-hall + 1 HUBGEN, per the final PTI) and the moratorium's date and standing (\"enacted 2026-09-15\" -> INTRODUCED 2026-09-14, passage [open]). A third \"correction\" was WRONG and is reverted: the hand pass moved the cooling low bound 3.14 -> 3.1 to match docs/COURSE.md's prose, but COURSE.md rounds and the GENERATED dossier docs/HYDROLOGY.md Sec.4 carries the computed 3.14 (275,000 kW x 24 h x 1.8 L/kWh = 3.138 MGD). The sweep was right; the hand pass re-derived a figure the generator owns. Restored. Every figure in the committed register points at the artifact that owns it; none is re-derived here.",
+      "source_kind": "reference",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": false
+    }
+  },
+  {
+    "id": "data-centers-lordstown",
+    "title": "Lordstown / Trumbull Co., OH — Data-Center Activity Register",
+    "scope": "extracted",
+    "collection": "lordstown",
+    "status": "needs-review",
+    "producer_kind": "manual",
+    "command": null,
+    "connector_ref": null,
+    "source": "data-center-sweep skill, network-wide manual web pass (2026-11-02) — verify every figure against its cited source before promoting status to reviewed.",
+    "external_url": null,
+    "license": "Curated from cited public sources",
+    "access_tier": "public",
+    "site_scope": "site:lordstown",
+    "cadence": "on-demand",
+    "ttl_days": null,
+    "last_refreshed": null,
+    "tags": [
+      "data-center",
+      "lordstown",
+      "sweep"
+    ],
+    "storage": [
+      {
+        "relpath": "extracted/lordstown/data-centers.md",
+        "media_type": "text/markdown",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "388ef76e77b2025976e8357be0c1609ffe583cf1bdf9fe0d79dbf4b41e58bbee",
+      "size_bytes": 7179,
+      "lfs_materialized": true,
+      "file_count": 1,
+      "stale": false,
+      "asof": null
+    },
+    "observed_network": null,
+    "citation": {
+      "source": "data-center-sweep skill, network-wide manual web pass (2026-11-02) — verify every figure against its cited source before promoting status to reviewed.",
       "source_kind": "reference",
       "page": null,
       "pages": null,
@@ -1359,6 +1947,202 @@
     }
   },
   {
+    "id": "data-centers-piketon",
+    "title": "Piketon / Pike Co., OH — Data-Center Activity Register",
+    "scope": "extracted",
+    "collection": "piketon",
+    "status": "needs-review",
+    "producer_kind": "manual",
+    "command": null,
+    "connector_ref": null,
+    "source": "data-center-sweep skill, network-wide manual web pass (2026-11-02) — verify every figure against its cited source before promoting status to reviewed.",
+    "external_url": null,
+    "license": "Curated from cited public sources",
+    "access_tier": "public",
+    "site_scope": "site:piketon",
+    "cadence": "on-demand",
+    "ttl_days": null,
+    "last_refreshed": null,
+    "tags": [
+      "data-center",
+      "piketon",
+      "sweep"
+    ],
+    "storage": [
+      {
+        "relpath": "extracted/piketon/data-centers.md",
+        "media_type": "text/markdown",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "084f5a577bdfd6bcc645a77a51c1c00059304d3d901f41a438363db77ce6c8bb",
+      "size_bytes": 4910,
+      "lfs_materialized": true,
+      "file_count": 1,
+      "stale": false,
+      "asof": null
+    },
+    "observed_network": null,
+    "citation": {
+      "source": "data-center-sweep skill, network-wide manual web pass (2026-11-02) — verify every figure against its cited source before promoting status to reviewed.",
+      "source_kind": "reference",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": false
+    }
+  },
+  {
+    "id": "data-centers-portsmouth",
+    "title": "Portsmouth / Scioto Co., OH — Data-Center Activity Register",
+    "scope": "extracted",
+    "collection": "portsmouth",
+    "status": "needs-review",
+    "producer_kind": "manual",
+    "command": null,
+    "connector_ref": null,
+    "source": "data-center-sweep skill, network-wide manual web pass (2026-11-02) — verify every figure against its cited source before promoting status to reviewed.",
+    "external_url": null,
+    "license": "Curated from cited public sources",
+    "access_tier": "public",
+    "site_scope": "site:portsmouth",
+    "cadence": "on-demand",
+    "ttl_days": null,
+    "last_refreshed": null,
+    "tags": [
+      "data-center",
+      "portsmouth",
+      "sweep"
+    ],
+    "storage": [
+      {
+        "relpath": "extracted/portsmouth/data-centers.md",
+        "media_type": "text/markdown",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "8d7a76961abfbe7e0c588da6a7908c97d1cee852a8da2aaf4743c213b46a7651",
+      "size_bytes": 7010,
+      "lfs_materialized": true,
+      "file_count": 1,
+      "stale": false,
+      "asof": null
+    },
+    "observed_network": null,
+    "citation": {
+      "source": "data-center-sweep skill, network-wide manual web pass (2026-11-02) — verify every figure against its cited source before promoting status to reviewed.",
+      "source_kind": "reference",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": false
+    }
+  },
+  {
+    "id": "data-centers-sandusky",
+    "title": "Sandusky / Erie Co., OH — Data-Center Activity Register",
+    "scope": "extracted",
+    "collection": "sandusky",
+    "status": "needs-review",
+    "producer_kind": "manual",
+    "command": null,
+    "connector_ref": null,
+    "source": "data-center-sweep skill, network-wide manual web pass (2026-11-02) — verify every figure against its cited source before promoting status to reviewed.",
+    "external_url": null,
+    "license": "Curated from cited public sources",
+    "access_tier": "public",
+    "site_scope": "site:sandusky",
+    "cadence": "on-demand",
+    "ttl_days": null,
+    "last_refreshed": null,
+    "tags": [
+      "data-center",
+      "sandusky",
+      "sweep"
+    ],
+    "storage": [
+      {
+        "relpath": "extracted/sandusky/data-centers.md",
+        "media_type": "text/markdown",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "e185d6979c4b39da3413858cd44b42edfc127c0405794bf62277e212f23f2d57",
+      "size_bytes": 2352,
+      "lfs_materialized": true,
+      "file_count": 1,
+      "stale": false,
+      "asof": null
+    },
+    "observed_network": null,
+    "citation": {
+      "source": "data-center-sweep skill, network-wide manual web pass (2026-11-02) — verify every figure against its cited source before promoting status to reviewed.",
+      "source_kind": "reference",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": false
+    }
+  },
+  {
+    "id": "data-centers-shalersville",
+    "title": "Shalersville Township / Portage Co., OH — Data-Center Activity Register",
+    "scope": "extracted",
+    "collection": "shalersville",
+    "status": "needs-review",
+    "producer_kind": "manual",
+    "command": null,
+    "connector_ref": null,
+    "source": "data-center-sweep skill, network-wide manual web pass (2026-11-02) — verify every figure against its cited source before promoting status to reviewed.",
+    "external_url": null,
+    "license": "Curated from cited public sources",
+    "access_tier": "public",
+    "site_scope": "site:shalersville",
+    "cadence": "on-demand",
+    "ttl_days": null,
+    "last_refreshed": null,
+    "tags": [
+      "data-center",
+      "shalersville",
+      "sweep"
+    ],
+    "storage": [
+      {
+        "relpath": "extracted/shalersville/data-centers.md",
+        "media_type": "text/markdown",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "ff6ab4a6690403586dc991dc6ff62853f3247e8fa683044695b316d5d6694353",
+      "size_bytes": 3848,
+      "lfs_materialized": true,
+      "file_count": 1,
+      "stale": false,
+      "asof": null
+    },
+    "observed_network": null,
+    "citation": {
+      "source": "data-center-sweep skill, network-wide manual web pass (2026-11-02) — verify every figure against its cited source before promoting status to reviewed.",
+      "source_kind": "reference",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": false
+    }
+  },
+  {
     "id": "data-centers-sidney",
     "title": "Sidney / Shelby County OH — Data-Center Activity Register",
     "scope": "extracted",
@@ -1395,8 +2179,8 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "d53899c3ea6985717024e814c121a10345c80bc8a8812548e1c25c01e23d2927",
-      "size_bytes": 62496,
+      "sha256": "939a2fc0050b7fb05899a4df24b47f7920d0331563641d6bec3dc042409cdcc3",
+      "size_bytes": 65150,
       "lfs_materialized": true,
       "file_count": 1,
       "stale": false,
@@ -1405,6 +2189,55 @@
     "observed_network": null,
     "citation": {
       "source": "Sidney City Council resolutions (69-25, 80-25, 81-25, 82-25, 26-26, 27-26); sidneyoh.com/526 FAQ; Data Center Dynamics (Oct 2025); Obedio (Apr 2026); ECHO Great Miami all-NPDES (committed 2026-07-02); RSEI v234 Shelby County inventory",
+      "source_kind": "reference",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": false
+    }
+  },
+  {
+    "id": "data-centers-toledo",
+    "title": "Toledo / Lucas Co., OH — Data-Center Activity Register",
+    "scope": "extracted",
+    "collection": "toledo",
+    "status": "needs-review",
+    "producer_kind": "manual",
+    "command": null,
+    "connector_ref": null,
+    "source": "data-center-sweep skill, network-wide manual web pass (2026-11-02) — verify every figure against its cited source before promoting status to reviewed.",
+    "external_url": null,
+    "license": "Curated from cited public sources",
+    "access_tier": "public",
+    "site_scope": "site:toledo",
+    "cadence": "on-demand",
+    "ttl_days": null,
+    "last_refreshed": null,
+    "tags": [
+      "data-center",
+      "toledo",
+      "sweep"
+    ],
+    "storage": [
+      {
+        "relpath": "extracted/toledo/data-centers.md",
+        "media_type": "text/markdown",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "dbd1dc495677751991592469654ae3a914e22d697f0086042f6b59715ea565a2",
+      "size_bytes": 3271,
+      "lfs_materialized": true,
+      "file_count": 1,
+      "stale": false,
+      "asof": null
+    },
+    "observed_network": null,
+    "citation": {
+      "source": "data-center-sweep skill, network-wide manual web pass (2026-11-02) — verify every figure against its cited source before promoting status to reviewed.",
       "source_kind": "reference",
       "page": null,
       "pages": null,
@@ -1449,8 +2282,8 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "79361d06effdf8aa8fd68efc5827ef0b623eff97725c4c6cb57c316ad65d7caa",
-      "size_bytes": 29877,
+      "sha256": "122ccd742dc38f14b287a44380126639814b5dfd5194c7662a8e5784c9cdd305",
+      "size_bytes": 33419,
       "lfs_materialized": true,
       "file_count": 1,
       "stale": false,
@@ -1501,8 +2334,8 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "f1a4193d92dc28c881d83b1e263864064d28fa8a0376392dd78b7862ed6559c6",
-      "size_bytes": 17820,
+      "sha256": "c61ab99ec3676602f810b1d449f70152205cfebdf01174eaa2d75a85c6932ed2",
+      "size_bytes": 20843,
       "lfs_materialized": true,
       "file_count": 1,
       "stale": false,
@@ -1556,8 +2389,8 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "24359279611b3934e87216d72f8c527f1cc97f3763f20d0f98e2c678239834cb",
-      "size_bytes": 79927,
+      "sha256": "70e60682eabed9dfd2aba5cefa8b6decffb01bb2814fc00abcad3dfbdd4cd7f0",
+      "size_bytes": 81364,
       "lfs_materialized": true,
       "file_count": 1,
       "stale": false,
@@ -1667,8 +2500,8 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "be8a65ac3043fc221fb4ce7993fefba82ae657145b3dc331677527bb77316756",
-      "size_bytes": 37244,
+      "sha256": "c431f4e7bb553c2d679e119f70a6779e1f8cc3928801693f014b353ddf9cf959",
+      "size_bytes": 39686,
       "lfs_materialized": true,
       "file_count": 1,
       "stale": false,
@@ -1725,8 +2558,8 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "ecd86a0fd43d743b05c0bab2554f4dc6ed95d06cac3525b41bc733e350c4cabe",
-      "size_bytes": 31058,
+      "sha256": "8def5e9726d40049d831ff6012410a4fe822b7d0adf91e678260c6d231561bf4",
+      "size_bytes": 34874,
       "lfs_materialized": true,
       "file_count": 1,
       "stale": false,
@@ -1845,6 +2678,55 @@
     "observed_network": null,
     "citation": {
       "source": "BOSC corpus (Greene County economics baseline; Little-Miami ECHO inventory); Xenia onboarding self-research pass. The sited-facility web pass (parcel/SOS/EPA) is still to-run.",
+      "source_kind": "reference",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": false
+    }
+  },
+  {
+    "id": "data-centers-youngstown",
+    "title": "Youngstown / Mahoning Co., OH — Data-Center Activity Register",
+    "scope": "extracted",
+    "collection": "youngstown",
+    "status": "needs-review",
+    "producer_kind": "manual",
+    "command": null,
+    "connector_ref": null,
+    "source": "data-center-sweep skill, network-wide manual web pass (2026-11-02) — verify every figure against its cited source before promoting status to reviewed.",
+    "external_url": null,
+    "license": "Curated from cited public sources",
+    "access_tier": "public",
+    "site_scope": "site:youngstown",
+    "cadence": "on-demand",
+    "ttl_days": null,
+    "last_refreshed": null,
+    "tags": [
+      "data-center",
+      "youngstown",
+      "sweep"
+    ],
+    "storage": [
+      {
+        "relpath": "extracted/youngstown/data-centers.md",
+        "media_type": "text/markdown",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "6fe52ad1834b16eb8ffe9229541d1c0ed652ca22894b14fb5b89044ee9ebdd3d",
+      "size_bytes": 4687,
+      "lfs_materialized": true,
+      "file_count": 1,
+      "stale": false,
+      "asof": null
+    },
+    "observed_network": null,
+    "citation": {
+      "source": "data-center-sweep skill, network-wide manual web pass (2026-11-02) — verify every figure against its cited source before promoting status to reviewed.",
       "source_kind": "reference",
       "page": null,
       "pages": null,
@@ -2914,8 +3796,8 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "6e3dc286f4d4910b802eb35f53557a750cd826e013594225955c945728b5f98f",
-      "size_bytes": 49294,
+      "sha256": "7a2816989ebdc2df3e0fabcd611583fc30d4ac14ef2269c502eaa69204fb2a90",
+      "size_bytes": 49336,
       "lfs_materialized": true,
       "file_count": 2,
       "stale": true,
@@ -4664,7 +5546,7 @@
     },
     "observed_network": {
       "sites_present": 1,
-      "sites_total": 27
+      "sites_total": 37
     },
     "citation": {
       "source": "Per-site governing bodies (e.g. City of Lima council) — published meeting documents, scraped per watershed-point site",
@@ -9040,7 +9922,7 @@
     },
     "observed_network": {
       "sites_present": 1,
-      "sites_total": 27
+      "sites_total": 37
     },
     "citation": {
       "source": "Ohio Revised Code (5715.01 assessment ratio; 122.175 DCTE scope; 3735.671(A)(2) school-compensation floor) + Ohio Department of Taxation county sales-and-use rate + a stated commercial-millage assumption; the withheld-knob bands are cross-referenced to reference/datacenter-industry/priors.yaml",
@@ -9718,6 +10600,67 @@
     }
   },
   {
+    "id": "echo-cuyahoga-wwtp",
+    "title": "Cuyahoga-basin NPDES discharger inventory (EPA ECHO)",
+    "scope": "reference",
+    "collection": "echo",
+    "status": "reviewed",
+    "producer_kind": "connector",
+    "command": "npdes --basin cuyahoga",
+    "connector_ref": "watermark.hydrology.connectors.echo",
+    "source": "EPA ECHO — cwa_rest_services (CWA v2017-10-13)",
+    "external_url": "https://echo.epa.gov/tools/web-services",
+    "license": "U.S. Government work (public domain)",
+    "access_tier": "throttled",
+    "site_scope": "basin:cuyahoga",
+    "cadence": "quarterly",
+    "ttl_days": 180,
+    "last_refreshed": null,
+    "tags": [
+      "npdes",
+      "cwa",
+      "cuyahoga",
+      "lake-erie",
+      "wastewater"
+    ],
+    "storage": [
+      {
+        "relpath": "reference/echo/cuyahoga-wwtp.all-npdes.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      },
+      {
+        "relpath": "reference/echo/cuyahoga-wwtp.huc-counts.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      },
+      {
+        "relpath": "reference/echo/cuyahoga-wwtp.potw.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "c80e8c42772f80ec67aa82511b4c1c4e674b3b2f9cc703188a66935c5ebf458a",
+      "size_bytes": 95909,
+      "lfs_materialized": true,
+      "file_count": 3,
+      "stale": false,
+      "asof": null
+    },
+    "observed_network": null,
+    "citation": {
+      "source": "EPA ECHO — cwa_rest_services (CWA v2017-10-13)",
+      "source_kind": "connector",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": "watermark npdes --basin cuyahoga",
+      "verified": true
+    }
+  },
+  {
     "id": "echo-great-miami-wwtp",
     "title": "Great Miami-basin NPDES discharger inventory (EPA ECHO)",
     "scope": "reference",
@@ -9778,6 +10721,67 @@
     }
   },
   {
+    "id": "echo-hocking-wwtp",
+    "title": "Hocking-basin NPDES discharger inventory (EPA ECHO)",
+    "scope": "reference",
+    "collection": "echo",
+    "status": "reviewed",
+    "producer_kind": "connector",
+    "command": "npdes --basin hocking",
+    "connector_ref": "watermark.hydrology.connectors.echo",
+    "source": "EPA ECHO — cwa_rest_services (CWA v2017-10-13)",
+    "external_url": "https://echo.epa.gov/tools/web-services",
+    "license": "U.S. Government work (public domain)",
+    "access_tier": "throttled",
+    "site_scope": "basin:hocking",
+    "cadence": "quarterly",
+    "ttl_days": 180,
+    "last_refreshed": null,
+    "tags": [
+      "npdes",
+      "cwa",
+      "hocking",
+      "ohio-river",
+      "wastewater"
+    ],
+    "storage": [
+      {
+        "relpath": "reference/echo/hocking-wwtp.all-npdes.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      },
+      {
+        "relpath": "reference/echo/hocking-wwtp.huc-counts.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      },
+      {
+        "relpath": "reference/echo/hocking-wwtp.potw.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "5121173df775934e816758577a0acea1661044a02910b4b81914b1c2d9d5d0ed",
+      "size_bytes": 57091,
+      "lfs_materialized": true,
+      "file_count": 3,
+      "stale": false,
+      "asof": null
+    },
+    "observed_network": null,
+    "citation": {
+      "source": "EPA ECHO — cwa_rest_services (CWA v2017-10-13)",
+      "source_kind": "connector",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": "watermark npdes --basin hocking",
+      "verified": true
+    }
+  },
+  {
     "id": "echo-little-miami-wwtp",
     "title": "Little Miami-basin NPDES discharger inventory (EPA ECHO)",
     "scope": "reference",
@@ -9834,6 +10838,68 @@
       "pages": null,
       "confidence": "medium",
       "note": "watermark npdes --basin little-miami",
+      "verified": true
+    }
+  },
+  {
+    "id": "echo-mahoning-wwtp",
+    "title": "Mahoning-basin NPDES discharger inventory (EPA ECHO)",
+    "scope": "reference",
+    "collection": "echo",
+    "status": "reviewed",
+    "producer_kind": "connector",
+    "command": "npdes --basin mahoning",
+    "connector_ref": "watermark.hydrology.connectors.echo",
+    "source": "EPA ECHO — cwa_rest_services (CWA v2017-10-13)",
+    "external_url": "https://echo.epa.gov/tools/web-services",
+    "license": "U.S. Government work (public domain)",
+    "access_tier": "throttled",
+    "site_scope": "basin:mahoning",
+    "cadence": "quarterly",
+    "ttl_days": 180,
+    "last_refreshed": null,
+    "tags": [
+      "npdes",
+      "cwa",
+      "mahoning",
+      "ohio-river",
+      "pennsylvania",
+      "wastewater"
+    ],
+    "storage": [
+      {
+        "relpath": "reference/echo/mahoning-wwtp.all-npdes.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      },
+      {
+        "relpath": "reference/echo/mahoning-wwtp.huc-counts.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      },
+      {
+        "relpath": "reference/echo/mahoning-wwtp.potw.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "7652e9244009154465eb95aad45331107059d6875743542d3c2415f01a4374c1",
+      "size_bytes": 134468,
+      "lfs_materialized": true,
+      "file_count": 3,
+      "stale": false,
+      "asof": null
+    },
+    "observed_network": null,
+    "citation": {
+      "source": "EPA ECHO — cwa_rest_services (CWA v2017-10-13)",
+      "source_kind": "connector",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": "watermark npdes --basin mahoning",
       "verified": true
     }
   },
@@ -10304,7 +11370,7 @@
     },
     "observed_network": {
       "sites_present": 23,
-      "sites_total": 27
+      "sites_total": 37
     },
     "citation": {
       "source": "BLS QCEW annual averages (keyless) + US Census ACS 5-year (B01003_001E population, B19013_001E median household income)",
@@ -10414,7 +11480,7 @@
     },
     "observed_network": {
       "sites_present": 23,
-      "sites_total": 27
+      "sites_total": 37
     },
     "citation": {
       "source": "U.S. EIA — API v2 seriesid route (state residential electricity/gas price, total retail sales)",
@@ -10473,7 +11539,7 @@
     },
     "observed_network": {
       "sites_present": 10,
-      "sites_total": 27
+      "sites_total": 37
     },
     "citation": {
       "source": "Derived — facility draw (air permit, #87) sized against EIA state retail sales + residential price (#91)",
@@ -10534,7 +11600,7 @@
     },
     "observed_network": {
       "sites_present": 23,
-      "sites_total": 27
+      "sites_total": 37
     },
     "citation": {
       "source": "U.S. EIA — Form EIA-861 (serving-utility retail sales) + Form EIA-930 (balancing-authority hourly demand)",
@@ -10589,7 +11655,7 @@
     },
     "observed_network": {
       "sites_present": 1,
-      "sites_total": 27
+      "sites_total": 37
     },
     "citation": {
       "source": "DoD MIRTA (Military Installations, Ranges, and Training Areas) site-boundary register, published via Esri US Federal Data; boundaries encompass federally owned or otherwise managed lands as defined in the Base Structure Report",
@@ -10644,7 +11710,7 @@
     },
     "observed_network": {
       "sites_present": 1,
-      "sites_total": 27
+      "sites_total": 37
     },
     "citation": {
       "source": "DoD MIRTA (site boundary) × EPA SDWIS (public water systems) × EPA ECHO CWA (NPDES discharges) × EPA RSEI/TRI (toxic releases), joined to the enclave's committed grounding record (its CERCLA §120 Federal Facility Agreement) — a multi-source assembly",
@@ -11425,7 +12491,7 @@
     },
     "observed_network": {
       "sites_present": 23,
-      "sites_total": 27
+      "sites_total": 37
     },
     "citation": {
       "source": "NOAA NWS HDSC Atlas-14 — precipitation-frequency point query (Partial-Duration Series, English depths)",
@@ -11545,7 +12611,7 @@
     },
     "observed_network": {
       "sites_present": 23,
-      "sites_total": 27
+      "sites_total": 37
     },
     "citation": {
       "source": "NASA POWER (Prediction Of Worldwide Energy Resources) — climatology point REST API (satellite-derived monthly/annual normals)",
@@ -11672,7 +12738,7 @@
     },
     "observed_network": {
       "sites_present": 3,
-      "sites_total": 27
+      "sites_total": 37
     },
     "citation": {
       "source": "USGS NLDI navigation over the NHDPlus flowline network (per-site nav plans — Lima's mainstem gage 04187100 + WWTP snaps; Fort Wayne's three cited fork/mainstem gages; Sidney's mainstem + Loramie gages plus two campus-drainage snaps)",
@@ -11733,7 +12799,7 @@
     },
     "observed_network": {
       "sites_present": 6,
-      "sites_total": 27
+      "sites_total": 37
     },
     "citation": {
       "source": "Hand-authored per-site routing table — each WWTP→stream route and its permitted average design flow transcribed from that plant's own Ohio EPA NPDES permit or fact sheet in the corpus and cited per route; Lima's BOSC forcemain graph additionally from the Periplus watch-items forcemain features",
@@ -13086,7 +14152,7 @@
     },
     "observed_network": {
       "sites_present": 11,
-      "sites_total": 27
+      "sites_total": 37
     },
     "citation": {
       "source": "Per-site county parcel GIS via the gis_parcel field-map, pulled as f=geojson reprojected to WGS84 (Fort Wayne = Allen County, IN iMap, parcel layer 10)",
@@ -13317,7 +14383,7 @@
     },
     "observed_network": {
       "sites_present": 23,
-      "sites_total": 27
+      "sites_total": 37
     },
     "citation": {
       "source": "EPA RSEI Public Data Set v2.3.12 (EPA gaftp Public Release Data), version v2312",
@@ -13904,7 +14970,7 @@
     },
     "observed_network": {
       "sites_present": 1,
-      "sites_total": 27
+      "sites_total": 37
     },
     "citation": {
       "source": "USASpending.gov API (api.usaspending.gov), U.S. Treasury",

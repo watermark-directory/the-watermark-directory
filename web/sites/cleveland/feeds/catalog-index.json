@@ -1,0 +1,1087 @@
+{
+  "site": "cleveland",
+  "catalog_version": "c76a235c8d106063c63e4b78f2a9e50f0b668bf91312efa20b7c906ef9bfaa84",
+  "contract_version": "2.5.0",
+  "atoms": [
+    {
+      "handle": "concept:cleveland:7q10",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "7q10",
+      "title": "7Q10",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:aep",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "aep",
+      "title": "AEP",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:assimilative-capacity",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "assimilative-capacity",
+      "title": "Assimilative capacity",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:behind-the-meter",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "behind-the-meter",
+      "title": "Behind-the-meter",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:brownfield",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "brownfield",
+      "title": "Brownfield",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:cercla",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "cercla",
+      "title": "CERCLA",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:cgp",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "cgp",
+      "title": "CGP",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:closed-loop-cooling",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "closed-loop-cooling",
+      "title": "Closed-loop cooling",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:cmar",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "cmar",
+      "title": "CMAR",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:colocation",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "colocation",
+      "title": "Colocation",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:common-control-plumbing",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "common-control-plumbing",
+      "title": "Common-control plumbing",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:conditional-use",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "conditional-use",
+      "title": "Conditional use",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:consent-decree",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "consent-decree",
+      "title": "Consent decree",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:constructive-denial",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "constructive-denial",
+      "title": "Constructive denial",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:consumptive-cooling",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "consumptive-cooling",
+      "title": "Consumptive cooling",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:cra",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "cra",
+      "title": "CRA",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:curve-number",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "curve-number",
+      "title": "Curve number",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:dilution",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "dilution",
+      "title": "Dilution",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:dissolved-oxygen",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "dissolved-oxygen",
+      "title": "Dissolved oxygen",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:dmr",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "dmr",
+      "title": "DMR",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:echo",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "echo",
+      "title": "ECHO",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:effluent",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "effluent",
+      "title": "Effluent",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:eia",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "eia",
+      "title": "EIA",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:enterprise-zone",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "enterprise-zone",
+      "title": "Enterprise zone",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:epa",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "epa",
+      "title": "EPA",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:esc",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "esc",
+      "title": "ESC",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:ferc",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "ferc",
+      "title": "FERC",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:ffa",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "ffa",
+      "title": "FFA",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:hb",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "hb",
+      "title": "HB",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:heat-reuse",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "heat-reuse",
+      "title": "Heat reuse",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:hsg",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "hsg",
+      "title": "HSG",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:huc",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "huc",
+      "title": "HUC",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:hyperscale-data-center",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "hyperscale-data-center",
+      "title": "Hyperscale data center",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:hyperscaler",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "hyperscaler",
+      "title": "Hyperscaler",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:il6",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "il6",
+      "title": "IL6",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:interconnection-queue",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "interconnection-queue",
+      "title": "Interconnection queue",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:jedd",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "jedd",
+      "title": "JEDD",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:moratorium",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "moratorium",
+      "title": "Moratorium",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:nda",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "nda",
+      "title": "NDA",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:npdes",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "npdes",
+      "title": "NPDES",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:nwis",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "nwis",
+      "title": "NWIS",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:oepa",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "oepa",
+      "title": "OEPA",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:once-through-cooling",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "once-through-cooling",
+      "title": "Once-through cooling",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:opc",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "opc",
+      "title": "OPC",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:opsb",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "opsb",
+      "title": "OPSB",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:orc",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "orc",
+      "title": "ORC",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:pfas",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "pfas",
+      "title": "PFAS",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:pilot",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "pilot",
+      "title": "PILOT",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:pjm",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "pjm",
+      "title": "PJM",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:potw",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "potw",
+      "title": "POTW",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:pti",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "pti",
+      "title": "PTI",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:public-records-mandamus",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "public-records-mandamus",
+      "title": "Public-records mandamus",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:puco",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "puco",
+      "title": "PUCO",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:pue",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "pue",
+      "title": "PUE",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:rezoning",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "rezoning",
+      "title": "Rezoning",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:rfp",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "rfp",
+      "title": "RFP",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:rfq",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "rfq",
+      "title": "RFQ",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:rsei",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "rsei",
+      "title": "RSEI",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:rto",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "rto",
+      "title": "RTO",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:snc",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "snc",
+      "title": "SNC",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:sos",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "sos",
+      "title": "SOS",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:ssa",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "ssa",
+      "title": "SSA",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:swat",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "swat",
+      "title": "SWAT",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:swcd",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "swcd",
+      "title": "SWCD",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:tax-abatement",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "tax-abatement",
+      "title": "Tax abatement",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:tif",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "tif",
+      "title": "TIF",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:tmdl",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "tmdl",
+      "title": "TMDL",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:total-nitrogen",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "total-nitrogen",
+      "title": "Total nitrogen",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:total-phosphorus",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "total-phosphorus",
+      "title": "Total phosphorus",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:tri",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "tri",
+      "title": "TRI",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:usgs",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "usgs",
+      "title": "USGS",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:variance",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "variance",
+      "title": "Variance",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:wla",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "wla",
+      "title": "WLA",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:wue",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "wue",
+      "title": "WUE",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:cleveland:wwtp",
+      "kind": "concept",
+      "site": "cleveland",
+      "local_id": "wwtp",
+      "title": "WWTP",
+      "feed": "concepts"
+    },
+    {
+      "handle": "dataset:cleveland:abatement-parameters",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "abatement-parameters",
+      "title": "Cuyahoga County, OH Abatement Parameters + What-If Scenario Knobs",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:air-emission-factors",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "air-emission-factors",
+      "title": "Genset Emission Factors (EPA AP-42 §3.4)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:air-naaqs",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "air-naaqs",
+      "title": "National Ambient Air Quality Standards (NAAQS)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:bosc-site-footprint",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "bosc-site-footprint",
+      "title": "Per-Site Campus Footprint Records — boundary, measured acreage, SSURGO HSG",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:bundle-records",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "bundle-records",
+      "title": "The published content bundle — typed feeds + manifest (watermark export)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:compute",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "compute",
+      "title": "AI Accelerator & Rack-Density Compute Reference",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:data-centers",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "data-centers",
+      "title": "Per-Site Data-Center Activity Register",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:data-centers-cleveland",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "data-centers-cleveland",
+      "title": "Cleveland / Cuyahoga Co., OH — Data-Center Activity Register",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:datacenter-industry",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "datacenter-industry",
+      "title": "Data-Center Industry Reference Priors (Uncertainty Bands)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:echo-cuyahoga-wwtp",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "echo-cuyahoga-wwtp",
+      "title": "Cuyahoga-basin NPDES discharger inventory (EPA ECHO)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:economics-baseline",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "economics-baseline",
+      "title": "Cuyahoga County, OH Economic Baseline (BLS QCEW + US Census ACS)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:eia",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "eia",
+      "title": "Balancing-Authority Interchange Aggregates (EIA-930)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:eia-consumer-energy",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "eia-consumer-energy",
+      "title": "OH Consumer Energy-Cost Baseline (EIA API v2)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:eia-demand-pressure",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "eia-demand-pressure",
+      "title": "Facility Demand → Consumer Price-Pressure Sensitivity (EIA + facility load)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:eia-grid-profile",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "eia-grid-profile",
+      "title": "Per-Site Campus Grid Profile — Serving Utility, BA & Load Share (EIA-861/930)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:enclave-federal-land",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "enclave-federal-land",
+      "title": "Cleveland Federal-Enclave Boundary — Cuyahoga County, OH (DoD MIRTA)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:enclave-profile",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "enclave-profile",
+      "title": "Cleveland Federal-Enclave Profile — Cuyahoga County, OH (land / water / wastewater / power / toxics)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:federal",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "federal",
+      "title": "Federal Energy-Policy & National-Output Backdrop (IRA + EIA + LBNL/DOE)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:ferc",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "ferc",
+      "title": "FERC↔PUCO Regulatory Seam (Federal Power Act + FERC eLibrary)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:gleif",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "gleif",
+      "title": "Corridor Entity LEIs (GLEIF)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:greenops",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "greenops",
+      "title": "GreenOps — Anthropic Admin usage & cost",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:greenops-aws",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "greenops-aws",
+      "title": "GreenOps — AWS costs & estimated carbon",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:greenops-factors",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "greenops-factors",
+      "title": "GreenOps — eGRID carbon-intensity, WUE water & inference-energy factors",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:greenops-footprint",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "greenops-footprint",
+      "title": "GreenOps — derived compute footprint (usage → electricity → water)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:greenops-github",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "greenops-github",
+      "title": "GreenOps — GitHub Actions minutes & storage",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:grid",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "grid",
+      "title": "Grid Reliability + Siting Extractions (PJM §202(c) dispatch; AEP Ohio Lyka 345kV project)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:hydrology-atlas14-corridor-ddf",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "hydrology-atlas14-corridor-ddf",
+      "title": "NOAA Atlas-14 Corridor Design-Storm Depths (Depth-Duration-Frequency)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:hydrology-nasa-power-climatology",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "hydrology-nasa-power-climatology",
+      "title": "NASA POWER Climate Normals — site climatology",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:hydrology-ohio-principal-streams",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "hydrology-ohio-principal-streams",
+      "title": "Ohio Principal Streams & Drainage Areas (ODNR, Sherman 1925 / 1999 reprint)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:hydrology-reaches",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "hydrology-reaches",
+      "title": "Reach-network river centerlines — NHDPlus geometry (USGS NLDI)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:hydrology-routing",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "hydrology-routing",
+      "title": "Per-Site Discharge Routing — WWTP receiving stream, permitted design flow, forcemains",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:legal-datacenter-ballot-2026-11",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "legal-datacenter-ballot-2026-11",
+      "title": "Ohio Local Data-Center Ballot Measures — 2026-11-03 General Election",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:legal-datacenter-legislation-hb983-3744",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "legal-datacenter-legislation-hb983-3744",
+      "title": "Data-Center Legislation — H.B. 983 (136th G.A.) Digest & Analysis",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:legal-records-legislation",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "legal-records-legislation",
+      "title": "Public-Records Legislation — Sub. H.B. 314 (136th G.A.) Digest & Analysis",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:lsc-status-report",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "lsc-status-report",
+      "title": "Ohio LSC Status Report of Legislation",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:meetings",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "meetings",
+      "title": "Per-Site Civic Meeting Records (Slug-Scoped)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:network",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "network",
+      "title": "BOSC Watershed-Point Network Synthesis (Maumee Basin)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:odd-grants-loans",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "odd-grants-loans",
+      "title": "Ohio Department of Development — Grants and Loans disbursements (statewide)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:odd-tax-incentives",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "odd-tax-incentives",
+      "title": "Ohio Department of Development — Tax Incentives (JCTC/JRTC/Historic/Datacenter)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:odd-tca-minutes",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "odd-tca-minutes",
+      "title": "Ohio Tax Credit Authority — meeting minutes (Jan 2025 – Jun 2026)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:odot-driveohio-cv-av",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "odot-driveohio-cv-av",
+      "title": "Ohio CV/AV System Core Service Requirements (DriveOhio / AECOM)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:oepa-cooling-reconciliation",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "oepa-cooling-reconciliation",
+      "title": "Cooling-cycling reconciliation — closed-loop cohort water account",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:oepa-ohd000001-coverage",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "oepa-ohd000001-coverage",
+      "title": "OHD000001 data-center general-permit coverage — closed-loop cohort",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:oepa-ohd000001-gp",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "oepa-ohd000001-gp",
+      "title": "Ohio EPA Draft General NPDES Permit for Data Center Facilities (OHD000001)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:onboard-bundle",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "onboard-bundle",
+      "title": "Full site onboarding — every reach/economics connector, in dependency order",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:orc",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "orc",
+      "title": "Ohio Revised Code — Corpus Citation Index",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:orc-orc",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "orc-orc",
+      "title": "Ohio Revised Code — Full Text (Cited Sections + Titles)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:parcel-assemblage",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "parcel-assemblage",
+      "title": "Per-Site Parcel Assemblage Geometry",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:periplus",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "periplus",
+      "title": "Periplus Corridor GIS (Frozen Fork-Point Import)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:pjm",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "pjm",
+      "title": "PJM Wholesale-Market Reference (LMP / RPM Capacity / Large-Load Queue)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:rsei",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "rsei",
+      "title": "RSEI Toxic-Discharge Water Screen",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:rsei-inventory",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "rsei-inventory",
+      "title": "Cuyahoga County, OH RSEI Toxic-Release Inventory (EPA RSEI Public Data Set v2.3.12)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:thermal",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "thermal",
+      "title": "EPA Thermal-Discharge NPDES Permitting Guidance (EPA-833-F-23-007)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:thermal-ris-tolerances",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "thermal-ris-tolerances",
+      "title": "Great Lakes RIS thermal tolerances (EPA-833-F-23-007 Table 3-5)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:usaspending",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "usaspending",
+      "title": "Federal-Award Footprint (USASpending.gov)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:usgs-published-low-flow",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "usgs-published-low-flow",
+      "title": "USGS Published Low-Flow Statistics for Ohio Streams (Straub 2001 + SIR 2024-5075)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:wqs-criteria",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "wqs-criteria",
+      "title": "Ohio Water Quality Standards — numeric criteria (OAC 3745-1)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:wqs-temperature",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "wqs-temperature",
+      "title": "Ohio Water Quality Standards — numeric temperature criteria (OAC 3745-1)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "entity:cleveland:GENERAL DYNAMICS",
+      "kind": "entity",
+      "site": "cleveland",
+      "local_id": "GENERAL DYNAMICS",
+      "title": "GENERAL DYNAMICS CORPORATION",
+      "feed": "entities"
+    },
+    {
+      "handle": "entity:cleveland:GENERAL DYNAMICS LAND SYSTEMS",
+      "kind": "entity",
+      "site": "cleveland",
+      "local_id": "GENERAL DYNAMICS LAND SYSTEMS",
+      "title": "General Dynamics Land Systems Inc.",
+      "feed": "entities"
+    }
+  ]
+}

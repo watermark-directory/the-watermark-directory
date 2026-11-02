@@ -1,7 +1,7 @@
 # Van Wert / Van Wert County, OH — Data-Center Activity Register
 
 Discover-and-pin register for the Van Wert watershed point — the upper Maumee basin (Town Creek
-→ Little Auglaize → Auglaize → Maumee). Sweep status **as of 2026-07-02**; the committed-record
+→ Little Auglaize → Auglaize → Maumee). Sweep status **as of 2026-07-02**, with a delta sweep **added 2026-11-02** (last section); the committed-record
 notes below are dated individually. Tags are BOSC evidentiary discipline: `[verified]` = cited
 public source (two+ independent or a primary instrument), `[reference]` = single credible-media
 source, `[inference]`, `[open]`. This began as a pure discover-and-pin register with **nothing**
@@ -902,3 +902,26 @@ Staff's report — case *status* stays behind the block.
 - EPA ECHO Detailed Facility Report, Van Wert WWTP: [OH0027910](https://echodata.epa.gov/echo/dfr_rest_services.get_dfr?p_id=OH0027910&output=JSON)
 - EPA "How's My Waterway", Lower Town Creek: [OH041000070804](https://mywaterway.epa.gov/waterbody-report/21OHIO/OH041000070804)
 - Stop Ohio Data Centers (advocacy, leads only): [stopohiodatacenters.org/data-center-water-usage-ohio](https://stopohiodatacenters.org/data-center-water-usage-ohio)
+
+## Update 2026-11-02
+
+A web sweep for deltas since the dated notes above. One delta, from a single secondary source.
+Nothing new is ingested.
+
+- `[reference]` **Groundbreaking reported.** Blackridge Research (updated 2026-10-29), a trade
+  aggregator, says "ground was recently broken" and excavation is under way. It reports Phase 1 as
+  four buildings of about 650,000 sq ft each, with building construction from spring 2027. No City
+  or QTS confirmation was found.
+  - The only dated start on record is still the NOI's **project start 2026-08-03**
+    (`edoc-4209395.pdf` p. 0, `[verified]`, §1 "Timeline"). Earthwork under the construction
+    stormwater permit is what that instrument covers, so a groundbreaking after it is consistent
+    `[inference]`. It doesn't upgrade the press date.
+  - ⚠️ The **four-building / ~650,000 sq ft-each Phase 1** figure appears in no other source this
+    register holds. Keep it `[reference]` and don't feed it into any load or water estimate.
+- `[open]`, unchanged: the air PTI. Nothing found suggests QTS has applied since the NOI's certified
+  `YET_TO_APPLY` (2026-07-21). The eDoc portal was not re-swept this pass, so that is not a new
+  negative.
+
+Source for this section:
+
+- Blackridge Research, 2026-10-29: <https://www.blackridgeresearch.com/news-releases/qts-breaks-ground-on-usd-10-billion-data-center-campus-in-ohio-us>

@@ -1,7 +1,7 @@
 # Urbana / Champaign County, OH — Data-Center Activity Register
 
 Discover-and-pin register for the Urbana watershed point (readiness epic #1263). Status **as of
-2026-09-28**. Tags are BOSC evidentiary discipline: `[verified]` = cited primary instrument or
+2026-09-28; settlement MOU updated 2026-11-02**. Tags are BOSC evidentiary discipline: `[verified]` = cited primary instrument or
 official public record, `[inference]`, `[open]`, `[reference]` = secondary source, contributing
 leads and never findings.
 
@@ -123,6 +123,8 @@ None of this is in the corpus. All of it is `[reference]` until the named instru
   to pleadings due by 9/5/2026" `[reference]`. Whether the City moved to dismiss or answered, and
   whether any PI motion was filed, is **`[open]`**. CourtListener refused automated access, so the
   docket needs to be pulled directly.
+  *Note 2026-11-02:* the parties have since reached a mediated **settlement MOU**, which Council
+  has tabled twice — see "Update 2026-11-02".
 - **Champaign County Common Pleas (R.C. 2506 appeal of the BZA denial):** the court found the
   City's filed record **incomplete** and ordered the full transcript of the 2026-04-13 BZA hearing
   added, due **2026-08-03**. Briefing then runs: Thor's brief due **2026-09-02**, the City's response
@@ -239,3 +241,52 @@ to September. `[reference]`: Ohio Capital Journal 2026-09-18.
   <https://ohiocapitaljournal.com/2026/09/18/ohio-now-has-over-125-active-moratoriums-on-data-centers-see-where-they-are/>
 - CU-CitizenAccess (Champaign County, **IL**; disambiguation only) —
   <https://cu-citizenaccess.org/2026/07/while-officials-debate-data-center-regulations-residents-want-to-know-where-theyll-be-built/>
+
+## Update 2026-11-02
+
+A re-sweep on 2026-11-02 of what has happened since the 2026-09-28 as-of. None of it is in the
+corpus and no new primary instrument was read, so all of it is `[reference]`. Nothing above is
+deleted.
+
+### The settlement MOU (federal mediation)
+
+- `[reference — Urbana Daily Citizen 2026-10-08; Springfield News-Sun]` Two mediation sessions in
+  the federal case (§2, 3:26-cv-00196) in September produced a **settlement MOU**. As reported:
+  - Thor **dismisses its suit** (which claims more than $115M) and **waives CRA abatements**.
+  - Thor pays **up to $50M**: $5M within 30 days of the Phase 1 building permit, then $20M, $15M
+    and $10M at each phase's certificate of occupancy.
+  - The campus is capped at about **2M net interior sq ft** over three phases. The cooling plant,
+    substations, generators and fuel storage are **excluded** from that figure.
+  - Before construction Thor must fund an environmental study covering **Cedar Bog**, subsidize
+    water and wastewater upgrades, and file decommissioning plans.
+  - Thor must enter a **Community Betterment Agreement** by the later of the Phase 1 permit or
+    2026-12-31.
+- ⚠️ **The cap is a scale increase, not a limit on the disclosed project.** §1 records 460,000 sq ft
+  as disclosed; 2M net interior sq ft, with plant and generators outside it, is more than four
+  times that `[inference]`. Do not report the MOU as shrinking the campus.
+- ⚠️ "Waives CRA abatements" sits against §1's `[verified]` **no CRA agreement and no PILOT**:
+  what is waived is an entitlement Thor might seek, not an agreement that exists. Read the MOU
+  before characterizing it.
+
+### Council action
+
+- `[reference]` Council has **tabled** the MOU twice: no vote on **2026-10-06**, and tabled
+  **4–2 on 2026-10-20** (yes: Jumper, Truelove, Scott, Thackery; no: Bean, Collier). Peak of Ohio
+  reports **4–3**; the two accounts are not reconciled. The next meeting is **2026-11-03**, election
+  night. The resolution number is `[open]`.
+
+### Unchanged since 2026-09-28
+
+- The Common Pleas R.C. 2506 appeal is still active; its case number is still `[open]`.
+- The **7.5 MW** charter ban and the Bean recall are both on the 2026-11-03 ballot.
+- The Urbana Township Trustees' 2026-10-05 hearing outcome (instrument 8) was not found.
+
+### Instruments to pull (added 2026-11-02)
+
+- The **MOU itself** and the Council resolution that would adopt it. Add to instrument 1 (S.D.
+  Ohio docket: any notice of settlement or stay) and instrument 3 (City of Urbana).
+
+### Sources (added 2026-11-02)
+
+- <https://www.urbanacitizen.com/2026/10/08/opposition-wants-no-deal-on-proposed-data-center-settlement/>
+- <https://www.springfieldnewssun.com/local/urbana-council-tables-data-center-settlement-proposal-for-second-time/article_79d7634c-e12e-5aa4-9731-81436857bfd5.html>

@@ -14,7 +14,7 @@ NPDES ID, and value here was returned by the ECHO API — nothing is fabricated 
 inferred. The one exception is a **curated receiving water**, which is never invented
 either: it is a document-cited correction declared in the
 [curated overlay](#curated-receiving-water-the-refresh-path) and always marked as such on
-the row. Five basins are committed today, each with its own
+the row. Eleven basins are committed today, each with its own
 `<basin>-wwtp.*` fileset: the **Maumee** (`watermark npdes`, the default), the **Great
 Miami** (`watermark npdes --basin great-miami`, the Miami-basin sites — Urbana, Springfield,
 WPAFB, Troy-Piqua, Hamilton-Middletown), the **Little Miami** (`watermark npdes --basin
@@ -25,8 +25,12 @@ the **Portage** (`watermark npdes --basin portage`, the direct-to-Lake-Erie bran
 Bowling Green / Middleton Township — a single HUC-8 `04100010`; #1433), the **Scioto**
 (`--basin scioto`, the Columbus / New Albany data-center cluster — three HUC-8s), the
 **Muskingum** (`--basin muskingum`, Mansfield and Coshocton — all six HUC-8s of subregion
-0504, the largest river basin lying wholly in Ohio), and the **Sandusky** (`--basin
-sandusky`, the Sandusky / Fremont / Tiffin / Bucyrus points — a single HUC-8 `04100011`).
+0504, the largest river basin lying wholly in Ohio), the **Sandusky** (`--basin
+sandusky`, the Sandusky / Fremont / Tiffin / Bucyrus points — a single HUC-8 `04100011`), and
+three single-HUC-8 basins opened by the 2026-11-02 sweep: the **Cuyahoga** (`--basin cuyahoga`,
+Akron and Shalersville — `04110002`), the **Mahoning** (`--basin mahoning`, Lordstown and
+Youngstown — `05030103`, crossing into Pennsylvania), and the **Hocking** (`--basin hocking`,
+Lancaster and Athens — `05030204`).
 
 **Every basin a registered site sits on now has a committed inventory, and two guards in
 `tests/test_shared_registries.py` keep it that way.** Until they were added, three basins
@@ -87,8 +91,17 @@ ECHO ColumnIDs). Deduplication keys on **FRS Registry ID**; a facility holding
 multiple permits keeps its primary NPDES ID with the rest in
 `npdes_ids_secondary`. Two distinct FRS IDs sharing a name are never collapsed.
 
-Verified against `cwa_rest_services` metadata **CWA v2017-10-13 1325** (260 result
-columns). Numbers come from the API's structured fields, not any text layer.
+Verified against `cwa_rest_services` metadata **CWA v2017-10-13 1325**. Numbers come from the
+API's structured fields, not any text layer.
+
+⚠️ **The ColumnIDs are resolved from `metadata` on every pull, never hardcoded.** Until
+2026-11-02 the connector carried a fixed ObjectName → ColumnID table read off the 260-column
+listing. By that date the service listed 262 columns and twelve IDs had shifted by two, under
+the *same* version string — so a pull still succeeded, but selected the wrong columns and
+returned `facility_type`, `longitude` and `receiving_water` as null on every row (a Cuyahoga pull
+classified **0** POTWs). Nothing failed; the inventory was simply empty of meaning. The connector
+now asks `metadata` for the current IDs and **refuses the pull** if a needed ObjectName has gone.
+Every inventory committed before that date was pulled while the old table was still correct.
 
 ## Curated receiving water (the refresh path)
 
@@ -511,6 +524,82 @@ not a conservative approximation, it is a category error.
 gage.** A headwaters 7Q10 understates dilution for anyone below it — the safe direction, but still
 wrong. The three downstream gages are carried as cross-checks for exactly that re-screening.
 
+## Cuyahoga River basin (`cuyahoga-wwtp.*`)
+
+The Akron and Shalersville points (registered 2026-11-02). One HUC-8, wholly in Ohio:
+
+| HUC-8 | subbasin |
+| --- | --- |
+| 04110002 | Cuyahoga |
+
+Both points were located against the USGS WBD service. ⚠️ **Cleveland is not in it.** The
+Cleveland site's Census centroid falls in `04110003` (Ashtabula-Chagrin), so `cuyahoga` is that
+site's *regional* grouping, not the HUC-8 its point drains to. NEORSD Southerly (175 MGD) is in
+this inventory because it sits on the Cuyahoga; that is not a statement about where a Cleveland
+campus would discharge.
+
+**2026-11-02 pull:** 156 rows → **153 facilities** after FRS dedup (**27 POTW**, every one with a
+design flow). 20 of the 27 carry no `receiving_water`, among them Akron WRF (90 MGD) and NEORSD
+Southerly.
+
+It is a sibling of the Black-Rocky, Ashtabula-Chagrin and Grand: each reaches Lake Erie on its
+own, so no discharger here may borrow another's denominator.
+
+### What screens, and what does not
+
+**Nothing.** No Cuyahoga gage is registered in `mainstem-gages.yaml`, so every row reports
+`no_7q10` or `no_receiving_water`: unscreenable, not unaffected. ⚠️ The river's last miles are
+the Cleveland ship channel, a lake-influenced reach. A 7Q10 describes a free-flowing river, so
+registering a lower gage must not extend an alias to an outfall at the lake.
+
+## Mahoning River basin (`mahoning-wwtp.*`)
+
+The Lordstown and Youngstown points (registered 2026-11-02). One HUC-8, **crossing into
+Pennsylvania**:
+
+| HUC-8 | subbasin |
+| --- | --- |
+| 05030103 | Mahoning |
+
+**2026-11-02 pull:** 216 rows → **213 facilities** after FRS dedup (**39 POTW**, 3 without a
+design flow). 25 of the 39 carry no `receiving_water`, among them Youngstown WWTP (35 MGD) and
+Warren WPCF (16 MGD). ECHO's `p_huc` has no state filter, so the Pennsylvania reach below the
+state line arrives in the same query: 39 rows hold PA permits (Lawrence County, among them
+New Castle Sanitation Authority, 17 MGD). As with the Maumee's Indiana and Michigan rows, a
+complete inventory needs the PA DEP permit list cross-checked against these rows. That
+cross-check has not been done.
+
+The Mahoning joins the Shenango in Pennsylvania to form the Beaver, which reaches the Ohio
+hundreds of river miles above any other network basin.
+
+### What screens, and what does not
+
+**Nothing.** No Mahoning gage is registered, so every row reports `no_7q10` or
+`no_receiving_water`. ⚠️ **The Mahoning is a regulated river:** Berlin Lake and Lake Milton
+impound the mainstem above the Warren and Youngstown reach. A gage registered below them must
+carry a `regulation` block in [`mainstem-gages.yaml`](../hydrology/README.md), which demotes the
+derived 7Q10 to `confidence: low`. Its record must never be read as natural flow.
+
+## Hocking River basin (`hocking-wwtp.*`)
+
+The Lancaster and Athens points (registered 2026-11-02). One HUC-8, wholly in Ohio:
+
+| HUC-8 | subbasin |
+| --- | --- |
+| 05030204 | Hocking |
+
+**2026-11-02 pull:** 83 rows → **82 facilities** after FRS dedup (**24 POTW**, 2 without a design
+flow). 15 of the 24 carry no `receiving_water`, among them Lancaster WPCF (10 MGD). Athens WWTP
+(4.8 MGD) and Logan WWTP (1.6 MGD) name the Hocking River.
+
+The Hocking meets the Ohio directly at Hockingport. It is a **sibling** of the Scioto and the
+Muskingum, not part of either, so neither basin's denominator applies here.
+
+### What screens, and what does not
+
+**Nothing.** No Hocking gage is registered, so every row reports `no_7q10` or
+`no_receiving_water`: unscreenable, not unaffected.
+
 ## Known gaps & caveats (read before using)
 
 1. **No CWNS ID.** The ECHO CWA facility service has *no* CWNS column, so the
@@ -580,6 +669,18 @@ Each entry under `facilities:` carries these keys (`null` = ECHO returned nothin
 
 **Cataloged datasets** — generated from `data/catalog/reference/`; run `watermark catalog render --apply` after editing an entry.
 
+### `echo-cuyahoga-wwtp` — Cuyahoga-basin NPDES discharger inventory (EPA ECHO)
+
+Source: EPA ECHO — cwa_rest_services (CWA v2017-10-13) · License: U.S. Government work (public domain) · Access: throttled · Site scope: basin:cuyahoga · Refresh: quarterly (ttl 180d)
+
+Regenerate: `watermark npdes --basin cuyahoga`
+
+| file | type | lfs |
+| --- | --- | --- |
+| `reference/echo/cuyahoga-wwtp.all-npdes.yaml` | application/x-yaml | no |
+| `reference/echo/cuyahoga-wwtp.huc-counts.yaml` | application/x-yaml | no |
+| `reference/echo/cuyahoga-wwtp.potw.yaml` | application/x-yaml | no |
+
 ### `echo-great-miami-wwtp` — Great Miami-basin NPDES discharger inventory (EPA ECHO)
 
 Source: EPA ECHO — cwa_rest_services (CWA v2017-10-13) · License: U.S. Government work (public domain) · Access: throttled · Site scope: basin:great-miami · Refresh: quarterly (ttl 180d)
@@ -592,6 +693,18 @@ Regenerate: `watermark npdes --basin great-miami`
 | `reference/echo/great-miami-wwtp.huc-counts.yaml` | application/x-yaml | no |
 | `reference/echo/great-miami-wwtp.potw.yaml` | application/x-yaml | no |
 
+### `echo-hocking-wwtp` — Hocking-basin NPDES discharger inventory (EPA ECHO)
+
+Source: EPA ECHO — cwa_rest_services (CWA v2017-10-13) · License: U.S. Government work (public domain) · Access: throttled · Site scope: basin:hocking · Refresh: quarterly (ttl 180d)
+
+Regenerate: `watermark npdes --basin hocking`
+
+| file | type | lfs |
+| --- | --- | --- |
+| `reference/echo/hocking-wwtp.all-npdes.yaml` | application/x-yaml | no |
+| `reference/echo/hocking-wwtp.huc-counts.yaml` | application/x-yaml | no |
+| `reference/echo/hocking-wwtp.potw.yaml` | application/x-yaml | no |
+
 ### `echo-little-miami-wwtp` — Little Miami-basin NPDES discharger inventory (EPA ECHO)
 
 Source: EPA ECHO — cwa_rest_services (CWA v2017-10-13) · License: U.S. Government work (public domain) · Access: throttled · Site scope: basin:little-miami · Refresh: quarterly (ttl 180d)
@@ -603,6 +716,18 @@ Regenerate: `watermark npdes --basin little-miami`
 | `reference/echo/little-miami-wwtp.all-npdes.yaml` | application/x-yaml | no |
 | `reference/echo/little-miami-wwtp.huc-counts.yaml` | application/x-yaml | no |
 | `reference/echo/little-miami-wwtp.potw.yaml` | application/x-yaml | no |
+
+### `echo-mahoning-wwtp` — Mahoning-basin NPDES discharger inventory (EPA ECHO)
+
+Source: EPA ECHO — cwa_rest_services (CWA v2017-10-13) · License: U.S. Government work (public domain) · Access: throttled · Site scope: basin:mahoning · Refresh: quarterly (ttl 180d)
+
+Regenerate: `watermark npdes --basin mahoning`
+
+| file | type | lfs |
+| --- | --- | --- |
+| `reference/echo/mahoning-wwtp.all-npdes.yaml` | application/x-yaml | no |
+| `reference/echo/mahoning-wwtp.huc-counts.yaml` | application/x-yaml | no |
+| `reference/echo/mahoning-wwtp.potw.yaml` | application/x-yaml | no |
 
 ### `echo-maumee-npdes` — Maumee-basin NPDES discharger inventory (EPA ECHO)
 

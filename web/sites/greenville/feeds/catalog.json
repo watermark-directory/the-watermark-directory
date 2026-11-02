@@ -168,17 +168,66 @@
       }
     ],
     "observed": {
-      "exists": false,
-      "sha256": null,
-      "size_bytes": 0,
+      "exists": true,
+      "sha256": "1e56a9b7f60b6508facbc5acf803665b59fc1a0fef9d048999c757c34f55a958",
+      "size_bytes": 2084,
       "lfs_materialized": true,
-      "file_count": 0,
+      "file_count": 1,
       "stale": false,
       "asof": null
     },
     "observed_network": null,
     "citation": {
       "source": "BOSC site-onboarding discovery — verified public-record register of per-site data-center activity (Columbus/New Albany/Springfield)",
+      "source_kind": "reference",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": false
+    }
+  },
+  {
+    "id": "data-centers-greenville",
+    "title": "Greenville / Darke Co., OH — Data-Center Activity Register",
+    "scope": "extracted",
+    "collection": "greenville",
+    "status": "needs-review",
+    "producer_kind": "manual",
+    "command": null,
+    "connector_ref": null,
+    "source": "data-center-sweep skill, network-wide manual web pass (2026-11-02) — verify every figure against its cited source before promoting status to reviewed.",
+    "external_url": null,
+    "license": "Curated from cited public sources",
+    "access_tier": "public",
+    "site_scope": "site:greenville",
+    "cadence": "on-demand",
+    "ttl_days": null,
+    "last_refreshed": null,
+    "tags": [
+      "data-center",
+      "greenville",
+      "sweep"
+    ],
+    "storage": [
+      {
+        "relpath": "extracted/greenville/data-centers.md",
+        "media_type": "text/markdown",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "1e56a9b7f60b6508facbc5acf803665b59fc1a0fef9d048999c757c34f55a958",
+      "size_bytes": 2084,
+      "lfs_materialized": true,
+      "file_count": 1,
+      "stale": false,
+      "asof": null
+    },
+    "observed_network": null,
+    "citation": {
+      "source": "data-center-sweep skill, network-wide manual web pass (2026-11-02) — verify every figure against its cited source before promoting status to reviewed.",
       "source_kind": "reference",
       "page": null,
       "pages": null,
@@ -287,8 +336,8 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "6e3dc286f4d4910b802eb35f53557a750cd826e013594225955c945728b5f98f",
-      "size_bytes": 49294,
+      "sha256": "7a2816989ebdc2df3e0fabcd611583fc30d4ac14ef2269c502eaa69204fb2a90",
+      "size_bytes": 49336,
       "lfs_materialized": true,
       "file_count": 2,
       "stale": true,

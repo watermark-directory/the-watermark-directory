@@ -1,7 +1,7 @@
 # Wilmington / Clinton Co., OH — Data-Center Activity Register
 
 Discover-and-pin register for the Wilmington watershed point (Lytle Creek → Todd Fork →
-**Little Miami**). Status **as of 2026-07-11**. Tags are BOSC evidentiary discipline:
+**Little Miami**). Status **as of 2026-07-11; litigation and ballot updated 2026-11-02**. Tags are BOSC evidentiary discipline:
 `[verified]` = cited primary/government source, `[reported]` = credible secondary,
 `[reference]`, `[inference]`, `[open]`.
 
@@ -411,3 +411,57 @@ and its structured peer. **No certification is captured** — the controlling in
 board of elections record and the R.C. 149.43 route is queued there, so everything in this thread
 is `[reference]`. **A ballot measure is not an outcome**: until 2026-11-03 this is a pending
 instrument and it does not move this site's `readiness`.
+
+## Update 2026-11-02
+
+A re-sweep on 2026-11-02 of what has happened since the 2026-07-11 as-of. It supersedes nothing
+above by deletion: where an entry above is now answered, this section says so and names it.
+
+### The Kidd opinion — the BOE refusal upheld, on scope of power `[verified]`
+
+- `[verified — slip opinion read 2026-11-02]` ***State ex rel. Kidd v. Clinton Cty. Bd. of
+  Elections*, Slip Opinion No. 2026-Ohio-3663**, Case No. **2026-1165**, submitted 2026-09-14,
+  decided **2026-09-18**. Relators **Quintin Koger Kidd and Susan Croutwater**. Writ **denied**,
+  per curiam, **6–1**: Kennedy, C.J., and DeWine, Brunner, Deters, Hawkins and Shanahan, JJ.;
+  Brunner, J., also concurring separately; **Fischer, J., dissenting** with an opinion.
+- The holding, from the syllabus line: the proposed ordinance "purports to create new cause of
+  action and therefore is not within the municipality's power to enact". The ordinance would have
+  set standards for noise, lighting, emissions, generator testing, water use and discharge, and
+  heat, enforced through a private right of action.
+- This **closes the fifth-instrument thread** in "Ballot thread — 2026-11-03" above. The BOE's
+  ground (scope of municipal power, not signatures) is the ground the Court affirmed, and the
+  Chapter 1161 initiative is **not** on the 2026-11-03 ballot.
+- ⚠️ **"20-18" is not a vote count.** Fox19's 2026-09-19 article says "The ruling was 20-18". No
+  such figure is in the opinion; the vote is 6–1. Never cite the press figure.
+
+### The *Sharp* order and the emergency re-enactment `[reference]`
+
+- `[reference — WYSO 2026-07-24]` The *Sharp* order (S.D. Ohio 1:26-cv-00448, Judge Hopkins,
+  §1.2) is dated **2026-07-14**. It is still unpulled, so §1.2's `[open]` on its exact holdings
+  and ordinance numbers stands.
+- `[reference — Fox19 2026-09-04]` On **2026-09-03** Council re-enacted the Cosler Farm map
+  rezoning (~471 ac to Light Industrial) **as emergency legislation**, which takes it out of
+  referendum reach. Press reports an earlier August vote in the same redo. The ordinance number
+  is `[open]`.
+- `[reference — Fox19 / WCPO, ~2026-09-04]` ***Brooks v. City of Wilmington*** — resident
+  Rachel Brooks (counsel Joshua Engel) challenges that emergency clause. At a TRO hearing the City
+  agreed to take no action for a week and not to interfere with signature-gathering. **No ruling
+  found**; the court is `[open]` (one account says Clinton County Common Pleas with a visiting
+  judge; unconfirmed) and so is the case number.
+- `[inference]` The Ohio Supreme Court tested an emergency clause's stated reasons in Ashville
+  this summer (*McNamara-Smith v. Grube*, 2026-Ohio-3035, read 2026-11-02). That case was a
+  village resolution in mandamus against a fiscal officer; whether its reasoning reaches
+  Wilmington's ordinance is a question for *Brooks*, not a finding here.
+
+### Ballot
+
+- `[reference — WCPO]` The **Ardent/TAC** rezoning referendum (§2) is still reported as on the
+  2026-11-03 ballot; certification remains `[open]`.
+
+### Sources (added 2026-11-02)
+
+- *Kidd*, 2026-Ohio-3663: <https://www.supremecourt.ohio.gov/rod/docs/pdf/0/2026/2026-Ohio-3663.pdf>
+- *McNamara-Smith*, 2026-Ohio-3035: <https://www.supremecourt.ohio.gov/rod/docs/pdf/0/2026/2026-Ohio-3035.pdf>
+- *Sharp* order coverage: <https://www.wyso.org/news/2026-07-24/federal-judge-wilmington-has-to-redo-key-steps-to-consider-amazon-data-center-proposal>
+- Emergency rezoning and *Brooks*: <https://www.fox19.com/2026/09/04/resident-sues-wilmington-over-emergency-rezoning-proposed-data-center/>
+- The "20-18" article (cited only to record the error): <https://www.fox19.com/2026/09/19/wilmington-data-center-opponents-lose-bid-november-ballot-measure/>

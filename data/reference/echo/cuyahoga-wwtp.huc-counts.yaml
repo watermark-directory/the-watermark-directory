@@ -1,0 +1,15 @@
+meta:
+  subject: Cuyahoga-basin NPDES inventory — per-HUC counts
+  source: EPA ECHO — cwa_rest_services (CWA v2017-10-13)
+  watershed: Cuyahoga River — 1 HUC-8 subbasin (04110002 Cuyahoga), subregion 0411
+    (Southern Lake Erie, direct to the lake)
+huc_counts:
+- huc8: '04110002'
+  name: Cuyahoga
+  reported_count: 156
+  rows_pulled: 156
+  potw_rows_pulled: 27
+totals:
+  raw: 156
+  deduped: 153
+  potw: 27

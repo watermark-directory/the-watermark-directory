@@ -1,6 +1,6 @@
 {
   "site": "toledo",
-  "catalog_version": "18b7e12dd085042760a1215d3f12e62ad75d4fb7d8a3037eb5baaabc8693b4f0",
+  "catalog_version": "52ff66e54b99c57cbf7dd66ddfb6deeb4152bff041eb99e74359ed1929dbeb6d",
   "contract_version": "2.5.0",
   "atoms": [
     {
@@ -657,6 +657,14 @@
       "site": "toledo",
       "local_id": "data-centers",
       "title": "Per-Site Data-Center Activity Register",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:toledo:data-centers-toledo",
+      "kind": "dataset",
+      "site": "toledo",
+      "local_id": "data-centers-toledo",
+      "title": "Toledo / Lucas Co., OH — Data-Center Activity Register",
       "feed": "catalog"
     },
     {

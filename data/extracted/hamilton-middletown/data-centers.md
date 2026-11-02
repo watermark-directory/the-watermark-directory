@@ -1,7 +1,7 @@
 # Hamilton–Middletown / Butler County, OH — Data-Center Activity Register
 
 Discover-and-pin register for the Hamilton–Middletown watershed point — the lower **Great
-Miami River** corridor. Status **as of 2026-07-02**. Tags are BOSC evidentiary discipline:
+Miami River** corridor. Status **as of 2026-07-02; Trenton opinion, moratorium and a second campus updated 2026-11-02**. Tags are BOSC evidentiary discipline:
 `[verified]` = cited public source (two+ independent or a primary instrument), `[reference]` =
 single credible-media source, `[inference]`, `[open]`. **Nothing here is in the BOSC corpus
 yet** — this records the *verified public record* and the specific primary instruments to
@@ -105,6 +105,8 @@ north of Cincinnati, in the lower Great Miami basin (HUC-8 05080002). `[verified
   `[verified]`
 - **Moratorium:** denied — Butler County Commissioners lack authority over incorporated Trenton;
   a residents' moratorium petition was rejected on jurisdictional grounds. `[verified]`
+  *Note 2026-11-02:* the County did pass a moratorium for its **unincorporated** townships on
+  2026-06-16/17, which this entry missed — see "Update 2026-11-02".
 - **Ballot effort:** signature drive for a proposed Ohio constitutional amendment to ban data
   centers >25 MW (statewide, targets ~413,000 signatures by July 1, 2026). `[reference]`
   (advocacy source — treat targets as a lead, not verified.)
@@ -115,7 +117,8 @@ north of Cincinnati, in the lower Great Miami basin (HUC-8 05080002). `[verified
 The lower Great Miami / Butler County corridor is an active data-center prospecting area (Dayton
 Daily News / Journal-News investigations note multiple southwest-Ohio proposals), but no second
 Butler County campus is confirmed to the pinning standard as of 2026-07-02. `[open]` — re-sweep
-on the next pass.
+on the next pass. *Note 2026-11-02:* a second campus (AWS, Madison/St. Clair townships) is now
+reported, and is held under "Pending confirmation" in "Update 2026-11-02" below.
 
 ## Instruments to pull (priority order)
 
@@ -171,6 +174,8 @@ city's refusal.** This reaches the **Prologis "Project Mila"** entry in this reg
   **Special Election** Ballot", while council placed it on the **general**. Whether the order and
   the placement name the same election is `[open]` and turns on the opinion's text — which is not
   captured. Court News Ohio is the Court's news service, not its reporter.
+  **Answered 2026-11-02** — see "Update 2026-11-02" below: the opinion orders a **special
+  election**, and the Nov 3 placement was Council's own act.
 - ⚠️ **Trenton is a register entry here, not a BOSC site.** Any extraction from this thread must be
   shelved under its owning collection and site subdirectory; filed flat it lands in Lima's
   reference record (`_eponymous_prefixes`, #1405).
@@ -181,3 +186,69 @@ and its structured peer. **No certification is captured** — the controlling in
 board of elections record and the R.C. 149.43 route is queued there, so everything in this thread
 is `[reference]`. **A ballot measure is not an outcome**: until 2026-11-03 this is a pending
 instrument and it does not move this site's `readiness`.
+
+## Update 2026-11-02
+
+A re-sweep on 2026-11-02 of what has happened since the 2026-07-02 as-of. Nothing above is
+deleted; where an entry is now answered, it carries a dated pointer here.
+
+### The Trenton opinion `[verified]`
+
+- `[verified — slip opinion read 2026-11-02]` ***State ex rel. Blankenship v. Trenton City
+  Council*, Slip Opinion No. 2026-Ohio-3406**, Case No. **2026-1035**, submitted 2026-08-28,
+  decided **2026-09-01**. Per curiam, **7–0 on the judgment**: Kennedy, C.J., and Brunner,
+  Deters, Hawkins and Shanahan, JJ.; Fischer and DeWine, JJ., joined ¶12 only and concurred in
+  the judgment.
+- Holding: Ohio Const. Art. XVIII §§8–9 are read in pari materia with §14, so the signature
+  requirement is **10% of the votes cast at the last general municipal election**, and the
+  petition met it.
+- Remedy: a **limited writ** ordering Council to certify the petition for a **special election**
+  within the §8 time window. **The Court did not order it onto the 2026-11-03 ballot.**
+- `[reference]` Council then placed it on the 2026-11-03 general ballot itself, by emergency
+  ordinance on 2026-09-03 (ordinance number `[open]`). This answers the ⚠️ in "Ballot thread"
+  above: the order and the placement do **not** name the same election, and the placement was
+  Council's choice, not the Court's.
+- `[reference — Journal-News]` It appears as **Issue 17**: a new charter Art. IX §9.06,
+  self-executing, prohibiting facilities above **25 MW** peak load, by simple majority. As
+  reported it does **not** reach the Project Mila campus already under construction. The issue
+  number is not in the opinion.
+- `[reference — WCPO]` Council has given first reading to measures that take effect **only if
+  Issue 17 fails**: a one-year inside-millage holiday, no new levies until 2035, and a 30% YMCA
+  discount. Their numbers are `[open]`.
+
+### The Butler County moratorium `[reference]`
+
+- `[reference — WVXU 2026-06-17]` The Butler County Commissioners passed a **six-month**
+  moratorium on 2026-06-16/17 covering the **unincorporated** townships of Hanover, Lemon,
+  Madison, Milford, Oxford and Ross. It runs out in **December 2026**. The resolution number and
+  exact expiry are `[open]`. This is consistent with §1's "denied": the County had no authority
+  over incorporated Trenton, but it does over its townships.
+
+### Pending confirmation — AWS, Madison / St. Clair townships `[reference]`
+
+Held here, not under a numbered project heading, until a deed or a filing pins it.
+
+- `[reference — WVXU / WCPO 2026-09-15]` A reported **AWS** campus of about **600 acres
+  (18 buildings)** in **Madison and St. Clair townships**, outside Trenton. Trenton's petition to
+  annex it was **withdrawn without prejudice** before its 2026-09-15 hearing; petitioners asked
+  for a rehearing on or after 2026-11-10. The "$5B / 601 ac" figure is trade press only.
+- `[reference]` St. Clair Township is reported to have a 12-month moratorium and a zoning ban.
+  Neither instrument has been read.
+- `[open]` Owner of record, parcel numbers, and whether AWS (rather than a nominee or a
+  developer) is the party. Pull the Butler County Auditor parcel records for the petitioned
+  tracts before treating this as a project.
+
+### Project Mila's end user `[open]`
+
+- Press photo captions have started calling the 141-acre Trenton campus an "AWS campus". No
+  article cites a source for that. §1's anchor tenant stays `[open]`; do not join it to the
+  township campus above on the shared name.
+
+### Sources (added 2026-11-02)
+
+- *Blankenship*, 2026-Ohio-3406: <https://www.supremecourt.ohio.gov/rod/docs/pdf/0/2026/2026-Ohio-3406.pdf>
+- Issue 17: <https://www.journal-news.com/local/elections/trenton-voters-will-decide-on-a-data-center-ban-election-2026/article_b2162dd4-ef96-56f3-9d38-c623021b2ee6.html>
+- Contingent benefits: <https://www.wcpo.com/news/local-news/trenton-data-center-legislation-could-face-legal-challenge-after-november-election-expert-says>
+- Butler County moratorium: <https://www.wvxu.org/environment/2026-06-17/butler-county-approves-data-center-moratorium>
+- AWS annexation withdrawn: <https://www.wvxu.org/local-news/2026-09-15/trenton-withdraws-annex-land-data-center-township>
+  · <https://www.wcpo.com/news/local-news/in-your-community/butler-county/public-hearing-canceled-after-trenton-withdraws-annexation-petition-for-proposed-amazon-data-center>

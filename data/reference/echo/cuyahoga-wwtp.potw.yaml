@@ -1,0 +1,569 @@
+meta:
+  subject: Cuyahoga-basin NPDES wastewater dischargers
+  scope: POTWs only (CWPFacilityTypeIndicator == POTW)
+  source: EPA ECHO — cwa_rest_services (CWA v2017-10-13)
+  watershed: Cuyahoga River — 1 HUC-8 subbasin (04110002 Cuyahoga), subregion 0411
+    (Southern Lake Erie, direct to the lake)
+  huc8s:
+    '04110002': Cuyahoga
+  dedup_key: FRS RegistryID
+  count: 27
+  caveats:
+  - ECHO's CWA facility service has no CWNS column; the POTW flag rests on CWPFacilityTypeIndicator.
+  - Facilities link to HUCs via WATERS (FacDerivedHuc); a permit that didn't geocode
+    can be missed.
+  - design_flow_mgd is null where ECHO returned no value; it is never estimated.
+  - THE INVENTORY IS PULLED; NO CUYAHOGA GAGE IS REGISTERED. mainstem-gages.yaml holds
+    no entry for this basin, so a discharger here reports no_7q10 — UNSCREENABLE,
+    NEVER UNAFFECTED — until one is registered with its drainage-area rationale.
+  - THE FRONTAL LAKE ERIE UNITS ARE SIBLINGS, NOT PART OF THIS BASIN. 04110001 Black-Rocky,
+    04110003 Ashtabula-Chagrin and 04110004 Grand reach Lake Erie independently of
+    the Cuyahoga and are not in this pull. A discharger on one of them is neither
+    upstream nor downstream of a Cuyahoga discharger and must never borrow a Cuyahoga
+    denominator.
+  - A LAKE OUTFALL IS NOT A RIVER REACH. Dischargers at the river's mouth or on the
+    lakefront meet a lake whose mixing is set by lake level, seiche and wind, not
+    by streamflow, so a river 7Q10 served to one is a category error, not a conservative
+    approximation.
+facilities:
+- frs_registry_id: '110001625340'
+  name: AKRON WATER RECLAMATION FACILITY
+  npdes_id: OH0023833
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 90.0
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020405'
+  county: SUMMIT
+  latitude: 41.15806
+  longitude: -81.56513
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: 1
+  queried_huc8: '04110002'
+- frs_registry_id: '110006320864'
+  name: AQUILLA VILLAGE WWTP
+  npdes_id: OH0088382
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.07
+  design_flow_missing: false
+  receiving_water: WEST BRANCH CUYAHOGA RIVER
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020102'
+  county: GEAUGA
+  latitude: 41.54558
+  longitude: -81.17344
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006233995'
+  name: AUBURN CORNERS WWTP
+  npdes_id: OH0123684
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.149
+  design_flow_missing: false
+  receiving_water: UT OF LADUE RESERVOIR
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020104'
+  county: GEAUGA
+  latitude: 41.38324
+  longitude: -81.21013
+  compliance_status: Effluent - Monthly Average Limit
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110000735517'
+  name: AURORA WESTERLY WWTP
+  npdes_id: OH0098043
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 1.4
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020501'
+  county: PORTAGE
+  latitude: 41.3079
+  longitude: -81.3918
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110000735303'
+  name: BEDFORD WASTEWATER TREATMENT PLANT
+  npdes_id: OH0024040
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 3.2
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020504'
+  county: CUYAHOGA
+  latitude: 41.38711
+  longitude: -81.55811
+  compliance_status: Effluent - Non-monthly Average Limit
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110009663113'
+  name: BROADWOOD WWTP
+  npdes_id: OH0028932
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0275
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020104'
+  county: GEAUGA
+  latitude: 41.47341
+  longitude: -81.168901
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006375305'
+  name: BURTON LAKES WWTP
+  npdes_id: OH0089605
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.05
+  design_flow_missing: false
+  receiving_water: UT TO THE BRIDGE CREEK
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020104'
+  county: GEAUGA
+  latitude: 41.4288
+  longitude: -81.18607
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006321391'
+  name: BURTON WWTP
+  npdes_id: OH0021580
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.4
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020106'
+  county: GEAUGA
+  latitude: 41.46234
+  longitude: -81.14392
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110009009795'
+  name: CHARDON WOODS
+  npdes_id: OH0083984
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.1
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100030304'
+  county: GEAUGA
+  latitude: 41.53343
+  longitude: -81.21668
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110000737560'
+  name: CITY OF BEDFORD HEIGHTS WATER RECLAMATION PLANT
+  npdes_id: OH0024058
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 3.6
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020504'
+  county: CUYAHOGA
+  latitude: 41.38512
+  longitude: -81.50046
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110064605011'
+  name: CITY OF SOLON WATER RECLAMATION FACILITY
+  npdes_id: OH0027430
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 5.8
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020504'
+  county: CUYAHOGA
+  latitude: 41.36974
+  longitude: -81.46952
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110000761373'
+  name: CITY OF TWINSBURG WWTP
+  npdes_id: OH0027863
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 5.8
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020504'
+  county: SUMMIT
+  latitude: 41.32127
+  longitude: -81.45266
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110039702248'
+  name: FAIRLANE WWTP
+  npdes_id: OH0038709
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.03
+  design_flow_missing: false
+  receiving_water: UT POTTERS CREEK
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020201'
+  county: PORTAGE
+  latitude: 41.02892
+  longitude: -81.32531
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110040095063'
+  name: FRANKLIN HILLS WWTP
+  npdes_id: OH0038717
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 1.5
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020202'
+  county: PORTAGE
+  latitude: 41.14697
+  longitude: -81.31719
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006220785'
+  name: INDIAN SPRINGS TRAILER PARK
+  npdes_id: OH0128601
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0225
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020405'
+  county: SUMMIT
+  latitude: 41.19546
+  longitude: -81.57626
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006660899'
+  name: INFIRMARY CREEK WWTP
+  npdes_id: OH0089788
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.149
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020102'
+  county: GEAUGA
+  latitude: 41.504627
+  longitude: -81.180988
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110000735358'
+  name: KENT WATER RECLAMATION FACILITY
+  npdes_id: OH0025917
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 5.0
+  design_flow_missing: false
+  receiving_water: CUYAHOGA RIVER
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020305'
+  county: PORTAGE
+  latitude: 41.14707
+  longitude: -81.37252
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006281870'
+  name: MANTUA TOWNSHIP TRUSTEES
+  npdes_id: OH0131733
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.004
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020105'
+  county: PORTAGE
+  latitude: 41.31125
+  longitude: -81.24464
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006373726'
+  name: MANTUA WWTP
+  npdes_id: OH0022063
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.5
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020203'
+  county: PORTAGE
+  latitude: 41.279556
+  longitude: -81.230271
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006198934'
+  name: MIDDLEFIELD WWTP
+  npdes_id: OH0021181
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 1.0
+  design_flow_missing: false
+  receiving_water: UNNAMED TRIBUTARY TO SPERRY POND/CUYAHOGA RIVER
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020103'
+  county: GEAUGA
+  latitude: 41.4668
+  longitude: -81.0848
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110007156157'
+  name: NEORSD SOUTHERLY WASTEWATER TREATMENT CENTER
+  npdes_id: OH0024651
+  npdes_ids_secondary:
+  - OHL024651
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 175.0
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020604'
+  county: CUYAHOGA
+  latitude: 41.42318
+  longitude: -81.65323
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: 1
+  queried_huc8: '04110002'
+- frs_registry_id: '110039692945'
+  name: PLYMOUTH ACRES WWTP
+  npdes_id: OH0028924
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.01
+  design_flow_missing: false
+  receiving_water: WEST BRANCH CUYAHOGA RIVER
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020102'
+  county: GEAUGA
+  latitude: 41.5249
+  longitude: -81.16899
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110014333499'
+  name: RANDOLPH WWTP
+  npdes_id: OH0133167
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.3
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020201'
+  county: PORTAGE
+  latitude: 41.04424
+  longitude: -81.25738
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110039729586'
+  name: RAVENNA WWTP
+  npdes_id: OH0023221
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 2.8
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020202'
+  county: PORTAGE
+  latitude: 41.14903
+  longitude: -81.25966
+  compliance_status: null
+  informal_enf_count: 2
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110039702220'
+  name: RED FOX WWTP
+  npdes_id: OH0038601
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.16
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020203'
+  county: PORTAGE
+  latitude: 41.2438
+  longitude: -81.2872
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110000540013'
+  name: STREETSBORO-HUDSON REGIONAL WWTP
+  npdes_id: OH0090131
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 4.0
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020502'
+  county: PORTAGE
+  latitude: 41.24884
+  longitude: -81.38321
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110008608024'
+  name: TWIN LAKES WWTP
+  npdes_id: OH0038580
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.456
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020203'
+  county: PORTAGE
+  latitude: 41.18749
+  longitude: -81.34685
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'

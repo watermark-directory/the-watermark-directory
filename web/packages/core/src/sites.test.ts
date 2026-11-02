@@ -229,6 +229,9 @@ describe("sites registry — the Watermark network (#304)", () => {
       "lancaster",
       "athens",
       "logan",
+      "ashville",
+      "canton",
+      "shalersville",
     ]);
     for (const s of soon) expect(s.issue).toBeTruthy();
   });
@@ -299,8 +302,8 @@ describe("site build phases — the four-phase clock (#308 dictate B)", () => {
       expect(s.codename).toBeNull();
     }
   });
-  it("the full network the selector depicts — 39 sites across 11 basins", () => {
-    expect(SITES.length).toBe(39);
+  it("the full network the selector depicts — 42 sites across 11 basins", () => {
+    expect(SITES.length).toBe(42);
     expect(groupSites("basin").length).toBe(11);
   });
 });
@@ -464,8 +467,9 @@ describe("siteRollup / networkRollup — the directory's per-site record depth (
   });
 
   it("reports nulls — not zeros — for a registered site with no committed bundle", () => {
-    // Lordstown is in the registry (it carries a defense assessment) but has never been exported.
-    expect(siteRollup("lordstown")).toEqual({ documents: null, records: null, tier: null });
+    // Tiffin is registered (tracked upstream of the Sandusky point) but carries no profile, so it
+    // has never been exported. (Lordstown held this role until the 2026-11-02 sweep gave it one.)
+    expect(siteRollup("tiffin")).toEqual({ documents: null, records: null, tier: null });
   });
 
   it("sums the network over built sites only, holding the unbuilt out of every tier", () => {

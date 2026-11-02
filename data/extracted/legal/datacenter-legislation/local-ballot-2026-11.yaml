@@ -469,7 +469,7 @@ measures:
 
   - community: Ashville
     county: Pickaway County, OH
-    bosc: {site: null, relation: not-registered}
+    bosc: {site: ashville, relation: site, status: tracking}
     instrument: referendum against a village resolution
     subject: repeal Ashville Resolution No. 06-2026, the Village's preliminary agreement with EdgeConneX
     threshold_mw: null

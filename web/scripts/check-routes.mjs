@@ -77,6 +77,12 @@ const TRAILLESS_ROUTES = new Set(["", "pre-launch"]);
  * corpus raises it in a reviewed diff. That is the whole point of a budget under the limit; the
  * alternative is discovering the cap on a deploy, after review, on main.
  *
+ * **Raised 420 → 440 MB on 2026-11-02**, at 4,815 HTML pages / 426 MB, when ashville, canton and
+ * shalersville were registered (a124bb06). What got bigger is not a corpus: it is the topbar
+ * switcher, which renders one ~1.05 KB row per registered site into **every** page. So each
+ * registered site, even a tracking stub with three pages of its own, costs ~5 MB of artifact. At
+ * 42 sites that is ~44 KB of every page. The next lever is the switcher, not this number.
+ *
  * Raising these numbers is a legitimate edit — that is what a budget is for. Raising them without
  * saying what got bigger is not, which is why the guard prints the measurement either way.
  *
@@ -87,7 +93,7 @@ const TRAILLESS_ROUTES = new Set(["", "pre-launch"]);
  * mostly made of — so the count is a faithful guard and the byte total is a close approximation.
  */
 const FILE_BUDGET = 6_000;
-const SIZE_BUDGET = 420 * 1024 * 1024;
+const SIZE_BUDGET = 440 * 1024 * 1024;
 /** Cloudflare's own per-file hard limit — not a budget, an upload failure. */
 const PAGES_MAX_FILE_BYTES = 25 * 1024 * 1024;
 /** Cloudflare's own per-deployment file cap, quoted so the headroom below is checkable. */

@@ -1,0 +1,47 @@
+id: echo-cuyahoga-wwtp
+title: Cuyahoga-basin NPDES discharger inventory (EPA ECHO)
+scope: reference
+status: reviewed
+producer:
+  kind: connector
+  command: npdes --basin cuyahoga
+  connector_ref: watermark.hydrology.connectors.echo
+  source: EPA ECHO — cwa_rest_services (CWA v2017-10-13)
+  external_url: https://echo.epa.gov/tools/web-services
+license: U.S. Government work (public domain)
+access_tier: throttled
+site_scope: basin:cuyahoga
+storage:
+- relpath: reference/echo/cuyahoga-wwtp.all-npdes.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: reference/echo/cuyahoga-wwtp.huc-counts.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: reference/echo/cuyahoga-wwtp.potw.yaml
+  media_type: application/x-yaml
+  lfs: false
+refresh:
+  cadence: quarterly
+  ttl_days: 180
+provenance: connector
+schema_ref: watermark.hydrology.connectors.echo.Facility
+tags:
+- npdes
+- cwa
+- cuyahoga
+- lake-erie
+- wastewater
+notes: >-
+  Inventory of active CWA-permitted dischargers across HUC-8 04110002 "Cuyahoga", deduplicated by
+  FRS Registry ID; every value is ECHO-returned and nulls are genuine. Wholly in Ohio. Opened by
+  the 2026-11-02 sweep for the akron and shalersville points, each located against the USGS WBD
+  service. The cleveland site's centroid falls in 04110003 (Ashtabula-Chagrin), so this basin is
+  only that site's regional grouping and says nothing about where a Cleveland campus would
+  discharge. A sibling of the other subregion-0411 units, each reaching Lake Erie on its own, so no
+  discharger here may borrow another's denominator. No Cuyahoga gage is registered in
+  mainstem-gages.yaml, so every row reports no_7q10 or no_receiving_water: UNSCREENABLE, NEVER
+  UNAFFECTED. The lower river is the lake-influenced Cleveland ship channel, and a river 7Q10 must
+  not be aliased onto an outfall there. Pulled with the ColumnIDs resolved from ECHO metadata.
+  Headline counts for a given pull are dated in data/reference/echo/README.md rather than restated
+  here.

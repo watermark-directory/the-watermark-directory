@@ -3,7 +3,7 @@
 Discover-and-pin register for the Sidney onboarding — the **I-75 corridor** sweep required by
 #511. Base status **as of 2026-07-02**; the regulatory record re-checked and the state
 instruments **ingested 2026-07-31** (#1383); the City's own **primary instruments ingested
-2026-08-01** (#1380). Tags are BOSC evidentiary discipline: `[verified]` = cited public source,
+2026-08-01** (#1380); a web delta sweep **added 2026-11-02** (the last section). Tags are BOSC evidentiary discipline: `[verified]` = cited public source,
 `[inference]`, `[open]`, `[reference]`. Every figure is cited; none is fabricated. Do not bridge
 the Lima/Allen Bistrozzi graph onto Shelby County — there is no evidentiary link.
 
@@ -746,3 +746,38 @@ and its structured peer. **No certification is captured** — the controlling in
 board of elections record and the R.C. 149.43 route is queued there, so everything in this thread
 is `[reference]`. **A ballot measure is not an outcome**: until 2026-11-03 this is a pending
 instrument and it does not move this site's `readiness`.
+
+## Update 2026-11-02
+
+A web sweep for deltas since the 2026-09-16 ballot thread. Nothing below has been ingested into
+`data/documents/`. The slip opinion was read off the Court's site; everything else is press.
+
+- `[verified]` **The recall case, re-read from the slip opinion.** *State ex rel. Turner v.
+  Barhorst*, Slip Opinion No. 2026-Ohio-3439, No. 2026-1088, decided 2026-09-03
+  (`https://www.supremecourt.ohio.gov/rod/docs/pdf/0/2026/2026-Ohio-3439.pdf`, read 2026-11-02 and
+  not committed to this corpus). It is per curiam, with Deters, J., concurring in the judgment
+  only. The amendment would add **Article XI**, "which would establish a procedure for the recall of
+  the city's elected officials". A limited writ orders the clerk to send the petition to the Shelby
+  County Board of Elections. This confirms the thread above: the instrument is about recall, not
+  data centers.
+- `[reference]` **The recall amendment goes to a special election on 2027-02-02.** On 2026-10-15
+  the Law Director told Council it "goes on the ballot as written" and flagged about 31 conflicts
+  with the existing charter (Sidney Daily News, 2026-10-15). This answers the thread's "probably not
+  November": **Sidney has no data-center question on the 2026-11-03 ballot.** The Board of
+  Elections' certification is still not captured, so the date stays `[reference]`.
+- `[reference]` **The other two petitions, named.** One is a zoning-code amendment regulating data
+  centers and campuses. The other is an ordinance requiring Council meetings to be livestreamed.
+  Both were filed in July with the recall petition (Sidney Daily News, 2026-07-16). Whether either
+  was certified or scheduled is `[open]`.
+- `[reference]` The same 2026-10-15 meeting carried an ordinance repealing the City's "Business
+  High Volume Water Use Rebate Program", and the City Manager said Amazon may fund fire/EMS
+  equipment. Whether the rebate bears on CMH-232 is `[open]`. Don't link them without the
+  ordinance.
+- `[open]`, searched and not found: any new load/MW figure, the terms of the AWS air PTI, or any
+  litigation.
+
+Sources for this section:
+
+- Ohio Supreme Court slip opinion 2026-Ohio-3439: <https://www.supremecourt.ohio.gov/rod/docs/pdf/0/2026/2026-Ohio-3439.pdf>
+- Sidney Daily News, 2026-10-15: <https://www.sidneydailynews.com/2026/10/15/charter-recall-proposal-creates-charter-conflicts-law-director-tells-council-special-election-set-for-feb-2/>
+- Sidney Daily News, 2026-07-16: <https://www.sidneydailynews.com/2026/07/16/three-sidney-petitions-reach-required-signatures-dropped-off-at-city-hall/>

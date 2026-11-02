@@ -1,6 +1,6 @@
 {
   "site": "portsmouth",
-  "catalog_version": "40da4966a03ca201aeeff51aec8b9344677c3c4ecbb5aee73ce33e6d946b10cc",
+  "catalog_version": "1761336ada237c7c35b73dff7d803d4e4717c4251490fc0b67da8942743d85b4",
   "contract_version": "2.5.0",
   "atoms": [
     {
@@ -657,6 +657,14 @@
       "site": "portsmouth",
       "local_id": "data-centers",
       "title": "Per-Site Data-Center Activity Register",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:portsmouth:data-centers-portsmouth",
+      "kind": "dataset",
+      "site": "portsmouth",
+      "local_id": "data-centers-portsmouth",
+      "title": "Portsmouth / Scioto Co., OH — Data-Center Activity Register",
       "feed": "catalog"
     },
     {

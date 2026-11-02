@@ -2,7 +2,8 @@
 
 Discover-and-pin register for the New Albany onboarding — the Scioto-branch third basin (epic
 #484, onboarding #485) and the **at-scale, already-built data-center epicenter** of the Ohio boom
-(the comparator to the speculative Miami greenfields). Status **as of 2026-06-22**. Tags are BOSC
+(the comparator to the speculative Miami greenfields). Status **as of 2026-06-22; Microsoft site
+work, New Albany 3 (OPSB) and the ballot thread updated 2026-11-02**. Tags are BOSC
 evidentiary discipline: `[verified]` = cited public source, `[inference]`, `[open]`, `[reference]`.
 **Nothing here is in the BOSC corpus yet** — this records the *verified public record* and the
 specific primary instruments to *pull*. Every figure is cited; none is fabricated. Each facility is
@@ -92,6 +93,10 @@ the Springfield register had to fend off. `[verified]`
   exemption (~$72.5M / 20 FT jobs). `[verified]`
 - **Stage:** announced Oct 2024; **Microsoft pushed back / withdrew the $1B Licking plan (New Albany +
   Heath + Hebron) in Apr 2025 — "not moving forward at this time."** `[verified]`
+- *Note 2026-11-02:* the "WITHDRAWN" label is **superseded in part**. Microsoft's own construction
+  pages (modified 2026-10-27) report that early construction works at New Albany are complete, and
+  that site preparation is under way at Heath and Hebron. Vertical construction is **not**
+  established. See "Update 2026-11-02".
 
 ## 6 — QTS Data Centers
 
@@ -242,3 +247,69 @@ and its structured peer. **No certification is captured** — the controlling in
 board of elections record and the R.C. 149.43 route is queued there, so everything in this thread
 is `[reference]`. **A ballot measure is not an outcome**: until 2026-11-03 this is a pending
 instrument and it does not move this site's `readiness`.
+
+## Update 2026-11-02
+
+### §5 Microsoft — site work active; vertical construction not established
+
+Microsoft's own pages on `local.microsoft.com` are the company's statements about its own sites. They
+were read this session, all marked modified **2026-10-27**. `[verified]` means *Microsoft says*, not
+an independent inspection.
+
+- **New Albany:** "Early construction works at the New Albany site are complete…" `[verified]`
+- **Heath:** "Early site preparation is anticipated to be substantially complete by the end of the
+  year. A timeline for vertical construction has not yet been determined." General contractor
+  **Ames**; mass grading Feb–Nov 2026. `[verified]`
+- **Hebron:** site preparation and substation work under way. `[verified]`
+- **Licking County overview (2025-12-03):** direct evaporative cooling, using water only "5% of the
+  year". `[verified]` as Microsoft's design claim. A self-report never upgrades the instrument: the
+  cooling draw stays undocumented until a metered or permit record reaches it (the B6 `route_blind`
+  rule above).
+- **Reading:** the Apr-2025 "not moving forward at this time" is **superseded for site work**. Whether
+  the $1B Licking plan (New Albany + Heath + Hebron) is *restored* at its announced scale is `[open]`.
+  Microsoft's pages give no MW, building count or schedule for vertical construction. Heath and
+  Hebron sit outside the Beech Rd corridor; they are recorded here only because §5 is the register's
+  one Microsoft entry.
+
+### New entry — "New Albany 3" generating facility (OPSB 26-361-EL-BGN)
+
+- **Applicant:** "PowerConneX, Inc". **"Maximum total generating capacity of 450 megawatts."**
+  - Local public hearing: **2026-10-22, 6 pm, New Albany High School**.
+  - Evidentiary hearing: **2026-11-04, 10 am**, at PUCO, 180 E. Broad St.
+- These come from the PUCO/OPSB public bulletin of 2026-09-16, which is `[verified]` **for the notice
+  only**. The application itself (the DIS docket) was **not read**: the docket site blocked automated
+  fetches. Fuel, technology, location, and the data-center load it would serve are all `[open]`.
+- Secondary reports give **430 MW** and an application date of **April 10** `[reference]`. The
+  bulletin's 450 MW maximum governs until the application is read.
+- It belongs in the same behind-the-meter class as Meta's Williams "Socrates" plant (§2) and the
+  Franklin-Co AEP/Bloom array, all of which serve a large load outside the grid queue `[inference]`.
+  Pull the application, staff report and any stipulation.
+
+### Ballot thread — local follow-ups `[reference]`
+
+- **Pataskala:** before the vote, Council **rejected a proposed data-center site plan** (ABC6). The
+  25 MW ban charter amendment remains on the **2026-11-03** ballot. The site-plan applicant and parcel
+  are `[open]`.
+- **Granville:** the scope of its ban amendment is `[open]`. The certified text was not obtained.
+- **Newark / Heath:** residents are organizing ban petitions. No filing has been confirmed, so this is
+  `[open]`.
+- The rule is unchanged: **a ballot measure is not an outcome**, and none of these moves `readiness`
+  before results are certified.
+
+### Declined
+
+An aggregator report that Microsoft's Licking build has "restarted" at **869 MW**, with building
+counts, is **not recorded**. It cites no instrument, and Microsoft's own pages state no capacity.
+
+### Sources (added 2026-11-02)
+
+- Microsoft, New Albany construction update —
+  <https://local.microsoft.com/blog/newalbany-datacenter-construction-update/>
+- Microsoft, Heath construction updates —
+  <https://local.microsoft.com/blog/heath-datacenter-construction-updates/>
+- Microsoft, Hebron construction update —
+  <https://local.microsoft.com/blog/hebron-datacenter-construction-update/>
+- PUCO bulletin, 2026-09-16 (26-361-EL-BGN hearings) —
+  <https://content.govdelivery.com/accounts/OHPUC/bulletins/42b0fab>
+- ABC6 (Pataskala site plan; ballot) —
+  <https://abc6onyourside.com/news/local/pataskala-rejects-proposed-data-center-voters-to-decide-potential-ban-in-november>

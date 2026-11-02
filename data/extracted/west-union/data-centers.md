@@ -1,7 +1,8 @@
 # West Union / Adams County, OH — Data-Center Activity Register
 
 Discover-and-pin register for the West Union watershed point (basin `ohio-brush-creek`; Ohio
-River direct branch). Sweep status **as of 2026-08-05** (#1983). Tags are BOSC evidentiary
+River direct branch). Sweep status **as of 2026-08-05; substation, land and statewide-ballot press
+updated 2026-11-02** (#1983). Tags are BOSC evidentiary
 discipline: `[verified]` = a cited primary instrument or an authoritative agency dataset,
 `[reference]` = credible media / secondary source, `[inference]`, `[open]`.
 
@@ -529,3 +530,38 @@ and its structured peer. **No certification is captured** — the controlling in
 board of elections record and the R.C. 149.43 route is queued there, so everything in this thread
 is `[reference]`. **A ballot measure is not an outcome**: until 2026-11-03 this is a pending
 instrument and it does not move this site's `readiness`.
+
+## Update 2026-11-02
+
+Everything in this section is **press-sourced** (WVXU, 2026-08-25) and tagged `[reference]`. No new
+primary instrument was read this session, and **no dated negative above is re-run or upgraded by
+it.**
+
+- **Land:** WVXU names **Buck Canyon Properties** as the site's owner, consistent with §1 "Land". The
+  deed instrument and parcel IDs are still `[open]`.
+- **Building count:** WVXU describes the wetland-permit application as covering up to **12 "light
+  industrial buildings"**. That matches the NWP 39 verification's **twelve buildings** (§1,
+  `[verified]`). The press wording adds no use classification beyond the permit's.
+- **Substation:** WVXU reports the county as saying **AWS would fund, build, own and operate an
+  on-campus substation** `[reference]`. This is the first report of who builds the interconnection on
+  the customer side. It does **not** answer `Dayton-2026-001`, which is still at the Need stage with
+  no published Solution. Whether an AWS-owned substation fronts an AES Ohio build or replaces part of
+  it is `[open]`. An instrument naming the substation would also be the first to put AWS and the load
+  in the same record (see Standing-watch triggers).
+- **Filings:** WVXU reports **no PUCO, OPSB or Ohio EPA filings** for the campus. That agrees with the
+  dated negatives in §1, but a press absence is not a search. Those negatives keep their own dates
+  (air **2026-08-17**, the rest **2026-08-05**) and are not refreshed by this report.
+- **Governance:** **Helen Newman**, an independent candidate for Adams County commissioner, is running
+  on project transparency. No commissioner action on rural zoning was found in Sept–Oct 2026 press.
+  That is an unsearched gap, not a `[verified negative]`. The rural-zoning trigger stays open.
+- **Statewide track:** Conserve Ohio is targeting **November 2027** for the 25 MW constitutional
+  amendment. This refines §3's "targeting 2027". The re-filing trigger is unchanged, and nothing is
+  filed yet.
+- **Ballot thread:** results for the two township zoning questions (2026-11-03) are not yet in.
+  Which townships are on the ballot is still `[inference]` until the Adams County Board of
+  Elections confirms it.
+
+### Sources (added 2026-11-02)
+
+- WVXU, 2026-08-25 —
+  <https://www.wvxu.org/local-news/2026-08-25/adams-county-ohio-utility-costs-data-center-amazon>

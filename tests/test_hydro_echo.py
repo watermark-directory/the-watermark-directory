@@ -1,7 +1,7 @@
 """ECHO NPDES connector — fixture-backed (hermetic, no network).
 
-Replays a committed Blanchard (HUC-8 04100008) ECHO response: 37 active-permit
-facilities. Asserts the column-by-name mapping, POTW classification, dedup, and
+Replays a committed Blanchard (HUC-8 04100008) ECHO response (recaptured 2026-11-02,
+with the column metadata the IDs are resolved from): 41 active-permit facilities. Asserts the column-by-name mapping, POTW classification, dedup, and
 the inventory-row shaping — none of which may fabricate values ECHO didn't send.
 """
 
@@ -104,9 +104,9 @@ def test_fetch_blanchard_from_fixture(hydro_settings: Settings) -> None:
     result = echo.fetch_huc_facilities("04100008", settings=hydro_settings)
     assert result.huc8 == "04100008"
     assert result.name == "Blanchard"
-    assert result.reported_count == 37
+    assert result.reported_count == 41
     # Every reported facility was actually pulled (no pagination loss).
-    assert len(result.facilities) == 37
+    assert len(result.facilities) == 41
 
     by_name = {f.name: f for f in result.facilities}
     bluffton = by_name["BLUFFTON WWTP"]
@@ -130,6 +130,12 @@ def test_stale_low_reported_does_not_truncate(
     rows_by_page = {1: 2, 2: 2, 3: 1}  # two full pages then a short page: 5 rows total
 
     def fake_get(settings: Settings, service: str, params: dict[str, object]) -> dict[str, object]:
+        if service == "metadata":
+            return {
+                "ResultColumns": [
+                    {"ObjectName": name, "ColumnID": str(i)} for i, name in enumerate(echo._COLUMNS)
+                ]
+            }
         if service == "get_facilities":
             return {"QueryID": "QID-STALE", "QueryRows": 2}  # stale-low: claims only 2
         n = rows_by_page.get(int(params["pageno"]), 0)  # type: ignore[call-overload]
@@ -264,8 +270,14 @@ def test_write_inventory_yaml_round_trips(hydro_settings: Settings, tmp_path: Pa
 
     all_doc = yaml.safe_load(paths["all"].read_text())
     assert all_doc["meta"]["dedup_key"] == "FRS RegistryID"
-    assert all_doc["meta"]["count"] == len(all_doc["facilities"]) == 37
-    bluffton = next(f for f in all_doc["facilities"] if f["name"] == "BLUFFTON WWTP")
+    assert all_doc["meta"]["count"] == len(all_doc["facilities"]) == 40  # 41 raw, one FRS duplicate
+    # Keyed by permit, not name: since 2026 ECHO also lists a general permit (OHGP00006)
+    # under Bluffton's FRS ID, and whichever row comes first names the deduped facility.
+    bluffton = next(
+        f
+        for f in all_doc["facilities"]
+        if "OH0020851" in [f["npdes_id"], *f["npdes_ids_secondary"]]
+    )
     assert bluffton["ownership"] == "POTW"
     assert bluffton["design_flow_mgd"] == pytest.approx(1.9)
 
@@ -274,4 +286,4 @@ def test_write_inventory_yaml_round_trips(hydro_settings: Settings, tmp_path: Pa
     assert all(f["facility_type"] == "POTW" for f in potw_doc["facilities"])
 
     counts = yaml.safe_load(paths["counts"].read_text())
-    assert counts["totals"]["raw"] == 37
+    assert counts["totals"]["raw"] == 41

@@ -1,6 +1,6 @@
 {
   "site": "sandusky",
-  "catalog_version": "ddc1acaaefabb5d5a8bf9d083988643c660f712e8f4529a1730ffdb322903057",
+  "catalog_version": "c844348e4c6b37b577ec2f7af26a7cc97cbc2116d6b5630f6121a37333a57f6f",
   "contract_version": "2.5.0",
   "atoms": [
     {
@@ -657,6 +657,14 @@
       "site": "sandusky",
       "local_id": "data-centers",
       "title": "Per-Site Data-Center Activity Register",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:sandusky:data-centers-sandusky",
+      "kind": "dataset",
+      "site": "sandusky",
+      "local_id": "data-centers-sandusky",
+      "title": "Sandusky / Erie Co., OH — Data-Center Activity Register",
       "feed": "catalog"
     },
     {

@@ -1,7 +1,7 @@
 # Troy–Piqua / Miami County, OH — Data-Center Activity Register
 
 Discover-and-pin register for the Troy–Piqua watershed point — the upper **Great Miami River**
-corridor. Status **as of 2026-07-02; updated 2026-07-13** (#1482 facility, #1483 parcels, #1485
+corridor. Status **as of 2026-07-02; updated 2026-07-13; deltas added 2026-11-02** (last section) (#1482 facility, #1483 parcels, #1485
 leads board, #1486 water & regulatory watch, #1487 governance & opposition watch). Tags are BOSC evidentiary discipline: `[verified]` =
 on-record in a government/primary source (often two+), `[reported]` = credible secondary /
 investigative journalism, not officially confirmed, `[reference]`, `[inference]`, `[open]`.
@@ -358,3 +358,43 @@ and its structured peer. **No certification is captured** — the controlling in
 board of elections record and the R.C. 149.43 route is queued there, so everything in this thread
 is `[reference]`. **A ballot measure is not an outcome**: until 2026-11-03 this is a pending
 instrument and it does not move this site's `readiness`.
+
+## Update 2026-11-02
+
+A web sweep for deltas since the 2026-09-16 ballot thread. **Every item is press**, so all are
+`[reference]` (or `[reported]`) unless marked otherwise. No primary instrument was captured:
+citizenportal.ai returned HTTP 403 and the Miami County BOE notice was not read.
+
+- `[reference]` **The recall is on 2026-11-03, on a separate special-election ballot.** It
+  targets Mayor Vetter, Walker and DeBrosse, with successor races on the same ballot. Verified
+  signatures are 1,356, 1,379 and 1,250 (Dayton Daily News; WYSO, 2026-10-26). The thread above
+  holds: recall is not a data-center measure.
+- `[reference]` **The second §138 amendment, in numbers.** This is the ban on "construction, use
+  and expansion of data centers and cryptocurrency-mining operations". It had **1,319 of 1,645**
+  signatures verified. The City says its charter requires 1,250; Save Piqua argues the Ohio
+  Constitution sets the threshold instead (Dayton Daily News, Sept. 15 agenda).
+- ⚠️ `[open]` **The two sources conflict on when it is voted.** citizenportal.ai (search summary
+  only, fetch refused) reports that on 2026-10-06 the Commission put three charter measures,
+  including the data-center/crypto ban, on a **2027-02-02** special election. Dayton Daily News
+  reports it advanced "for the Nov. 3 ballot". Whether O-11-26's 25 MW question is still on
+  2026-11-03 is also unconfirmed this pass. All of it waits on the Miami County BOE notice.
+- `[inference]` **One candidate for the unidentified signature case** above is *State ex rel.
+  Blankenship v. Trenton City Council*, 2026-Ohio-3406 (No. 2026-1035, decided 2026-09-01). It
+  read Art. XVIII §§8–9 in pari materia with §14, so a charter-amendment petition needs 10% of the
+  votes cast at the last general municipal election. That is the same dispute Save Piqua raises.
+  Nothing ties Piqua's law director to that case, so it stays a candidate, not an identification.
+- `[reference]` **Lead `TROY-UDC`: Ordinance O-39-2026.** The draft UDC allows data centers only in
+  heavy industrial, through Planned Development review. It had a Council public hearing around
+  2026-10-07 and has **not been adopted** (citizenportal.ai, search summary only). The lead's next
+  check is unchanged: the adoption vote. It is still regulatory pre-positioning, not a disclosed
+  Troy project.
+- `[open]`, searched and not found: any Save Piqua suit, and any J5 air PTI.
+
+Sources for this section:
+
+- Dayton Daily News, two ballots for Nov. 3: <https://www.daytondailynews.com/local/piqua-voters-will-need-two-ballots-for-nov-3-elections/article_2a129c72-37bb-5824-9bfe-16e998d64429.html>
+- WYSO, 2026-10-26: <https://www.wyso.org/news/2026-10-26/piqua-special-recall-election-has-its-roots-in-a-data-center-dispute>
+- Dayton Daily News, recalls and crypto ban: <https://www.daytondailynews.com/local/piqua-may-hold-elections-on-recalls-and-proposed-crypto-ban/article_0a394081-33aa-5bd2-a869-3b6539d136cd.html>
+- citizenportal.ai (403 on fetch), Piqua: <https://citizenportal.ai/articles/10592244/ohio/miami-county/piqua/piqua-commissioners-place-three-charter-measures-including-data-center-ban-on-special-election-ballot>
+- citizenportal.ai (403 on fetch), Troy UDC: <https://citizenportal.ai/articles/10569722/ohio/miami-county/troy/residents-urge-limits-or-ban-on-data-centers-during-troy-udc-public-hearing>
+- Ohio Supreme Court slip opinion 2026-Ohio-3406: <https://www.supremecourt.ohio.gov/rod/docs/pdf/0/2026/2026-Ohio-3406.pdf>

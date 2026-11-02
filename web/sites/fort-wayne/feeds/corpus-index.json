@@ -6,7 +6,7 @@
     "label": "Fort Wayne",
     "scope": "site",
     "links_out": 3,
-    "links_in": 9,
+    "links_in": 10,
     "lines": 14,
     "updated": null
   },
@@ -878,6 +878,17 @@
     "links_in": 0,
     "lines": 22,
     "updated": "2026-07-30"
+  },
+  {
+    "id": "record/fort-wayne-data-centers",
+    "node_class": "record",
+    "kind": "record",
+    "label": "Fort Wayne / Allen Co., IN — Data-Center Activity Register",
+    "scope": "site",
+    "links_out": 2,
+    "links_in": 0,
+    "lines": 22,
+    "updated": "2026-11-02"
   },
   {
     "id": "record/fort-wayne-datacenter-facility",

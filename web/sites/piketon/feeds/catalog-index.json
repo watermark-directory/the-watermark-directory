@@ -1,6 +1,6 @@
 {
   "site": "piketon",
-  "catalog_version": "7cbd912db7256fcf64fdf0b2f20f2acfd3def4898ccd7aef4927937c5835fd16",
+  "catalog_version": "c9407c7f96b0d5a4063d244f801c37318cfa5672660e5317b315fefe507deb5a",
   "contract_version": "2.5.0",
   "atoms": [
     {
@@ -657,6 +657,14 @@
       "site": "piketon",
       "local_id": "data-centers",
       "title": "Per-Site Data-Center Activity Register",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:piketon:data-centers-piketon",
+      "kind": "dataset",
+      "site": "piketon",
+      "local_id": "data-centers-piketon",
+      "title": "Piketon / Pike Co., OH — Data-Center Activity Register",
       "feed": "catalog"
     },
     {

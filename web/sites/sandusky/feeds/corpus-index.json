@@ -39,7 +39,7 @@
     "label": "Sandusky · Perkins Twp",
     "scope": "site",
     "links_out": 3,
-    "links_in": 7,
+    "links_in": 8,
     "lines": 14,
     "updated": null
   },
@@ -911,6 +911,17 @@
     "links_in": 0,
     "lines": 21,
     "updated": "2026-08-26"
+  },
+  {
+    "id": "record/sandusky-data-centers",
+    "node_class": "record",
+    "kind": "record",
+    "label": "Sandusky / Erie Co., OH — Data-Center Activity Register",
+    "scope": "site",
+    "links_out": 2,
+    "links_in": 0,
+    "lines": 22,
+    "updated": "2026-11-02"
   },
   {
     "id": "relation/city-of-sandusky--operates--npdes-2pf00001",
