@@ -130,23 +130,26 @@ class Discharge(BaseModel):
     longitude: float | None = None
 
 
-# ECHO result columns, selected *by ObjectName* against the verified `cwa_rest_services.metadata`
-# and mapped to their ColumnID for `qcolumns` — never by index (the repo-wide ECHO rule). The
-# response is keyed by ObjectName regardless, so the reads below are by name.
-_ECHO_COLUMNS: dict[str, int] = {
-    "CWPName": 1,
-    "SourceID": 2,  # the NPDES / permit (source) ID
-    "RegistryID": 9,  # FRS Registry ID — joins ECHO to TRI/FRS
-    "FacStdCountyName": 14,
-    "FacFIPSCode": 15,  # the county the permit reports from
-    "FacFederalAgencyName": 18,  # non-null => federal facility
-    "FacLat": 24,
-    "FacLong": 25,
-    "CWPTotalDesignFlowNmbr": 26,
-    "CWPActualAverageFlowNmbr": 27,
-    "CWPPermitStatusDesc": 51,
-    "CWPPermitTypeDesc": 54,
-}
+# ECHO result columns, selected *by ObjectName* — never by index (the repo-wide ECHO rule). The
+# ColumnIDs `qcolumns` needs are resolved from `cwa_rest_services.metadata` on every pull
+# (:func:`_resolve_qcolumns`), never hardcoded: by 2026-11-02 the service listed 262 columns
+# where it had listed 260, and six of these IDs had shifted by two under the same version string,
+# so a fixed table silently selected the wrong columns. The response is keyed by ObjectName
+# regardless, so the reads below are by name.
+_ECHO_COLUMNS: tuple[str, ...] = (
+    "CWPName",
+    "SourceID",  # the NPDES / permit (source) ID
+    "RegistryID",  # FRS Registry ID — joins ECHO to TRI/FRS
+    "FacStdCountyName",
+    "FacFIPSCode",  # the county the permit reports from
+    "FacFederalAgencyName",  # non-null => federal facility
+    "FacLat",
+    "FacLong",
+    "CWPTotalDesignFlowNmbr",
+    "CWPActualAverageFlowNmbr",
+    "CWPPermitStatusDesc",
+    "CWPPermitTypeDesc",
+)
 
 
 # --- Shared plumbing --------------------------------------------------------------------
@@ -324,6 +327,28 @@ def fetch_water_systems(
 # --- EPA ECHO — the enclave's own discharges ---------------------------------------------
 
 
+def _resolve_qcolumns(settings: Settings) -> str:
+    """The current ColumnIDs for :data:`_ECHO_COLUMNS`, read from the service's own metadata.
+
+    Refuses rather than guesses: a column ECHO no longer lists would otherwise come back ``None``
+    on every record, indistinguishable from a value the register left blank.
+    """
+    url = settings.echo_cwa_url.rsplit(".", 1)[0] + ".metadata"
+    payload = _get(
+        "echo_cwa",
+        {"register": "echo_cwa", "service": "metadata"},
+        url,
+        settings=settings,
+        request_params={"output": "JSON"},
+    )
+    columns = ((payload or {}).get("Results") or {}).get("ResultColumns") or []
+    ids = {str(c.get("ObjectName")): str(c.get("ColumnID")) for c in columns}
+    missing = [name for name in _ECHO_COLUMNS if name not in ids]
+    if missing:
+        raise ValueError(f"ECHO metadata no longer lists column(s) {missing}")
+    return ",".join(ids[name] for name in _ECHO_COLUMNS)
+
+
 def fetch_discharges(
     npdes_ids: Sequence[str], *, settings: Settings | None = None
 ) -> list[Discharge]:
@@ -337,7 +362,7 @@ def fetch_discharges(
     from watermark.config import get_settings
 
     settings = settings or get_settings()
-    qcolumns = ",".join(str(cid) for cid in _ECHO_COLUMNS.values())
+    qcolumns = _resolve_qcolumns(settings)
     out: list[Discharge] = []
     for npdes_id in npdes_ids:
         request = {

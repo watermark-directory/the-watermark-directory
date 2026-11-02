@@ -37,7 +37,9 @@ Neutral, subsystem-agnostic connector plumbing. Defers to the root
   tax rolls, so no CAMA parcel layer will ever carry it), **EPA SDWIS** (the base's own
   community water systems), and **EPA ECHO CWA** (its own NPDES discharges). Fixtures live at
   `tests/fixtures/federal/<connector>/`; the offline error is `FederalOfflineError`.
-  ECHO columns are selected **by ObjectName** against the verified `cwa_rest_services.metadata`
-  and mapped to their ColumnID — never by index, the same repo-wide ECHO rule as
-  `hydrology/connectors/echo.py`. Acreage is the one derived value and is measured from the
+  ECHO columns are selected **by ObjectName** and mapped to their ColumnID from
+  `cwa_rest_services.metadata` **on every pull**, never by index and never from a fixed table —
+  the same repo-wide ECHO rule as `hydrology/connectors/echo.py`. The IDs shift under an
+  unchanged version string (by two after column 18, by 2026-11-02), and a stale ID returns
+  `None`, not an error; a name the metadata no longer lists refuses the pull. Acreage is the one derived value and is measured from the
   published geometry in the **site's own UTM zone**, never transcribed.
