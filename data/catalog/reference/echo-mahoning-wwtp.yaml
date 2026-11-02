@@ -1,0 +1,46 @@
+id: echo-mahoning-wwtp
+title: Mahoning-basin NPDES discharger inventory (EPA ECHO)
+scope: reference
+status: reviewed
+producer:
+  kind: connector
+  command: npdes --basin mahoning
+  connector_ref: watermark.hydrology.connectors.echo
+  source: EPA ECHO — cwa_rest_services (CWA v2017-10-13)
+  external_url: https://echo.epa.gov/tools/web-services
+license: U.S. Government work (public domain)
+access_tier: throttled
+site_scope: basin:mahoning
+storage:
+- relpath: reference/echo/mahoning-wwtp.all-npdes.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: reference/echo/mahoning-wwtp.huc-counts.yaml
+  media_type: application/x-yaml
+  lfs: false
+- relpath: reference/echo/mahoning-wwtp.potw.yaml
+  media_type: application/x-yaml
+  lfs: false
+refresh:
+  cadence: quarterly
+  ttl_days: 180
+provenance: connector
+schema_ref: watermark.hydrology.connectors.echo.Facility
+tags:
+- npdes
+- cwa
+- mahoning
+- ohio-river
+- pennsylvania
+- wastewater
+notes: >-
+  Inventory of active CWA-permitted dischargers across HUC-8 05030103 "Mahoning", deduplicated by
+  FRS Registry ID; every value is ECHO-returned and nulls are genuine. The HUC-8 CROSSES INTO
+  PENNSYLVANIA and ECHO's p_huc has no state filter, so Lawrence County PA permits arrive in the
+  same query; a complete inventory still needs the PA DEP permit list cross-checked, which has not
+  been done. Opened by the 2026-11-02 sweep for the lordstown and youngstown points, each located
+  against the USGS WBD service. No Mahoning gage is registered in mainstem-gages.yaml, so every row
+  reports no_7q10 or no_receiving_water: UNSCREENABLE, NEVER UNAFFECTED. The mainstem is
+  impounded above Warren and Youngstown, so any gage registered there must carry a regulation
+  block. Pulled with the ColumnIDs resolved from ECHO metadata. Headline counts for a given pull
+  are dated in data/reference/echo/README.md rather than restated here.

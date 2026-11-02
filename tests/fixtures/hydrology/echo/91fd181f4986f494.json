@@ -2,17 +2,17 @@
   "params": {
     "_service": "get_qid",
     "output": "JSON",
-    "qid": "501",
+    "qid": "236",
     "pageno": 1,
     "responseset": 1000,
-    "qcolumns": "1,9,2,31,28,29,54,26,159,19,170,24,25,13,18,98,113,114"
+    "qcolumns": "1,9,2,33,30,31,56,28,161,19,172,26,27,13,18,100,115,116"
   },
-  "fetched_at": "2026-06-06T13:45:15.657681+00:00",
+  "fetched_at": "2026-11-02T18:23:03.092035+00:00",
   "payload": {
     "Results": {
       "Message": "Working",
-      "QueryRows": "37",
-      "QueryID": "501",
+      "QueryRows": "41",
+      "QueryID": "236",
       "PageNo": "1",
       "Facilities": [
         {
@@ -22,6 +22,7 @@
           "FacCountyName": "ALLEN",
           "FacFederalAgencyName": null,
           "FacDerivedHuc": "04100008",
+          "CWPSICDescs": "9999: Nonclassifiable Establishments",
           "CWPNAICSCodes": null,
           "FacLat": "40.83312",
           "FacLong": "-83.96756",
@@ -35,7 +36,30 @@
           "CWPFormalEaCnt": null,
           "CWPStateWaterBodyName": null,
           "RadWBDHuc12": "041000080403",
-          "ElectrRptWaiverEffDate": null
+          "ElectrRptWaiverTypeCode": null
+        },
+        {
+          "CWPName": "BLUFFTON WASTEWATER TREATMENT",
+          "SourceID": "OHGP00006",
+          "RegistryID": "110008645261",
+          "FacCountyName": "ALLEN",
+          "FacFederalAgencyName": null,
+          "FacDerivedHuc": "04100008",
+          "CWPSICDescs": null,
+          "CWPNAICSCodes": null,
+          "FacLat": "40.90071",
+          "FacLong": "-83.89027",
+          "CWPTotalDesignFlowNmbr": null,
+          "CWPFacilityTypeIndicator": "NON-POTW",
+          "CWPFacilityTypeCode": null,
+          "NPDESIDs": "OH0020851 OHGP00006",
+          "CWPPermitTypeDesc": "General Permit Covered Facility",
+          "CWPSNCStatus": null,
+          "CWPInformalEnfActCount": "0",
+          "CWPFormalEaCnt": null,
+          "CWPStateWaterBodyName": null,
+          "RadWBDHuc12": "041000080404",
+          "ElectrRptWaiverTypeCode": null
         },
         {
           "CWPName": "BLUFFTON WWTP",
@@ -44,20 +68,21 @@
           "FacCountyName": "ALLEN",
           "FacFederalAgencyName": null,
           "FacDerivedHuc": "04100008",
+          "CWPSICDescs": "4952: Sewerage Systems",
           "CWPNAICSCodes": null,
           "FacLat": "40.90071",
           "FacLong": "-83.89027",
           "CWPTotalDesignFlowNmbr": "1.9",
           "CWPFacilityTypeIndicator": "POTW",
           "CWPFacilityTypeCode": "MWD",
-          "NPDESIDs": "OH0020851",
+          "NPDESIDs": "OH0020851 OHGP00006",
           "CWPPermitTypeDesc": "NPDES Individual Permit",
           "CWPSNCStatus": null,
           "CWPInformalEnfActCount": "2",
           "CWPFormalEaCnt": null,
           "CWPStateWaterBodyName": null,
           "RadWBDHuc12": "041000080405",
-          "ElectrRptWaiverEffDate": null
+          "ElectrRptWaiverTypeCode": null
         },
         {
           "CWPName": "CAMP BERRY",
@@ -66,10 +91,11 @@
           "FacCountyName": "HANCOCK",
           "FacFederalAgencyName": null,
           "FacDerivedHuc": "04100008",
+          "CWPSICDescs": "7033: Trailer Parks And Campsites",
           "CWPNAICSCodes": null,
           "FacLat": "41.02433",
           "FacLong": "-83.66425",
-          "CWPTotalDesignFlowNmbr": null,
+          "CWPTotalDesignFlowNmbr": ".015",
           "CWPFacilityTypeIndicator": "NON-POTW",
           "CWPFacilityTypeCode": "MXO",
           "NPDESIDs": "OH0126811",
@@ -77,9 +103,9 @@
           "CWPSNCStatus": null,
           "CWPInformalEnfActCount": "0",
           "CWPFormalEaCnt": null,
-          "CWPStateWaterBodyName": "EAGLE CREEK",
+          "CWPStateWaterBodyName": null,
           "RadWBDHuc12": "041000080302",
-          "ElectrRptWaiverEffDate": null
+          "ElectrRptWaiverTypeCode": null
         },
         {
           "CWPName": "CITY OF FINDLAY WATER POLLUTION CONTROL CENTER",
@@ -88,6 +114,7 @@
           "FacCountyName": "HANCOCK",
           "FacFederalAgencyName": null,
           "FacDerivedHuc": "04100008",
+          "CWPSICDescs": "4952: Sewerage Systems",
           "CWPNAICSCodes": null,
           "FacLat": "41.04809",
           "FacLong": "-83.66843",
@@ -101,7 +128,30 @@
           "CWPFormalEaCnt": null,
           "CWPStateWaterBodyName": null,
           "RadWBDHuc12": "041000080304",
-          "ElectrRptWaiverEffDate": null
+          "ElectrRptWaiverTypeCode": null
+        },
+        {
+          "CWPName": "CITY OF FINDLAY WATER POLLUTION CONTROL CENTER",
+          "SourceID": "OHGP00018",
+          "RegistryID": "110072319685",
+          "FacCountyName": null,
+          "FacFederalAgencyName": null,
+          "FacDerivedHuc": "04100008",
+          "CWPSICDescs": null,
+          "CWPNAICSCodes": null,
+          "FacLat": "41.050556",
+          "FacLong": "-83.669444",
+          "CWPTotalDesignFlowNmbr": null,
+          "CWPFacilityTypeIndicator": "NON-POTW",
+          "CWPFacilityTypeCode": null,
+          "NPDESIDs": "OHGP00018",
+          "CWPPermitTypeDesc": "General Permit Covered Facility",
+          "CWPSNCStatus": null,
+          "CWPInformalEnfActCount": "0",
+          "CWPFormalEaCnt": null,
+          "CWPStateWaterBodyName": null,
+          "RadWBDHuc12": "041000080304",
+          "ElectrRptWaiverTypeCode": null
         },
         {
           "CWPName": "CORY RAWSON MIDDLE & SR HS",
@@ -110,6 +160,7 @@
           "FacCountyName": "HANCOCK",
           "FacFederalAgencyName": null,
           "FacDerivedHuc": "04100008",
+          "CWPSICDescs": "8211: Elementary And Secondary Schools",
           "CWPNAICSCodes": null,
           "FacLat": "40.93853",
           "FacLong": "-83.8045",
@@ -123,15 +174,16 @@
           "CWPFormalEaCnt": null,
           "CWPStateWaterBodyName": null,
           "RadWBDHuc12": "041000080502",
-          "ElectrRptWaiverEffDate": null
+          "ElectrRptWaiverTypeCode": null
         },
         {
-          "CWPName": "COUNTRY ACRES GOLF CLUB",
+          "CWPName": "COUNTRY ACRES GOLF COURSE/PUTNAM COUNTY",
           "SourceID": "OH0079057",
           "RegistryID": "110006215906",
           "FacCountyName": "PUTNAM",
           "FacFederalAgencyName": null,
           "FacDerivedHuc": "04100008",
+          "CWPSICDescs": "7992: Public Golf Courses",
           "CWPNAICSCodes": null,
           "FacLat": "41.03263",
           "FacLong": "-84.19786",
@@ -145,7 +197,7 @@
           "CWPFormalEaCnt": null,
           "CWPStateWaterBodyName": null,
           "RadWBDHuc12": "041000080605",
-          "ElectrRptWaiverEffDate": null
+          "ElectrRptWaiverTypeCode": null
         },
         {
           "CWPName": "DTR INDUSTRIES INC",
@@ -154,6 +206,7 @@
           "FacCountyName": "ALLEN",
           "FacFederalAgencyName": null,
           "FacDerivedHuc": "04100008",
+          "CWPSICDescs": "3061: Mechanical Rubber Goods",
           "CWPNAICSCodes": null,
           "FacLat": "40.90085",
           "FacLong": "-83.88756",
@@ -167,7 +220,7 @@
           "CWPFormalEaCnt": null,
           "CWPStateWaterBodyName": null,
           "RadWBDHuc12": "041000080405",
-          "ElectrRptWaiverEffDate": null
+          "ElectrRptWaiverTypeCode": null
         },
         {
           "CWPName": "DUNKIRK WWTP",
@@ -176,6 +229,7 @@
           "FacCountyName": "HARDIN",
           "FacFederalAgencyName": null,
           "FacDerivedHuc": "04100008",
+          "CWPSICDescs": "4952: Sewerage Systems",
           "CWPNAICSCodes": null,
           "FacLat": "40.78945",
           "FacLong": "-83.64345",
@@ -189,7 +243,7 @@
           "CWPFormalEaCnt": null,
           "CWPStateWaterBodyName": null,
           "RadWBDHuc12": "041000080103",
-          "ElectrRptWaiverEffDate": null
+          "ElectrRptWaiverTypeCode": null
         },
         {
           "CWPName": "FOREST WWTP",
@@ -198,6 +252,7 @@
           "FacCountyName": "HARDIN",
           "FacFederalAgencyName": null,
           "FacDerivedHuc": "04100008",
+          "CWPSICDescs": "4952: Sewerage Systems",
           "CWPNAICSCodes": null,
           "FacLat": "40.80177",
           "FacLong": "-83.51438",
@@ -206,34 +261,35 @@
           "CWPFacilityTypeCode": "MWD",
           "NPDESIDs": "OH0025151",
           "CWPPermitTypeDesc": "NPDES Individual Permit",
-          "CWPSNCStatus": "Effluent - Monthly Average Limit",
+          "CWPSNCStatus": "Compliance/Permit Schedule - Violations",
           "CWPInformalEnfActCount": "3",
           "CWPFormalEaCnt": null,
           "CWPStateWaterBodyName": "UT TO BLANCHARD RIVER",
           "RadWBDHuc12": "041000080105",
-          "ElectrRptWaiverEffDate": null
+          "ElectrRptWaiverTypeCode": null
         },
         {
-          "CWPName": "GREEN MEADOW MHP",
+          "CWPName": "GREEN MEADOW MOBILE HOME PARK",
           "SourceID": "OH0135968",
           "RegistryID": "110070939764",
           "FacCountyName": "HANCOCK COUNTY",
           "FacFederalAgencyName": null,
           "FacDerivedHuc": "04100008",
+          "CWPSICDescs": "6515: Mobile Home Site Operators",
           "CWPNAICSCodes": null,
           "FacLat": "40.83328",
           "FacLong": "-83.8238",
-          "CWPTotalDesignFlowNmbr": null,
+          "CWPTotalDesignFlowNmbr": ".007",
           "CWPFacilityTypeIndicator": "NON-POTW",
           "CWPFacilityTypeCode": "MXO",
           "NPDESIDs": "OH0135968",
           "CWPPermitTypeDesc": "NPDES Individual Permit",
-          "CWPSNCStatus": "Compliance/Permit Schedule - Violations",
+          "CWPSNCStatus": null,
           "CWPInformalEnfActCount": "1",
           "CWPFormalEaCnt": null,
-          "CWPStateWaterBodyName": "MCKEAM JOINT",
+          "CWPStateWaterBodyName": null,
           "RadWBDHuc12": "041000080401",
-          "ElectrRptWaiverEffDate": null
+          "ElectrRptWaiverTypeCode": null
         },
         {
           "CWPName": "HARDIN-NORTHERN SCHOOLS",
@@ -242,6 +298,7 @@
           "FacCountyName": "HARDIN",
           "FacFederalAgencyName": null,
           "FacDerivedHuc": "04100008",
+          "CWPSICDescs": "4952: Sewerage Systems",
           "CWPNAICSCodes": null,
           "FacLat": "40.77949",
           "FacLong": "-83.66094",
@@ -255,7 +312,7 @@
           "CWPFormalEaCnt": null,
           "CWPStateWaterBodyName": "UNNAMED TRIBUTARY TO THE BLANCHARD RIVER",
           "RadWBDHuc12": "041000080103",
-          "ElectrRptWaiverEffDate": null
+          "ElectrRptWaiverTypeCode": null
         },
         {
           "CWPName": "HERITAGE SPRINGS CAMPGROUND",
@@ -264,6 +321,7 @@
           "FacCountyName": "HANCOCK",
           "FacFederalAgencyName": null,
           "FacDerivedHuc": "04100008",
+          "CWPSICDescs": "7033: Trailer Parks And Campsites",
           "CWPNAICSCodes": null,
           "FacLat": "40.96495",
           "FacLong": "-83.465494",
@@ -277,15 +335,16 @@
           "CWPFormalEaCnt": null,
           "CWPStateWaterBodyName": null,
           "RadWBDHuc12": "041000080201",
-          "ElectrRptWaiverEffDate": null
+          "ElectrRptWaiverTypeCode": null
         },
         {
-          "CWPName": "JAY PETROLEUM INC",
+          "CWPName": "JAY PETROLEUM OHIO BULK PLANT",
           "SourceID": "OH0142123",
           "RegistryID": "110038907207",
           "FacCountyName": "PUTNAM",
           "FacFederalAgencyName": null,
           "FacDerivedHuc": "04100008",
+          "CWPSICDescs": "5171: Petroleum Bulk Stations & Terminals",
           "CWPNAICSCodes": null,
           "FacLat": "41.01896",
           "FacLong": "-84.069255",
@@ -297,9 +356,9 @@
           "CWPSNCStatus": null,
           "CWPInformalEnfActCount": "0",
           "CWPFormalEaCnt": null,
-          "CWPStateWaterBodyName": "CRANBERRY CREEK, UT TO CRANBERRY",
+          "CWPStateWaterBodyName": null,
           "RadWBDHuc12": "041000080601",
-          "ElectrRptWaiverEffDate": null
+          "ElectrRptWaiverTypeCode": null
         },
         {
           "CWPName": "JENERA WWTP",
@@ -308,6 +367,7 @@
           "FacCountyName": "HANCOCK",
           "FacFederalAgencyName": null,
           "FacDerivedHuc": "04100008",
+          "CWPSICDescs": "4952: Sewerage Systems",
           "CWPNAICSCodes": null,
           "FacLat": "40.899441",
           "FacLong": "-83.729722",
@@ -321,7 +381,30 @@
           "CWPFormalEaCnt": null,
           "CWPStateWaterBodyName": null,
           "RadWBDHuc12": "041000080502",
-          "ElectrRptWaiverEffDate": null
+          "ElectrRptWaiverTypeCode": null
+        },
+        {
+          "CWPName": "MARATHON #205",
+          "SourceID": "OHGU00942",
+          "RegistryID": "110072308719",
+          "FacCountyName": null,
+          "FacFederalAgencyName": null,
+          "FacDerivedHuc": "04100008",
+          "CWPSICDescs": "5541: Gasoline Service Stations",
+          "CWPNAICSCodes": null,
+          "FacLat": "40.89195",
+          "FacLong": "-83.89379",
+          "CWPTotalDesignFlowNmbr": null,
+          "CWPFacilityTypeIndicator": "NON-POTW",
+          "CWPFacilityTypeCode": null,
+          "NPDESIDs": "OHGU00942",
+          "CWPPermitTypeDesc": "General Permit Covered Facility",
+          "CWPSNCStatus": null,
+          "CWPInformalEnfActCount": "0",
+          "CWPFormalEaCnt": null,
+          "CWPStateWaterBodyName": null,
+          "RadWBDHuc12": "041000080404",
+          "ElectrRptWaiverTypeCode": null
         },
         {
           "CWPName": "MAST ESTATES WWTP",
@@ -330,6 +413,7 @@
           "FacCountyName": "ALLEN",
           "FacFederalAgencyName": null,
           "FacDerivedHuc": "04100008",
+          "CWPSICDescs": "4952: Sewerage Systems",
           "CWPNAICSCodes": null,
           "FacLat": "40.86588",
           "FacLong": "-83.93522",
@@ -343,7 +427,7 @@
           "CWPFormalEaCnt": null,
           "CWPStateWaterBodyName": "LITTLE RILEY CREEK",
           "RadWBDHuc12": "041000080403",
-          "ElectrRptWaiverEffDate": null
+          "ElectrRptWaiverTypeCode": null
         },
         {
           "CWPName": "MT BLANCHARD WWTP",
@@ -352,6 +436,7 @@
           "FacCountyName": "HANCOCK",
           "FacFederalAgencyName": null,
           "FacDerivedHuc": "04100008",
+          "CWPSICDescs": "4952: Sewerage Systems",
           "CWPNAICSCodes": null,
           "FacLat": "40.899087",
           "FacLong": "-83.56128",
@@ -365,7 +450,7 @@
           "CWPFormalEaCnt": null,
           "CWPStateWaterBodyName": null,
           "RadWBDHuc12": "041000080105",
-          "ElectrRptWaiverEffDate": null
+          "ElectrRptWaiverTypeCode": null
         },
         {
           "CWPName": "NATIONAL LIME & STONE - VANLUE PLANT",
@@ -374,6 +459,7 @@
           "FacCountyName": "HANCOCK",
           "FacFederalAgencyName": null,
           "FacDerivedHuc": "04100008",
+          "CWPSICDescs": "1422: Crushed And Broken Limestone",
           "CWPNAICSCodes": null,
           "FacLat": "40.99718",
           "FacLong": "-83.465",
@@ -387,29 +473,7 @@
           "CWPFormalEaCnt": null,
           "CWPStateWaterBodyName": null,
           "RadWBDHuc12": "041000080201",
-          "ElectrRptWaiverEffDate": null
-        },
-        {
-          "CWPName": "NATIONAL LIME & STONE CO",
-          "SourceID": "OH0053996",
-          "RegistryID": "110001627758",
-          "FacCountyName": "HANCOCK",
-          "FacFederalAgencyName": null,
-          "FacDerivedHuc": "04100008",
-          "CWPNAICSCodes": null,
-          "FacLat": "41.03095",
-          "FacLong": "-83.65984",
-          "CWPTotalDesignFlowNmbr": null,
-          "CWPFacilityTypeIndicator": "NON-POTW",
-          "CWPFacilityTypeCode": "POF",
-          "NPDESIDs": "OH0053996",
-          "CWPPermitTypeDesc": "NPDES Individual Permit",
-          "CWPSNCStatus": null,
-          "CWPInformalEnfActCount": "0",
-          "CWPFormalEaCnt": null,
-          "CWPStateWaterBodyName": "OIL DITCH",
-          "RadWBDHuc12": "041000080303",
-          "ElectrRptWaiverEffDate": null
+          "ElectrRptWaiverTypeCode": null
         },
         {
           "CWPName": "NATIONAL LIME & STONE CO CAREY PLANT",
@@ -418,6 +482,7 @@
           "FacCountyName": "WYANDOT",
           "FacFederalAgencyName": null,
           "FacDerivedHuc": "04100008",
+          "CWPSICDescs": "1422: Crushed And Broken Limestone",
           "CWPNAICSCodes": null,
           "FacLat": "40.956248",
           "FacLong": "-83.376882",
@@ -431,29 +496,7 @@
           "CWPFormalEaCnt": null,
           "CWPStateWaterBodyName": null,
           "RadWBDHuc12": "041000110604",
-          "ElectrRptWaiverEffDate": null
-        },
-        {
-          "CWPName": "NATIONAL LIME & STONE CO OTTAWA PLANT",
-          "SourceID": "OH0038482",
-          "RegistryID": "110006279712",
-          "FacCountyName": "PUTNAM",
-          "FacFederalAgencyName": null,
-          "FacDerivedHuc": "04100008",
-          "CWPNAICSCodes": null,
-          "FacLat": "40.990709",
-          "FacLong": "-83.99409",
-          "CWPTotalDesignFlowNmbr": null,
-          "CWPFacilityTypeIndicator": "NON-POTW",
-          "CWPFacilityTypeCode": "POF",
-          "NPDESIDs": "OH0038482",
-          "CWPPermitTypeDesc": "NPDES Individual Permit",
-          "CWPSNCStatus": null,
-          "CWPInformalEnfActCount": "0",
-          "CWPFormalEaCnt": null,
-          "CWPStateWaterBodyName": "RILEY CREEK",
-          "RadWBDHuc12": "041000080405",
-          "ElectrRptWaiverEffDate": null
+          "ElectrRptWaiverTypeCode": null
         },
         {
           "CWPName": "NATIONAL LIME & STONE CO-FINDLAY",
@@ -462,6 +505,7 @@
           "FacCountyName": "HANCOCK",
           "FacFederalAgencyName": null,
           "FacDerivedHuc": "04100008",
+          "CWPSICDescs": "1422: Crushed And Broken Limestone",
           "CWPNAICSCodes": null,
           "FacLat": "41.02433",
           "FacLong": "-83.66425",
@@ -475,7 +519,30 @@
           "CWPFormalEaCnt": null,
           "CWPStateWaterBodyName": "AURAND RUN",
           "RadWBDHuc12": "041000080303",
-          "ElectrRptWaiverEffDate": null
+          "ElectrRptWaiverTypeCode": null
+        },
+        {
+          "CWPName": "NATIONAL LIME & STONE CO.- OTTAWA PLANT",
+          "SourceID": "OH0038482",
+          "RegistryID": "110006279712",
+          "FacCountyName": "PUTNAM",
+          "FacFederalAgencyName": null,
+          "FacDerivedHuc": "04100008",
+          "CWPSICDescs": "1422: Crushed And Broken Limestone",
+          "CWPNAICSCodes": null,
+          "FacLat": "40.992472",
+          "FacLong": "-83.994667",
+          "CWPTotalDesignFlowNmbr": null,
+          "CWPFacilityTypeIndicator": "NON-POTW",
+          "CWPFacilityTypeCode": "POF",
+          "NPDESIDs": "OH0038482",
+          "CWPPermitTypeDesc": "NPDES Individual Permit",
+          "CWPSNCStatus": null,
+          "CWPInformalEnfActCount": "0",
+          "CWPFormalEaCnt": null,
+          "CWPStateWaterBodyName": null,
+          "RadWBDHuc12": "041000080405",
+          "ElectrRptWaiverTypeCode": null
         },
         {
           "CWPName": "ODOT DIST 1 PARK NO 1-26 & 25",
@@ -484,9 +551,10 @@
           "FacCountyName": "ALLEN COUNTY",
           "FacFederalAgencyName": null,
           "FacDerivedHuc": "04100008",
+          "CWPSICDescs": "4789: Transportation Services",
           "CWPNAICSCodes": null,
-          "FacLat": "40.9862",
-          "FacLong": "-83.71086",
+          "FacLat": "40.9772",
+          "FacLong": "-83.7284",
           "CWPTotalDesignFlowNmbr": ".02",
           "CWPFacilityTypeIndicator": "POTW",
           "CWPFacilityTypeCode": "STF",
@@ -497,7 +565,7 @@
           "CWPFormalEaCnt": null,
           "CWPStateWaterBodyName": null,
           "RadWBDHuc12": "041000080501",
-          "ElectrRptWaiverEffDate": null
+          "ElectrRptWaiverTypeCode": null
         },
         {
           "CWPName": "OTTAWA WASTEWATER TREATMENT PLANT",
@@ -506,6 +574,7 @@
           "FacCountyName": "PUTNAM",
           "FacFederalAgencyName": null,
           "FacDerivedHuc": "04100008",
+          "CWPSICDescs": "4952: Sewerage Systems",
           "CWPNAICSCodes": null,
           "FacLat": "41.03235",
           "FacLong": "-84.05249",
@@ -514,12 +583,35 @@
           "CWPFacilityTypeCode": "MWD",
           "NPDESIDs": "OH0026921",
           "CWPPermitTypeDesc": "NPDES Individual Permit",
-          "CWPSNCStatus": "Effluent - Monthly Average Limit",
+          "CWPSNCStatus": null,
           "CWPInformalEnfActCount": "1",
           "CWPFormalEaCnt": null,
           "CWPStateWaterBodyName": null,
           "RadWBDHuc12": "041000080602",
-          "ElectrRptWaiverEffDate": null
+          "ElectrRptWaiverTypeCode": null
+        },
+        {
+          "CWPName": "OTTAWA WASTEWATER TREATMENT PLANT",
+          "SourceID": "OHGP00030",
+          "RegistryID": "110072315941",
+          "FacCountyName": null,
+          "FacFederalAgencyName": null,
+          "FacDerivedHuc": "04100008",
+          "CWPSICDescs": null,
+          "CWPNAICSCodes": null,
+          "FacLat": "41.03235",
+          "FacLong": "-84.05249",
+          "CWPTotalDesignFlowNmbr": null,
+          "CWPFacilityTypeIndicator": "NON-POTW",
+          "CWPFacilityTypeCode": null,
+          "NPDESIDs": "OHGP00030",
+          "CWPPermitTypeDesc": "General Permit Covered Facility",
+          "CWPSNCStatus": null,
+          "CWPInformalEnfActCount": "0",
+          "CWPFormalEaCnt": null,
+          "CWPStateWaterBodyName": null,
+          "RadWBDHuc12": null,
+          "ElectrRptWaiverTypeCode": null
         },
         {
           "CWPName": "PUTNAM COUNTY BROOKHILL CENTER",
@@ -528,6 +620,7 @@
           "FacCountyName": "PUTNAM",
           "FacFederalAgencyName": null,
           "FacDerivedHuc": "04100008",
+          "CWPSICDescs": "6515: Mobile Home Site Operators",
           "CWPNAICSCodes": null,
           "FacLat": "41.06483",
           "FacLong": "-84.13087",
@@ -541,7 +634,7 @@
           "CWPFormalEaCnt": null,
           "CWPStateWaterBodyName": null,
           "RadWBDHuc12": "041000071101",
-          "ElectrRptWaiverEffDate": null
+          "ElectrRptWaiverTypeCode": null
         },
         {
           "CWPName": "PUTNAM COUNTY LANDFILL",
@@ -550,6 +643,7 @@
           "FacCountyName": "PUTNAM",
           "FacFederalAgencyName": null,
           "FacDerivedHuc": "04100008",
+          "CWPSICDescs": "4953: Refuse Systems",
           "CWPNAICSCodes": null,
           "FacLat": "41.062294",
           "FacLong": "-84.0831",
@@ -558,12 +652,12 @@
           "CWPFacilityTypeCode": "POF",
           "NPDESIDs": "OH0102504",
           "CWPPermitTypeDesc": "NPDES Individual Permit",
-          "CWPSNCStatus": null,
+          "CWPSNCStatus": "Effluent - Monthly Average Limit",
           "CWPInformalEnfActCount": "0",
           "CWPFormalEaCnt": null,
           "CWPStateWaterBodyName": null,
           "RadWBDHuc12": "041000080602",
-          "ElectrRptWaiverEffDate": null
+          "ElectrRptWaiverTypeCode": null
         },
         {
           "CWPName": "RAWSON WWTP",
@@ -572,6 +666,7 @@
           "FacCountyName": "HANCOCK",
           "FacFederalAgencyName": null,
           "FacDerivedHuc": "04100008",
+          "CWPSICDescs": "4952: Sewerage Systems",
           "CWPNAICSCodes": null,
           "FacLat": "40.96449",
           "FacLong": "-83.80187",
@@ -585,7 +680,7 @@
           "CWPFormalEaCnt": null,
           "CWPStateWaterBodyName": null,
           "RadWBDHuc12": "041000080502",
-          "ElectrRptWaiverEffDate": null
+          "ElectrRptWaiverTypeCode": null
         },
         {
           "CWPName": "RIVERDALE LOCAL SCHLS",
@@ -594,6 +689,7 @@
           "FacCountyName": "HANCOCK",
           "FacFederalAgencyName": null,
           "FacDerivedHuc": "04100008",
+          "CWPSICDescs": "8211: Elementary And Secondary Schools",
           "CWPNAICSCodes": null,
           "FacLat": "40.86753",
           "FacLong": "-83.52004",
@@ -607,7 +703,7 @@
           "CWPFormalEaCnt": null,
           "CWPStateWaterBodyName": null,
           "RadWBDHuc12": "041000080104",
-          "ElectrRptWaiverEffDate": null
+          "ElectrRptWaiverTypeCode": null
         },
         {
           "CWPName": "SHELLY MATERIALS INC - FOREST QUARRY",
@@ -616,6 +712,7 @@
           "FacCountyName": "HARDIN",
           "FacFederalAgencyName": null,
           "FacDerivedHuc": "04100008",
+          "CWPSICDescs": "1422: Crushed And Broken Limestone",
           "CWPNAICSCodes": null,
           "FacLat": "40.762788",
           "FacLong": "-83.53291",
@@ -629,7 +726,7 @@
           "CWPFormalEaCnt": null,
           "CWPStateWaterBodyName": null,
           "RadWBDHuc12": "041000080103",
-          "ElectrRptWaiverEffDate": null
+          "ElectrRptWaiverTypeCode": null
         },
         {
           "CWPName": "SHELLY MATERIALS, INC - HARDIN QUARRY",
@@ -638,6 +735,7 @@
           "FacCountyName": "HARDIN",
           "FacFederalAgencyName": null,
           "FacDerivedHuc": "04100008",
+          "CWPSICDescs": "1422: Crushed And Broken Limestone",
           "CWPNAICSCodes": null,
           "FacLat": "40.727778",
           "FacLong": "-83.643333",
@@ -651,7 +749,7 @@
           "CWPFormalEaCnt": null,
           "CWPStateWaterBodyName": null,
           "RadWBDHuc12": "041000080101",
-          "ElectrRptWaiverEffDate": null
+          "ElectrRptWaiverTypeCode": null
         },
         {
           "CWPName": "THE BLUFFTON STONE COMPANY",
@@ -660,6 +758,7 @@
           "FacCountyName": "ALLEN",
           "FacFederalAgencyName": null,
           "FacDerivedHuc": "04100008",
+          "CWPSICDescs": "1422: Crushed And Broken Limestone",
           "CWPNAICSCodes": null,
           "FacLat": "40.886154",
           "FacLong": "-83.896055",
@@ -673,7 +772,30 @@
           "CWPFormalEaCnt": null,
           "CWPStateWaterBodyName": null,
           "RadWBDHuc12": "041000080404",
-          "ElectrRptWaiverEffDate": null
+          "ElectrRptWaiverTypeCode": null
+        },
+        {
+          "CWPName": "THE NATIONAL LIME & STONE COMPANY",
+          "SourceID": "OH0053996",
+          "RegistryID": "110001627758",
+          "FacCountyName": "HANCOCK",
+          "FacFederalAgencyName": null,
+          "FacDerivedHuc": "04100008",
+          "CWPSICDescs": "1442: Construction Sand And Gravel",
+          "CWPNAICSCodes": null,
+          "FacLat": "41.03095",
+          "FacLong": "-83.65984",
+          "CWPTotalDesignFlowNmbr": null,
+          "CWPFacilityTypeIndicator": "NON-POTW",
+          "CWPFacilityTypeCode": "POF",
+          "NPDESIDs": "OH0053996",
+          "CWPPermitTypeDesc": "NPDES Individual Permit",
+          "CWPSNCStatus": null,
+          "CWPInformalEnfActCount": "0",
+          "CWPFormalEaCnt": null,
+          "CWPStateWaterBodyName": null,
+          "RadWBDHuc12": "041000080303",
+          "ElectrRptWaiverTypeCode": null
         },
         {
           "CWPName": "TOWER AUTOMOTIVE OPERATIONS USA I LLC  BLUFFTON FAC.",
@@ -682,6 +804,7 @@
           "FacCountyName": "HANCOCK",
           "FacFederalAgencyName": null,
           "FacDerivedHuc": "04100008",
+          "CWPSICDescs": "9999: Nonclassifiable Establishments",
           "CWPNAICSCodes": null,
           "FacLat": "40.894946",
           "FacLong": "-83.880358",
@@ -695,7 +818,7 @@
           "CWPFormalEaCnt": null,
           "CWPStateWaterBodyName": null,
           "RadWBDHuc12": "041000080404",
-          "ElectrRptWaiverEffDate": null
+          "ElectrRptWaiverTypeCode": null
         },
         {
           "CWPName": "VANLUE STP",
@@ -704,6 +827,7 @@
           "FacCountyName": "HANCOCK",
           "FacFederalAgencyName": null,
           "FacDerivedHuc": "04100008",
+          "CWPSICDescs": "4952: Sewerage Systems",
           "CWPNAICSCodes": null,
           "FacLat": "40.983843",
           "FacLong": "-83.492528",
@@ -717,7 +841,7 @@
           "CWPFormalEaCnt": null,
           "CWPStateWaterBodyName": "BRIGHTS DITCH",
           "RadWBDHuc12": "041000080201",
-          "ElectrRptWaiverEffDate": null
+          "ElectrRptWaiverTypeCode": null
         },
         {
           "CWPName": "VILLAGE OF ARLINGTON WWTP",
@@ -726,6 +850,7 @@
           "FacCountyName": "HANCOCK",
           "FacFederalAgencyName": null,
           "FacDerivedHuc": "04100008",
+          "CWPSICDescs": "4952: Sewerage Systems",
           "CWPNAICSCodes": null,
           "FacLat": "40.90659",
           "FacLong": "-83.65202",
@@ -736,10 +861,10 @@
           "CWPPermitTypeDesc": "NPDES Individual Permit",
           "CWPSNCStatus": "Effluent - Monthly Average Limit",
           "CWPInformalEnfActCount": "3",
-          "CWPFormalEaCnt": null,
+          "CWPFormalEaCnt": "1",
           "CWPStateWaterBodyName": null,
           "RadWBDHuc12": "041000080302",
-          "ElectrRptWaiverEffDate": null
+          "ElectrRptWaiverTypeCode": null
         },
         {
           "CWPName": "VILLAGE OF GILBOA WASTEWATER TREATMENT FACILITY",
@@ -748,6 +873,7 @@
           "FacCountyName": "PUTNAM COUNTY",
           "FacFederalAgencyName": null,
           "FacDerivedHuc": "04100008",
+          "CWPSICDescs": "4952: Sewerage Systems",
           "CWPNAICSCodes": null,
           "FacLat": "41.02",
           "FacLong": "-83.921944",
@@ -761,7 +887,7 @@
           "CWPFormalEaCnt": null,
           "CWPStateWaterBodyName": null,
           "RadWBDHuc12": "041000080506",
-          "ElectrRptWaiverEffDate": null
+          "ElectrRptWaiverTypeCode": null
         },
         {
           "CWPName": "VILLAGE OF PANDORA",
@@ -770,6 +896,7 @@
           "FacCountyName": "PUTNAM",
           "FacFederalAgencyName": null,
           "FacDerivedHuc": "04100008",
+          "CWPSICDescs": "4952: Sewerage Systems",
           "CWPNAICSCodes": null,
           "FacLat": "40.969023",
           "FacLong": "-83.976585",
@@ -783,7 +910,7 @@
           "CWPFormalEaCnt": null,
           "CWPStateWaterBodyName": null,
           "RadWBDHuc12": "041000080405",
-          "ElectrRptWaiverEffDate": null
+          "ElectrRptWaiverTypeCode": null
         },
         {
           "CWPName": "WHARTON WWTP",
@@ -792,20 +919,21 @@
           "FacCountyName": "WYANDOT",
           "FacFederalAgencyName": null,
           "FacDerivedHuc": "04100008",
+          "CWPSICDescs": "4952: Sewerage Systems",
           "CWPNAICSCodes": null,
-          "FacLat": "40.852789",
-          "FacLong": "-83.467061",
+          "FacLat": "40.847042",
+          "FacLong": "-83.46216",
           "CWPTotalDesignFlowNmbr": ".055",
           "CWPFacilityTypeIndicator": "NON-POTW",
           "CWPFacilityTypeCode": "MWD",
           "NPDESIDs": "OH0142018",
           "CWPPermitTypeDesc": "NPDES Individual Permit",
           "CWPSNCStatus": null,
-          "CWPInformalEnfActCount": "1",
+          "CWPInformalEnfActCount": "0",
           "CWPFormalEaCnt": null,
           "CWPStateWaterBodyName": "POTATO RUN",
           "RadWBDHuc12": "041000080104",
-          "ElectrRptWaiverEffDate": null
+          "ElectrRptWaiverTypeCode": null
         },
         {
           "CWPName": "WYANDOT DOLOMITE INC CAREY PLANT",
@@ -814,6 +942,7 @@
           "FacCountyName": "WYANDOT",
           "FacFederalAgencyName": null,
           "FacDerivedHuc": "04100008",
+          "CWPSICDescs": "1422: Crushed And Broken Limestone",
           "CWPNAICSCodes": null,
           "FacLat": "40.96354",
           "FacLong": "-83.36803",
@@ -827,7 +956,7 @@
           "CWPFormalEaCnt": null,
           "CWPStateWaterBodyName": null,
           "RadWBDHuc12": "041000110604",
-          "ElectrRptWaiverEffDate": null
+          "ElectrRptWaiverTypeCode": null
         }
       ]
     }

@@ -1,0 +1,4299 @@
+meta:
+  subject: Mahoning-basin NPDES wastewater dischargers
+  scope: all active CWA-permitted dischargers
+  source: EPA ECHO — cwa_rest_services (CWA v2017-10-13)
+  watershed: Mahoning River — 1 HUC-8 subbasin (05030103 Mahoning), subregion 0503
+    (Upper Ohio, reaching the Ohio through the Beaver River in Pennsylvania)
+  huc8s:
+    '05030103': Mahoning
+  dedup_key: FRS RegistryID
+  count: 213
+  caveats:
+  - ECHO's CWA facility service has no CWNS column; the POTW flag rests on CWPFacilityTypeIndicator.
+  - Facilities link to HUCs via WATERS (FacDerivedHuc); a permit that didn't geocode
+    can be missed.
+  - design_flow_mgd is null where ECHO returned no value; it is never estimated.
+  - THE INVENTORY IS PULLED; NO MAHONING GAGE IS REGISTERED. mainstem-gages.yaml holds
+    no entry for this basin, so a discharger here reports no_7q10 — UNSCREENABLE,
+    NEVER UNAFFECTED — until one is registered with its drainage-area rationale.
+  - THE UNIT CROSSES THE STATE LINE. WBD lists 05030103 as `states=OH,PA` and ECHO's
+    `p_huc` query does not filter by state, so this inventory holds Pennsylvania dischargers
+    beside Ohio ones. A Pennsylvania permit is written under Pennsylvania's water-quality
+    standards, and an Ohio criterion read against it is the wrong rule.
+  - ANY LOW-FLOW STATISTIC REGISTERED HERE LATER MUST STATE ITS REGULATION. Per mainstem-gages.yaml's
+    meta.cited_annotations rule a `regulation` block must quote a published third-party
+    classification; none for any gage in this basin has been read into the corpus,
+    so an unannotated Mahoning gage would mean 'not yet read against the published
+    record', never 'unregulated'.
+facilities:
+- frs_registry_id: '110071358244'
+  name: 130 SHADY LANE RD SRSTP
+  npdes_id: PA0291030
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0
+  design_flow_missing: false
+  receiving_water: UNT TO COFFEE RUN
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030809
+  county: LAWRENCE COUNTY
+  latitude: 41.069722
+  longitude: -80.502778
+  compliance_status: null
+  informal_enf_count: 3
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110072156096'
+  name: 2584 HILLSVILLE RD SRSTP
+  npdes_id: PAG041608
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: 0.001
+  design_flow_missing: false
+  receiving_water: UNT TO COFFEE RUN
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030809
+  county: null
+  latitude: 41.05009
+  longitude: -80.48141
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110071904584'
+  name: 295 CHERRIWOOD RD SRSTP
+  npdes_id: PAG041467
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: 0.0
+  design_flow_missing: false
+  receiving_water: COFFEE RUN
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030809
+  county: null
+  latitude: 41.079547
+  longitude: -80.486622
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110062633253'
+  name: 9835 SOUTH AVENUE
+  npdes_id: OH0146293
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0015
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030805
+  county: MAHONING
+  latitude: 40.97532
+  longitude: -80.63179
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110006803138'
+  name: AGLAND CO-OP INC
+  npdes_id: OH0123510
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: RAIN WATER FROM ON/OFF LOADING PAD
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030103'
+  county: STARK
+  latitude: 40.90205
+  longitude: -81.07712
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110025316968'
+  name: AJAX TOCCO MAGNETHERMIC CORP
+  npdes_id: OH0088021
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030603'
+  county: TRUMBULL
+  latitude: 41.25869
+  longitude: -80.79645
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110000390194'
+  name: ALLIANCE TUBULAR PRODUCTS LLC
+  npdes_id: OH0011878
+  npdes_ids_secondary:
+  - OHP000905
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030103'
+  county: STARK
+  latitude: 40.92831
+  longitude: -81.09623
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110000579348'
+  name: ALLIANCE WWTP
+  npdes_id: OH0023868
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 7.5
+  design_flow_missing: false
+  receiving_water: BEECH CREEK
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030204'
+  county: STARK
+  latitude: 40.955556
+  longitude: -81.117778
+  compliance_status: null
+  informal_enf_count: 2
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110009608718'
+  name: ALUMINUM COLOR IND INC
+  npdes_id: OHP000004
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: Individual IU Permit (Non-NPDES)
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030809
+  county: MAHONING COUNTY
+  latitude: 41.041143
+  longitude: -80.542547
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110000572657'
+  name: AQUA OHIO - STRUTHERS DIVISION - POLAND WTP
+  npdes_id: OH0045446
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030806
+  county: MAHONING
+  latitude: 41.0072
+  longitude: -80.59827
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110070202089'
+  name: AQUA POWER BOAT CLUB
+  npdes_id: OH0148318
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030204'
+  county: PORTAGE COUNTY
+  latitude: 41.00667
+  longitude: -81.0502
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110006266619'
+  name: ARHAVEN ESTATES MHP
+  npdes_id: OH0107484
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: MAHONING RIVER
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030406'
+  county: TRUMBULL
+  latitude: 41.21607
+  longitude: -80.93603
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110009641129'
+  name: ARNIES WEST BRANCH STEAK HOUSE
+  npdes_id: OH0122025
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0048
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030302'
+  county: PORTAGE
+  latitude: 41.1352
+  longitude: -81.19604
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110008057743'
+  name: ASTRO COATINGS INC
+  npdes_id: OHP000010
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: Individual IU Permit (Non-NPDES)
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030806
+  county: MAHONING
+  latitude: 41.05707
+  longitude: -80.58883
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110000389810'
+  name: ASTRO SHAPES INC
+  npdes_id: OHP000239
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: Individual IU Permit (Non-NPDES)
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030806
+  county: MAHONING
+  latitude: 41.05754
+  longitude: -80.58963
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110006283084'
+  name: ATWATER WWTP
+  npdes_id: OH0038792
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.2
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030201'
+  county: PORTAGE
+  latitude: 41.02334
+  longitude: -81.16935
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110072074888'
+  name: B & K FARM MARKET
+  npdes_id: OH0151757
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0005
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030503'
+  county: null
+  latitude: 41.28397
+  longitude: -80.768957
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110070146400'
+  name: B & P SLAG MINE
+  npdes_id: PAM617033
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: MAHONING RIVER
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030809
+  county: LAWRENCE COUNTY
+  latitude: 40.99934
+  longitude: -80.40983
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110006266646'
+  name: BAKER ELEM SCH
+  npdes_id: OH0129062
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: UT OF SQUAW CREEK, UT TO SQUAW CREEK
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030704'
+  county: TRUMBULL
+  latitude: 41.224969
+  longitude: -80.669547
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110006235868'
+  name: BAZETTA CHRISTIAN CHURCH
+  npdes_id: OH0128945
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: TRIB OF MOSQUITO LAKE, TRIBUTARY OF MOSQUITO CREEK RESERVE
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030502'
+  county: TRUMBULL
+  latitude: 41.330742
+  longitude: -80.779456
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110070693049'
+  name: BAZETTA CORTLAND OPTIMIST CLUB
+  npdes_id: OH0150193
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0015
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030503'
+  county: TRUMBULL COUNTY
+  latitude: 41.289585
+  longitude: -80.779122
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110009821746'
+  name: BAZETTA WWTP
+  npdes_id: OH0092550
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.084
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030502'
+  county: TRUMBULL COUNTY
+  latitude: 41.31843
+  longitude: -80.76998
+  compliance_status: Effluent - Monthly Average Limit
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110000389847'
+  name: BDM WARREN STEEL OPERATIONS
+  npdes_id: OH0101079
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: MAHONING RIVER
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030603'
+  county: TRUMBULL
+  latitude: 41.227871
+  longitude: -80.813714
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110006297541'
+  name: BEDFORD TRAILS GOLF COURSE
+  npdes_id: OH0128813
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030809
+  county: MAHONING
+  latitude: 41.08066
+  longitude: -80.53055
+  compliance_status: null
+  informal_enf_count: 2
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110006221560'
+  name: BELLWICK BOWLING LANES
+  npdes_id: OH0129283
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301020602'
+  county: TRUMBULL
+  latitude: 41.1567
+  longitude: -80.59806
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110006700141'
+  name: BELOIT WWTP
+  npdes_id: OH0024091
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.19
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030103'
+  county: MAHONING
+  latitude: 40.91567
+  longitude: -81.00395
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110013701878'
+  name: BEN'S RESTAURANT AND BAR
+  npdes_id: OH0140805
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: MAHONING RIVER
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030204'
+  county: MAHONING
+  latitude: 41.02355
+  longitude: -80.98801
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110039812904'
+  name: BESSEMER MUNI AUTH STP
+  npdes_id: PA0210471
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.35
+  design_flow_missing: false
+  receiving_water: HICKORY RUN
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030808
+  county: LAWRENCE
+  latitude: 40.97983
+  longitude: -80.46897
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110070264449'
+  name: BEYOND 1 MINE
+  npdes_id: PAM618048
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: UNT TO MAHONING RIVER
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030809
+  county: LAWRENCE COUNTY
+  latitude: 41.0311
+  longitude: -80.508
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110070054421'
+  name: BEYOND CORP 3 MINE
+  npdes_id: PAM616003
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: MARSHALL RUN
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030809
+  county: LAWRENCE COUNTY
+  latitude: 41.03575
+  longitude: -80.46622
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110071404637'
+  name: BLACK HAND PLOT MINE
+  npdes_id: PAM621004
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: MAHONING RIVER
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030809
+  county: LAWRENCE COUNTY
+  latitude: 41.030171
+  longitude: -80.51364
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110006282922'
+  name: BLACKBROOK VALLEY ESTATES
+  npdes_id: OH0038822
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.03
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030401'
+  county: PORTAGE
+  latitude: 41.26267
+  longitude: -81.14835
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110006221604'
+  name: BLUE WATER MANOR
+  npdes_id: OH0107433
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.052
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030601'
+  county: TRUMBULL
+  latitude: 41.16466
+  longitude: -80.91296
+  compliance_status: Effluent - Monthly Average Limit
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110002464226'
+  name: BOARDMAN WWTP
+  npdes_id: OH0037249
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 5.0
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030801
+  county: MAHONING
+  latitude: 41.00933
+  longitude: -80.69236
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110006282940'
+  name: BOLINGBROOK WWTP
+  npdes_id: OH0038768
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.128
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '041100020203'
+  county: PORTAGE
+  latitude: 41.159372
+  longitude: -81.23854
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110070938053'
+  name: BOSS STUDIO LLC
+  npdes_id: OH0150461
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301020602'
+  county: TRUMBULL COUNTY
+  latitude: 41.14951
+  longitude: -80.59589
+  compliance_status: Compliance/Permit Schedule - Violations
+  informal_enf_count: 2
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110029526476'
+  name: BRADLEY'S PRO PRESSURE WASH INC
+  npdes_id: OH0139327
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030503'
+  county: TRUMBULL
+  latitude: 41.28498
+  longitude: -80.73711
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110008615294'
+  name: BROWNING-FERRIS IND OF OH CARBON LIMESTONE LANDFILL
+  npdes_id: OHP000015
+  npdes_ids_secondary:
+  - OH0103128
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: Individual IU Permit (Non-NPDES)
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030809
+  county: MAHONING
+  latitude: 41.0
+  longitude: -80.525
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110070033316'
+  name: BRYAN ADAMS SRSTP
+  npdes_id: PAG041211
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: 0.0
+  design_flow_missing: false
+  receiving_water: HICKORY CREEK
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030808
+  county: LAWRENCE COUNTY
+  latitude: 40.97445
+  longitude: -80.51248
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110006282753'
+  name: CAMP ASBURY
+  npdes_id: OH0128325
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.009
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030401'
+  county: PORTAGE
+  latitude: 41.28507
+  longitude: -81.16054
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110006214998'
+  name: CAMP CARL
+  npdes_id: OH0151695
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030304'
+  county: PORTAGE
+  latitude: 41.11878
+  longitude: -81.10275
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110056978800'
+  name: CAMP JAMES A GARFIELD JOINT MILITARY TRAINING CENTER
+  npdes_id: OH0145564
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: UT TO SANDY CREEK
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030402'
+  county: PORTAGE
+  latitude: 41.215278
+  longitude: -81.053056
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110016761743'
+  name: CAMP STAMBAUGH, BOY SCOUTS OF AMERICA GREAT TRAIL
+  npdes_id: OH0134422
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0048
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030802
+  county: MAHONING
+  latitude: 41.00703
+  longitude: -80.72068
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110002321014'
+  name: CAMPBELL WWTP
+  npdes_id: OH0024325
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 1.9
+  design_flow_missing: false
+  receiving_water: MAHONING RIVER
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030807
+  county: MAHONING
+  latitude: 41.06458
+  longitude: -80.58985
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110006221819'
+  name: CANDYWOOD CELLAR
+  npdes_id: OH0147451
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: GUTHIEL DITCH, UT TO GITHIEL DITCH
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030704'
+  county: TRUMBULL
+  latitude: 41.224492
+  longitude: -80.7014
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110063916393'
+  name: CENTERRA CO-OP WILLIAMSFIELD
+  npdes_id: OH0123544
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030501'
+  county: ASHTABULA
+  latitude: 41.535755
+  longitude: -80.717143
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110071710843'
+  name: CERTIFIED OIL COMPANY STORE 410
+  npdes_id: OH0131326
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0015
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030304'
+  county: PORTAGE
+  latitude: 41.10436
+  longitude: -81.15441
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110006214738'
+  name: CIRCLE RESTAURANT
+  npdes_id: OH0091901
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030202'
+  county: PORTAGE
+  latitude: 41.02394
+  longitude: -81.04972
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110012566767'
+  name: CLEVELAND-CLIFFS CLEVELAND WORKS LLC - WARREN
+  npdes_id: OH0011274
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030603'
+  county: TRUMBULL
+  latitude: 41.211242
+  longitude: -80.81682
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110019896601'
+  name: COLEMAN PROFESSIONAL SEVICES
+  npdes_id: OH0136727
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: BIXON CREEK
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030304'
+  county: PORTAGE
+  latitude: 41.10259
+  longitude: -81.15212
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110008602119'
+  name: CORTLAND LOYAL ORDER OF MOOSE 1012
+  npdes_id: OH0133302
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0015
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030502'
+  county: TRUMBULL
+  latitude: 41.39292
+  longitude: -80.73691
+  compliance_status: Effluent - Monthly Average Limit
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110009640898'
+  name: COUNTRY ACRES RV RESORT
+  npdes_id: OH0128708
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.01
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030305'
+  county: PORTAGE
+  latitude: 41.17835
+  longitude: -81.03496
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110039410474'
+  name: COUNTRY SQUIRE M.H.P.
+  npdes_id: OH0140864
+  npdes_ids_secondary:
+  - OH0149497
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0198
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030103'
+  county: COLUMBIANA
+  latitude: 40.899167
+  longitude: -81.030833
+  compliance_status: null
+  informal_enf_count: 2
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110006699830'
+  name: COUNTRYSIDE ESTATES
+  npdes_id: OH0038539
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.035
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030304'
+  county: PORTAGE
+  latitude: 41.15643
+  longitude: -81.15345
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110064258850'
+  name: CRAIG BEACH WWTP
+  npdes_id: OH0043851
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 1.0
+  design_flow_missing: false
+  receiving_water: MAHONING RIVER
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030306'
+  county: MAHONING
+  latitude: 41.1284
+  longitude: -80.97758
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110006266502'
+  name: CURRIE ELEM SCH
+  npdes_id: OH0129071
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: UT OF CONFUSION RUN, UT TO CONFUSION RUN
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030503'
+  county: TRUMBULL
+  latitude: 41.30828
+  longitude: -80.69149
+  compliance_status: Failure to Report DMR - Not Received
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110009628126'
+  name: CUTTYS SUNSET CAMPING RESORT
+  npdes_id: OH0134627
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.02
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050400010501'
+  county: STARK
+  latitude: 40.95184
+  longitude: -81.24287
+  compliance_status: null
+  informal_enf_count: 2
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110010127193'
+  name: DAMASCUS WWTP
+  npdes_id: OH0129658
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.08
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030103'
+  county: MAHONING
+  latitude: 40.901444
+  longitude: -80.957479
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110056409916'
+  name: DBA ASSURANCE COOLING & HEATING
+  npdes_id: OH0145807
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030804
+  county: TRUMBULL
+  latitude: 41.14415
+  longitude: -80.61232
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110009153744'
+  name: DIEHL LAKE COLLECTION & WWTP
+  npdes_id: OH0129666
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.03
+  design_flow_missing: false
+  receiving_water: WEST BRANCH MEANDER CRK
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030701'
+  county: MAHONING
+  latitude: 41.01606
+  longitude: -80.85806
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110062633208'
+  name: DOLLAR GENERAL
+  npdes_id: OH0146234
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0002
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030406'
+  county: TRUMBULL
+  latitude: 41.229637
+  longitude: -80.906931
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110006352268'
+  name: EASTON SERVICE INC
+  npdes_id: OH0012785
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030501'
+  county: ASHTABULA
+  latitude: 41.53633
+  longitude: -80.73378
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110070029758'
+  name: EDINBURG DOLLAR GENERAL
+  npdes_id: PAC370001
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030809
+  county: LAWRENCE
+  latitude: 41.00859
+  longitude: -80.45758
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110070374853'
+  name: EDINBURG MINE
+  npdes_id: PAM618050
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: UNT TO MAHONING RIVER
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030809
+  county: LAWRENCE COUNTY
+  latitude: 41.02258
+  longitude: -80.45132
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110071994396'
+  name: FAIRVIEW ENTERPRISES
+  npdes_id: OH0151729
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0015
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030802
+  county: null
+  latitude: 41.015463
+  longitude: -80.765067
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110044240862'
+  name: FALCON FOUNDRY CO
+  npdes_id: OH0143081
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: UT OF THE MAHONING RIVER
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030809
+  county: MAHONING COUNTY
+  latitude: 41.03313
+  longitude: -80.52919
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110009674236'
+  name: FIRESIDE LAKE CAMP GROUND
+  npdes_id: OH0133043
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.02
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030101'
+  county: COLUMBIANA
+  latitude: 40.80045
+  longitude: -80.99389
+  compliance_status: Effluent - Monthly Average Limit
+  informal_enf_count: 2
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110030767285'
+  name: FOUNDRY SAND SERVICE LLC
+  npdes_id: OH0139289
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: UT TO MAHONING RIVER
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030103'
+  county: MAHONING
+  latitude: 40.91499
+  longitude: -81.04219
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110070112396'
+  name: FRUITLANDS FARM MARKET LLC
+  npdes_id: OH0147613
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030202'
+  county: PORTAGE COUNTY
+  latitude: 41.025359
+  longitude: -81.050397
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110008579788'
+  name: GARRETTSVILLE WWTP
+  npdes_id: OH0025330
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.5
+  design_flow_missing: false
+  receiving_water: EAGLE CREEK
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030403'
+  county: PORTAGE
+  latitude: 41.28605
+  longitude: -81.08652
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110067370561'
+  name: GAS LAND FOOD MART
+  npdes_id: OH0147303
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: MAHONING RIVER VIA UT, UT OF MAHONING RIVER
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030603'
+  county: TRUMBULL COUNTY
+  latitude: 41.26535
+  longitude: -80.80172
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110009822013'
+  name: GCO LTD
+  npdes_id: OH0064301
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030502'
+  county: TRUMBULL
+  latitude: 41.360318
+  longitude: -80.735373
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110008581659'
+  name: GENON REMA LLC NILES GENERATING STATION
+  npdes_id: OH0011533
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: MAHONING RIVER
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030705'
+  county: TRUMBULL
+  latitude: 41.1663
+  longitude: -80.7467
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110024583048'
+  name: GIONINO'S PIZZA
+  npdes_id: OH0136697
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: N/A, UT TO SILVER CREEK, W BRANCH OF MAHONING RIVER
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030304'
+  county: PORTAGE
+  latitude: 41.09956
+  longitude: -81.14083
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110006221935'
+  name: GIRARD WWTP
+  npdes_id: OH0025364
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 5.0
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030705'
+  county: TRUMBULL
+  latitude: 41.14309
+  longitude: -80.6965
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110030767301'
+  name: GRACE COMMUNITY CHURCH OF ALLIANCE
+  npdes_id: OH0139505
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030102'
+  county: STARK
+  latitude: 40.94519
+  longitude: -81.14502
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110071710513'
+  name: HAMLET MHP LLC
+  npdes_id: OH0091740
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030302'
+  county: PORTAGE
+  latitude: 41.15541
+  longitude: -81.20829
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110001623002'
+  name: HARBISON WALKER REFRACTORIES CO-WINDHAM PLT
+  npdes_id: OH0011762
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: ERIE LACKAWANNA RR COMPANY DISCHARGE DITCH TO SOUT
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030402'
+  county: PORTAGE
+  latitude: 41.23506
+  longitude: -81.04081
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110070884735'
+  name: HEIDELBERG MATERIALS US CEMENT BESSEMER PLT
+  npdes_id: PAG038390
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: 0.0
+  design_flow_missing: false
+  receiving_water: HICKORY RUN
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030808
+  county: LAWRENCE COUNTY
+  latitude: 40.972238
+  longitude: -80.491724
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110055236560'
+  name: HICKORY RUN ENERGY STATION
+  npdes_id: PA0272591
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 1.3
+  design_flow_missing: false
+  receiving_water: UNNAMED TRIB OF MAHONING RIVER, UNNAMED TRIB TO MAHONING RIVER,
+    UNT TO MAHONING RIVER
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030809
+  county: LAWRENCE
+  latitude: 40.99311
+  longitude: -80.4371
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110006694283'
+  name: HICKORY VIEW TERRACE WWTP
+  npdes_id: PA0104108
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.223
+  design_flow_missing: false
+  receiving_water: HICKORY RUN
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030808
+  county: LAWRENCE
+  latitude: 40.969929
+  longitude: -80.448288
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110070052213'
+  name: HILLSVILLE 1 MINE
+  npdes_id: PAM616013
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: UNNAMED TRIB TO MAHONING RIVER, UNT TO MAHONING RIVER
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030809
+  county: MAHONING COUNTY
+  latitude: 41.013083
+  longitude: -80.513881
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110070824453'
+  name: HILLTOP LANDFILL
+  npdes_id: OH0149454
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030702'
+  county: MAHONING COUNTY
+  latitude: 41.031408
+  longitude: -80.812349
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110006215185'
+  name: HIRAM WWTP
+  npdes_id: OH0025801
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.2
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030401'
+  county: PORTAGE
+  latitude: 41.30808
+  longitude: -81.14368
+  compliance_status: Compliance/Permit Schedule - Violations
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110009820961'
+  name: HOMESTEAD MANOR MHP
+  npdes_id: OH0123676
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030403'
+  county: PORTAGE
+  latitude: 41.27502
+  longitude: -81.07954
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110039021448'
+  name: INDUSTRIAL MINING - CITY STONE
+  npdes_id: OH0140881
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030306'
+  county: PORTAGE
+  latitude: 41.122416
+  longitude: -80.95616
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110044240880'
+  name: ISLAND CREEK GRILLE
+  npdes_id: OH0143294
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: N/A, NA, UT TO BERLIN RES.
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030204'
+  county: PORTAGE
+  latitude: 40.99034
+  longitude: -81.01714
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110027252719'
+  name: JAK'S FINE FOODS
+  npdes_id: OH0137049
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0025
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030502'
+  county: TRUMBULL
+  latitude: 41.38959
+  longitude: -80.73589
+  compliance_status: null
+  informal_enf_count: 2
+  formal_enf_count: 1
+  queried_huc8: '05030103'
+- frs_registry_id: '110070926150'
+  name: JIMER HOLDINGS LLC
+  npdes_id: OH0149594
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0005
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301020602'
+  county: TRUMBULL COUNTY
+  latitude: 41.1569
+  longitude: -80.59926
+  compliance_status: null
+  informal_enf_count: 2
+  formal_enf_count: 1
+  queried_huc8: '05030103'
+- frs_registry_id: '110020824465'
+  name: JOHN PACELLA
+  npdes_id: PAG049151
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: 0.0004
+  design_flow_missing: false
+  receiving_water: MAHONING RIVER
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030809
+  county: LAWRENCE
+  latitude: 40.996727
+  longitude: -80.397844
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110019895817'
+  name: JOHNSON FARM/PIONEER TRAIL CAMP
+  npdes_id: OH0136646
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: EAGLE CREEK
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030401'
+  county: PORTAGE
+  latitude: 41.29705
+  longitude: -81.17514
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110006225183'
+  name: JOLLY TIME MHP LLC
+  npdes_id: OH0123854
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030302'
+  county: PORTAGE
+  latitude: 41.1357
+  longitude: -81.19692
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110071668068'
+  name: JUDEH HOLDINGS, LLC
+  npdes_id: OH0151674
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030601'
+  county: null
+  latitude: 41.09886
+  longitude: -80.94865
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110070506366'
+  name: KIEWIT PROPOSED LAYDOWN/STAGING AREAS
+  npdes_id: PAC370024
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030809
+  county: LAWRENCE
+  latitude: 40.991111
+  longitude: -80.439444
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110071401615'
+  name: KILLING FIELDS MINE
+  npdes_id: PAM620003
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: MAHONING RIVER
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030809
+  county: LAWRENCE COUNTY
+  latitude: 41.030131
+  longitude: -80.511236
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110071878215'
+  name: KING'S COMPANY
+  npdes_id: OH0151658
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.001
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030704'
+  county: null
+  latitude: 41.181598
+  longitude: -80.707763
+  compliance_status: Compliance/Permit Schedule - Violations
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110006208996'
+  name: KINGS MOTEL STU 1
+  npdes_id: OH0147460
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: COFFEE RUN
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030809
+  county: MAHONING
+  latitude: 41.09068
+  longitude: -80.51996
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110004680355'
+  name: KMART WARREN DISTRIBUTION CENTER
+  npdes_id: OH0083909
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030603'
+  county: TRUMBULL
+  latitude: 41.279
+  longitude: -80.80162
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110006214836'
+  name: KMW II MHP ALL SEASONS MHP
+  npdes_id: OH0098167
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.055
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030202'
+  county: PORTAGE
+  latitude: 41.04575
+  longitude: -81.08066
+  compliance_status: null
+  informal_enf_count: 3
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110009687348'
+  name: KNOX ELEMENTARY SCHOOL - WEST BRANCH
+  npdes_id: OH0137138
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030101'
+  county: COLUMBIANA
+  latitude: 40.859194
+  longitude: -81.03102
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110071667898'
+  name: KURT KLINGELHOFER FARM
+  npdes_id: OH0151669
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030204'
+  county: null
+  latitude: 40.98834
+  longitude: -81.111611
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110001629284'
+  name: L. B. FOSTER COMPANY
+  npdes_id: OH0140724
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030703'
+  county: TRUMBULL
+  latitude: 41.16298
+  longitude: -80.77773
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110009820630'
+  name: LAKE MILTON/BERLIN KOA
+  npdes_id: OH0128350
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.005
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030306'
+  county: MAHONING
+  latitude: 41.106642
+  longitude: -80.943056
+  compliance_status: Effluent - Monthly Average Limit
+  informal_enf_count: 2
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110004590595'
+  name: LAKE PARK TOOL & MACHINE OF OHIO LLC
+  npdes_id: OH0012165
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: PINE HOLLOW CREEK
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030807
+  county: MAHONING
+  latitude: 41.05239
+  longitude: -80.63174
+  compliance_status: null
+  informal_enf_count: 2
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110006699723'
+  name: LAKEVIEW MHP
+  npdes_id: OH0044881
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: MOSQUITO CREEK, N/A
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030503'
+  county: TRUMBULL
+  latitude: 41.29773
+  longitude: -80.75969
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110067187323'
+  name: LEAVITTSBURG CHURCH OF THE NAZARENE
+  npdes_id: OH0147133
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0015
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030603'
+  county: TRUMBULL COUNTY
+  latitude: 41.24628
+  longitude: -80.872595
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110011014464'
+  name: LEISURE LAKE PARK
+  npdes_id: OH0129330
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030305'
+  county: PORTAGE
+  latitude: 41.13609
+  longitude: -81.05401
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110070031956'
+  name: LIFE LAWRENCE
+  npdes_id: PAC370003
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030809
+  county: LAWRENCE
+  latitude: 41.017684
+  longitude: -80.410392
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110071726916'
+  name: LINDY PAVING HILLSVILLE ASPHALT PLT
+  npdes_id: PAG038452
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: 0.0
+  design_flow_missing: false
+  receiving_water: UNNAMED TRIB TO MAHONING RIVER, UNT TO MAHONING RIVER
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030809
+  county: null
+  latitude: 41.018333
+  longitude: -80.518333
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110070204101'
+  name: LORDSTOWN CONSTRUCTION RECOVERY
+  npdes_id: OH0147346
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: UT DUCK CREEK
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030601'
+  county: TRUMBULL COUNTY
+  latitude: 41.187778
+  longitude: -80.905833
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110070687819'
+  name: LOVE'S TRAVEL STOPS - DIAMOND, OH
+  npdes_id: OH0149489
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.026
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030301'
+  county: PORTAGE COUNTY
+  latitude: 41.108639
+  longitude: -81.049558
+  compliance_status: null
+  informal_enf_count: 2
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110072324791'
+  name: MAHONING COUNTY ENGINEERS
+  npdes_id: OHGU00980
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030805
+  county: null
+  latitude: 40.94707
+  longitude: -80.65828
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110063926033'
+  name: MAHONING TWP WWTP
+  npdes_id: PA0240095
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.36
+  design_flow_missing: false
+  receiving_water: MAHONING RIVER
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030809
+  county: LAWRENCE
+  latitude: 41.01514
+  longitude: -80.44351
+  compliance_status: null
+  informal_enf_count: 3
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110000557932'
+  name: MAHONING VALLEY SANITARY DIST
+  npdes_id: OH0107395
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: MAHONING RVR VIA MEANDER
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030703'
+  county: TRUMBULL
+  latitude: 41.15516
+  longitude: -80.77675
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110008579822'
+  name: MAPLE DEL MANOR MHP
+  npdes_id: OH0045641
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030304'
+  county: PORTAGE
+  latitude: 41.1631
+  longitude: -81.16476
+  compliance_status: null
+  informal_enf_count: 2
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110006265889'
+  name: MAPLEWOOD HS
+  npdes_id: OH0128571
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030502'
+  county: TRUMBULL
+  latitude: 41.38951
+  longitude: -80.73267
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110046568987'
+  name: MARLBORO VILLAGE WWTP
+  npdes_id: OH0144461
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.052
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030201'
+  county: STARK
+  latitude: 40.95919
+  longitude: -81.21375
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110070831059'
+  name: MARLINGTON LOCAL SCHOOL DISTRICT
+  npdes_id: OH0150304
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.006
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030201'
+  county: STARK COUNTY
+  latitude: 40.951815
+  longitude: -81.242033
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110064265824'
+  name: MARLINGTON LOCAL SCHOOLS
+  npdes_id: OH0045675
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: LITTLE BEECH CREEK VIA UT, UT OF LITTLE BEECH CR.
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030102'
+  county: STARK
+  latitude: 40.92354
+  longitude: -81.17584
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110004625512'
+  name: MCDONALD STEEL CORP
+  npdes_id: OH0064220
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030705'
+  county: TRUMBULL
+  latitude: 41.169109
+  longitude: -80.72429
+  compliance_status: Effluent - Non-monthly Average Limit
+  informal_enf_count: 1
+  formal_enf_count: 1
+  queried_huc8: '05030103'
+- frs_registry_id: '110070051783'
+  name: MCQUISTON MINE
+  npdes_id: PA0227188
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: UNNAMED TRIB TO HICKORY RUN, UNNAMED TRIB TO MAHONING RIVER, UNNAMED
+    TRIB TO MUDDY CREEK, UNT TO MAHONING RIVER
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030809
+  county: LAWRENCE COUNTY
+  latitude: 40.9851
+  longitude: -80.47798
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110006296864'
+  name: MEADOW CREEK MHP
+  npdes_id: OH0128317
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030601'
+  county: MAHONING
+  latitude: 41.132527
+  longitude: -80.918206
+  compliance_status: Effluent - Non-monthly Average Limit
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110071541632'
+  name: MEADOWBROOK WATER RECLAMATION FACILITY
+  npdes_id: OH0151636
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.325
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030603'
+  county: TRUMBULL COUNTY
+  latitude: 41.258661
+  longitude: -80.868095
+  compliance_status: Compliance/Permit Schedule - Violations
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110064643658'
+  name: MEANDER WPCF
+  npdes_id: OH0045721
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 4.0
+  design_flow_missing: false
+  receiving_water: DOWNSTREAM OF WPCF, INFLUENT TO WWTP, INTERNAL BYPASS, LANDFILL,
+    MEANDER CREEK, OTHER NPDES PERMITTEE, UPSTREAM OF WPCF
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030703'
+  county: TRUMBULL
+  latitude: 41.1547
+  longitude: -80.77153
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110072256444'
+  name: MECCA TOWN HALL & CHILD CARE CENTER
+  npdes_id: OH0151787
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.001
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030502'
+  county: null
+  latitude: 41.385329
+  longitude: -80.73678
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110009821684'
+  name: MECCA WWTP
+  npdes_id: OH0091634
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.055
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030502'
+  county: TRUMBULL
+  latitude: 41.379551
+  longitude: -80.736833
+  compliance_status: Effluent - Monthly Average Limit
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110070131677'
+  name: MIDLAND MINE
+  npdes_id: PAM619004
+  npdes_ids_secondary:
+  - PAM617023
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: UNNAMED TRIB TO HICKORY RUN, UNT TO HICKORY RUN
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030808
+  county: LAWRENCE
+  latitude: 40.9851
+  longitude: -80.47798
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110006265674'
+  name: MIDWAY MOBILE HOMES LLC
+  npdes_id: OH0102865
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: UT OF SOUTH BRANCH YANKEE RUN
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301020601'
+  county: TRUMBULL
+  latitude: 41.2468
+  longitude: -80.66379
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110007709676'
+  name: MILLER TRANSFER & RIGGING CO
+  npdes_id: OH0148644
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: LAGOON
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030304'
+  county: PORTAGE
+  latitude: 41.0946
+  longitude: -81.14586
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110071727887'
+  name: MINERAL PROC SPECIALTIES BESSEMER PLT
+  npdes_id: PAG038609
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: 0.0
+  design_flow_missing: false
+  receiving_water: HICKORY RUN
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030808
+  county: LAWRENCE COUNTY
+  latitude: 40.973889
+  longitude: -80.487222
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110006215522'
+  name: MODERN MANAGEMENT SOLUTIONS DBA PM ESTATE
+  npdes_id: OH0044300
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.05
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030403'
+  county: PORTAGE
+  latitude: 41.26272
+  longitude: -81.0583
+  compliance_status: null
+  informal_enf_count: 3
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110070834475'
+  name: MOHAWK AREA SCHOOL DISTRICT ATHLETIC FIELD ADDITIONS
+  npdes_id: PAC370076
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030808
+  county: LAWRENCE COUNTY
+  latitude: 40.977735
+  longitude: -80.453392
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110070925098'
+  name: MOUNT JACKSON BARN
+  npdes_id: PAC370045
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030808
+  county: LAWRENCE
+  latitude: 40.96638
+  longitude: -80.4282
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110004609889'
+  name: MPI LABEL SYSTEMS
+  npdes_id: OHP000216
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: Individual IU Permit (Non-NPDES)
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030103'
+  county: MAHONING
+  latitude: 40.93769
+  longitude: -81.025796
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110058285608'
+  name: NEW CASTLE BULK PLT
+  npdes_id: PAG038302
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: 0.0
+  design_flow_missing: false
+  receiving_water: MAHONING RIVER
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030809
+  county: LAWRENCE
+  latitude: 40.96885
+  longitude: -80.38304
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110000561160'
+  name: NEW CASTLE SAN AUTH/ STP
+  npdes_id: PA0027511
+  npdes_ids_secondary:
+  - PAC370030
+  - PAL027511
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 17.0
+  design_flow_missing: false
+  receiving_water: MAHONING RIVER
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030809
+  county: LAWRENCE
+  latitude: 40.96845
+  longitude: -80.38284
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110008581472'
+  name: NEWTON FALLS WPC
+  npdes_id: OH0022110
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 1.5
+  design_flow_missing: false
+  receiving_water: E. BRANCH MAHONING RIVER
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030306'
+  county: TRUMBULL COUNTY
+  latitude: 41.19234
+  longitude: -80.96664
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110071204555'
+  name: NICHOLAS CASTALDI SRSTP
+  npdes_id: PA0289736
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0
+  design_flow_missing: false
+  receiving_water: UNT TO MAHONING RIVER
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030809
+  county: LAWRENCE COUNTY
+  latitude: 40.98703
+  longitude: -80.44031
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110002452122'
+  name: NILES WWTP
+  npdes_id: OH0026743
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 6.2
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030705'
+  county: TRUMBULL
+  latitude: 41.17132
+  longitude: -80.738
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110011017158'
+  name: ODNR BEACH AREA W BRANCH SP
+  npdes_id: OH0037893
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.1
+  design_flow_missing: false
+  receiving_water: MICHAEL J KIRWAN RESERVOIR, MICHAEL J. KIRWAN RESERVOIR
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030304'
+  county: PORTAGE
+  latitude: 41.14082
+  longitude: -81.11803
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110006699288'
+  name: ODOT REST AREA 04-35 WWTP
+  npdes_id: OH0092495
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030304'
+  county: PORTAGE
+  latitude: 41.159372
+  longitude: -81.23854
+  compliance_status: null
+  informal_enf_count: 2
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110064545880'
+  name: OHIO STAR FORGE CO
+  npdes_id: OH0133094
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030603'
+  county: TRUMBULL
+  latitude: 41.271429
+  longitude: -80.839373
+  compliance_status: Effluent - Monthly Average Limit
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110070598512'
+  name: OHIO STATE HIGHWAY PATROL - WARREN DHQ POST 78
+  npdes_id: OH0149390
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: UT TO EAGLE CREEK/MAHONING RIVER
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030405'
+  county: TRUMBULL COUNTY
+  latitude: 41.283529
+  longitude: -80.920915
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110006803174'
+  name: OHSO SOUTHINGTON MHP LLC
+  npdes_id: OH0107514
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '041100040101'
+  county: TRUMBULL
+  latitude: 41.29407
+  longitude: -80.96613
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110006239061'
+  name: PALMYRA LITTLE VILLAGE SHOPPER LLC
+  npdes_id: OH0125792
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: UT OF KALE CREEK
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030301'
+  county: PORTAGE
+  latitude: 41.09887
+  longitude: -81.05016
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110006297211'
+  name: PAUL W CENE DBA ASPEN RESERVE LLC
+  npdes_id: OH0143332
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030701'
+  county: MAHONING
+  latitude: 41.00272
+  longitude: -80.82514
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110064265575'
+  name: PELICAN COVE CAMPGROUND
+  npdes_id: OH0133400
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030204'
+  county: PORTAGE
+  latitude: 41.007663
+  longitude: -81.042103
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110013668968'
+  name: PIOUS SOCIETY OF ST. PAUL
+  npdes_id: OH0128414
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.02
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030701'
+  county: MAHONING
+  latitude: 41.02449
+  longitude: -80.82708
+  compliance_status: Effluent - Monthly Average Limit
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110006265530'
+  name: PLEASANT PARK MOBILE COURT
+  npdes_id: OH0107522
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030406'
+  county: TRUMBULL
+  latitude: 41.26704
+  longitude: -80.88465
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110011944655'
+  name: PLEASANT VALLEY CHURCH AND SCHOOL
+  npdes_id: OH0139556
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030704'
+  county: TRUMBULL
+  latitude: 41.19889
+  longitude: -80.68081
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110006237919'
+  name: PRO INVESTMENT GROUP LLC
+  npdes_id: OH0126225
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0015
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030202'
+  county: PORTAGE
+  latitude: 41.024663
+  longitude: -81.053185
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110006234690'
+  name: QUEEN OF THE HOLY ROSARY CHURCH
+  npdes_id: OH0129054
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: SQUAW CREEK, UT TO GIRARD LAKE, UT TO GUTHIEL DITCH
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030704'
+  county: TRUMBULL
+  latitude: 41.23666
+  longitude: -80.70808
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110071655982'
+  name: RANDY BOYLES SRSTP
+  npdes_id: PAG041249
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: 0.0
+  design_flow_missing: false
+  receiving_water: UNT TO HICKORY RUN
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030808
+  county: null
+  latitude: 40.964444
+  longitude: -80.467222
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110071324429'
+  name: RANKIN LAWN CARE INC
+  npdes_id: OH0151611
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030201'
+  county: STARK COUNTY
+  latitude: 40.966101
+  longitude: -81.250541
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110071365451'
+  name: REGAL EQUIPMENT INC
+  npdes_id: OH0151602
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030304'
+  county: PORTAGE COUNTY
+  latitude: 41.10244
+  longitude: -81.153397
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110020689897'
+  name: RIDGE RANCH CAMPGROUNDS
+  npdes_id: OH0131474
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030405'
+  county: TRUMBULL
+  latitude: 41.23596
+  longitude: -80.98559
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110002319973'
+  name: RINKER MATERIALS - CONCRETE PIPE DIV
+  npdes_id: OH0129178
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: KALE CREEK
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030301'
+  county: PORTAGE
+  latitude: 41.1055
+  longitude: -81.02128
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110071401828'
+  name: RIVER LAUNCH MINE
+  npdes_id: PAM620006
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: COFFEE RUN
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030809
+  county: LAWRENCE COUNTY
+  latitude: 41.025278
+  longitude: -80.496944
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110040094867'
+  name: RIVERMOOR ESTATES WWTP
+  npdes_id: OH0092045
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0425
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '041100020303'
+  county: PORTAGE
+  latitude: 41.15278
+  longitude: -81.24513
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110000389721'
+  name: RMI TITANIUM COMPANY LLC
+  npdes_id: OH0010863
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030603'
+  county: TRUMBULL
+  latitude: 41.18652
+  longitude: -80.78298
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110070503678'
+  name: RYAN B MINE
+  npdes_id: PAM618074
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: MAHONING RIVER
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030809
+  county: LAWRENCE COUNTY
+  latitude: 40.97737
+  longitude: -80.39082
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110070054384'
+  name: RYAN MINE
+  npdes_id: PAM612009
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: UNNAMED TRIB TO MAHONING RIVER, UNT TO MAHONING RIVER
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030809
+  county: LAWRENCE COUNTY
+  latitude: 41.00081
+  longitude: -80.41771
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110000389981'
+  name: SCHAEFER EQUIPMENT INC
+  npdes_id: OH0151779
+  npdes_ids_secondary:
+  - OH0087921
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030603'
+  county: TRUMBULL
+  latitude: 41.26439
+  longitude: -80.79634
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110064209985'
+  name: SEALMASTER MFG OF PA STORM WATER
+  npdes_id: PAG038416
+  npdes_ids_secondary:
+  - PAR238304
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: 0.0
+  design_flow_missing: false
+  receiving_water: MAHONING RIVER
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030809
+  county: LAWRENCE
+  latitude: 41.01299
+  longitude: -80.485897
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110004698337'
+  name: SEBRING INDUSTRIAL PLATING CO
+  npdes_id: OHP000140
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: Individual IU Permit (Non-NPDES)
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030103'
+  county: MAHONING
+  latitude: 40.91999
+  longitude: -81.028
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110064267083'
+  name: SEBRING WTP
+  npdes_id: OH0030368
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030103'
+  county: MAHONING
+  latitude: 40.8839
+  longitude: -81.03213
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110045500720'
+  name: SHADELAND APTS LLP
+  npdes_id: OH0144223
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030806
+  county: MAHONING
+  latitude: 40.978611
+  longitude: -80.629444
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110006265380'
+  name: SHORT STOP TRUCK PLAZA
+  npdes_id: OH0117561
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.01
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030406'
+  county: TRUMBULL
+  latitude: 41.23256
+  longitude: -80.9005
+  compliance_status: Failure to Report DMR - Not Received
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110044245938'
+  name: SILVER STAR LOUNGE
+  npdes_id: OH0143987
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030804
+  county: TRUMBULL
+  latitude: 41.14573
+  longitude: -80.6091
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110070249809'
+  name: SKY HILL MINE
+  npdes_id: PAM618040
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: MARSHALL RUN
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030809
+  county: LAWRENCE COUNTY
+  latitude: 41.04589
+  longitude: -80.46601
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110072254500'
+  name: SKY ROOFING, INC.
+  npdes_id: OH0151783
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0005
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030801
+  county: null
+  latitude: 40.988151
+  longitude: -80.744997
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110070053010'
+  name: SMOKEY HOLLOW MINE
+  npdes_id: PAM613004
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: UNNAMED TRIB TO HICKORY RUN, UNT TO HICKORY RUN
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030808
+  county: LAWRENCE COUNTY
+  latitude: 40.96433
+  longitude: -80.49501
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110009152932'
+  name: SOUTHEAST HIGH SCHOOL
+  npdes_id: OH0038571
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030304'
+  county: PORTAGE
+  latitude: 41.09905
+  longitude: -81.09407
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110040045073'
+  name: SOUTHINGTON LOCAL SCHOOL
+  npdes_id: OH0142760
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.012
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030405'
+  county: TRUMBULL
+  latitude: 41.28627
+  longitude: -80.96402
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110000849921'
+  name: SPECTRUM METAL FINISHING INC
+  npdes_id: OHP000145
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: Individual IU Permit (Non-NPDES)
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030806
+  county: MAHONING
+  latitude: 40.99342
+  longitude: -80.64249
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110004660867'
+  name: STARR MANUFACTURING INC
+  npdes_id: OH0150576
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: UT OF UPPER GIRARD LAKE
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030704'
+  county: TRUMBULL
+  latitude: 41.23784
+  longitude: -80.66876
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110006209361'
+  name: STATE LINE OHIO
+  npdes_id: OH0128309
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030809
+  county: MAHONING
+  latitude: 41.08862
+  longitude: -80.52399
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: 1
+  queried_huc8: '05030103'
+- frs_registry_id: '110009631434'
+  name: STONEYBROOKE VILLAGE MHP
+  npdes_id: OH0092461
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.03
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030804
+  county: TRUMBULL
+  latitude: 41.167111
+  longitude: -80.606972
+  compliance_status: Effluent - Monthly Average Limit
+  informal_enf_count: 2
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110001123748'
+  name: STRUTHERS WWTP
+  npdes_id: OH0027600
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 6.0
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030809
+  county: MAHONING
+  latitude: 41.04675
+  longitude: -80.57041
+  compliance_status: Failure to Report DMR - Not Received
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110054894290'
+  name: TA YOUNGSTOWN
+  npdes_id: OH0131539
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: UT TO MEANDER RESERVOIR
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030703'
+  county: MAHONING
+  latitude: 41.122435
+  longitude: -80.766164
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110009635564'
+  name: TANNENHAUF GOLF CLUB CLUBHOUSE
+  npdes_id: OH0150355
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0025
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030102'
+  county: STARK
+  latitude: 40.93482
+  longitude: -81.17269
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110040608107'
+  name: THE DIAMOND LODGE
+  npdes_id: OH0142921
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.01
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030304'
+  county: PORTAGE
+  latitude: 41.07446
+  longitude: -81.11469
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110013676076'
+  name: THE MANOR RESTAURANT
+  npdes_id: OH0131628
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0021
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030702'
+  county: MAHONING
+  latitude: 41.079583
+  longitude: -80.762694
+  compliance_status: null
+  informal_enf_count: 2
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110057439446'
+  name: THERM-O-LINK, INC.
+  npdes_id: OH0121550
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030403'
+  county: PORTAGE
+  latitude: 41.27796
+  longitude: -81.10709
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110064639057'
+  name: THOMAS STEEL STRIP CORPORATION - TATA STEEL PLATING
+  npdes_id: OH0011363
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030603'
+  county: TRUMBULL
+  latitude: 41.23765
+  longitude: -80.8491
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110006342671'
+  name: TIMASHAMIE FAMILY CAMPGROUND
+  npdes_id: OH0131385
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: MAHONING RIVER
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030101'
+  county: COLUMBIANA
+  latitude: 40.84847
+  longitude: -80.97033
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110045521217'
+  name: TRUMBULL CTY SANITARY ENG NEWTON FALLS NO 2
+  npdes_id: OH0091642
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0125
+  design_flow_missing: false
+  receiving_water: DUCK CREEK
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030601'
+  county: TRUMBULL
+  latitude: 41.16166
+  longitude: -80.92811
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110070216961'
+  name: TRUMBULL ENERGY CENTER
+  npdes_id: OH0148474
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030602'
+  county: TRUMBULL COUNTY
+  latitude: 41.148283
+  longitude: -80.85709
+  compliance_status: Effluent - Monthly Average Limit
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110000735483'
+  name: TRUMBULL MOSQUITO CREEK WWTP
+  npdes_id: OH0043401
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 4.2
+  design_flow_missing: false
+  receiving_water: MOSQUITO CREEK
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030503'
+  county: TRUMBULL
+  latitude: 41.25198
+  longitude: -80.75875
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110006271337'
+  name: US ARMY CORPS OF ENGINEERS - BERLIN LAKE
+  npdes_id: OH0023671
+  npdes_ids_secondary: []
+  ownership: Federal
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.03
+  design_flow_missing: false
+  receiving_water: BERLIN LAKE
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030204'
+  county: MAHONING
+  latitude: 41.01038
+  longitude: -80.98625
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110006265237'
+  name: VALLEY MHP
+  npdes_id: OH0128953
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030804
+  county: TRUMBULL
+  latitude: 41.1485
+  longitude: -80.60477
+  compliance_status: Effluent - Monthly Average Limit
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110009821559'
+  name: VIENNA WWTP NO 1
+  npdes_id: OH0097993
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.019
+  design_flow_missing: false
+  receiving_water: TRIBUTARY OF SQUAW CREEK
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030704'
+  county: TRUMBULL
+  latitude: 41.14711
+  longitude: -80.69874
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110010963751'
+  name: VILLA MARIA COMM CTR
+  npdes_id: PA0101851
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.03
+  design_flow_missing: false
+  receiving_water: UNNAMED TRIB TO COFFEE RUN, UNT TO COFFEE RUN
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030809
+  county: LAWRENCE
+  latitude: 41.075293
+  longitude: -80.504224
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110015645293'
+  name: VILLA MARIA TERESA WASTEWATER TREATMENT
+  npdes_id: OH0126004
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0024
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030804
+  county: TRUMBULL
+  latitude: 41.171
+  longitude: -80.63109
+  compliance_status: null
+  informal_enf_count: 2
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110006296819'
+  name: VILLAGE OF LOWELLVILLE
+  npdes_id: OH0026204
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.512
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030809
+  county: MAHONING
+  latitude: 41.03473
+  longitude: -80.532189
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: 1
+  queried_huc8: '05030103'
+- frs_registry_id: '110039731920'
+  name: VILLAGE OF SEBRING WWTP
+  npdes_id: OH0020443
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 1.5
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030103'
+  county: MAHONING
+  latitude: 40.9319
+  longitude: -81.02499
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110041946142'
+  name: WARREN FAMILY MISSION
+  npdes_id: OH0143031
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: SQUAW CREEK, TRIB OF SQUAW CREEK
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030704'
+  county: TRUMBULL
+  latitude: 41.23823
+  longitude: -80.68726
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110039702346'
+  name: WARREN NO 3 WWTP
+  npdes_id: OH0091651
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0125
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030406'
+  county: TRUMBULL
+  latitude: 41.24515
+  longitude: -80.89941
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110001625965'
+  name: WARREN WPCF
+  npdes_id: OH0027987
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 16.0
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030603'
+  county: TRUMBULL
+  latitude: 41.208025
+  longitude: -80.815204
+  compliance_status: Effluent - Monthly Average Limit
+  informal_enf_count: 2
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110006271177'
+  name: WASHINGTON ELEMENTARY SCHOOL
+  npdes_id: OH0131563
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030102'
+  county: STARK
+  latitude: 40.85587
+  longitude: -81.13391
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110006280791'
+  name: WATERLOO K-12 CAMPUS
+  npdes_id: OH0128716
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.02
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030201'
+  county: PORTAGE
+  latitude: 41.02854
+  longitude: -81.19493
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110031274779'
+  name: WEST BRANCH NURSING HOME LLC
+  npdes_id: OH0139637
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: NA
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030103'
+  county: COLUMBIANA
+  latitude: 40.89487
+  longitude: -80.95244
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110070155718'
+  name: WEST PITTSBURG 1 MINE
+  npdes_id: PAM617047
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: SHENANGO RIVER
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301040101'
+  county: LAWRENCE COUNTY
+  latitude: 40.95768
+  longitude: -80.38044
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110070251832'
+  name: WEST PITTSBURG 2 MINE
+  npdes_id: PAM618039
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: SHENANGO RIVER
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301040101'
+  county: LAWRENCE COUNTY
+  latitude: 40.95486
+  longitude: -80.38177
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110004706426'
+  name: WESTERN RESERVE HIGH SCHOOL
+  npdes_id: OH0143278
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030203'
+  county: MAHONING
+  latitude: 41.02695
+  longitude: -80.914579
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110009820514'
+  name: WESTERN RESERVE PARK
+  npdes_id: OH0129321
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030701'
+  county: MAHONING
+  latitude: 40.98802
+  longitude: -80.849545
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110006215577'
+  name: WESTERN RESERVE WWTP
+  npdes_id: OH0038547
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.022
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030403'
+  county: PORTAGE
+  latitude: 41.31083
+  longitude: -81.09758
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110006273647'
+  name: WHINERY ELM INN
+  npdes_id: OH0140902
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: NA
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050400010502'
+  county: STARK
+  latitude: 40.8703
+  longitude: -81.19087
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110006209343'
+  name: WHITE HOUSE FRUIT FARM INC.
+  npdes_id: OH0143103
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0025
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030701'
+  county: MAHONING
+  latitude: 40.98604
+  longitude: -80.80751
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110071710773'
+  name: WINDHAM VILLAGE WWTP
+  npdes_id: OH0045462
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.45
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301030402'
+  county: PORTAGE
+  latitude: 41.2349
+  longitude: -81.02414
+  compliance_status: Compliance/Permit Schedule - Violations
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110002111900'
+  name: YOUNGSTOWN HARD CHROME PLATING & GRINDING INC
+  npdes_id: OH0064238
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: MILL CREEK
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030801
+  county: MAHONING
+  latitude: 40.99315
+  longitude: -80.65267
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110000576494'
+  name: YOUNGSTOWN WWTP
+  npdes_id: OH0028223
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 35.0
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: 050301030807
+  county: MAHONING
+  latitude: 41.0917
+  longitude: -80.64189
+  compliance_status: null
+  informal_enf_count: 3
+  formal_enf_count: null
+  queried_huc8: '05030103'
+- frs_registry_id: '110000389598'
+  name: ZARBANA ALUMINUM EXTRUSION LLC
+  npdes_id: OH0011452
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: EAST BRANCH OF MIDDLE FORK OF LITTLE BEAVER CREEK
+  huc8: '05030103'
+  huc8_name: Mahoning
+  huc12: '050301010401'
+  county: COLUMBIANA
+  latitude: 40.889167
+  longitude: -80.711858
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '05030103'

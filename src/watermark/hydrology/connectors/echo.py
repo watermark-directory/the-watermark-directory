@@ -3,7 +3,8 @@
 Pulls the inventory of CWA-permitted facilities in a watershed from ECHO's Clean
 Water Act REST services (``cwa_rest_services``) at ``echodata.epa.gov``. Used to
 build verified per-basin inventories of wastewater dischargers (the Maumee, Great
-Miami, Little Miami, Scioto, Ohio Brush Creek, Portage, Muskingum and Sandusky today;
+Miami, Little Miami, Scioto, Ohio Brush Creek, Portage, Muskingum, Sandusky, Cuyahoga,
+Mahoning and Hocking today;
 a basin is a :class:`Basin` registry entry, never hardcoded).
 
 A basin is a set of USGS HUC-8 subbasins (e.g. the Maumee's seven in
@@ -16,7 +17,9 @@ Call pattern, per HUC-8 (mirrors the documented ECHO flow):
 
 1. ``get_facilities`` (``p_huc``, ``p_act=Y``) validates the query and returns a
    **QID** (query id, valid ~30 min) plus summary stats including a row count.
-2. ``get_qid`` pages the result set as JSON, selecting columns by ID (``qcolumns``).
+2. ``get_qid`` pages the result set as JSON, selecting columns by ID (``qcolumns``). The IDs
+   are resolved by ObjectName from the service's own ``metadata`` call on every pull, never
+   typed in (:func:`_resolve_qcolumns`).
 
 Every response is recorded through :func:`_cache.cached_get` so a rerun never
 re-fetches — which also keeps us comfortably under ECHO's throttle (300 req/hr,
@@ -25,8 +28,11 @@ never fabricates or infers a facility, permit, or value the API did not return.
 
 Synchronous (``httpx.Client``) to match BOSC's otherwise-sync pipeline layer.
 
-Verified against ``cwa_rest_services`` metadata ``CWA v2017-10-13 1325``
-(260 result columns). Notably **CWNS ID is NOT a column** in this service — see
+Built against ``cwa_rest_services`` metadata ``CWA v2017-10-13 1325`` (260 result columns).
+By 2026-11-02 the service listed 262 and the IDs of twelve of the columns read here had moved
+by two, which a hardcoded ObjectName -> ColumnID table turned into a pull that requested the
+wrong columns and parsed nulls (every row ``facility_type: null``, so zero POTWs) without
+raising. Notably **CWNS ID is NOT a column** in this service — see
 the module note in :mod:`watermark.cli` / the inventory output for that gap.
 
 The one thing that is *not* verbatim ECHO is the **curated receiving-water overlay**
@@ -164,7 +170,7 @@ PORTAGE_HUC8S: dict[str, str] = {
 #
 # Network points, each verified against the same WBD service by its `data/sites.yaml` coordinate:
 # mansfield -> 05040002 (Mohican), coshocton -> 05040004 (Muskingum), newark -> 05040006
-# (Licking), zanesville -> 05040004 (Muskingum). new-albany returns 05060001 (Upper Scioto) and
+# (Licking), zanesville -> 05040004 (Muskingum), canton -> 05040001 (Tuscarawas). new-albany returns 05060001 (Upper Scioto) and
 # stays a Scioto site — SCIOTO's caveat about that cluster spilling east over the divide into the
 # Licking describes the CLUSTER, not the registry point, and neither basin claims the other's.
 MUSKINGUM_HUC8S: dict[str, str] = {
@@ -186,6 +192,37 @@ MUSKINGUM_HUC8S: dict[str, str] = {
 # the WBD service by its `data/sites.yaml` coordinate: sandusky, fremont, tiffin and bucyrus.
 SANDUSKY_HUC8S: dict[str, str] = {
     "04100011": "Sandusky",
+}
+
+# The Cuyahoga River basin (subregion 0411, Southern Lake Erie): the single HUC-8 cataloging unit
+# 04110002 "Cuyahoga", enumerated from the same USGS WBD service (`huc8 LIKE '0411%'` returns four
+# units, all draining to Lake Erie independently). Wholly in Ohio.
+#
+# Its three neighbours in 0411 — 04110001 Black-Rocky, 04110003 Ashtabula-Chagrin and 04110004
+# Grand — are SIBLINGS that reach the lake on their own, not Cuyahoga drainage, which is why they
+# are absent here. That split runs through the network itself. Located against the WBD service by
+# their `data/sites.yaml` coordinate, akron and shalersville sit in 04110002, but cleveland's
+# Census place centroid returns 04110003 Ashtabula-Chagrin (the east-side frontal drainage).
+# Cleveland keeps `cuyahoga` as its regional basin group, and this inventory does not cover the
+# frontal unit its registry point lands in.
+CUYAHOGA_HUC8S: dict[str, str] = {
+    "04110002": "Cuyahoga",
+}
+
+# The Mahoning River basin (subregion 0503, Upper Ohio): the single HUC-8 cataloging unit 05030103
+# "Mahoning", from the same WBD service. WBD lists it `states=OH,PA`: the river crosses the state
+# line below Youngstown, so the pull returns Pennsylvania dischargers too. Both network points,
+# lordstown and youngstown, were located inside 05030103 by their `data/sites.yaml` coordinate.
+MAHONING_HUC8S: dict[str, str] = {
+    "05030103": "Mahoning",
+}
+
+# The Hocking River basin (subregion 0503, Upper Ohio): the single HUC-8 cataloging unit 05030204
+# "Hocking", from the same WBD service, wholly in Ohio and draining directly to the Ohio River.
+# Both network points, lancaster and athens, were located inside it by their `data/sites.yaml`
+# coordinate.
+HOCKING_HUC8S: dict[str, str] = {
+    "05030204": "Hocking",
 }
 
 
@@ -402,6 +439,70 @@ SANDUSKY = Basin(
         "downstream of a Maumee or Portage one and must never borrow either basin's denominator.",
     ),
 )
+CUYAHOGA = Basin(
+    slug="cuyahoga",
+    huc8s=CUYAHOGA_HUC8S,
+    watershed=(
+        "Cuyahoga River — 1 HUC-8 subbasin (04110002 Cuyahoga), subregion 0411 (Southern Lake "
+        "Erie, direct to the lake)"
+    ),
+    subject="Cuyahoga-basin NPDES wastewater dischargers",
+    file_stem="cuyahoga-wwtp",
+    caveats=(
+        "THE INVENTORY IS PULLED; NO CUYAHOGA GAGE IS REGISTERED. mainstem-gages.yaml holds no "
+        "entry for this basin, so a discharger here reports no_7q10 — UNSCREENABLE, NEVER "
+        "UNAFFECTED — until one is registered with its drainage-area rationale.",
+        "THE FRONTAL LAKE ERIE UNITS ARE SIBLINGS, NOT PART OF THIS BASIN. 04110001 Black-Rocky, "
+        "04110003 Ashtabula-Chagrin and 04110004 Grand reach Lake Erie independently of the "
+        "Cuyahoga and are not in this pull. A discharger on one of them is neither upstream nor "
+        "downstream of a Cuyahoga discharger and must never borrow a Cuyahoga denominator.",
+        "A LAKE OUTFALL IS NOT A RIVER REACH. Dischargers at the river's mouth or on the lakefront "
+        "meet a lake whose mixing is set by lake level, seiche and wind, not by streamflow, so a "
+        "river 7Q10 served to one is a category error, not a conservative approximation.",
+    ),
+)
+MAHONING = Basin(
+    slug="mahoning",
+    huc8s=MAHONING_HUC8S,
+    watershed=(
+        "Mahoning River — 1 HUC-8 subbasin (05030103 Mahoning), subregion 0503 (Upper Ohio, "
+        "reaching the Ohio through the Beaver River in Pennsylvania)"
+    ),
+    subject="Mahoning-basin NPDES wastewater dischargers",
+    file_stem="mahoning-wwtp",
+    caveats=(
+        "THE INVENTORY IS PULLED; NO MAHONING GAGE IS REGISTERED. mainstem-gages.yaml holds no "
+        "entry for this basin, so a discharger here reports no_7q10 — UNSCREENABLE, NEVER "
+        "UNAFFECTED — until one is registered with its drainage-area rationale.",
+        "THE UNIT CROSSES THE STATE LINE. WBD lists 05030103 as `states=OH,PA` and ECHO's `p_huc` "
+        "query does not filter by state, so this inventory holds Pennsylvania dischargers beside "
+        "Ohio ones. A Pennsylvania permit is written under Pennsylvania's water-quality standards, "
+        "and an Ohio criterion read against it is the wrong rule.",
+        "ANY LOW-FLOW STATISTIC REGISTERED HERE LATER MUST STATE ITS REGULATION. Per "
+        "mainstem-gages.yaml's meta.cited_annotations rule a `regulation` block must quote a "
+        "published third-party classification; none for any gage in this basin has been read "
+        "into the corpus, so an unannotated Mahoning gage would mean 'not yet read against the "
+        "published record', never 'unregulated'.",
+    ),
+)
+HOCKING = Basin(
+    slug="hocking",
+    huc8s=HOCKING_HUC8S,
+    watershed=(
+        "Hocking River — 1 HUC-8 subbasin (05030204 Hocking), subregion 0503 (Upper Ohio, "
+        "draining directly to the Ohio River)"
+    ),
+    subject="Hocking-basin NPDES wastewater dischargers",
+    file_stem="hocking-wwtp",
+    caveats=(
+        "THE INVENTORY IS PULLED; NO HOCKING GAGE IS REGISTERED. mainstem-gages.yaml holds no "
+        "entry for this basin, so a discharger here reports no_7q10 — UNSCREENABLE, NEVER "
+        "UNAFFECTED — until one is registered with its drainage-area rationale.",
+        "This basin reaches the Ohio River on its own, so it is a sibling of the Scioto and the "
+        "Muskingum, not part of either, and a Hocking discharger must never borrow either basin's "
+        "denominator or an Ohio River mainstem one.",
+    ),
+)
 BASINS: dict[str, Basin] = {
     b.slug: b
     for b in (
@@ -413,6 +514,9 @@ BASINS: dict[str, Basin] = {
         PORTAGE,
         MUSKINGUM,
         SANDUSKY,
+        CUYAHOGA,
+        MAHONING,
+        HOCKING,
     )
 }
 
@@ -425,29 +529,30 @@ _HUC8_NAMES: dict[str, str] = {
     huc8: name for b in BASINS.values() for huc8, name in b.huc8s.items()
 }
 
-# Result columns to request, selected *by ObjectName* against the verified
-# metadata and mapped to their ColumnID for the ``qcolumns`` parameter. get_qid
-# returns rows keyed by ObjectName regardless, so downstream code reads by name.
-_COLUMNS: dict[str, int] = {
-    "CWPName": 1,  # facility name
-    "RegistryID": 9,  # FRS Registry ID (the dedup key)
-    "SourceID": 2,  # primary NPDES / permit (source) ID
-    "NPDESIDs": 31,  # all NPDES IDs at this facility (multi-permit -> secondary col)
-    "CWPFacilityTypeIndicator": 28,  # POTW / NON-POTW
-    "CWPFacilityTypeCode": 29,
-    "CWPPermitTypeDesc": 54,  # e.g. "NPDES Individual Permit", "...(Non-NPDES)"
-    "CWPTotalDesignFlowNmbr": 26,  # permitted design flow, MGD (often null)
-    "CWPStateWaterBodyName": 159,  # receiving water body (often null)
-    "FacDerivedHuc": 19,  # HUC-8 ECHO derived this facility into (reliable)
-    "RadWBDHuc12": 170,  # WBD HUC-12 (RAD)
-    "FacLat": 24,
-    "FacLong": 25,
-    "FacCountyName": 13,
-    "FacFederalAgencyName": 18,  # non-null => federal facility
-    "CWPSNCStatus": 98,  # current CWA compliance status
-    "CWPInformalEnfActCount": 113,  # informal enforcement actions
-    "CWPFormalEaCnt": 114,  # formal enforcement actions
-}
+# Result columns to request, by ObjectName. get_qid's ``qcolumns`` takes ColumnIDs, which are
+# resolved from the live ``metadata`` call at pull time (:func:`_resolve_qcolumns`); get_qid
+# returns rows keyed by ObjectName regardless, so downstream code reads by name. The IDs are
+# positions in a list ECHO extends, so they move: never pin one here.
+_COLUMNS: tuple[str, ...] = (
+    "CWPName",  # facility name
+    "RegistryID",  # FRS Registry ID (the dedup key)
+    "SourceID",  # primary NPDES / permit (source) ID
+    "NPDESIDs",  # all NPDES IDs at this facility (multi-permit -> secondary col)
+    "CWPFacilityTypeIndicator",  # POTW / NON-POTW
+    "CWPFacilityTypeCode",
+    "CWPPermitTypeDesc",  # e.g. "NPDES Individual Permit", "...(Non-NPDES)"
+    "CWPTotalDesignFlowNmbr",  # permitted design flow, MGD (often null)
+    "CWPStateWaterBodyName",  # receiving water body (often null)
+    "FacDerivedHuc",  # HUC-8 ECHO derived this facility into (reliable)
+    "RadWBDHuc12",  # WBD HUC-12 (RAD)
+    "FacLat",
+    "FacLong",
+    "FacCountyName",
+    "FacFederalAgencyName",  # non-null => federal facility
+    "CWPSNCStatus",  # current CWA compliance status
+    "CWPInformalEnfActCount",  # informal enforcement actions
+    "CWPFormalEaCnt",  # formal enforcement actions
+)
 
 # Summary-stat keys returned by get_facilities, recorded for the count manifest.
 _STAT_KEYS = ("QueryRows", "IndianCountryRows", "SVRows", "CVRows", "FEARows", "InfFEARows")
@@ -561,6 +666,22 @@ class EchoError(RuntimeError):
     """ECHO returned an Error object (bad params, throttling, expired QID, ...)."""
 
 
+def _resolve_qcolumns(settings: Settings) -> str:
+    """The ``qcolumns`` value for :data:`_COLUMNS`, resolved by ObjectName from ``metadata``.
+
+    Raises :class:`EchoError` when a column the connector reads is gone from the service: a
+    renamed column would otherwise come back absent from every row and parse as ``None``.
+    """
+    meta = _get(settings, "metadata", {})
+    ids = {
+        str(c.get("ObjectName")): str(c.get("ColumnID")) for c in meta.get("ResultColumns") or []
+    }
+    missing = [name for name in _COLUMNS if name not in ids]
+    if missing:
+        raise EchoError(f"ECHO metadata no longer lists column(s) {missing}")
+    return ",".join(ids[name] for name in _COLUMNS)
+
+
 def fetch_huc_facilities(
     huc8: str,
     *,
@@ -573,7 +694,7 @@ def fetch_huc_facilities(
     """
     settings = settings or get_settings()
     name = _HUC8_NAMES.get(huc8, huc8)
-    qcolumns = ",".join(str(cid) for cid in _COLUMNS.values())
+    qcolumns = _resolve_qcolumns(settings)
 
     summary = _get(settings, "get_facilities", {"p_huc": huc8, "p_act": "Y"})
     qid = to_str(summary.get("QueryID"))

@@ -1,0 +1,3093 @@
+meta:
+  subject: Cuyahoga-basin NPDES wastewater dischargers
+  scope: all active CWA-permitted dischargers
+  source: EPA ECHO — cwa_rest_services (CWA v2017-10-13)
+  watershed: Cuyahoga River — 1 HUC-8 subbasin (04110002 Cuyahoga), subregion 0411
+    (Southern Lake Erie, direct to the lake)
+  huc8s:
+    '04110002': Cuyahoga
+  dedup_key: FRS RegistryID
+  count: 153
+  caveats:
+  - ECHO's CWA facility service has no CWNS column; the POTW flag rests on CWPFacilityTypeIndicator.
+  - Facilities link to HUCs via WATERS (FacDerivedHuc); a permit that didn't geocode
+    can be missed.
+  - design_flow_mgd is null where ECHO returned no value; it is never estimated.
+  - THE INVENTORY IS PULLED; NO CUYAHOGA GAGE IS REGISTERED. mainstem-gages.yaml holds
+    no entry for this basin, so a discharger here reports no_7q10 — UNSCREENABLE,
+    NEVER UNAFFECTED — until one is registered with its drainage-area rationale.
+  - THE FRONTAL LAKE ERIE UNITS ARE SIBLINGS, NOT PART OF THIS BASIN. 04110001 Black-Rocky,
+    04110003 Ashtabula-Chagrin and 04110004 Grand reach Lake Erie independently of
+    the Cuyahoga and are not in this pull. A discharger on one of them is neither
+    upstream nor downstream of a Cuyahoga discharger and must never borrow a Cuyahoga
+    denominator.
+  - A LAKE OUTFALL IS NOT A RIVER REACH. Dischargers at the river's mouth or on the
+    lakefront meet a lake whose mixing is set by lake level, seiche and wind, not
+    by streamflow, so a river 7Q10 served to one is a category error, not a conservative
+    approximation.
+facilities:
+- frs_registry_id: '110059711450'
+  name: '7-ELEVEN STORE #36248 PENINSULA OH'
+  npdes_id: OH0145955
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0015
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020405'
+  county: SUMMIT
+  latitude: 41.2323
+  longitude: -81.49293
+  compliance_status: null
+  informal_enf_count: 2
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110072103734'
+  name: ACTIVE GROUP PROPERTIES
+  npdes_id: OH0151762
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.005
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020402'
+  county: null
+  latitude: 41.19634
+  longitude: -81.63641
+  compliance_status: Failure to Report DMR - Not Received
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110071881608'
+  name: ADROIT REAL ESTATE
+  npdes_id: OH0151646
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.001
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020202'
+  county: null
+  latitude: 41.15881
+  longitude: -81.290801
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110008573711'
+  name: AGAPE CHRISTIAN ACADEMY
+  npdes_id: OH0129585
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: UT CUYAHOGA RIVER, UT ENTERING THE CUYAHOGA RIVER
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020106'
+  county: GEAUGA
+  latitude: 41.38446
+  longitude: -81.14286
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110001625340'
+  name: AKRON WATER RECLAMATION FACILITY
+  npdes_id: OH0023833
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 90.0
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020405'
+  county: SUMMIT
+  latitude: 41.15806
+  longitude: -81.56513
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: 1
+  queried_huc8: '04110002'
+- frs_registry_id: '110006233487'
+  name: AMBASSADORS FOOTBALL (FKA AMBASSADORS IN SPORT)
+  npdes_id: OH0144053
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0015
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020501'
+  county: SUMMIT
+  latitude: 41.303901
+  longitude: -81.404402
+  compliance_status: null
+  informal_enf_count: 2
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006321266'
+  name: AMBER LLC DBA CLARIDON MINI MART
+  npdes_id: OH0142891
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0004
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020101'
+  county: GEAUGA
+  latitude: 41.531193
+  longitude: -81.114545
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006320864'
+  name: AQUILLA VILLAGE WWTP
+  npdes_id: OH0088382
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.07
+  design_flow_missing: false
+  receiving_water: WEST BRANCH CUYAHOGA RIVER
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020102'
+  county: GEAUGA
+  latitude: 41.54558
+  longitude: -81.17344
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006233995'
+  name: AUBURN CORNERS WWTP
+  npdes_id: OH0123684
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.149
+  design_flow_missing: false
+  receiving_water: UT OF LADUE RESERVOIR
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020104'
+  county: GEAUGA
+  latitude: 41.38324
+  longitude: -81.21013
+  compliance_status: Effluent - Monthly Average Limit
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110000735517'
+  name: AURORA WESTERLY WWTP
+  npdes_id: OH0098043
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 1.4
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020501'
+  county: PORTAGE
+  latitude: 41.3079
+  longitude: -81.3918
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006823009'
+  name: BECK SAND & GRAVEL INC
+  npdes_id: OH0129453
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020203'
+  county: PORTAGE
+  latitude: 41.21408
+  longitude: -81.29126
+  compliance_status: Failure to Report DMR - Not Received
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110000735303'
+  name: BEDFORD WASTEWATER TREATMENT PLANT
+  npdes_id: OH0024040
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 3.2
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020504'
+  county: CUYAHOGA
+  latitude: 41.38711
+  longitude: -81.55811
+  compliance_status: Effluent - Non-monthly Average Limit
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110019896031'
+  name: BERKSHIRE INDUSTRIAL WWTP
+  npdes_id: OH0134767
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.02
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020103'
+  county: GEAUGA
+  latitude: 41.462278
+  longitude: -81.106583
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110046553500'
+  name: BOSTON MILLS HISTORIC DIST WWT WETLANDS
+  npdes_id: OH0144444
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020405'
+  county: CUYAHOGA
+  latitude: 41.32257
+  longitude: -81.63933
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110072317464'
+  name: BP BRADLEY RD PIPELINE FACILITY
+  npdes_id: OHGH00163
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020604'
+  county: null
+  latitude: 41.43642
+  longitude: -81.67275
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110070915224'
+  name: BRANDYWINE SKI RESORT
+  npdes_id: OH0140643
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020404'
+  county: SUMMIT COUNTY
+  latitude: 41.28907
+  longitude: -81.56332
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006281335'
+  name: BRIMFIELD WTP
+  npdes_id: OH0121975
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: TRIBUTARY PLUM CREEK
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020301'
+  county: PORTAGE
+  latitude: 41.09209
+  longitude: -81.36178
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110009663113'
+  name: BROADWOOD WWTP
+  npdes_id: OH0028932
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0275
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020104'
+  county: GEAUGA
+  latitude: 41.47341
+  longitude: -81.168901
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110009634850'
+  name: BUDGET INN - HUDSON
+  npdes_id: OH0087891
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0035
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020401'
+  county: SUMMIT
+  latitude: 41.22856
+  longitude: -81.49116
+  compliance_status: null
+  informal_enf_count: 3
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006375305'
+  name: BURTON LAKES WWTP
+  npdes_id: OH0089605
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.05
+  design_flow_missing: false
+  receiving_water: UT TO THE BRIDGE CREEK
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020104'
+  county: GEAUGA
+  latitude: 41.4288
+  longitude: -81.18607
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006321391'
+  name: BURTON WWTP
+  npdes_id: OH0021580
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.4
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020106'
+  county: GEAUGA
+  latitude: 41.46234
+  longitude: -81.14392
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006698626'
+  name: CAMP ANISFIELD & HALLE PARK
+  npdes_id: OH0129381
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020102'
+  county: GEAUGA
+  latitude: 41.50114
+  longitude: -81.16724
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006198612'
+  name: CAMP BURTON
+  npdes_id: OH0128660
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.009
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020102'
+  county: GEAUGA
+  latitude: 41.49721
+  longitude: -81.13262
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110044245947'
+  name: CAMP CHRISTOPHER
+  npdes_id: OH0144011
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020402'
+  county: SUMMIT
+  latitude: 41.19398
+  longitude: -81.66566
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110015648708'
+  name: CAMP LEDGEWOOD
+  npdes_id: OH0133370
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.013
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020405'
+  county: SUMMIT
+  latitude: 41.246729
+  longitude: -81.519096
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110001619990'
+  name: CARGILL INC - SALT DIVISION
+  npdes_id: OH0000329
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020605'
+  county: CUYAHOGA
+  latitude: 41.49825
+  longitude: -81.71065
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110009009795'
+  name: CHARDON WOODS
+  npdes_id: OH0083984
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.1
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100030304'
+  county: GEAUGA
+  latitude: 41.53343
+  longitude: -81.21668
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110000387402'
+  name: CHARTER STEEL
+  npdes_id: OH0147222
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: CUYAHOGA RIVER
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020604'
+  county: CUYAHOGA
+  latitude: 41.442661
+  longitude: -81.66421
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110030767294'
+  name: CHURCH OF SAINT HELENS PARISH SCHOOL
+  npdes_id: OH0139416
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020104'
+  county: GEAUGA
+  latitude: 41.46675
+  longitude: -81.20519
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006321024'
+  name: 'CIRCLE K #5685 MAC''S CONVENIENCE STORES, LLC DBA'
+  npdes_id: OH0143316
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.002
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020102'
+  county: GEAUGA
+  latitude: 41.52943
+  longitude: -81.21626
+  compliance_status: null
+  informal_enf_count: 2
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110000591716'
+  name: CITGO PETROLEUM CORP
+  npdes_id: OH0045543
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020303'
+  county: SUMMIT
+  latitude: 41.07156
+  longitude: -81.39814
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006283039'
+  name: CITY OF AKRON WATER TREATMENT PLANT
+  npdes_id: OH0000612
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020203'
+  county: PORTAGE
+  latitude: 41.18114
+  longitude: -81.33812
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110000737560'
+  name: CITY OF BEDFORD HEIGHTS WATER RECLAMATION PLANT
+  npdes_id: OH0024058
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 3.6
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020504'
+  county: CUYAHOGA
+  latitude: 41.38512
+  longitude: -81.50046
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110004690424'
+  name: CITY OF BROOKLYN LANDFILL
+  npdes_id: OH0147290
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: BIG CREEK
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020603'
+  county: CUYAHOGA
+  latitude: 41.440102
+  longitude: -81.750452
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110064605011'
+  name: CITY OF SOLON WATER RECLAMATION FACILITY
+  npdes_id: OH0027430
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 5.8
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020504'
+  county: CUYAHOGA
+  latitude: 41.36974
+  longitude: -81.46952
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110000761373'
+  name: CITY OF TWINSBURG WWTP
+  npdes_id: OH0027863
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 5.8
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020504'
+  county: SUMMIT
+  latitude: 41.32127
+  longitude: -81.45266
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110011945468'
+  name: CLARIDON PLAZA
+  npdes_id: OH0129992
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0041
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020102'
+  county: GEAUGA
+  latitude: 41.532778
+  longitude: -81.180278
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110051670205'
+  name: CLARIDON PLAZA
+  npdes_id: OHGU00909
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020102'
+  county: GEAUGA
+  latitude: 41.53388
+  longitude: -81.18042
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006198854'
+  name: CLARIDON PROPERTIES, LLC
+  npdes_id: OH0131687
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.004
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020101'
+  county: GEAUGA
+  latitude: 41.53604
+  longitude: -81.11696
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110011945681'
+  name: CLEVELAND-CLIFFS CLEVELAND WORKS LLC
+  npdes_id: OH0000957
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020605'
+  county: CUYAHOGA
+  latitude: 41.463486
+  longitude: -81.667828
+  compliance_status: Failure to Report DMR - Not Received
+  informal_enf_count: 0
+  formal_enf_count: 1
+  queried_huc8: '04110002'
+- frs_registry_id: '110006225325'
+  name: CONGRESS LAKE CLUBHOUSE
+  npdes_id: OH0134783
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: CONGRESS LAKE OUTLET
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020201'
+  county: STARK
+  latitude: 40.97409
+  longitude: -81.32506
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110070105249'
+  name: CROSSROADS AUTOCARE
+  npdes_id: OH0147591
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020203'
+  county: PORTAGE COUNTY
+  latitude: 41.238853
+  longitude: -81.229621
+  compliance_status: Failure to Report DMR - Not Received
+  informal_enf_count: 2
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006220062'
+  name: CUYAHOGA FALLS WTP - CF2
+  npdes_id: OH0001091
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020305'
+  county: SUMMIT
+  latitude: 41.140322
+  longitude: -81.456774
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110042248662'
+  name: DEBORD PLUMBING
+  npdes_id: OH0143146
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0074
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020102'
+  county: GEAUGA
+  latitude: 41.530185
+  longitude: -81.207161
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110058931072'
+  name: DEER LAKE MHP
+  npdes_id: OH0145947
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.01
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020102'
+  county: GEAUGA
+  latitude: 41.47083
+  longitude: -81.19031
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006269947'
+  name: DON-EL MOTEL
+  npdes_id: OH0142964
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: UT TO MUD BROOK
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020401'
+  county: SUMMIT
+  latitude: 41.20915
+  longitude: -81.49281
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: 1
+  queried_huc8: '04110002'
+- frs_registry_id: '110000904745'
+  name: EMERALD TRANSFORMER PPM LLC
+  npdes_id: OH0144398
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020404'
+  county: SUMMIT
+  latitude: 41.29775
+  longitude: -81.46568
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110046582033'
+  name: ENERVEST HARTVILLE FACILITY
+  npdes_id: OH0147443
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020201'
+  county: STARK
+  latitude: 40.99312
+  longitude: -81.34768
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110013794466'
+  name: EVERGREEN VILLAGE MHP
+  npdes_id: OH0117480
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020203'
+  county: PORTAGE
+  latitude: 41.24351
+  longitude: -81.23023
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110039702248'
+  name: FAIRLANE WWTP
+  npdes_id: OH0038709
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.03
+  design_flow_missing: false
+  receiving_water: UT POTTERS CREEK
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020201'
+  county: PORTAGE
+  latitude: 41.02892
+  longitude: -81.32531
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110000735508'
+  name: FISHCREEK WWTP NO 25
+  npdes_id: OH0064009
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 8.0
+  design_flow_missing: false
+  receiving_water: CUYAHOGA RIVER
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020305'
+  county: SUMMIT
+  latitude: 41.14479
+  longitude: -81.40253
+  compliance_status: Compliance/Permit Schedule - Violations
+  informal_enf_count: 2
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006269778'
+  name: FISHERS CAFE & PUB.
+  npdes_id: OH0130044
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: CUY. RIVER VIA STM SWR
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020405'
+  county: SUMMIT
+  latitude: 41.24127
+  longitude: -81.54894
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: 1
+  queried_huc8: '04110002'
+- frs_registry_id: '110040095063'
+  name: FRANKLIN HILLS WWTP
+  npdes_id: OH0038717
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 1.5
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020202'
+  county: PORTAGE
+  latitude: 41.14697
+  longitude: -81.31719
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110071944747'
+  name: GEAUGA LAKE DEPOT
+  npdes_id: OH0151722
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0005
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020501'
+  county: null
+  latitude: 41.355026
+  longitude: -81.375575
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006220419'
+  name: GENERAL DIE CASTERS INC
+  npdes_id: OH0092126
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: UT CUYAHOGA RV, UT TO THE CUYAHOGA RIVER
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020405'
+  county: SUMMIT
+  latitude: 41.246583
+  longitude: -81.536916
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110009424257'
+  name: GENERAL MOTORS LLC PARMA PLANT
+  npdes_id: OH0002275
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020603'
+  county: CUYAHOGA
+  latitude: 41.4157
+  longitude: -81.7688
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110008602896'
+  name: GHENT SQUARE
+  npdes_id: OH0133531
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0025
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020402'
+  county: SUMMIT
+  latitude: 41.15825
+  longitude: -81.63638
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110070252056'
+  name: GOOD VIBRATION ENTERPRISES, INC.
+  npdes_id: OH0148610
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020504'
+  county: SUMMIT COUNTY
+  latitude: 41.29889
+  longitude: -81.41216
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110009613962'
+  name: GOODYEAR TIRE & RUBBER AIRSHIP OPERATIONS
+  npdes_id: OH0000892
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: WINGFOOT LAKE
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020303'
+  county: PORTAGE
+  latitude: 41.00674
+  longitude: -81.36248
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006209959'
+  name: 'GRANGER LAKE CONDOMINIUM #1 ASSOCIATION, INC.'
+  npdes_id: OH0045691
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.06
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020402'
+  county: MEDINA
+  latitude: 41.155606
+  longitude: -81.69393
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110000559164'
+  name: GREAT LAKES CHEESE-HIRAM
+  npdes_id: OHP000184
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: Individual IU Permit (Non-NPDES)
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020104'
+  county: GEAUGA
+  latitude: 41.386667
+  longitude: -81.182778
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006320935'
+  name: HAMBDEN ELEMENTARY SCHOOL
+  npdes_id: OH0123803
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.008
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020102'
+  county: GEAUGA
+  latitude: 41.59756
+  longitude: -81.14406
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006215121'
+  name: HATTIE LARLHAM CENTER FOR CHILDREN W/ DISABILITIES
+  npdes_id: OH0102831
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020203'
+  county: PORTAGE
+  latitude: 41.25793
+  longitude: -81.28255
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006270622'
+  name: HERITAGE CLASSICAL ACADEMY
+  npdes_id: OH0146218
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.015
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020405'
+  county: SUMMIT
+  latitude: 41.24028
+  longitude: -81.55909
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110070030368'
+  name: HERITAGE MARKETPLACE
+  npdes_id: OH0147575
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: TARE CREEK
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020103'
+  county: GEAUGA COUNTY
+  latitude: 41.47924
+  longitude: -81.07676
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110004590979'
+  name: HEXPOL COMPOUNDING - BURTON RUBBER PROCESSING
+  npdes_id: OH0063363
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020103'
+  county: GEAUGA
+  latitude: 41.46773
+  longitude: -81.12991
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006199381'
+  name: HIGHLAND ACRES RV RESORT
+  npdes_id: OH0151632
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020101'
+  county: GEAUGA
+  latitude: 41.534745
+  longitude: -81.087553
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110072238264'
+  name: HOWMET AEROSPACE INC.
+  npdes_id: OH0112356
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020605'
+  county: CUYAHOGA
+  latitude: 41.446359
+  longitude: -81.672458
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110064265183'
+  name: HUDSON ESTATES MHC WWTP
+  npdes_id: OH0098299
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.04
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020401'
+  county: SUMMIT
+  latitude: 41.21324
+  longitude: -81.49504
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110041946179'
+  name: HUNTERS SPORTS BAR & GRILLE
+  npdes_id: OH0143090
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020102'
+  county: GEAUGA
+  latitude: 41.53386
+  longitude: -81.18255
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110072305629'
+  name: I-80 PIPELINE BORE
+  npdes_id: OHGH00856
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020403'
+  county: null
+  latitude: 41.278056
+  longitude: -81.644444
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006220785'
+  name: INDIAN SPRINGS TRAILER PARK
+  npdes_id: OH0128601
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0225
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020405'
+  county: SUMMIT
+  latitude: 41.19546
+  longitude: -81.57626
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006660899'
+  name: INFIRMARY CREEK WWTP
+  npdes_id: OH0089788
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.149
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020102'
+  county: GEAUGA
+  latitude: 41.504627
+  longitude: -81.180988
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006320702'
+  name: JACQUES MHP
+  npdes_id: OH0044491
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: BUTTERNUT CREEK
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020102'
+  county: GEAUGA
+  latitude: 41.533917
+  longitude: -81.178484
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110040323833'
+  name: JADLYN MANAGEMENT LLC (DBA TODAYS BRIDE MAGAZINE)
+  npdes_id: OH0142913
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0015
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020402'
+  county: SUMMIT
+  latitude: 41.18793
+  longitude: -81.6364
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110024560660'
+  name: JEWISH COMMUNITY CENTER OF CLEVELAND
+  npdes_id: OH0139092
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0225
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020102'
+  county: GEAUGA
+  latitude: 41.50292
+  longitude: -81.16191
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006283066'
+  name: JL EXCAVATING SERVICES LLC
+  npdes_id: OH0117501
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020302'
+  county: PORTAGE
+  latitude: 41.06044
+  longitude: -81.34659
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006371005'
+  name: KEN STEWARTS LODGE
+  npdes_id: OH0129798
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020402'
+  county: SUMMIT
+  latitude: 41.18715
+  longitude: -81.63507
+  compliance_status: null
+  informal_enf_count: 2
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110000535270'
+  name: KENT CITY WTP
+  npdes_id: OHGW00001
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020202'
+  county: PORTAGE
+  latitude: 41.14712
+  longitude: -81.31886
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110000735358'
+  name: KENT WATER RECLAMATION FACILITY
+  npdes_id: OH0025917
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 5.0
+  design_flow_missing: false
+  receiving_water: CUYAHOGA RIVER
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020305'
+  county: PORTAGE
+  latitude: 41.14707
+  longitude: -81.37252
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006199069'
+  name: KKR INC - THE PATIO LOUNGE
+  npdes_id: OH0145823
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: ROADSIDE DITCH
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020104'
+  county: CUYAHOGA
+  latitude: 41.38763
+  longitude: -81.26197
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006235083'
+  name: KOZENT, LLC
+  npdes_id: OH0128929
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0007
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020501'
+  county: PORTAGE
+  latitude: 41.35092
+  longitude: -81.38148
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110071068079'
+  name: KURTZ BROTHERS INC DBA WARNER ROAD/GENERAL CHEMICAL LLC
+  npdes_id: OH0150436
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: MILL CREEK
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020601'
+  county: CUYAHOGA COUNTY
+  latitude: 41.42231
+  longitude: -81.6339
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110071362559'
+  name: LAKESIDE SAND & GRAVEL, INC.
+  npdes_id: OH0150223
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: CUYAHOGA RIVER, UNNAMED TRIBUTARY TO CUYAHOGA RIVER
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020203'
+  county: PORTAGE COUNTY
+  latitude: 41.263722
+  longitude: -81.252139
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006699019'
+  name: LEADERS PROPERTIES LLC
+  npdes_id: OH0117595
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: UT OF THE WEST BRANCH OF CUYAHOGA RIVER
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020102'
+  county: GEAUGA
+  latitude: 41.577049
+  longitude: -81.170107
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110054977977'
+  name: 'MAC''S CONVENIENCE STORE LLC DBA CIRCLE K #5592'
+  npdes_id: OH0144550
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020402'
+  county: SUMMIT
+  latitude: 41.18866
+  longitude: -81.63638
+  compliance_status: Effluent - Monthly Average Limit
+  informal_enf_count: 2
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110071952027'
+  name: MADISON ROAD ENTERPRISE
+  npdes_id: OH0151748
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.004
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020103'
+  county: null
+  latitude: 41.46124
+  longitude: -81.05127
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110009640503'
+  name: MANTUA MHP
+  npdes_id: OH0036064
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: UT OF HARPER DITCH
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020203'
+  county: PORTAGE
+  latitude: 41.24312
+  longitude: -81.25218
+  compliance_status: Failure to Report DMR - Not Received
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006281870'
+  name: MANTUA TOWNSHIP TRUSTEES
+  npdes_id: OH0131733
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.004
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020105'
+  county: PORTAGE
+  latitude: 41.31125
+  longitude: -81.24464
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006373726'
+  name: MANTUA WWTP
+  npdes_id: OH0022063
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.5
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020203'
+  county: PORTAGE
+  latitude: 41.279556
+  longitude: -81.230271
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110072319985'
+  name: MARATHON PETROLEUM CO LP
+  npdes_id: OHGH00079
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020605'
+  county: null
+  latitude: 41.487
+  longitude: -81.67706
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110059805304'
+  name: MASTER RENTALS (OLD) (NEW) COUNTRYSIDE RENTALS
+  npdes_id: OH0145998
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0015
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020102'
+  county: GEAUGA
+  latitude: 41.5284
+  longitude: -81.1449
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110011015560'
+  name: MIDDLEFIELD PLASTICS, INC.
+  npdes_id: OH0098141
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020103'
+  county: GEAUGA
+  latitude: 41.48926
+  longitude: -81.09876
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110000385761'
+  name: MIDDLEFIELD WAREHOUSE
+  npdes_id: OH0052370
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020103'
+  county: GEAUGA
+  latitude: 41.451256
+  longitude: -81.07283
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006198934'
+  name: MIDDLEFIELD WWTP
+  npdes_id: OH0021181
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 1.0
+  design_flow_missing: false
+  receiving_water: UNNAMED TRIBUTARY TO SPERRY POND/CUYAHOGA RIVER
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020103'
+  county: GEAUGA
+  latitude: 41.4668
+  longitude: -81.0848
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110070257286'
+  name: MONTGOMERY'S PALLET SERVICE, INC.
+  npdes_id: OH0148601
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '050301030302'
+  county: PORTAGE COUNTY
+  latitude: 41.20648
+  longitude: -81.24461
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006198952'
+  name: MUNSON ELEMENTARY SCHOOL
+  npdes_id: OH0143162
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020102'
+  county: GEAUGA
+  latitude: 41.52414
+  longitude: -81.21643
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110009618048'
+  name: MUNSON SUN MART
+  npdes_id: OH0137146
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020102'
+  county: GEAUGA
+  latitude: 41.53262
+  longitude: -81.19374
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110007156157'
+  name: NEORSD SOUTHERLY WASTEWATER TREATMENT CENTER
+  npdes_id: OH0024651
+  npdes_ids_secondary:
+  - OHL024651
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 175.0
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020604'
+  county: CUYAHOGA
+  latitude: 41.42318
+  longitude: -81.65323
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: 1
+  queried_huc8: '04110002'
+- frs_registry_id: '110025344367'
+  name: NEW HOPE CHRISTIAN FELLOWSHIP
+  npdes_id: OH0137189
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020104'
+  county: GEAUGA
+  latitude: 41.38727
+  longitude: -81.24458
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110008630446'
+  name: NEWBURY BUSINESS PARK
+  npdes_id: OH0130028
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.01
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020102'
+  county: GEAUGA
+  latitude: 41.47073
+  longitude: -81.19628
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110070099851'
+  name: NORTHCOAST KITCHENS LLC
+  npdes_id: OH0148300
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020504'
+  county: CUYAHOGA COUNTY
+  latitude: 41.37074
+  longitude: -81.59318
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006233986'
+  name: NORTHFIELD PARK ASSOC LLC
+  npdes_id: OH0128627
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020504'
+  county: SUMMIT
+  latitude: 41.34939
+  longitude: -81.52685
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110059805322'
+  name: NOVID FLLP
+  npdes_id: OH0146137
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0004
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020405'
+  county: SUMMIT
+  latitude: 41.24123
+  longitude: -81.54807
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006373236'
+  name: NU VUE
+  npdes_id: OH0134325
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.003
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020402'
+  county: SUMMIT
+  latitude: 41.201241
+  longitude: -81.637812
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110062633271'
+  name: OAK KNOLL HOMEOWNER'S ASSOCIATION
+  npdes_id: OH0146323
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.015
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020402'
+  county: SUMMIT
+  latitude: 41.15736
+  longitude: -81.59635
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110002463478'
+  name: ODNR - WINGFOOT LAKE STATE PARK
+  npdes_id: OH0128791
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020303'
+  county: PORTAGE
+  latitude: 41.01605
+  longitude: -81.36282
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110009601822'
+  name: ODOT D12 CUY
+  npdes_id: OHGZ00060
+  npdes_ids_secondary:
+  - OHGZ00059
+  - OHGZ00061
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020604'
+  county: CUYAHOGA
+  latitude: 41.41319
+  longitude: -81.61587
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006267994'
+  name: OHIO MOTEL
+  npdes_id: OH0117447
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.004
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020402'
+  county: SUMMIT
+  latitude: 41.198056
+  longitude: -81.642222
+  compliance_status: Failure to Report DMR - Not Received
+  informal_enf_count: 2
+  formal_enf_count: 2
+  queried_huc8: '04110002'
+- frs_registry_id: '110006321337'
+  name: OHMAN FAMILY LIVING AT BLOSSOM
+  npdes_id: OH0143171
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0143
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020101'
+  county: GEAUGA
+  latitude: 41.5307
+  longitude: -81.08998
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006221007'
+  name: OLD TRAIL SCHOOL
+  npdes_id: OH0129704
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020405'
+  county: SUMMIT
+  latitude: 41.18537
+  longitude: -81.58983
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110001630762'
+  name: OSCAR BRUGMANN SAND & GRAVEL
+  npdes_id: OH0149462
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: CUYAHOGA RIVER VIA STORM DRAIN, CUYAHOGA RIVER VIS UNNAMED TRIBUTARY,
+    PRIVATE LAKE, UNNAMED TRIBUTARY TO CUYAHOGA RIVER
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020203'
+  county: PORTAGE
+  latitude: 41.26832
+  longitude: -81.2517
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006281503'
+  name: PARADISE LAKE GOLF AND BANQUET CENTER
+  npdes_id: OH0142778
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.003
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020302'
+  county: PORTAGE
+  latitude: 41.05048
+  longitude: -81.32477
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110072108710'
+  name: PENINSULA WRF NO 49
+  npdes_id: OH0151751
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.13
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020405'
+  county: null
+  latitude: 41.243342
+  longitude: -81.547538
+  compliance_status: Failure to Report DMR - Not Received
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110039692945'
+  name: PLYMOUTH ACRES WWTP
+  npdes_id: OH0028924
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.01
+  design_flow_missing: false
+  receiving_water: WEST BRANCH CUYAHOGA RIVER
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020102'
+  county: GEAUGA
+  latitude: 41.5249
+  longitude: -81.16899
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110004668752'
+  name: PRESTON CHEVROLET KIA, INC.
+  npdes_id: OH0146056
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.002
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020106'
+  county: GEAUGA
+  latitude: 41.38305
+  longitude: -81.12809
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110014333499'
+  name: RANDOLPH WWTP
+  npdes_id: OH0133167
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.3
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020201'
+  county: PORTAGE
+  latitude: 41.04424
+  longitude: -81.25738
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110039729586'
+  name: RAVENNA WWTP
+  npdes_id: OH0023221
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 2.8
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020202'
+  county: PORTAGE
+  latitude: 41.14903
+  longitude: -81.25966
+  compliance_status: null
+  informal_enf_count: 2
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110039702220'
+  name: RED FOX WWTP
+  npdes_id: OH0038601
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.16
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020203'
+  county: PORTAGE
+  latitude: 41.2438
+  longitude: -81.2872
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110063023865'
+  name: RIVERVIEW COURT PROPERTY
+  npdes_id: OH0146315
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: THE CUYAHOGA RIVER
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020405'
+  county: SUMMIT
+  latitude: 41.24141
+  longitude: -81.55474
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110054978084'
+  name: RIVERWALK/IRON HORSE
+  npdes_id: OH0145289
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020106'
+  county: GEAUGA
+  latitude: 41.38666
+  longitude: -81.15642
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110020689619'
+  name: RKDF INC
+  npdes_id: OH0148377
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: CUYAHOGA RIVER
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020604'
+  county: CUYAHOGA
+  latitude: 41.418844
+  longitude: -81.663139
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110062673389'
+  name: ROSBY RESOURCE RECYCLING INC
+  npdes_id: OH0145297
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: CUYAHOGA RIVER
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020604'
+  county: CUYAHOGA
+  latitude: 41.423889
+  longitude: -81.668056
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110063704692'
+  name: ROSEWOOD DIESEL SHOP
+  npdes_id: OH0147079
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0005
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020102'
+  county: CUYAHOGA
+  latitude: 41.531558
+  longitude: -81.204341
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110000385798'
+  name: ROTHENBUHLER CHEESEMAKERS, INC
+  npdes_id: OH0051276
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: EAST TARE CREEK
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020103'
+  county: GEAUGA
+  latitude: 41.47924
+  longitude: -81.07851
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110037437413'
+  name: SAINT-GOBAIN CRYSTALS
+  npdes_id: OHP000243
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: Individual IU Permit (Non-NPDES)
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020104'
+  county: GEAUGA
+  latitude: 41.38372
+  longitude: -81.18112
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110000493485'
+  name: SAINT-GOBAIN PERFORMANCE PLASTICS AKRON
+  npdes_id: OH0001775
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020303'
+  county: SUMMIT COUNTY
+  latitude: 41.0635
+  longitude: -81.43101
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110070237408'
+  name: SHALERSVILLE SCHOOL
+  npdes_id: OH0148423
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020203'
+  county: PORTAGE COUNTY
+  latitude: 41.238893
+  longitude: -81.230541
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110009821256'
+  name: SHALERVILLE WTP
+  npdes_id: OH0112232
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: CUYAHOGA RIVER VIA UT
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020203'
+  county: PORTAGE
+  latitude: 41.25504
+  longitude: -81.2706
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110035771340'
+  name: SHELLY LIQUID, CLEVELAND TERMINAL
+  npdes_id: OH0140341
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020605'
+  county: CUYAHOGA
+  latitude: 41.48566
+  longitude: -81.68001
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110070670610'
+  name: SITE ONE LANDSCAPING SUPPLY
+  npdes_id: OH0149543
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0005
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020403'
+  county: SUMMIT COUNTY
+  latitude: 41.24455
+  longitude: -81.59996
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110009610518'
+  name: 'SPEEDWAY LLC #3390'
+  npdes_id: OHGU01048
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: General Permit Covered Facility
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020502'
+  county: PORTAGE
+  latitude: 41.24291
+  longitude: -81.345191
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006698617'
+  name: ST JOSEPH PARISH WWTP
+  npdes_id: OH0129305
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: CRANBERRY CR. VIA UT, NO STREAM LISTED
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020201'
+  county: PORTAGE
+  latitude: 41.0329
+  longitude: -81.24819
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006822992'
+  name: ST NICHOLAS ORTHODOX CHURCH
+  npdes_id: OH0129631
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020303'
+  county: PORTAGE
+  latitude: 41.030512
+  longitude: -81.39325
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110070202699'
+  name: STORM BROS CONSTRUCTION
+  npdes_id: OH0148466
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020302'
+  county: PORTAGE COUNTY
+  latitude: 41.023056
+  longitude: -81.350833
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: 1
+  queried_huc8: '04110002'
+- frs_registry_id: '110000540013'
+  name: STREETSBORO-HUDSON REGIONAL WWTP
+  npdes_id: OH0090131
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 4.0
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020502'
+  county: PORTAGE
+  latitude: 41.24884
+  longitude: -81.38321
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110067190088'
+  name: SUNBELT RENTALS
+  npdes_id: OH0147397
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0002
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020401'
+  county: SUMMIT COUNTY
+  latitude: 41.20934
+  longitude: -81.49269
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110000385244'
+  name: TARKETT NORTH
+  npdes_id: OH0001449
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020104'
+  county: GEAUGA
+  latitude: 41.40934
+  longitude: -81.2744
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110044253018'
+  name: TEMPLE-INLAND
+  npdes_id: OHP000082
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: Individual IU Permit (Non-NPDES)
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020502'
+  county: PORTAGE
+  latitude: 41.24976
+  longitude: -81.3692
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006267137'
+  name: TESCHNER'S TAVERN
+  npdes_id: OH0151792
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0015
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100010201'
+  county: SUMMIT
+  latitude: 41.246759
+  longitude: -81.660091
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006235056'
+  name: THE BARN AT 7730
+  npdes_id: OH0123943
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0018
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020502'
+  county: PORTAGE
+  latitude: 41.2706
+  longitude: -81.39724
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110022520583'
+  name: THISTLEDOWN RACETRACK
+  npdes_id: OH0133558
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020504'
+  county: CUYAHOGA
+  latitude: 41.43515
+  longitude: -81.52693
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110000388394'
+  name: THYSSENKRUPP ROTHE ERDE USA INC
+  npdes_id: OH0117331
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020502'
+  county: PORTAGE
+  latitude: 41.27914
+  longitude: -81.34616
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006267075'
+  name: TIKI UNDERGROUND
+  npdes_id: OH0145246
+  npdes_ids_secondary:
+  - OH0087904
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020401'
+  county: SUMMIT
+  latitude: 41.22906
+  longitude: -81.49128
+  compliance_status: null
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006267208'
+  name: TRI-COUNTY CONCRETE CO INC
+  npdes_id: OH0129194
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: DITCH ON SOUTH SIDE OF RR
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020504'
+  county: SUMMIT
+  latitude: 41.32241
+  longitude: -81.44028
+  compliance_status: null
+  informal_enf_count: 3
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006319796'
+  name: TROYER WATER SYSTEM
+  npdes_id: OH0140783
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020103'
+  county: GEAUGA
+  latitude: 41.48533
+  longitude: -81.08192
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110008608024'
+  name: TWIN LAKES WWTP
+  npdes_id: OH0038580
+  npdes_ids_secondary: []
+  ownership: POTW
+  facility_type: POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.456
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020203'
+  county: PORTAGE
+  latitude: 41.18749
+  longitude: -81.34685
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006269297'
+  name: UNDERWOODS PINT AND PIE
+  npdes_id: OH0131407
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0025
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020402'
+  county: SUMMIT
+  latitude: 41.187897
+  longitude: -81.636078
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110071409879'
+  name: VALLEY CAMPGROUND LLC
+  npdes_id: OH0151640
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020405'
+  county: SUMMIT COUNTY
+  latitude: 41.20204
+  longitude: -81.56228
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110006199283'
+  name: WELSHFIELD INN
+  npdes_id: OH0131571
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020106'
+  county: GEAUGA
+  latitude: 41.38647
+  longitude: -81.13886
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110011015418'
+  name: WINKING LIZARD OF PENINSULA
+  npdes_id: OH0103063
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: 0.0055
+  design_flow_missing: false
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020405'
+  county: SUMMIT
+  latitude: 41.24128
+  longitude: -81.549162
+  compliance_status: Effluent - Non-monthly Average Limit
+  informal_enf_count: 1
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110000904674'
+  name: XELLIA CLEVELAND
+  npdes_id: OHP000014
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: Individual IU Permit (Non-NPDES)
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: null
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020504'
+  county: CUYAHOGA
+  latitude: 41.37456
+  longitude: -81.52684
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
+- frs_registry_id: '110000387992'
+  name: ZIRCOA INC
+  npdes_id: OH0000591
+  npdes_ids_secondary: []
+  ownership: NON-POTW
+  facility_type: NON-POTW
+  permit_type: NPDES Individual Permit
+  design_flow_mgd: null
+  design_flow_missing: true
+  receiving_water: STM SWR TO  BEAVER MEADOW, TO OUTFALL 001
+  huc8: '04110002'
+  huc8_name: Cuyahoga
+  huc12: '041100020504'
+  county: CUYAHOGA COUNTY
+  latitude: 41.38714
+  longitude: -81.45655
+  compliance_status: null
+  informal_enf_count: 0
+  formal_enf_count: null
+  queried_huc8: '04110002'
