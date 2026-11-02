@@ -1,7 +1,7 @@
 # Columbus (Franklin County, OH — FIPS 39049) — Data-Center Activity Register
 
 Discover-and-pin register for the Columbus / Scioto-mainstem onboarding (Scioto epic #484, onboarding
-#486). Status **as of 2026-06-22**. Tags are BOSC evidentiary discipline: `[verified]` = cited public
+#486). Status **as of 2026-06-22; Council regulation drafts and Grove City updated 2026-11-02**. Tags are BOSC evidentiary discipline: `[verified]` = cited public
 source, `[inference]`, `[reference]`, `[open]`. **Nothing here is in the BOSC corpus yet** — this
 records the verified public record and the primary instruments to *pull*. Every figure is cited; none
 is fabricated. No edge bridges the Lima/Allen "Bistrozzi" land-assembly graph (a shared utility or
@@ -127,3 +127,61 @@ fuel cells / OPSB / Hilliard appeal); Bricker & constructiondive (Google Hartman
 Columbus & columbus.gov & ohiohouse.gov (Columbus DPU reservoirs / 145 MGD / 4th plant / "fair share" /
 Hoover annexation); Policy Matters / signalohio (TCA exemption cost + pause). Full URLs to be recorded in
 GitHub issue #486.
+
+## Update 2026-11-02
+
+Everything in this section is press-sourced and tagged `[reference]`: no primary instrument was read
+this session. Projects 1–5 have **no new instrument**. Nothing new was found for AWS, Google, or
+Cologix.
+
+### Columbus City Council — regulations, not a ban `[reference]`
+
+- Council held a hearing on 2026-07-22 and chose to **draft regulations rather than a moratorium or
+  ban**, despite public comment asking for one (WVXU, 2026-07-23). A second hearing followed on
+  2026-09-16.
+- On 2026-09-16/17, Council members **Hardin and Wyche** proposed "guardrails" (Axios Columbus,
+  2026-09-17). They are three draft ordinances:
+  - water-use requirements;
+  - sewer-discharge requirements;
+  - a decommissioning plan, plus cost sharing for water infrastructure.
+- Ordinance numbers, final text and passage are all `[open]`. Pull the Council legislation record
+  (Legistar) once the drafts are introduced. The water and sewer drafts are the Columbus DPU instruments
+  this register's hydrology hook has been waiting for; until one is enacted, read them as a pending
+  instrument.
+
+### Grove City (Franklin Co) — moratorium and Issue 28 `[reference]`
+
+Grove City is inside this register's **Franklin County proper** guardrail, and the New Albany
+register already routes its ballot measure here. It is recorded as **metro context, not a project
+entry**, because no campus there has a pinned instrument.
+
+- **Moratorium:** Council approved a **12-month pause** on data centers **6–1 on 2026-06-01** (Holt
+  voting no), amended to add a **6-month review** (CW Columbus). Ordinance number `[open]`.
+- **Headwaters Site Development / Stream Data Centers:** ~**310 ac at Rensch / Beatty Rd**, reported
+  at **$6.9B**. ⚠️ The press disagrees about its status: NBC4 reports the project ended with the
+  moratorium, while Axios (2026-09-02) still describes it as planned. Status is `[open]`, and it is not
+  promoted to a project entry until a zoning or annexation instrument pins it.
+- **Issue 28, the "Community Consent Amendment":** on the **2026-11-03** ballot. It sets thresholds of
+  **50 ac / 20 MW / 500,000 gpd** and, per the New Albany register's note, does not name data centers.
+  Council passed a resolution opposing it (ABC6). ⚠️ Press reports a revised version, so the
+  **certified ballot text is `[open]`**; the controlling record is the Franklin County Board of
+  Elections. **A ballot measure is not an outcome.** See
+  [`../legal/datacenter-legislation/local-ballot-2026-11.md`](../legal/datacenter-legislation/local-ballot-2026-11.md).
+
+### Disambiguation — Jerome Twp is Union County
+
+Jerome Township data-center reporting concerns **Union County (39159)**, outside this register's
+guardrail, and is not recorded here. It is the same county-line trap as AWS Dublin (Project 4).
+
+### Sources (added 2026-11-02)
+
+- WVXU, 2026-07-23 —
+  <https://www.wvxu.org/2026-07-23/columbus-city-council-to-pursue-data-center-regulations-instead-of-ban-despite-community-demands>
+- Axios Columbus, 2026-09-17 —
+  <https://www.axios.com/local/columbus/2026/09/17/hardin-wyche-propose-new-data-center-guardrails>
+- CW Columbus (Grove City pause) —
+  <https://cwcolumbus.com/news/local/grove-city-council-approves-1-year-pause-on-data-centers-after-packed-meeting>
+- NBC4 (Grove City halt; Headwaters) —
+  <https://www.nbc4i.com/news/local-news/grove-city/grove-city-puts-one-year-halt-to-data-centers/amp/>
+- ABC6 (Issue 28) —
+  <https://abc6onyourside.com/news/local/issue-28-protecting-grove-city-or-setting-it-back-community-consent-ammendment-protect-save-jen-belt-ballot-data-center-acres-developments-hurdles-institutions-growth-patrick-castro>

@@ -2,7 +2,7 @@
 
 Discover-and-pin register for the Bowling Green watershed point — the **Portage River · Maumee
 divide** (drinks the Maumee at the Waterville intake, discharges to the North Branch Portage).
-Status **as of 2026-08-05** (opened #1435 2026-07-10; §3 #1437, §3a #1440, §4 #1436 + #1438,
+Status **as of 2026-08-05; deltas added 2026-11-02** (last section) (opened #1435 2026-07-10; §3 #1437, §3a #1440, §4 #1436 + #1438,
 §5 #1438). Tags are BOSC evidentiary discipline: `[verified]` =
 on-record in a government/primary source (often two+), `[reported]` = credible secondary /
 investigative journalism, not officially confirmed, `[reference]` = authoritative-but-secondary
@@ -486,3 +486,28 @@ The bytes are committed; these are the routes they were served from, for a later
   <https://www.datacenterdynamics.com/en/news/fortune-200-tech-company-looks-to-build-750m-campus-in-northern-ohio/>
 - BG Independent, Oppidan build (2026-02-10) —
   <https://bgindependentmedia.org/bg-has-its-own-much-smaller-less-energy-guzzling-data-center-being-built-in-woodbridge-business-park/>
+
+## Update 2026-11-02
+
+A web sweep for deltas since the 2026-08-05 status. One delta, from press only. Nothing new is
+ingested.
+
+- `[reported]` **The Schaller rezoning, township step.** On **2026-08-12** the Middleton Township
+  Zoning Commission voted **4–1 against recommending** the A-1 → M-1 rezoning reported at
+  "39.2 ac" (BG Independent). Bostdorff, Ehrmin, Ellerbrock and Zuchowski voted no; Fought voted
+  yes. The stated use, temporary construction parking plus another retention pond on Ohio 25 at the
+  northwest corner of the Meta site, matches the **A. Schaller Limited Partnership, 39.265 ac**
+  application in §4 (county planning commission 6–2 to recommend, 2026-07-07).
+  - `[inference]` that the press's "39.2 ac" is the Schaller 39.265 ac. The use, location and
+    acreage all agree, but the article names no applicant or parcel number.
+  - `[open]` **The trustees' decision.** Pull the trustees' minutes, as for 2026-07-07. ⚠️ Don't
+    take the press's tally: §4 records that the 2026-07-07 roll call was reported backwards.
+- `[open]` **The R.C. 519.12 referendum on the 31.82-ac rezoning.** No report of a Middleton
+  Township question on the 2026-11-03 ballot was found, and the Wood County Board of Elections was
+  not queried. Since this is not on the network ballot ledger
+  ([`local-ballot-2026-11.md`](../legal/datacenter-legislation/local-ballot-2026-11.md)), the drive
+  most likely did not qualify `[inference]`. That is not a negative until the Board answers.
+
+Source for this section:
+
+- BG Independent Media: <https://bgindependentmedia.org/?p=124672>

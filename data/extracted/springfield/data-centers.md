@@ -2,7 +2,7 @@
 
 Discover-and-pin register for the Springfield onboarding (epic #451 / onboarding #452;
 sub-issues #454 discover-and-pin, #453 Roshel scope-out, #523 Z-2026-05 records request).
-Status **as of 2026-06-22**.
+Status **as of 2026-06-22; moratorium, county zoning and the 5C tenancy updated 2026-11-02**.
 Tags are BOSC evidentiary discipline: `[verified]` = cited public source, `[inference]`,
 `[open]`. **Nothing here is in the BOSC corpus yet** — this records the *verified public
 record* and the specific primary instruments to *pull*. Every figure is cited; none is
@@ -55,11 +55,14 @@ enters this register.
 - **Caution:** "75 MW" appears attributed to *both* a 5C interim phase and the Crusoe project across
   articles; treat **150 MW** as 5C's authoritative (City FAQ) and **75 MW** as Crusoe's, but confirm
   each from its own air-permit/utility filing before relying on either in a hydrology scenario. `[open]`
+  *Note 2026-11-02:* one 2026-08-14 account lists Crusoe as a **5C tenant**, which would collapse
+  this split. The split is kept, and the conflict is `[open]` — see "Update 2026-11-02".
 
 ## Regulatory context
 
 - **City moratorium:** a 6-month moratorium on *new* data centers was proposed at the **2026-06-16**
   Springfield City Commission (Cmsr. Ricketts); does **not** affect 5C (already under construction). `[verified]`
+  *Note 2026-11-02:* reported **adopted 5–0 on 2026-07-14** — see "Update 2026-11-02".
 - **Ohio EPA General NPDES Permit for Data Centers (OHD000001) — WITHDRAWN:** public-noticed as a
   draft 2025-10-31 (hearing 2025-12-17, comment closed 2026-01-16), it would have covered
   non-contact cooling water, cooling-tower/boiler blowdown and generator/fuel stormwater, and barred
@@ -175,3 +178,55 @@ WSBT / WVPE (New Carlisle, IN disambiguation); Clark County Rural Zoning Commiss
 (2026-06-18, mailed); Ohio Auditor "Springfield-Beckley Municipal Airport JEDD" report; herald-dispatch
 (Google "Project Dazzler," Green Twp / **Scioto** Co — disambiguation). Full URLs recorded in GitHub
 issues #454, #453, and #523.
+
+## Update 2026-11-02
+
+A re-sweep on 2026-11-02 of what has happened since the 2026-06-22 as-of. Nothing above is
+deleted; entries it answers carry a dated pointer here. Several search hits were **Springfield,
+MO** and are excluded.
+
+### City moratorium — adopted `[reference]`
+
+- `[reference — Springfield News-Sun; The Ohio Register]` The City Commission passed the
+  six-month moratorium **5–0 on 2026-07-14**. It covers **new** data centers above **25 MW**;
+  5C is exempt. The ordinance number, exact effective date and any extension are `[open]`. On a
+  six-month term it would lapse about mid-January 2027 unless extended `[inference]`.
+
+### Clark County zoning text ZA-2026-01
+
+- `[verified — Board of Commissioners minutes, 2026-04-29]` The Commissioners **initiated**
+  zoning text amendment **ZA-2026-01** on 2026-04-29. This verifies the initiation only.
+- `[reference — Springfield News-Sun]` The Planning Commission recommended it **10–0 on
+  2026-06-03**, and the hearing was 2026-07-08. As reported, it confines data centers to the
+  **I-2** district in the unincorporated townships, with **Pike, German and Springfield
+  townships** excluded. The adoption date and the adopted text are `[open]`.
+- `[inference]` This is the county-zoning instrument that would govern a data center on the
+  **Z-2026-05** Peacock Rd tract, which that rezoning would put in **I-1**, not I-2. Whether
+  ZA-2026-01 applies to township land inside the airport JEDD is a question for the adopted
+  text, not this register.
+
+### Other local instruments `[reference]`
+
+- A citizen charter petition (Rexroth / Bethel) would ban data centers above a **7.5 MW**
+  exemption and needs 720 signatures. It has not been reported as qualifying and is **not known
+  to be on the 2026-11-03 ballot** `[open]`.
+- Springfield Township text amendment **SA-2026-01** had a hearing set for 2026-10-21; the
+  outcome is `[open]`.
+
+### Project 1 — Vultr cluster, and the Crusoe conflict
+
+- `[reference — Data Center Dynamics]` Vultr plans a **50 MW** AMD MI355X cluster at the 5C site.
+  That sits inside the City's 150 MW figure, so it changes no figure above.
+- `[reference — WYSO 2026-08-14]` WYSO lists **Crusoe as a tenant of 5C**. That contradicts this
+  register's two-project split (Project 2: Crusoe at an undisclosed parcel distinct from 601
+  Benjamin Drive). Neither account is a primary instrument. **The split is kept** and the
+  conflict is `[open]`; the two TCA award documents (instrument 5) and the air PTIs (instrument
+  1) would each name a site.
+
+### Sources (added 2026-11-02)
+
+- Moratorium: <https://www.springfieldnewssun.com/local/springfield-passes-6-month-moratorium-on-data-centers/article_d9587a42-4cb0-5262-a191-c5dee6a6bfc1.html>
+  · <https://www.theohioregister.com/springfield-city-commission-passes-moratorium-on-data-centers/>
+- ZA-2026-01 initiation (minutes): <https://www.clarkcountyohio.gov/AgendaCenter/ViewFile/Minutes/_04292026-1232>
+- ZA-2026-01 adoption: <https://www.springfieldnewssun.com/local/clark-county-approves-new-zoning-rules-for-data-centers/article_941ca03e-6407-53b8-85b4-e86901b4c0b4.html>
+- Vultr 50 MW: <https://www.datacenterdynamics.com/en/news/vultr-plans-50mw-amd-mi355x-cluster-in-springfield-ohio/>

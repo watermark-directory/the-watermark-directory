@@ -57,7 +57,7 @@ through the press. That is pull priority 1.
 | **Hubbard** | Trumbull | `lordstown` — county-adjacent | initiative | **full ban** | certified by the Auditor 2026-07-16 |
 | **Grove City** | Franklin | `columbus` — county-adjacent | charter (Community Consent) | **20 MW** / 50 ac / 500k gpd | certified |
 | **Wilmington** | Clinton | `wilmington` — site, queued | **4 referendums** | — | certified; a 5th initiative **refused 4–0** |
-| **Ashville** | Pickaway | not registered | referendum on Res. 06-2026 | — | certified 2026-08-24, 4–0 |
+| **Ashville** | Pickaway | `ashville` (tracking, registered 2026-11-02) | referendum on Res. 06-2026 | — | certified 2026-08-24, 4–0 |
 | **Sidney** | Shelby | `sidney` — site, live + selectable | 3 petitions | — | **ballot date `[open]`** |
 | **2 Adams Co. townships** | Adams | `west-union` — site, queued | township zoning | — | **unconfirmed; which two is `[inference]`** |
 
