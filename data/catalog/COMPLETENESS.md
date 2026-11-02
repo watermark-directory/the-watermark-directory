@@ -4,12 +4,12 @@
 
 The **mechanical** half of the corpus-completeness audit: every dataset registered in the data catalog (`data/catalog/`) checked for existence and freshness against the committed reconcile snapshot (`data/catalog/_observed.yaml`). The **substantive** half — records an authority has *withheld* — stays human-authored in [`data/extracted/legal/corpus-completeness-audit.md`](../extracted/legal/corpus-completeness-audit.md).
 
-Snapshot reconciled: **2026-11-02T16:56:53.128405+00:00**. Regenerate with `watermark catalog audit --apply` after `watermark catalog reconcile`.
+Snapshot reconciled: **2026-11-02T17:36:50.694658+00:00**. Regenerate with `watermark catalog audit --apply` after `watermark catalog reconcile`.
 
 ## Headline
 
-- **219** catalogued datasets — **215** reviewed.
-- **218** present and fresh · **1** stale · **0** LFS pointer (not materialized in this checkout).
+- **229** catalogued datasets — **215** reviewed.
+- **228** present and fresh · **1** stale · **0** LFS pointer (not materialized in this checkout).
 - **0** missing (declared files absent) · **0** unobserved (no snapshot record).
 
 ## Coverage by collection
@@ -19,20 +19,28 @@ Snapshot reconciled: **2026-11-02T16:56:53.128405+00:00**. Regenerate with `wate
 | bundle | bundle | 1 | 1 | 0 | 0 |
 | derived | derived | 1 | 1 | 0 | 0 |
 | extracted | aedg | 2 | 2 | 0 | 0 |
+| extracted | akron | 1 | 1 | 0 | 0 |
 | extracted | american-township | 2 | 2 | 0 | 0 |
+| extracted | ashville | 1 | 1 | 0 | 0 |
+| extracted | athens | 1 | 1 | 0 | 0 |
 | extracted | bowling-green | 1 | 1 | 0 | 0 |
+| extracted | canton | 1 | 1 | 0 | 0 |
+| extracted | cleveland | 1 | 1 | 0 | 0 |
 | extracted | commissioners | 3 | 3 | 0 | 0 |
 | extracted | extracted | 2 | 2 | 0 | 0 |
 | extracted | findlay | 6 | 6 | 0 | 0 |
 | extracted | fort-wayne | 1 | 1 | 0 | 0 |
+| extracted | fremont | 1 | 1 | 0 | 0 |
 | extracted | grid | 5 | 5 | 0 | 0 |
 | extracted | hamilton-middletown | 1 | 1 | 0 | 0 |
 | extracted | history | 1 | 1 | 0 | 0 |
 | extracted | idem | 1 | 1 | 0 | 0 |
 | extracted | lacrpc | 2 | 2 | 0 | 0 |
+| extracted | lancaster | 1 | 1 | 0 | 0 |
 | extracted | legal | 24 | 23 | 1 | 0 |
 | extracted | lima | 3 | 3 | 0 | 0 |
 | extracted | limaohio | 1 | 1 | 0 | 0 |
+| extracted | lordstown | 1 | 1 | 0 | 0 |
 | extracted | mansfield | 1 | 1 | 0 | 0 |
 | extracted | maumee-tmdl | 1 | 1 | 0 | 0 |
 | extracted | meetings | 1 | 1 | 0 | 0 |
@@ -44,6 +52,7 @@ Snapshot reconciled: **2026-11-02T16:56:53.128405+00:00**. Regenerate with `wate
 | extracted | plans | 1 | 1 | 0 | 0 |
 | extracted | recorder | 1 | 1 | 0 | 0 |
 | extracted | regulatory | 2 | 2 | 0 | 0 |
+| extracted | shalersville | 1 | 1 | 0 | 0 |
 | extracted | shawnee-township | 1 | 1 | 0 | 0 |
 | extracted | sidney | 5 | 5 | 0 | 0 |
 | extracted | toledo | 1 | 1 | 0 | 0 |
@@ -56,6 +65,7 @@ Snapshot reconciled: **2026-11-02T16:56:53.128405+00:00**. Regenerate with `wate
 | extracted | wilmington | 2 | 2 | 0 | 0 |
 | extracted | wpafb | 2 | 2 | 0 | 0 |
 | extracted | xenia | 1 | 1 | 0 | 0 |
+| extracted | youngstown | 1 | 1 | 0 | 0 |
 | reference | air | 2 | 2 | 0 | 0 |
 | reference | allen-boe | 4 | 4 | 0 | 0 |
 | reference | allen-gis | 1 | 1 | 0 | 0 |

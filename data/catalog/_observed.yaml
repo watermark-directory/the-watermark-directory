@@ -1,4 +1,4 @@
-reconciled_at: '2026-11-02T16:56:53.128405+00:00'
+reconciled_at: '2026-11-02T17:36:50.694658+00:00'
 entries:
   abatement-parameters:
     exists: true
@@ -543,6 +543,66 @@ entries:
         file_count: 1
         asof: null
         stale: false
+  data-centers-akron:
+    exists: true
+    sha256: b5fe69bdadca777368fac13afa74bf52e85c7a60990d050777a5d6885eff3add
+    size_bytes: 3580
+    lfs_materialized: true
+    file_count: 1
+    missing: []
+    asof: null
+    stale: false
+    site_scope: site:akron
+  data-centers-ashville:
+    exists: true
+    sha256: d9c6c79313c3791baf9e41fb25e50a3ff874155c450bb5f1b9db8622ca1cd29a
+    size_bytes: 5733
+    lfs_materialized: true
+    file_count: 1
+    missing: []
+    asof: null
+    stale: false
+    site_scope: site:ashville
+  data-centers-athens:
+    exists: true
+    sha256: d9e334b323f2e7ce746b139a2148b91c468b819e1f67844ee6e14fd01a20a475
+    size_bytes: 3098
+    lfs_materialized: true
+    file_count: 1
+    missing: []
+    asof: null
+    stale: false
+    site_scope: site:athens
+  data-centers-canton:
+    exists: true
+    sha256: 1f26cb0f9e9cb55418a866902cd790fdcecfa6824c7d6a327980f3934d5271f3
+    size_bytes: 5227
+    lfs_materialized: true
+    file_count: 1
+    missing: []
+    asof: null
+    stale: false
+    site_scope: site:canton
+  data-centers-cleveland:
+    exists: true
+    sha256: 3293af4e768cc840ca5a7ac4da8a4f8c00ae1d4a2094e346e45763766d9c49f6
+    size_bytes: 4735
+    lfs_materialized: true
+    file_count: 1
+    missing: []
+    asof: null
+    stale: false
+    site_scope: site:cleveland
+  data-centers-fremont:
+    exists: true
+    sha256: 5eb738b225d306d7386d1efecf7edaa7fd2d89d1baba11e347457d536bd1eda7
+    size_bytes: 1635
+    lfs_materialized: true
+    file_count: 1
+    missing: []
+    asof: null
+    stale: false
+    site_scope: site:fremont
   data-centers-hamilton-middletown:
     exists: true
     sha256: 51e15a8fb6f5710b1d5b07275318d89c5653973dbbe2d02a285f32a6d379a933
@@ -553,6 +613,16 @@ entries:
     asof: null
     stale: false
     site_scope: site:hamilton-middletown
+  data-centers-lancaster:
+    exists: true
+    sha256: 18d87d4f1d8d3bed61e287ab9373494740a0eebe21f9153d53c41abda7b24c84
+    size_bytes: 4985
+    lfs_materialized: true
+    file_count: 1
+    missing: []
+    asof: null
+    stale: false
+    site_scope: site:lancaster
   data-centers-lima:
     exists: true
     sha256: 43db2cf639c19805d47497a81d057f094b69cd4cbe3c66be9e3643b667654161
@@ -563,6 +633,16 @@ entries:
     asof: null
     stale: false
     site_scope: site:lima
+  data-centers-lordstown:
+    exists: true
+    sha256: 388ef76e77b2025976e8357be0c1609ffe583cf1bdf9fe0d79dbf4b41e58bbee
+    size_bytes: 7179
+    lfs_materialized: true
+    file_count: 1
+    missing: []
+    asof: null
+    stale: false
+    site_scope: site:lordstown
   data-centers-ottawa:
     exists: true
     sha256: 6df23f08a8327e3f3fd965902d2066e26d26fe8be8754c7bdbb1f1719d97a092
@@ -573,6 +653,16 @@ entries:
     asof: null
     stale: false
     site_scope: site:ottawa
+  data-centers-shalersville:
+    exists: true
+    sha256: ff6ab4a6690403586dc991dc6ff62853f3247e8fa683044695b316d5d6694353
+    size_bytes: 3848
+    lfs_materialized: true
+    file_count: 1
+    missing: []
+    asof: null
+    stale: false
+    site_scope: site:shalersville
   data-centers-sidney:
     exists: true
     sha256: 939a2fc0050b7fb05899a4df24b47f7920d0331563641d6bec3dc042409cdcc3
@@ -663,6 +753,16 @@ entries:
     asof: null
     stale: false
     site_scope: site:xenia
+  data-centers-youngstown:
+    exists: true
+    sha256: 6fe52ad1834b16eb8ffe9229541d1c0ed652ca22894b14fb5b89044ee9ebdd3d
+    size_bytes: 4687
+    lfs_materialized: true
+    file_count: 1
+    missing: []
+    asof: null
+    stale: false
+    site_scope: site:youngstown
   datacenter-facility-wwtp-in0032191-wwtp-receiving-water:
     exists: true
     sha256: d5aade1e9cb5ed2cef93e0e8f6dfd6b7c3b3fe8a98b102311dd268a0649e078b
