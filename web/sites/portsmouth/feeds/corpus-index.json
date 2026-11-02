@@ -105,7 +105,7 @@
     "label": "Portsmouth · Green Twp",
     "scope": "site",
     "links_out": 3,
-    "links_in": 26,
+    "links_in": 27,
     "lines": 14,
     "updated": null
   },
@@ -1120,6 +1120,17 @@
     "links_in": 0,
     "lines": 13,
     "updated": "2026-07-14"
+  },
+  {
+    "id": "record/portsmouth-data-centers",
+    "node_class": "record",
+    "kind": "record",
+    "label": "Portsmouth / Scioto Co., OH — Data-Center Activity Register",
+    "scope": "site",
+    "links_out": 2,
+    "links_in": 0,
+    "lines": 22,
+    "updated": "2026-11-02"
   },
   {
     "id": "relation/city-of-portsmouth--operates--npdes-0pd00013",

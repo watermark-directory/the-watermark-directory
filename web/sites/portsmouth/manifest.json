@@ -2,9 +2,9 @@
   "site": "portsmouth",
   "bundle_version": "1.0.0",
   "contract_version": "2.5.0",
-  "generated_at": "2026-09-28T18:12:23+00:00",
+  "generated_at": "2026-11-02T17:17:46+00:00",
   "feed_count": 24,
-  "row_total": 447,
+  "row_total": 449,
   "readiness": {
     "tier": "stub",
     "domains": {
@@ -191,7 +191,7 @@
       "media_type": "application/json",
       "schema": "schemas/corpus-index.schema.json",
       "kind": "collection",
-      "count": 114
+      "count": 115
     },
     {
       "name": "corpus-nodes",
@@ -199,7 +199,7 @@
       "media_type": "application/x-ndjson",
       "schema": "schemas/corpus-nodes.schema.json",
       "kind": "collection",
-      "count": 114
+      "count": 115
     },
     {
       "name": "ask-embeddings",

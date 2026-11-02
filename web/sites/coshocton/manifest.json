@@ -2,9 +2,9 @@
   "site": "coshocton",
   "bundle_version": "1.0.0",
   "contract_version": "2.5.0",
-  "generated_at": "2026-09-28T18:10:59+00:00",
+  "generated_at": "2026-11-02T17:08:15+00:00",
   "feed_count": 24,
-  "row_total": 349,
+  "row_total": 351,
   "readiness": {
     "tier": "stub",
     "domains": {
@@ -191,7 +191,7 @@
       "media_type": "application/json",
       "schema": "schemas/corpus-index.schema.json",
       "kind": "collection",
-      "count": 85
+      "count": 86
     },
     {
       "name": "corpus-nodes",
@@ -199,7 +199,7 @@
       "media_type": "application/x-ndjson",
       "schema": "schemas/corpus-nodes.schema.json",
       "kind": "collection",
-      "count": 85
+      "count": 86
     },
     {
       "name": "ask-embeddings",
