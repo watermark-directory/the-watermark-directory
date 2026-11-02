@@ -623,6 +623,54 @@
       "map_lat": 39.5395,
       "map_lon": -82.4074,
       "map_zoom": 12
+    },
+    {
+      "slug": "ashville",
+      "place": "Ashville \u00b7 Pickaway",
+      "basin": "Walnut Creek \u00b7 Scioto",
+      "basin_major": "scioto",
+      "state": "OH",
+      "county": "Pickaway County, OH",
+      "codename": null,
+      "mono": "ASV",
+      "status": "tracking",
+      "selectable": false,
+      "issue": "2209",
+      "map_lat": 39.7243,
+      "map_lon": -82.9575,
+      "map_zoom": 13
+    },
+    {
+      "slug": "canton",
+      "place": "Canton \u00b7 Stark",
+      "basin": "Nimishillen Creek \u00b7 Tuscarawas",
+      "basin_major": "muskingum",
+      "state": "OH",
+      "county": "Stark County, OH",
+      "codename": null,
+      "mono": "CAN",
+      "status": "tracking",
+      "selectable": false,
+      "issue": "2210",
+      "map_lat": 40.8077,
+      "map_lon": -81.3672,
+      "map_zoom": 12
+    },
+    {
+      "slug": "shalersville",
+      "place": "Shalersville \u00b7 Portage",
+      "basin": "Upper Cuyahoga",
+      "basin_major": "cuyahoga",
+      "state": "OH",
+      "county": "Portage County, OH",
+      "codename": null,
+      "mono": "SHL",
+      "status": "tracking",
+      "selectable": false,
+      "issue": "2211",
+      "map_lat": 41.2362,
+      "map_lon": -81.2457,
+      "map_zoom": 12
     }
   ]
 }
