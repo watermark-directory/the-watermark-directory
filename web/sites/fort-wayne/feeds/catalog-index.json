@@ -1,6 +1,6 @@
 {
   "site": "fort-wayne",
-  "catalog_version": "3988e9bbe3815d93ab1c8ffc5eafc2b41517017701e2cbba950dd4459a70a5a3",
+  "catalog_version": "bfd1767bddb66b2cfbb1daf5dba2b5fd590b263731027efa822f6549d8769ccb",
   "contract_version": "2.5.0",
   "atoms": [
     {
@@ -657,6 +657,14 @@
       "site": "fort-wayne",
       "local_id": "data-centers",
       "title": "Per-Site Data-Center Activity Register",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fort-wayne:data-centers-fort-wayne",
+      "kind": "dataset",
+      "site": "fort-wayne",
+      "local_id": "data-centers-fort-wayne",
+      "title": "Fort Wayne / Allen Co., IN — Data-Center Activity Register",
       "feed": "catalog"
     },
     {

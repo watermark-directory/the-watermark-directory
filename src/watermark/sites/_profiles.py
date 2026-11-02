@@ -4742,6 +4742,592 @@ _WAPAKONETA = SiteProfile(
 )
 
 
+# Cleveland / Cuyahoga County, the lower-Cuyahoga node. Registered for the City's data-center
+# moratorium (Ord. No. 556-2026, passed 2026-07-15) and the rejected Lakeland Equity Group
+# proposal at 3560 E. 55th St; see data/extracted/cleveland/data-centers.md.
+# Registration only (2026-11-02 sweep): identity + the verifiable knobs; every other field is
+# an unfilled scaffold TODO, `facilities=()` until an instrument is pinned. The profile gives
+# `cleveland/` its own eponymous corpus scope, so the register never falls into Lima's scope.
+_CLEVELAND = SiteProfile(
+    slug="cleveland",
+    basin="cuyahoga",  # [inference] regional grouping only: the centroid is in HUC-8 04110003 Ashtabula-Chagrin (USGS WBD, 2026-11-02)
+    nwis_sites=["TODO"],  # [open] pending a receiving-reach gage with live IV discharge
+    nasa_power_lat=41.4993,  # [verified] Census Gazetteer place centroid
+    nasa_power_lon=-81.6944,  # the watershed point, NOT a facility location
+    rsei_fips="39035",  # [verified] Cuyahoga County, OH
+    econ_fips="39035",
+    eia861_utility_number=0,  # [open] pending the serving-utility EIA-861 id
+    eia_state="OH",
+    parcels_url="TODO",  # [open] pending the county parcel REST endpoint
+    zoning_url="TODO",
+    floodzone_url="TODO",
+    gnis_default_state="OH",
+    hydro_utm_epsg=32617,  # [verified] UTM 17N (~81.69 degW; zone 17 spans 84-78 degW)
+    lsc_default_ga="136",
+    gis_parcel=None,
+    gis_zoning=None,
+    gis_flood=None,
+    design_lat=41.4993,  # [verified] Census Gazetteer place centroid = NOAA Atlas-14 point
+    design_lon=-81.6944,
+    corridor_name="TODO",  # [open] pending the receiving-water design corridor
+    dominant_hsg="TODO",
+    hsg_citation="TODO",
+    pre_cover="TODO",
+    post_cover="TODO",
+    developed_pervious_cover="TODO",
+    noaa_fallback_24h_depth_in={},
+    parcels_relpath="reference/cleveland/bosc-parcels.geojson",  # [open] commit the site's own geometry
+    footprint_relpath="extracted/cleveland/bosc-site-footprint.yaml",  # [open] pending an identified site
+    climatology_relpath="reference/hydrology/cleveland/nasa-power-climatology.yaml",
+    corridor_ddf_relpath="reference/hydrology/cleveland/atlas14-corridor-ddf.yaml",
+    baseline_relpath="reference/economics/cleveland/baseline.yaml",
+    rsei_relpath="reference/rsei/cleveland/inventory.yaml",
+    consumer_energy_relpath="reference/eia/cleveland/consumer-energy.yaml",
+    demand_pressure_relpath="reference/eia/cleveland/demand-pressure.yaml",
+    grid_relpath="reference/eia/cleveland/grid-profile.yaml",
+    toxic_corridor_bbox=(0.0, 0.0, 0.0, 0.0),
+    plant_receiving={},
+    abstraction_gage="TODO",
+    supply_gage_primary="TODO",
+    supply_gage_secondary="TODO",
+    passby_primary_cfs=0.0,
+    passby_secondary_cfs=0.0,
+    facilities=(),  # [open] no pinned SiteFacility; the register's entries are not yet instruments
+    # Honest [open] citations, not raw "TODO" (B3/#1639), so the grid-knob check locks rather than renders.
+    serving_utility_citation="[open] serving-utility EIA-861 record pending — not yet confirmed",
+    lmp_usd_mwh=0.0,
+    lmp_citation="[open] PJM pricing zone pending the serving-utility confirmation",
+    county_name="Cuyahoga County, OH",  # [verified] FIPS 39035
+)
+
+
+# Akron / Summit County, the upper-Cuyahoga node. Registered for Ord. O-251-2026 (data centers
+# as a conditional use, a zoning ordinance, not a moratorium) and the Ark Data Centers
+# expansion; see data/extracted/akron/data-centers.md.
+# Registration only (2026-11-02 sweep): identity + the verifiable knobs; every other field is
+# an unfilled scaffold TODO, `facilities=()` until an instrument is pinned. The profile gives
+# `akron/` its own eponymous corpus scope, so the register never falls into Lima's scope.
+_AKRON = SiteProfile(
+    slug="akron",
+    basin="cuyahoga",  # [verified] centroid in HUC-8 04110002 Cuyahoga (USGS WBD point query, 2026-11-02)
+    nwis_sites=["TODO"],  # [open] pending a receiving-reach gage with live IV discharge
+    nasa_power_lat=41.0814,  # [verified] Census Gazetteer place centroid
+    nasa_power_lon=-81.519,  # the watershed point, NOT a facility location
+    rsei_fips="39153",  # [verified] Summit County, OH
+    econ_fips="39153",
+    eia861_utility_number=0,  # [open] pending the serving-utility EIA-861 id
+    eia_state="OH",
+    parcels_url="TODO",  # [open] pending the county parcel REST endpoint
+    zoning_url="TODO",
+    floodzone_url="TODO",
+    gnis_default_state="OH",
+    hydro_utm_epsg=32617,  # [verified] UTM 17N (~81.52 degW; zone 17 spans 84-78 degW)
+    lsc_default_ga="136",
+    gis_parcel=None,
+    gis_zoning=None,
+    gis_flood=None,
+    design_lat=41.0814,  # [verified] Census Gazetteer place centroid = NOAA Atlas-14 point
+    design_lon=-81.519,
+    corridor_name="TODO",  # [open] pending the receiving-water design corridor
+    dominant_hsg="TODO",
+    hsg_citation="TODO",
+    pre_cover="TODO",
+    post_cover="TODO",
+    developed_pervious_cover="TODO",
+    noaa_fallback_24h_depth_in={},
+    parcels_relpath="reference/akron/bosc-parcels.geojson",  # [open] commit the site's own geometry
+    footprint_relpath="extracted/akron/bosc-site-footprint.yaml",  # [open] pending an identified site
+    climatology_relpath="reference/hydrology/akron/nasa-power-climatology.yaml",
+    corridor_ddf_relpath="reference/hydrology/akron/atlas14-corridor-ddf.yaml",
+    baseline_relpath="reference/economics/akron/baseline.yaml",
+    rsei_relpath="reference/rsei/akron/inventory.yaml",
+    consumer_energy_relpath="reference/eia/akron/consumer-energy.yaml",
+    demand_pressure_relpath="reference/eia/akron/demand-pressure.yaml",
+    grid_relpath="reference/eia/akron/grid-profile.yaml",
+    toxic_corridor_bbox=(0.0, 0.0, 0.0, 0.0),
+    plant_receiving={},
+    abstraction_gage="TODO",
+    supply_gage_primary="TODO",
+    supply_gage_secondary="TODO",
+    passby_primary_cfs=0.0,
+    passby_secondary_cfs=0.0,
+    facilities=(),  # [open] no pinned SiteFacility; the register's entries are not yet instruments
+    # Honest [open] citations, not raw "TODO" (B3/#1639), so the grid-knob check locks rather than renders.
+    serving_utility_citation="[open] serving-utility EIA-861 record pending — not yet confirmed",
+    lmp_usd_mwh=0.0,
+    lmp_citation="[open] PJM pricing zone pending the serving-utility confirmation",
+    county_name="Summit County, OH",  # [verified] FIPS 39153
+)
+
+
+# Lordstown / Trumbull County, the upper-Mahoning node. Registered for the Bristolville 25
+# Developer application the village's moratorium (Ords. 1-2026, 29-2026) held unreviewed,
+# upheld in 2026-Ohio-4073; see data/extracted/lordstown/data-centers.md.
+# Registration only (2026-11-02 sweep): identity + the verifiable knobs; every other field is
+# an unfilled scaffold TODO, `facilities=()` until an instrument is pinned. The profile gives
+# `lordstown/` its own eponymous corpus scope, so the register never falls into Lima's scope.
+_LORDSTOWN = SiteProfile(
+    slug="lordstown",
+    basin="mahoning",  # [verified] centroid in HUC-8 05030103 Mahoning (USGS WBD point query, 2026-11-02)
+    nwis_sites=["TODO"],  # [open] pending a receiving-reach gage with live IV discharge
+    nasa_power_lat=41.167,  # [verified] Census Gazetteer place centroid
+    nasa_power_lon=-80.8548,  # the watershed point, NOT a facility location
+    rsei_fips="39155",  # [verified] Trumbull County, OH
+    econ_fips="39155",
+    eia861_utility_number=0,  # [open] pending the serving-utility EIA-861 id
+    eia_state="OH",
+    parcels_url="TODO",  # [open] pending the county parcel REST endpoint
+    zoning_url="TODO",
+    floodzone_url="TODO",
+    gnis_default_state="OH",
+    hydro_utm_epsg=32617,  # [verified] UTM 17N (~80.85 degW; zone 17 spans 84-78 degW)
+    lsc_default_ga="136",
+    gis_parcel=None,
+    gis_zoning=None,
+    gis_flood=None,
+    design_lat=41.167,  # [verified] Census Gazetteer place centroid = NOAA Atlas-14 point
+    design_lon=-80.8548,
+    corridor_name="TODO",  # [open] pending the receiving-water design corridor
+    dominant_hsg="TODO",
+    hsg_citation="TODO",
+    pre_cover="TODO",
+    post_cover="TODO",
+    developed_pervious_cover="TODO",
+    noaa_fallback_24h_depth_in={},
+    parcels_relpath="reference/lordstown/bosc-parcels.geojson",  # [open] commit the site's own geometry
+    footprint_relpath="extracted/lordstown/bosc-site-footprint.yaml",  # [open] pending an identified site
+    climatology_relpath="reference/hydrology/lordstown/nasa-power-climatology.yaml",
+    corridor_ddf_relpath="reference/hydrology/lordstown/atlas14-corridor-ddf.yaml",
+    baseline_relpath="reference/economics/lordstown/baseline.yaml",
+    rsei_relpath="reference/rsei/lordstown/inventory.yaml",
+    consumer_energy_relpath="reference/eia/lordstown/consumer-energy.yaml",
+    demand_pressure_relpath="reference/eia/lordstown/demand-pressure.yaml",
+    grid_relpath="reference/eia/lordstown/grid-profile.yaml",
+    toxic_corridor_bbox=(0.0, 0.0, 0.0, 0.0),
+    plant_receiving={},
+    abstraction_gage="TODO",
+    supply_gage_primary="TODO",
+    supply_gage_secondary="TODO",
+    passby_primary_cfs=0.0,
+    passby_secondary_cfs=0.0,
+    facilities=(),  # [open] no pinned SiteFacility; the register's entries are not yet instruments
+    # Honest [open] citations, not raw "TODO" (B3/#1639), so the grid-knob check locks rather than renders.
+    serving_utility_citation="[open] serving-utility EIA-861 record pending — not yet confirmed",
+    lmp_usd_mwh=0.0,
+    lmp_citation="[open] PJM pricing zone pending the serving-utility confirmation",
+    county_name="Trumbull County, OH",  # [verified] FIPS 39155
+)
+
+
+# Youngstown / Mahoning County, the Mahoning-mainstem node. Registered for the City's stated
+# pursuit of a data center, which names no project, and two unsized tracker leads; see
+# data/extracted/youngstown/data-centers.md.
+# Registration only (2026-11-02 sweep): identity + the verifiable knobs; every other field is
+# an unfilled scaffold TODO, `facilities=()` until an instrument is pinned. The profile gives
+# `youngstown/` its own eponymous corpus scope, so the register never falls into Lima's scope.
+_YOUNGSTOWN = SiteProfile(
+    slug="youngstown",
+    basin="mahoning",  # [verified] centroid in HUC-8 05030103 Mahoning (USGS WBD point query, 2026-11-02)
+    nwis_sites=["TODO"],  # [open] pending a receiving-reach gage with live IV discharge
+    nasa_power_lat=41.0998,  # [verified] Census Gazetteer place centroid
+    nasa_power_lon=-80.6495,  # the watershed point, NOT a facility location
+    rsei_fips="39099",  # [verified] Mahoning County, OH
+    econ_fips="39099",
+    eia861_utility_number=0,  # [open] pending the serving-utility EIA-861 id
+    eia_state="OH",
+    parcels_url="TODO",  # [open] pending the county parcel REST endpoint
+    zoning_url="TODO",
+    floodzone_url="TODO",
+    gnis_default_state="OH",
+    hydro_utm_epsg=32617,  # [verified] UTM 17N (~80.65 degW; zone 17 spans 84-78 degW)
+    lsc_default_ga="136",
+    gis_parcel=None,
+    gis_zoning=None,
+    gis_flood=None,
+    design_lat=41.0998,  # [verified] Census Gazetteer place centroid = NOAA Atlas-14 point
+    design_lon=-80.6495,
+    corridor_name="TODO",  # [open] pending the receiving-water design corridor
+    dominant_hsg="TODO",
+    hsg_citation="TODO",
+    pre_cover="TODO",
+    post_cover="TODO",
+    developed_pervious_cover="TODO",
+    noaa_fallback_24h_depth_in={},
+    parcels_relpath="reference/youngstown/bosc-parcels.geojson",  # [open] commit the site's own geometry
+    footprint_relpath="extracted/youngstown/bosc-site-footprint.yaml",  # [open] pending an identified site
+    climatology_relpath="reference/hydrology/youngstown/nasa-power-climatology.yaml",
+    corridor_ddf_relpath="reference/hydrology/youngstown/atlas14-corridor-ddf.yaml",
+    baseline_relpath="reference/economics/youngstown/baseline.yaml",
+    rsei_relpath="reference/rsei/youngstown/inventory.yaml",
+    consumer_energy_relpath="reference/eia/youngstown/consumer-energy.yaml",
+    demand_pressure_relpath="reference/eia/youngstown/demand-pressure.yaml",
+    grid_relpath="reference/eia/youngstown/grid-profile.yaml",
+    toxic_corridor_bbox=(0.0, 0.0, 0.0, 0.0),
+    plant_receiving={},
+    abstraction_gage="TODO",
+    supply_gage_primary="TODO",
+    supply_gage_secondary="TODO",
+    passby_primary_cfs=0.0,
+    passby_secondary_cfs=0.0,
+    facilities=(),  # [open] no pinned SiteFacility; the register's entries are not yet instruments
+    # Honest [open] citations, not raw "TODO" (B3/#1639), so the grid-knob check locks rather than renders.
+    serving_utility_citation="[open] serving-utility EIA-861 record pending — not yet confirmed",
+    lmp_usd_mwh=0.0,
+    lmp_citation="[open] PJM pricing zone pending the serving-utility confirmation",
+    county_name="Mahoning County, OH",  # [verified] FIPS 39099
+)
+
+
+# Lancaster / Fairfield County, the upper-Hocking node. Registered for the Wilson Road assembly
+# (Greenfield Twp to City of Lancaster); see data/extracted/lancaster/data-centers.md.
+# Registration only (2026-11-02 sweep): identity + the verifiable knobs; every other field is
+# an unfilled scaffold TODO, `facilities=()` until an instrument is pinned. The profile gives
+# `lancaster/` its own eponymous corpus scope, so the register never falls into Lima's scope.
+_LANCASTER = SiteProfile(
+    slug="lancaster",
+    basin="hocking",  # [verified] centroid in HUC-8 05030204 Hocking (USGS WBD point query, 2026-11-02)
+    nwis_sites=["TODO"],  # [open] pending a receiving-reach gage with live IV discharge
+    nasa_power_lat=39.7137,  # [verified] Census Gazetteer place centroid
+    nasa_power_lon=-82.5993,  # the watershed point, NOT a facility location
+    rsei_fips="39045",  # [verified] Fairfield County, OH
+    econ_fips="39045",
+    eia861_utility_number=0,  # [open] pending the serving-utility EIA-861 id
+    eia_state="OH",
+    parcels_url="TODO",  # [open] pending the county parcel REST endpoint
+    zoning_url="TODO",
+    floodzone_url="TODO",
+    gnis_default_state="OH",
+    hydro_utm_epsg=32617,  # [verified] UTM 17N (~82.60 degW; zone 17 spans 84-78 degW)
+    lsc_default_ga="136",
+    gis_parcel=None,
+    gis_zoning=None,
+    gis_flood=None,
+    design_lat=39.7137,  # [verified] Census Gazetteer place centroid = NOAA Atlas-14 point
+    design_lon=-82.5993,
+    corridor_name="TODO",  # [open] pending the receiving-water design corridor
+    dominant_hsg="TODO",
+    hsg_citation="TODO",
+    pre_cover="TODO",
+    post_cover="TODO",
+    developed_pervious_cover="TODO",
+    noaa_fallback_24h_depth_in={},
+    parcels_relpath="reference/lancaster/bosc-parcels.geojson",  # [open] commit the site's own geometry
+    footprint_relpath="extracted/lancaster/bosc-site-footprint.yaml",  # [open] pending an identified site
+    climatology_relpath="reference/hydrology/lancaster/nasa-power-climatology.yaml",
+    corridor_ddf_relpath="reference/hydrology/lancaster/atlas14-corridor-ddf.yaml",
+    baseline_relpath="reference/economics/lancaster/baseline.yaml",
+    rsei_relpath="reference/rsei/lancaster/inventory.yaml",
+    consumer_energy_relpath="reference/eia/lancaster/consumer-energy.yaml",
+    demand_pressure_relpath="reference/eia/lancaster/demand-pressure.yaml",
+    grid_relpath="reference/eia/lancaster/grid-profile.yaml",
+    toxic_corridor_bbox=(0.0, 0.0, 0.0, 0.0),
+    plant_receiving={},
+    abstraction_gage="TODO",
+    supply_gage_primary="TODO",
+    supply_gage_secondary="TODO",
+    passby_primary_cfs=0.0,
+    passby_secondary_cfs=0.0,
+    facilities=(),  # [open] no pinned SiteFacility; the register's entries are not yet instruments
+    # Honest [open] citations, not raw "TODO" (B3/#1639), so the grid-knob check locks rather than renders.
+    serving_utility_citation="[open] serving-utility EIA-861 record pending — not yet confirmed",
+    lmp_usd_mwh=0.0,
+    lmp_citation="[open] PJM pricing zone pending the serving-utility confirmation",
+    county_name="Fairfield County, OH",  # [verified] FIPS 39045
+)
+
+
+# Athens / Athens County, the lower-Hocking node. Registered for the Saadia Holding LLC US-33
+# prospect and the local moratoria; see data/extracted/athens/data-centers.md.
+# Registration only (2026-11-02 sweep): identity + the verifiable knobs; every other field is
+# an unfilled scaffold TODO, `facilities=()` until an instrument is pinned. The profile gives
+# `athens/` its own eponymous corpus scope, so the register never falls into Lima's scope.
+_ATHENS = SiteProfile(
+    slug="athens",
+    basin="hocking",  # [verified] centroid in HUC-8 05030204 Hocking (USGS WBD point query, 2026-11-02)
+    nwis_sites=["TODO"],  # [open] pending a receiving-reach gage with live IV discharge
+    nasa_power_lat=39.3292,  # [verified] Census Gazetteer place centroid
+    nasa_power_lon=-82.1013,  # the watershed point, NOT a facility location
+    rsei_fips="39009",  # [verified] Athens County, OH
+    econ_fips="39009",
+    eia861_utility_number=0,  # [open] pending the serving-utility EIA-861 id
+    eia_state="OH",
+    parcels_url="TODO",  # [open] pending the county parcel REST endpoint
+    zoning_url="TODO",
+    floodzone_url="TODO",
+    gnis_default_state="OH",
+    hydro_utm_epsg=32617,  # [verified] UTM 17N (~82.10 degW; zone 17 spans 84-78 degW)
+    lsc_default_ga="136",
+    gis_parcel=None,
+    gis_zoning=None,
+    gis_flood=None,
+    design_lat=39.3292,  # [verified] Census Gazetteer place centroid = NOAA Atlas-14 point
+    design_lon=-82.1013,
+    corridor_name="TODO",  # [open] pending the receiving-water design corridor
+    dominant_hsg="TODO",
+    hsg_citation="TODO",
+    pre_cover="TODO",
+    post_cover="TODO",
+    developed_pervious_cover="TODO",
+    noaa_fallback_24h_depth_in={},
+    parcels_relpath="reference/athens/bosc-parcels.geojson",  # [open] commit the site's own geometry
+    footprint_relpath="extracted/athens/bosc-site-footprint.yaml",  # [open] pending an identified site
+    climatology_relpath="reference/hydrology/athens/nasa-power-climatology.yaml",
+    corridor_ddf_relpath="reference/hydrology/athens/atlas14-corridor-ddf.yaml",
+    baseline_relpath="reference/economics/athens/baseline.yaml",
+    rsei_relpath="reference/rsei/athens/inventory.yaml",
+    consumer_energy_relpath="reference/eia/athens/consumer-energy.yaml",
+    demand_pressure_relpath="reference/eia/athens/demand-pressure.yaml",
+    grid_relpath="reference/eia/athens/grid-profile.yaml",
+    toxic_corridor_bbox=(0.0, 0.0, 0.0, 0.0),
+    plant_receiving={},
+    abstraction_gage="TODO",
+    supply_gage_primary="TODO",
+    supply_gage_secondary="TODO",
+    passby_primary_cfs=0.0,
+    passby_secondary_cfs=0.0,
+    facilities=(),  # [open] no pinned SiteFacility; the register's entries are not yet instruments
+    # Honest [open] citations, not raw "TODO" (B3/#1639), so the grid-knob check locks rather than renders.
+    serving_utility_citation="[open] serving-utility EIA-861 record pending — not yet confirmed",
+    lmp_usd_mwh=0.0,
+    lmp_citation="[open] PJM pricing zone pending the serving-utility confirmation",
+    county_name="Athens County, OH",  # [verified] FIPS 39009
+)
+
+
+# Fremont / Sandusky County, the lower-Sandusky node. Its register holds only a pending-
+# confirmation lead, no numbered project; see data/extracted/fremont/data-centers.md.
+# Registration only (2026-11-02 sweep): identity + the verifiable knobs; every other field is
+# an unfilled scaffold TODO, `facilities=()` until an instrument is pinned. The profile gives
+# `fremont/` its own eponymous corpus scope, so the register never falls into Lima's scope.
+_FREMONT = SiteProfile(
+    slug="fremont",
+    basin="sandusky",  # [verified] centroid in HUC-8 04100011 Sandusky (USGS WBD point query, 2026-11-02)
+    nwis_sites=["TODO"],  # [open] pending a receiving-reach gage with live IV discharge
+    nasa_power_lat=41.3503,  # [verified] Census Gazetteer place centroid
+    nasa_power_lon=-83.1219,  # the watershed point, NOT a facility location
+    rsei_fips="39143",  # [verified] Sandusky County, OH
+    econ_fips="39143",
+    eia861_utility_number=0,  # [open] pending the serving-utility EIA-861 id
+    eia_state="OH",
+    parcels_url="TODO",  # [open] pending the county parcel REST endpoint
+    zoning_url="TODO",
+    floodzone_url="TODO",
+    gnis_default_state="OH",
+    hydro_utm_epsg=32617,  # [verified] UTM 17N (~83.12 degW; zone 17 spans 84-78 degW)
+    lsc_default_ga="136",
+    gis_parcel=None,
+    gis_zoning=None,
+    gis_flood=None,
+    design_lat=41.3503,  # [verified] Census Gazetteer place centroid = NOAA Atlas-14 point
+    design_lon=-83.1219,
+    corridor_name="TODO",  # [open] pending the receiving-water design corridor
+    dominant_hsg="TODO",
+    hsg_citation="TODO",
+    pre_cover="TODO",
+    post_cover="TODO",
+    developed_pervious_cover="TODO",
+    noaa_fallback_24h_depth_in={},
+    parcels_relpath="reference/fremont/bosc-parcels.geojson",  # [open] commit the site's own geometry
+    footprint_relpath="extracted/fremont/bosc-site-footprint.yaml",  # [open] pending an identified site
+    climatology_relpath="reference/hydrology/fremont/nasa-power-climatology.yaml",
+    corridor_ddf_relpath="reference/hydrology/fremont/atlas14-corridor-ddf.yaml",
+    baseline_relpath="reference/economics/fremont/baseline.yaml",
+    rsei_relpath="reference/rsei/fremont/inventory.yaml",
+    consumer_energy_relpath="reference/eia/fremont/consumer-energy.yaml",
+    demand_pressure_relpath="reference/eia/fremont/demand-pressure.yaml",
+    grid_relpath="reference/eia/fremont/grid-profile.yaml",
+    toxic_corridor_bbox=(0.0, 0.0, 0.0, 0.0),
+    plant_receiving={},
+    abstraction_gage="TODO",
+    supply_gage_primary="TODO",
+    supply_gage_secondary="TODO",
+    passby_primary_cfs=0.0,
+    passby_secondary_cfs=0.0,
+    facilities=(),  # [open] no pinned SiteFacility; the register's entries are not yet instruments
+    # Honest [open] citations, not raw "TODO" (B3/#1639), so the grid-knob check locks rather than renders.
+    serving_utility_citation="[open] serving-utility EIA-861 record pending — not yet confirmed",
+    lmp_usd_mwh=0.0,
+    lmp_citation="[open] PJM pricing zone pending the serving-utility confirmation",
+    county_name="Sandusky County, OH",  # [verified] FIPS 39143
+)
+
+
+# Ashville / Pickaway County (#2209). Registered for the EdgeConneX / PowerConneX "Ashville
+# Energy Center" and the referendum the Ohio Supreme Court ordered onto the ballot
+# (2026-Ohio-3035); see data/extracted/ashville/data-centers.md.
+# Registration only (2026-11-02 sweep): identity + the verifiable knobs; every other field is
+# an unfilled scaffold TODO, `facilities=()` until an instrument is pinned. The profile gives
+# `ashville/` its own eponymous corpus scope, so the register never falls into Lima's scope.
+_ASHVILLE = SiteProfile(
+    slug="ashville",
+    basin="scioto",  # [verified] centroid in HUC-8 05060001 Upper Scioto (USGS WBD point query, 2026-11-02)
+    nwis_sites=["TODO"],  # [open] pending a receiving-reach gage with live IV discharge
+    nasa_power_lat=39.7243,  # [verified] Census Gazetteer place centroid
+    nasa_power_lon=-82.9575,  # the watershed point, NOT a facility location
+    rsei_fips="39129",  # [verified] Pickaway County, OH
+    econ_fips="39129",
+    eia861_utility_number=0,  # [open] pending the serving-utility EIA-861 id
+    eia_state="OH",
+    parcels_url="TODO",  # [open] pending the county parcel REST endpoint
+    zoning_url="TODO",
+    floodzone_url="TODO",
+    gnis_default_state="OH",
+    hydro_utm_epsg=32617,  # [verified] UTM 17N (~82.96 degW; zone 17 spans 84-78 degW)
+    lsc_default_ga="136",
+    gis_parcel=None,
+    gis_zoning=None,
+    gis_flood=None,
+    design_lat=39.7243,  # [verified] Census Gazetteer place centroid = NOAA Atlas-14 point
+    design_lon=-82.9575,
+    corridor_name="TODO",  # [open] pending the receiving-water design corridor
+    dominant_hsg="TODO",
+    hsg_citation="TODO",
+    pre_cover="TODO",
+    post_cover="TODO",
+    developed_pervious_cover="TODO",
+    noaa_fallback_24h_depth_in={},
+    parcels_relpath="reference/ashville/bosc-parcels.geojson",  # [open] commit the site's own geometry
+    footprint_relpath="extracted/ashville/bosc-site-footprint.yaml",  # [open] pending an identified site
+    climatology_relpath="reference/hydrology/ashville/nasa-power-climatology.yaml",
+    corridor_ddf_relpath="reference/hydrology/ashville/atlas14-corridor-ddf.yaml",
+    baseline_relpath="reference/economics/ashville/baseline.yaml",
+    rsei_relpath="reference/rsei/ashville/inventory.yaml",
+    consumer_energy_relpath="reference/eia/ashville/consumer-energy.yaml",
+    demand_pressure_relpath="reference/eia/ashville/demand-pressure.yaml",
+    grid_relpath="reference/eia/ashville/grid-profile.yaml",
+    toxic_corridor_bbox=(0.0, 0.0, 0.0, 0.0),
+    plant_receiving={},
+    abstraction_gage="TODO",
+    supply_gage_primary="TODO",
+    supply_gage_secondary="TODO",
+    passby_primary_cfs=0.0,
+    passby_secondary_cfs=0.0,
+    facilities=(),  # [open] no pinned SiteFacility; the register's entries are not yet instruments
+    # Honest [open] citations, not raw "TODO" (B3/#1639), so the grid-knob check locks rather than renders.
+    serving_utility_citation="[open] serving-utility EIA-861 record pending — not yet confirmed",
+    lmp_usd_mwh=0.0,
+    lmp_citation="[open] PJM pricing zone pending the serving-utility confirmation",
+    county_name="Pickaway County, OH",  # [verified] FIPS 39129
+)
+
+
+# Canton / Stark County (#2210). Registered for Midwest Digital Gateway and the two Panattoni
+# proposals (East Side former Ford site; Perry Twp); see data/extracted/canton/data-centers.md.
+# Registration only (2026-11-02 sweep): identity + the verifiable knobs; every other field is
+# an unfilled scaffold TODO, `facilities=()` until an instrument is pinned. The profile gives
+# `canton/` its own eponymous corpus scope, so the register never falls into Lima's scope.
+_CANTON = SiteProfile(
+    slug="canton",
+    basin="muskingum",  # [verified] centroid in HUC-8 05040001 Tuscarawas (USGS WBD point query, 2026-11-02)
+    nwis_sites=["TODO"],  # [open] pending a receiving-reach gage with live IV discharge
+    nasa_power_lat=40.8077,  # [verified] Census Gazetteer place centroid
+    nasa_power_lon=-81.3672,  # the watershed point, NOT a facility location
+    rsei_fips="39151",  # [verified] Stark County, OH
+    econ_fips="39151",
+    eia861_utility_number=0,  # [open] pending the serving-utility EIA-861 id
+    eia_state="OH",
+    parcels_url="TODO",  # [open] pending the county parcel REST endpoint
+    zoning_url="TODO",
+    floodzone_url="TODO",
+    gnis_default_state="OH",
+    hydro_utm_epsg=32617,  # [verified] UTM 17N (~81.37 degW; zone 17 spans 84-78 degW)
+    lsc_default_ga="136",
+    gis_parcel=None,
+    gis_zoning=None,
+    gis_flood=None,
+    design_lat=40.8077,  # [verified] Census Gazetteer place centroid = NOAA Atlas-14 point
+    design_lon=-81.3672,
+    corridor_name="TODO",  # [open] pending the receiving-water design corridor
+    dominant_hsg="TODO",
+    hsg_citation="TODO",
+    pre_cover="TODO",
+    post_cover="TODO",
+    developed_pervious_cover="TODO",
+    noaa_fallback_24h_depth_in={},
+    parcels_relpath="reference/canton/bosc-parcels.geojson",  # [open] commit the site's own geometry
+    footprint_relpath="extracted/canton/bosc-site-footprint.yaml",  # [open] pending an identified site
+    climatology_relpath="reference/hydrology/canton/nasa-power-climatology.yaml",
+    corridor_ddf_relpath="reference/hydrology/canton/atlas14-corridor-ddf.yaml",
+    baseline_relpath="reference/economics/canton/baseline.yaml",
+    rsei_relpath="reference/rsei/canton/inventory.yaml",
+    consumer_energy_relpath="reference/eia/canton/consumer-energy.yaml",
+    demand_pressure_relpath="reference/eia/canton/demand-pressure.yaml",
+    grid_relpath="reference/eia/canton/grid-profile.yaml",
+    toxic_corridor_bbox=(0.0, 0.0, 0.0, 0.0),
+    plant_receiving={},
+    abstraction_gage="TODO",
+    supply_gage_primary="TODO",
+    supply_gage_secondary="TODO",
+    passby_primary_cfs=0.0,
+    passby_secondary_cfs=0.0,
+    facilities=(),  # [open] no pinned SiteFacility; the register's entries are not yet instruments
+    # Honest [open] citations, not raw "TODO" (B3/#1639), so the grid-knob check locks rather than renders.
+    serving_utility_citation="[open] serving-utility EIA-861 record pending — not yet confirmed",
+    lmp_usd_mwh=0.0,
+    lmp_citation="[open] PJM pricing zone pending the serving-utility confirmation",
+    county_name="Stark County, OH",  # [verified] FIPS 39151
+)
+
+
+# Shalersville Township / Portage County (#2211). Registered for the Geis Cos. / Bitdeer
+# Turnpike Commerce Center and the township's zoning response; see
+# data/extracted/shalersville/data-centers.md.
+# Registration only (2026-11-02 sweep): identity + the verifiable knobs; every other field is
+# an unfilled scaffold TODO, `facilities=()` until an instrument is pinned. The profile gives
+# `shalersville/` its own eponymous corpus scope, so the register never falls into Lima's scope.
+_SHALERSVILLE = SiteProfile(
+    slug="shalersville",
+    basin="cuyahoga",  # [verified] centroid in HUC-8 04110002 Cuyahoga (USGS WBD point query, 2026-11-02)
+    nwis_sites=["TODO"],  # [open] pending a receiving-reach gage with live IV discharge
+    nasa_power_lat=41.2362,  # [verified] Census Gazetteer county-subdivision centroid (2024_Gaz_cousubs_39)
+    nasa_power_lon=-81.2457,  # the watershed point, NOT a facility location
+    rsei_fips="39133",  # [verified] Portage County, OH
+    econ_fips="39133",
+    eia861_utility_number=0,  # [open] pending the serving-utility EIA-861 id
+    eia_state="OH",
+    parcels_url="TODO",  # [open] pending the county parcel REST endpoint
+    zoning_url="TODO",
+    floodzone_url="TODO",
+    gnis_default_state="OH",
+    hydro_utm_epsg=32617,  # [verified] UTM 17N (~81.25 degW; zone 17 spans 84-78 degW)
+    lsc_default_ga="136",
+    gis_parcel=None,
+    gis_zoning=None,
+    gis_flood=None,
+    design_lat=41.2362,  # [verified] Census Gazetteer county-subdivision centroid (2024_Gaz_cousubs_39) = NOAA Atlas-14 point
+    design_lon=-81.2457,
+    corridor_name="TODO",  # [open] pending the receiving-water design corridor
+    dominant_hsg="TODO",
+    hsg_citation="TODO",
+    pre_cover="TODO",
+    post_cover="TODO",
+    developed_pervious_cover="TODO",
+    noaa_fallback_24h_depth_in={},
+    parcels_relpath="reference/shalersville/bosc-parcels.geojson",  # [open] commit the site's own geometry
+    footprint_relpath="extracted/shalersville/bosc-site-footprint.yaml",  # [open] pending an identified site
+    climatology_relpath="reference/hydrology/shalersville/nasa-power-climatology.yaml",
+    corridor_ddf_relpath="reference/hydrology/shalersville/atlas14-corridor-ddf.yaml",
+    baseline_relpath="reference/economics/shalersville/baseline.yaml",
+    rsei_relpath="reference/rsei/shalersville/inventory.yaml",
+    consumer_energy_relpath="reference/eia/shalersville/consumer-energy.yaml",
+    demand_pressure_relpath="reference/eia/shalersville/demand-pressure.yaml",
+    grid_relpath="reference/eia/shalersville/grid-profile.yaml",
+    toxic_corridor_bbox=(0.0, 0.0, 0.0, 0.0),
+    plant_receiving={},
+    abstraction_gage="TODO",
+    supply_gage_primary="TODO",
+    supply_gage_secondary="TODO",
+    passby_primary_cfs=0.0,
+    passby_secondary_cfs=0.0,
+    facilities=(),  # [open] no pinned SiteFacility; the register's entries are not yet instruments
+    # Honest [open] citations, not raw "TODO" (B3/#1639), so the grid-knob check locks rather than renders.
+    serving_utility_citation="[open] serving-utility EIA-861 record pending — not yet confirmed",
+    lmp_usd_mwh=0.0,
+    lmp_citation="[open] PJM pricing zone pending the serving-utility confirmation",
+    county_name="Portage County, OH",  # [verified] FIPS 39133
+)
+
+
 SITES: dict[str, SiteProfile] = {
     _LIMA.slug: _LIMA,
     _FINDLAY.slug: _FINDLAY,
@@ -4770,6 +5356,16 @@ SITES: dict[str, SiteProfile] = {
     _BOWLING_GREEN.slug: _BOWLING_GREEN,
     _PORTSMOUTH.slug: _PORTSMOUTH,
     _WAPAKONETA.slug: _WAPAKONETA,
+    _CLEVELAND.slug: _CLEVELAND,
+    _AKRON.slug: _AKRON,
+    _LORDSTOWN.slug: _LORDSTOWN,
+    _YOUNGSTOWN.slug: _YOUNGSTOWN,
+    _LANCASTER.slug: _LANCASTER,
+    _ATHENS.slug: _ATHENS,
+    _FREMONT.slug: _FREMONT,
+    _ASHVILLE.slug: _ASHVILLE,
+    _CANTON.slug: _CANTON,
+    _SHALERSVILLE.slug: _SHALERSVILLE,
 }
 
 # The per-site output relpaths `watermark onboard` writes. Each must be unique to its site so

@@ -561,7 +561,7 @@ sites:
     basin_major: "sandusky"
     receiving_water: null
     state: "OH"
-    county: null
+    county: "Sandusky County, OH"
     codename: null
     mono: "FRE"
     status: "tracking"
@@ -611,7 +611,7 @@ sites:
     basin_major: "cuyahoga"
     receiving_water: null
     state: "OH"
-    county: null
+    county: "Cuyahoga County, OH"
     codename: null
     mono: "CLE"
     status: "tracking"
@@ -627,7 +627,7 @@ sites:
     basin_major: "cuyahoga"
     receiving_water: null
     state: "OH"
-    county: null
+    county: "Summit County, OH"
     codename: null
     mono: "AKR"
     status: "tracking"
@@ -645,7 +645,7 @@ sites:
     basin_major: "mahoning"
     receiving_water: null
     state: "OH"
-    county: null
+    county: "Trumbull County, OH"
     codename: null
     mono: "LRD"
     status: "tracking"
@@ -661,7 +661,7 @@ sites:
     basin_major: "mahoning"
     receiving_water: null
     state: "OH"
-    county: null
+    county: "Mahoning County, OH"
     codename: null
     mono: "YNG"
     status: "tracking"
@@ -679,7 +679,7 @@ sites:
     basin_major: "hocking"
     receiving_water: null
     state: "OH"
-    county: null
+    county: "Fairfield County, OH"
     codename: null
     mono: "LAN"
     status: "tracking"
@@ -695,7 +695,7 @@ sites:
     basin_major: "hocking"
     receiving_water: null
     state: "OH"
-    county: null
+    county: "Athens County, OH"
     codename: null
     mono: "ATH"
     status: "tracking"
@@ -723,8 +723,11 @@ sites:
 
   # ── Opened by the 2026-11-02 network data-center sweep (#2209-#2211) ──────────────────────
   # Three counties no registered site covered, each with documented data-center activity. The
-  # rows are identity only: no profile, no data. Basins are an [inference] from the place's
-  # drainage, not a HUC-8 citation; a profile's `basin` literal must cite one before it lands.
+  # rows carry identity plus a registration-only SiteProfile (FIPS, centroid, UTM zone; every
+  # other knob an [open] TODO), which the per-site catalog entries need to name their owner.
+  # Each basin was checked against a USGS WBD point query at the centroid (2026-11-02), and the
+  # profile's `basin` comment cites the HUC-8. Cleveland is the exception: its centroid falls in
+  # 04110003 Ashtabula-Chagrin, so `cuyahoga` is a regional grouping there, not its drainage.
   # Shalersville is a TOWNSHIP, not an incorporated place, so its coordinate is the Census
   # gazetteer COUNTY-SUBDIVISION centroid (2024_Gaz_cousubs_39), not a place centroid.
 

@@ -188,6 +188,55 @@
     }
   },
   {
+    "id": "data-centers-fort-wayne",
+    "title": "Fort Wayne / Allen Co., IN — Data-Center Activity Register",
+    "scope": "extracted",
+    "collection": "fort-wayne",
+    "status": "needs-review",
+    "producer_kind": "manual",
+    "command": null,
+    "connector_ref": null,
+    "source": "data-center-sweep skill, network-wide manual web pass (2026-11-02) — verify every figure against its cited source before promoting status to reviewed.",
+    "external_url": null,
+    "license": "Curated from cited public sources",
+    "access_tier": "public",
+    "site_scope": "site:fort-wayne",
+    "cadence": "on-demand",
+    "ttl_days": null,
+    "last_refreshed": null,
+    "tags": [
+      "data-center",
+      "fort-wayne",
+      "sweep"
+    ],
+    "storage": [
+      {
+        "relpath": "extracted/fort-wayne/data-centers.md",
+        "media_type": "text/markdown",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "f709dee0511008041410da61cca58ccc089d5c512f975d84a97432b238c36791",
+      "size_bytes": 6398,
+      "lfs_materialized": true,
+      "file_count": 1,
+      "stale": false,
+      "asof": null
+    },
+    "observed_network": null,
+    "citation": {
+      "source": "data-center-sweep skill, network-wide manual web pass (2026-11-02) — verify every figure against its cited source before promoting status to reviewed.",
+      "source_kind": "reference",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": false
+    }
+  },
+  {
     "id": "datacenter-facility-wwtp-in0032191-wwtp-receiving-water",
     "title": "Fort Wayne WWTP (NPDES IN0032191) Receiving-Water & Facility Characterization",
     "scope": "extracted",

@@ -2,9 +2,9 @@
   "site": "sandusky",
   "bundle_version": "1.0.0",
   "contract_version": "2.5.0",
-  "generated_at": "2026-11-02T17:18:35+00:00",
+  "generated_at": "2026-11-02T18:52:41+00:00",
   "feed_count": 24,
-  "row_total": 351,
+  "row_total": 352,
   "readiness": {
     "tier": "stub",
     "domains": {
@@ -159,7 +159,7 @@
       "media_type": "application/json",
       "schema": "schemas/catalog.schema.json",
       "kind": "collection",
-      "count": 58
+      "count": 59
     },
     {
       "name": "facts",

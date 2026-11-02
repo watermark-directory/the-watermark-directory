@@ -188,6 +188,55 @@
     }
   },
   {
+    "id": "data-centers-piketon",
+    "title": "Piketon / Pike Co., OH — Data-Center Activity Register",
+    "scope": "extracted",
+    "collection": "piketon",
+    "status": "needs-review",
+    "producer_kind": "manual",
+    "command": null,
+    "connector_ref": null,
+    "source": "data-center-sweep skill, network-wide manual web pass (2026-11-02) — verify every figure against its cited source before promoting status to reviewed.",
+    "external_url": null,
+    "license": "Curated from cited public sources",
+    "access_tier": "public",
+    "site_scope": "site:piketon",
+    "cadence": "on-demand",
+    "ttl_days": null,
+    "last_refreshed": null,
+    "tags": [
+      "data-center",
+      "piketon",
+      "sweep"
+    ],
+    "storage": [
+      {
+        "relpath": "extracted/piketon/data-centers.md",
+        "media_type": "text/markdown",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "084f5a577bdfd6bcc645a77a51c1c00059304d3d901f41a438363db77ce6c8bb",
+      "size_bytes": 4910,
+      "lfs_materialized": true,
+      "file_count": 1,
+      "stale": false,
+      "asof": null
+    },
+    "observed_network": null,
+    "citation": {
+      "source": "data-center-sweep skill, network-wide manual web pass (2026-11-02) — verify every figure against its cited source before promoting status to reviewed.",
+      "source_kind": "reference",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": false
+    }
+  },
+  {
     "id": "grid",
     "title": "Grid Reliability + Siting Extractions (PJM §202(c) dispatch; AEP Ohio Lyka 345kV project)",
     "scope": "extracted",

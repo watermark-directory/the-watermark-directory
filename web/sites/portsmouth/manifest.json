@@ -2,9 +2,9 @@
   "site": "portsmouth",
   "bundle_version": "1.0.0",
   "contract_version": "2.5.0",
-  "generated_at": "2026-11-02T17:17:46+00:00",
+  "generated_at": "2026-11-02T18:51:50+00:00",
   "feed_count": 24,
-  "row_total": 449,
+  "row_total": 450,
   "readiness": {
     "tier": "stub",
     "domains": {
@@ -159,7 +159,7 @@
       "media_type": "application/json",
       "schema": "schemas/catalog.schema.json",
       "kind": "collection",
-      "count": 59
+      "count": 60
     },
     {
       "name": "facts",

@@ -1,0 +1,24 @@
+[
+  {
+    "site": "lordstown",
+    "hypothesis": "defense",
+    "signal": "watch",
+    "tag": "inference",
+    "sub_thesis": null,
+    "group": "supply",
+    "fields": {
+      "nexus": "Defense-battery corridor",
+      "linkage": "Supply chain (signal)"
+    },
+    "citations": [
+      {
+        "source": "docs/defense-nexus.md",
+        "source_kind": "assumption",
+        "page": null,
+        "confidence": "low",
+        "note": "Inferred from the EV/battery supply corridor around Lordstown; no documented defense nexus yet — a watch-level signal only. Lordstown is a tracking candidate (Mahoning, #490).",
+        "verified": false
+      }
+    ]
+  }
+]

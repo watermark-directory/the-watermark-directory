@@ -1,6 +1,6 @@
 {
   "site": "defiance",
-  "catalog_version": "9a8e6a13c21b6dfbb34afcfda1f0986c40d3e551e6657959c454bf0c56428edb",
+  "catalog_version": "704c530d6badc409e8bff2d113dc4c69b1b88c26045a7adf3d3640810efc369b",
   "contract_version": "2.5.0",
   "atoms": [
     {
@@ -657,6 +657,14 @@
       "site": "defiance",
       "local_id": "data-centers",
       "title": "Per-Site Data-Center Activity Register",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:defiance:data-centers-defiance",
+      "kind": "dataset",
+      "site": "defiance",
+      "local_id": "data-centers-defiance",
+      "title": "Defiance / Defiance Co., OH — Data-Center Activity Register",
       "feed": "catalog"
     },
     {

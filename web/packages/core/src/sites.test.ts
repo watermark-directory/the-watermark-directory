@@ -467,8 +467,9 @@ describe("siteRollup / networkRollup — the directory's per-site record depth (
   });
 
   it("reports nulls — not zeros — for a registered site with no committed bundle", () => {
-    // Lordstown is in the registry (it carries a defense assessment) but has never been exported.
-    expect(siteRollup("lordstown")).toEqual({ documents: null, records: null, tier: null });
+    // Tiffin is registered (tracked upstream of the Sandusky point) but carries no profile, so it
+    // has never been exported. (Lordstown held this role until the 2026-11-02 sweep gave it one.)
+    expect(siteRollup("tiffin")).toEqual({ documents: null, records: null, tier: null });
   });
 
   it("sums the network over built sites only, holding the unbuilt out of every tier", () => {

@@ -1,6 +1,6 @@
 {
   "site": "coshocton",
-  "catalog_version": "0886b62a82888dc93d5af43b34639f947fd3cf09441b8c26ae5c4e956f223806",
+  "catalog_version": "f50776cfca54f718c45193eacc1b8c8c47e756c34d6ef14ae4896832739211da",
   "contract_version": "2.5.0",
   "atoms": [
     {
@@ -657,6 +657,14 @@
       "site": "coshocton",
       "local_id": "data-centers",
       "title": "Per-Site Data-Center Activity Register",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:coshocton:data-centers-coshocton",
+      "kind": "dataset",
+      "site": "coshocton",
+      "local_id": "data-centers-coshocton",
+      "title": "Coshocton / Coshocton Co., OH — Data-Center Activity Register",
       "feed": "catalog"
     },
     {

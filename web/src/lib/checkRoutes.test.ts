@@ -11,7 +11,7 @@
 // `search-coverage.json`, no trail markup) — expected, and why every assertion is on the specific
 // message rather than on the exit code.
 //
-// The size cases use SPARSE files: `ftruncate` to 24 MiB writes no blocks, so a 432 MB tree costs
+// The size cases use SPARSE files: `ftruncate` to 24 MiB writes no blocks, so a 456 MB tree costs
 // nothing and the run stays in milliseconds.
 import { execFileSync } from "node:child_process";
 import { closeSync, ftruncateSync, mkdirSync, mkdtempSync, openSync, rmSync, writeFileSync } from "node:fs";
@@ -149,11 +149,11 @@ describe("check-routes guard 8 — the deploy budget", () => {
   });
 
   it("fails over the total-artifact budget", () => {
-    // 18 × 24 MiB = 432 MB, and not one file over the per-file limit — so this can only be the
+    // 19 × 24 MiB = 456 MB, and not one file over the per-file limit — so this can only be the
     // total tripping, not the per-file check standing in for it.
-    const sparse = Array.from({ length: 18 }, (_, i) => ({ name: `big${i}.bin`, bytes: 24 * 1024 * 1024 }));
+    const sparse = Array.from({ length: 19 }, (_, i) => ({ name: `big${i}.bin`, bytes: 24 * 1024 * 1024 }));
     const out = runGuard(REACHABLE, sparse);
-    expect(out).toContain("over the 420 MB artifact budget");
+    expect(out).toContain("over the 440 MB artifact budget");
     expect(out).not.toContain("per-file limit");
   });
 

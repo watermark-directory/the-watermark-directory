@@ -4,12 +4,12 @@
 
 The **mechanical** half of the corpus-completeness audit: every dataset registered in the data catalog (`data/catalog/`) checked for existence and freshness against the committed reconcile snapshot (`data/catalog/_observed.yaml`). The **substantive** half — records an authority has *withheld* — stays human-authored in [`data/extracted/legal/corpus-completeness-audit.md`](../extracted/legal/corpus-completeness-audit.md).
 
-Snapshot reconciled: **2026-11-02T17:36:50.694658+00:00**. Regenerate with `watermark catalog audit --apply` after `watermark catalog reconcile`.
+Snapshot reconciled: **2026-11-02T18:27:19.421829+00:00**. Regenerate with `watermark catalog audit --apply` after `watermark catalog reconcile`.
 
 ## Headline
 
-- **229** catalogued datasets — **215** reviewed.
-- **228** present and fresh · **1** stale · **0** LFS pointer (not materialized in this checkout).
+- **240** catalogued datasets — **218** reviewed.
+- **239** present and fresh · **1** stale · **0** LFS pointer (not materialized in this checkout).
 - **0** missing (declared files absent) · **0** unobserved (no snapshot record).
 
 ## Coverage by collection
@@ -27,10 +27,13 @@ Snapshot reconciled: **2026-11-02T17:36:50.694658+00:00**. Regenerate with `wate
 | extracted | canton | 1 | 1 | 0 | 0 |
 | extracted | cleveland | 1 | 1 | 0 | 0 |
 | extracted | commissioners | 3 | 3 | 0 | 0 |
+| extracted | coshocton | 1 | 1 | 0 | 0 |
+| extracted | defiance | 1 | 1 | 0 | 0 |
 | extracted | extracted | 2 | 2 | 0 | 0 |
 | extracted | findlay | 6 | 6 | 0 | 0 |
-| extracted | fort-wayne | 1 | 1 | 0 | 0 |
+| extracted | fort-wayne | 2 | 2 | 0 | 0 |
 | extracted | fremont | 1 | 1 | 0 | 0 |
+| extracted | greenville | 1 | 1 | 0 | 0 |
 | extracted | grid | 5 | 5 | 0 | 0 |
 | extracted | hamilton-middletown | 1 | 1 | 0 | 0 |
 | extracted | history | 1 | 1 | 0 | 0 |
@@ -49,13 +52,16 @@ Snapshot reconciled: **2026-11-02T17:36:50.694658+00:00**. Regenerate with `wate
 | extracted | ottawa | 2 | 2 | 0 | 0 |
 | extracted | permits | 2 | 2 | 0 | 0 |
 | extracted | perry-township | 1 | 1 | 0 | 0 |
+| extracted | piketon | 1 | 1 | 0 | 0 |
 | extracted | plans | 1 | 1 | 0 | 0 |
+| extracted | portsmouth | 1 | 1 | 0 | 0 |
 | extracted | recorder | 1 | 1 | 0 | 0 |
 | extracted | regulatory | 2 | 2 | 0 | 0 |
+| extracted | sandusky | 1 | 1 | 0 | 0 |
 | extracted | shalersville | 1 | 1 | 0 | 0 |
 | extracted | shawnee-township | 1 | 1 | 0 | 0 |
 | extracted | sidney | 5 | 5 | 0 | 0 |
-| extracted | toledo | 1 | 1 | 0 | 0 |
+| extracted | toledo | 2 | 2 | 0 | 0 |
 | extracted | troy-piqua | 2 | 2 | 0 | 0 |
 | extracted | urbana | 2 | 2 | 0 | 0 |
 | extracted | van-wert | 4 | 4 | 0 | 0 |
@@ -72,7 +78,7 @@ Snapshot reconciled: **2026-11-02T17:36:50.694658+00:00**. Regenerate with `wate
 | reference | bowling-green | 1 | 1 | 0 | 0 |
 | reference | compute | 1 | 1 | 0 | 0 |
 | reference | datacenter-industry | 1 | 1 | 0 | 0 |
-| reference | echo | 9 | 9 | 0 | 0 |
+| reference | echo | 12 | 12 | 0 | 0 |
 | reference | economics | 2 | 2 | 0 | 0 |
 | reference | eia | 4 | 4 | 0 | 0 |
 | reference | federal | 1 | 1 | 0 | 0 |
@@ -110,25 +116,34 @@ Snapshot reconciled: **2026-11-02T17:36:50.694658+00:00**. Regenerate with `wate
 
 | site | relevant | present | missing |
 | --- | --- | --- | --- |
+| akron | 58 | 42 | 16 |
+| ashville | 58 | 42 | 16 |
+| athens | 58 | 42 | 16 |
 | bowling-green | 63 | 57 | 6 |
 | bryan | 60 | 49 | 11 |
+| canton | 58 | 42 | 16 |
+| cleveland | 58 | 42 | 16 |
 | columbus | 58 | 48 | 10 |
-| coshocton | 58 | 42 | 16 |
-| defiance | 60 | 50 | 10 |
+| coshocton | 59 | 43 | 16 |
+| defiance | 61 | 51 | 10 |
 | findlay | 71 | 65 | 6 |
-| fort-wayne | 48 | 42 | 6 |
-| greenville | 58 | 48 | 10 |
+| fort-wayne | 49 | 43 | 6 |
+| fremont | 58 | 42 | 16 |
+| greenville | 59 | 49 | 10 |
 | hamilton-middletown | 59 | 49 | 10 |
+| lancaster | 58 | 42 | 16 |
 | lima | 121 | 117 | 4 |
+| lordstown | 58 | 42 | 16 |
 | mansfield | 59 | 49 | 10 |
 | new-albany | 59 | 49 | 10 |
 | ottawa | 62 | 54 | 8 |
-| piketon | 58 | 42 | 16 |
-| portsmouth | 59 | 43 | 16 |
-| sandusky | 58 | 42 | 16 |
+| piketon | 59 | 43 | 16 |
+| portsmouth | 60 | 44 | 16 |
+| sandusky | 59 | 43 | 16 |
+| shalersville | 58 | 42 | 16 |
 | sidney | 67 | 62 | 5 |
 | springfield | 58 | 49 | 9 |
-| toledo | 62 | 52 | 10 |
+| toledo | 63 | 53 | 10 |
 | troy-piqua | 62 | 55 | 7 |
 | urbana | 61 | 54 | 7 |
 | van-wert | 67 | 61 | 6 |
@@ -137,6 +152,7 @@ Snapshot reconciled: **2026-11-02T17:36:50.694658+00:00**. Regenerate with `wate
 | wilmington | 62 | 56 | 6 |
 | wpafb | 60 | 52 | 8 |
 | xenia | 59 | 49 | 10 |
+| youngstown | 58 | 42 | 16 |
 
 ## Integrity gaps
 

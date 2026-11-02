@@ -1,0 +1,1087 @@
+{
+  "site": "fremont",
+  "catalog_version": "f1356dd46096277367cee166d00d2bb4d8a022d227242add1eb00b508fec2cfb",
+  "contract_version": "2.5.0",
+  "atoms": [
+    {
+      "handle": "concept:fremont:7q10",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "7q10",
+      "title": "7Q10",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:aep",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "aep",
+      "title": "AEP",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:assimilative-capacity",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "assimilative-capacity",
+      "title": "Assimilative capacity",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:behind-the-meter",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "behind-the-meter",
+      "title": "Behind-the-meter",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:brownfield",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "brownfield",
+      "title": "Brownfield",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:cercla",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "cercla",
+      "title": "CERCLA",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:cgp",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "cgp",
+      "title": "CGP",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:closed-loop-cooling",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "closed-loop-cooling",
+      "title": "Closed-loop cooling",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:cmar",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "cmar",
+      "title": "CMAR",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:colocation",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "colocation",
+      "title": "Colocation",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:common-control-plumbing",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "common-control-plumbing",
+      "title": "Common-control plumbing",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:conditional-use",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "conditional-use",
+      "title": "Conditional use",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:consent-decree",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "consent-decree",
+      "title": "Consent decree",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:constructive-denial",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "constructive-denial",
+      "title": "Constructive denial",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:consumptive-cooling",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "consumptive-cooling",
+      "title": "Consumptive cooling",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:cra",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "cra",
+      "title": "CRA",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:curve-number",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "curve-number",
+      "title": "Curve number",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:dilution",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "dilution",
+      "title": "Dilution",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:dissolved-oxygen",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "dissolved-oxygen",
+      "title": "Dissolved oxygen",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:dmr",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "dmr",
+      "title": "DMR",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:echo",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "echo",
+      "title": "ECHO",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:effluent",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "effluent",
+      "title": "Effluent",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:eia",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "eia",
+      "title": "EIA",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:enterprise-zone",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "enterprise-zone",
+      "title": "Enterprise zone",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:epa",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "epa",
+      "title": "EPA",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:esc",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "esc",
+      "title": "ESC",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:ferc",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "ferc",
+      "title": "FERC",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:ffa",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "ffa",
+      "title": "FFA",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:hb",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "hb",
+      "title": "HB",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:heat-reuse",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "heat-reuse",
+      "title": "Heat reuse",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:hsg",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "hsg",
+      "title": "HSG",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:huc",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "huc",
+      "title": "HUC",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:hyperscale-data-center",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "hyperscale-data-center",
+      "title": "Hyperscale data center",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:hyperscaler",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "hyperscaler",
+      "title": "Hyperscaler",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:il6",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "il6",
+      "title": "IL6",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:interconnection-queue",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "interconnection-queue",
+      "title": "Interconnection queue",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:jedd",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "jedd",
+      "title": "JEDD",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:moratorium",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "moratorium",
+      "title": "Moratorium",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:nda",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "nda",
+      "title": "NDA",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:npdes",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "npdes",
+      "title": "NPDES",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:nwis",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "nwis",
+      "title": "NWIS",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:oepa",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "oepa",
+      "title": "OEPA",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:once-through-cooling",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "once-through-cooling",
+      "title": "Once-through cooling",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:opc",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "opc",
+      "title": "OPC",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:opsb",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "opsb",
+      "title": "OPSB",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:orc",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "orc",
+      "title": "ORC",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:pfas",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "pfas",
+      "title": "PFAS",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:pilot",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "pilot",
+      "title": "PILOT",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:pjm",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "pjm",
+      "title": "PJM",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:potw",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "potw",
+      "title": "POTW",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:pti",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "pti",
+      "title": "PTI",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:public-records-mandamus",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "public-records-mandamus",
+      "title": "Public-records mandamus",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:puco",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "puco",
+      "title": "PUCO",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:pue",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "pue",
+      "title": "PUE",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:rezoning",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "rezoning",
+      "title": "Rezoning",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:rfp",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "rfp",
+      "title": "RFP",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:rfq",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "rfq",
+      "title": "RFQ",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:rsei",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "rsei",
+      "title": "RSEI",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:rto",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "rto",
+      "title": "RTO",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:snc",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "snc",
+      "title": "SNC",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:sos",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "sos",
+      "title": "SOS",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:ssa",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "ssa",
+      "title": "SSA",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:swat",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "swat",
+      "title": "SWAT",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:swcd",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "swcd",
+      "title": "SWCD",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:tax-abatement",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "tax-abatement",
+      "title": "Tax abatement",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:tif",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "tif",
+      "title": "TIF",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:tmdl",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "tmdl",
+      "title": "TMDL",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:total-nitrogen",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "total-nitrogen",
+      "title": "Total nitrogen",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:total-phosphorus",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "total-phosphorus",
+      "title": "Total phosphorus",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:tri",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "tri",
+      "title": "TRI",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:usgs",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "usgs",
+      "title": "USGS",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:variance",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "variance",
+      "title": "Variance",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:wla",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "wla",
+      "title": "WLA",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:wue",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "wue",
+      "title": "WUE",
+      "feed": "concepts"
+    },
+    {
+      "handle": "concept:fremont:wwtp",
+      "kind": "concept",
+      "site": "fremont",
+      "local_id": "wwtp",
+      "title": "WWTP",
+      "feed": "concepts"
+    },
+    {
+      "handle": "dataset:fremont:abatement-parameters",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "abatement-parameters",
+      "title": "Sandusky County, OH Abatement Parameters + What-If Scenario Knobs",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:air-emission-factors",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "air-emission-factors",
+      "title": "Genset Emission Factors (EPA AP-42 §3.4)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:air-naaqs",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "air-naaqs",
+      "title": "National Ambient Air Quality Standards (NAAQS)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:bosc-site-footprint",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "bosc-site-footprint",
+      "title": "Per-Site Campus Footprint Records — boundary, measured acreage, SSURGO HSG",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:bundle-records",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "bundle-records",
+      "title": "The published content bundle — typed feeds + manifest (watermark export)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:compute",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "compute",
+      "title": "AI Accelerator & Rack-Density Compute Reference",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:data-centers",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "data-centers",
+      "title": "Per-Site Data-Center Activity Register",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:data-centers-fremont",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "data-centers-fremont",
+      "title": "Fremont / Sandusky Co., OH — Data-Center Activity Register",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:datacenter-industry",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "datacenter-industry",
+      "title": "Data-Center Industry Reference Priors (Uncertainty Bands)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:echo-sandusky-wwtp",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "echo-sandusky-wwtp",
+      "title": "Sandusky-basin NPDES discharger inventory (EPA ECHO)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:economics-baseline",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "economics-baseline",
+      "title": "Sandusky County, OH Economic Baseline (BLS QCEW + US Census ACS)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:eia",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "eia",
+      "title": "Balancing-Authority Interchange Aggregates (EIA-930)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:eia-consumer-energy",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "eia-consumer-energy",
+      "title": "OH Consumer Energy-Cost Baseline (EIA API v2)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:eia-demand-pressure",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "eia-demand-pressure",
+      "title": "Facility Demand → Consumer Price-Pressure Sensitivity (EIA + facility load)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:eia-grid-profile",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "eia-grid-profile",
+      "title": "Per-Site Campus Grid Profile — Serving Utility, BA & Load Share (EIA-861/930)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:enclave-federal-land",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "enclave-federal-land",
+      "title": "Fremont · Clyde Federal-Enclave Boundary — Sandusky County, OH (DoD MIRTA)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:enclave-profile",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "enclave-profile",
+      "title": "Fremont · Clyde Federal-Enclave Profile — Sandusky County, OH (land / water / wastewater / power / toxics)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:federal",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "federal",
+      "title": "Federal Energy-Policy & National-Output Backdrop (IRA + EIA + LBNL/DOE)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:ferc",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "ferc",
+      "title": "FERC↔PUCO Regulatory Seam (Federal Power Act + FERC eLibrary)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:gleif",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "gleif",
+      "title": "Corridor Entity LEIs (GLEIF)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:greenops",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "greenops",
+      "title": "GreenOps — Anthropic Admin usage & cost",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:greenops-aws",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "greenops-aws",
+      "title": "GreenOps — AWS costs & estimated carbon",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:greenops-factors",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "greenops-factors",
+      "title": "GreenOps — eGRID carbon-intensity, WUE water & inference-energy factors",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:greenops-footprint",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "greenops-footprint",
+      "title": "GreenOps — derived compute footprint (usage → electricity → water)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:greenops-github",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "greenops-github",
+      "title": "GreenOps — GitHub Actions minutes & storage",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:grid",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "grid",
+      "title": "Grid Reliability + Siting Extractions (PJM §202(c) dispatch; AEP Ohio Lyka 345kV project)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:hydrology-atlas14-corridor-ddf",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "hydrology-atlas14-corridor-ddf",
+      "title": "NOAA Atlas-14 Corridor Design-Storm Depths (Depth-Duration-Frequency)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:hydrology-nasa-power-climatology",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "hydrology-nasa-power-climatology",
+      "title": "NASA POWER Climate Normals — site climatology",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:hydrology-ohio-principal-streams",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "hydrology-ohio-principal-streams",
+      "title": "Ohio Principal Streams & Drainage Areas (ODNR, Sherman 1925 / 1999 reprint)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:hydrology-reaches",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "hydrology-reaches",
+      "title": "Reach-network river centerlines — NHDPlus geometry (USGS NLDI)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:hydrology-routing",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "hydrology-routing",
+      "title": "Per-Site Discharge Routing — WWTP receiving stream, permitted design flow, forcemains",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:legal-datacenter-ballot-2026-11",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "legal-datacenter-ballot-2026-11",
+      "title": "Ohio Local Data-Center Ballot Measures — 2026-11-03 General Election",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:legal-datacenter-legislation-hb983-3744",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "legal-datacenter-legislation-hb983-3744",
+      "title": "Data-Center Legislation — H.B. 983 (136th G.A.) Digest & Analysis",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:legal-records-legislation",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "legal-records-legislation",
+      "title": "Public-Records Legislation — Sub. H.B. 314 (136th G.A.) Digest & Analysis",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:lsc-status-report",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "lsc-status-report",
+      "title": "Ohio LSC Status Report of Legislation",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:meetings",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "meetings",
+      "title": "Per-Site Civic Meeting Records (Slug-Scoped)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:network",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "network",
+      "title": "BOSC Watershed-Point Network Synthesis (Maumee Basin)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:odd-grants-loans",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "odd-grants-loans",
+      "title": "Ohio Department of Development — Grants and Loans disbursements (statewide)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:odd-tax-incentives",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "odd-tax-incentives",
+      "title": "Ohio Department of Development — Tax Incentives (JCTC/JRTC/Historic/Datacenter)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:odd-tca-minutes",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "odd-tca-minutes",
+      "title": "Ohio Tax Credit Authority — meeting minutes (Jan 2025 – Jun 2026)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:odot-driveohio-cv-av",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "odot-driveohio-cv-av",
+      "title": "Ohio CV/AV System Core Service Requirements (DriveOhio / AECOM)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:oepa-cooling-reconciliation",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "oepa-cooling-reconciliation",
+      "title": "Cooling-cycling reconciliation — closed-loop cohort water account",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:oepa-ohd000001-coverage",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "oepa-ohd000001-coverage",
+      "title": "OHD000001 data-center general-permit coverage — closed-loop cohort",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:oepa-ohd000001-gp",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "oepa-ohd000001-gp",
+      "title": "Ohio EPA Draft General NPDES Permit for Data Center Facilities (OHD000001)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:onboard-bundle",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "onboard-bundle",
+      "title": "Full site onboarding — every reach/economics connector, in dependency order",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:orc",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "orc",
+      "title": "Ohio Revised Code — Corpus Citation Index",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:orc-orc",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "orc-orc",
+      "title": "Ohio Revised Code — Full Text (Cited Sections + Titles)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:parcel-assemblage",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "parcel-assemblage",
+      "title": "Per-Site Parcel Assemblage Geometry",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:periplus",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "periplus",
+      "title": "Periplus Corridor GIS (Frozen Fork-Point Import)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:pjm",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "pjm",
+      "title": "PJM Wholesale-Market Reference (LMP / RPM Capacity / Large-Load Queue)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:rsei",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "rsei",
+      "title": "RSEI Toxic-Discharge Water Screen",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:rsei-inventory",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "rsei-inventory",
+      "title": "Sandusky County, OH RSEI Toxic-Release Inventory (EPA RSEI Public Data Set v2.3.12)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:thermal",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "thermal",
+      "title": "EPA Thermal-Discharge NPDES Permitting Guidance (EPA-833-F-23-007)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:thermal-ris-tolerances",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "thermal-ris-tolerances",
+      "title": "Great Lakes RIS thermal tolerances (EPA-833-F-23-007 Table 3-5)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:usaspending",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "usaspending",
+      "title": "Federal-Award Footprint (USASpending.gov)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:usgs-published-low-flow",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "usgs-published-low-flow",
+      "title": "USGS Published Low-Flow Statistics for Ohio Streams (Straub 2001 + SIR 2024-5075)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:wqs-criteria",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "wqs-criteria",
+      "title": "Ohio Water Quality Standards — numeric criteria (OAC 3745-1)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:wqs-temperature",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "wqs-temperature",
+      "title": "Ohio Water Quality Standards — numeric temperature criteria (OAC 3745-1)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "entity:fremont:GENERAL DYNAMICS",
+      "kind": "entity",
+      "site": "fremont",
+      "local_id": "GENERAL DYNAMICS",
+      "title": "GENERAL DYNAMICS CORPORATION",
+      "feed": "entities"
+    },
+    {
+      "handle": "entity:fremont:GENERAL DYNAMICS LAND SYSTEMS",
+      "kind": "entity",
+      "site": "fremont",
+      "local_id": "GENERAL DYNAMICS LAND SYSTEMS",
+      "title": "General Dynamics Land Systems Inc.",
+      "feed": "entities"
+    }
+  ]
+}
