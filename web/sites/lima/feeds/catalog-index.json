@@ -1,6 +1,6 @@
 {
   "site": "lima",
-  "catalog_version": "739a5a2baabca35056452a3579acccbe47b17d984abb3d29eccf8064638ab250",
+  "catalog_version": "72bd1ded71de23d6c703a339bcb3658eb8afd7bee8bd0b1dca3cd718f139d25e",
   "contract_version": "2.5.0",
   "atoms": [
     {
@@ -852,11 +852,67 @@
       "feed": "catalog"
     },
     {
+      "handle": "dataset:lima:data-centers-akron",
+      "kind": "dataset",
+      "site": "lima",
+      "local_id": "data-centers-akron",
+      "title": "Akron / Summit Co., OH — Data-Center Activity Register",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:lima:data-centers-ashville",
+      "kind": "dataset",
+      "site": "lima",
+      "local_id": "data-centers-ashville",
+      "title": "Ashville / Pickaway Co., OH — Data-Center Activity Register",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:lima:data-centers-athens",
+      "kind": "dataset",
+      "site": "lima",
+      "local_id": "data-centers-athens",
+      "title": "Athens / Athens Co., OH — Data-Center Activity Register",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:lima:data-centers-canton",
+      "kind": "dataset",
+      "site": "lima",
+      "local_id": "data-centers-canton",
+      "title": "Canton / Stark Co., OH — Data-Center Activity Register",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:lima:data-centers-cleveland",
+      "kind": "dataset",
+      "site": "lima",
+      "local_id": "data-centers-cleveland",
+      "title": "Cleveland / Cuyahoga Co., OH — Data-Center Activity Register",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:lima:data-centers-fremont",
+      "kind": "dataset",
+      "site": "lima",
+      "local_id": "data-centers-fremont",
+      "title": "Fremont / Sandusky Co., OH — Data-Center Activity Register",
+      "feed": "catalog"
+    },
+    {
       "handle": "dataset:lima:data-centers-hamilton-middletown",
       "kind": "dataset",
       "site": "lima",
       "local_id": "data-centers-hamilton-middletown",
       "title": "Hamilton-Middletown / Butler County OH — Data-Center Activity Register",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:lima:data-centers-lancaster",
+      "kind": "dataset",
+      "site": "lima",
+      "local_id": "data-centers-lancaster",
+      "title": "Lancaster / Fairfield Co., OH — Data-Center Activity Register",
       "feed": "catalog"
     },
     {
@@ -868,11 +924,27 @@
       "feed": "catalog"
     },
     {
+      "handle": "dataset:lima:data-centers-lordstown",
+      "kind": "dataset",
+      "site": "lima",
+      "local_id": "data-centers-lordstown",
+      "title": "Lordstown / Trumbull Co., OH — Data-Center Activity Register",
+      "feed": "catalog"
+    },
+    {
       "handle": "dataset:lima:data-centers-ottawa",
       "kind": "dataset",
       "site": "lima",
       "local_id": "data-centers-ottawa",
       "title": "Ottawa / Putnam County OH — Data-Center Activity Register",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:lima:data-centers-shalersville",
+      "kind": "dataset",
+      "site": "lima",
+      "local_id": "data-centers-shalersville",
+      "title": "Shalersville Township / Portage Co., OH — Data-Center Activity Register",
       "feed": "catalog"
     },
     {
@@ -945,6 +1017,14 @@
       "site": "lima",
       "local_id": "data-centers-xenia",
       "title": "Xenia / Beavercreek (Greene Co.) OH — Data-Center Activity Register",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:lima:data-centers-youngstown",
+      "kind": "dataset",
+      "site": "lima",
+      "local_id": "data-centers-youngstown",
+      "title": "Youngstown / Mahoning Co., OH — Data-Center Activity Register",
       "feed": "catalog"
     },
     {
