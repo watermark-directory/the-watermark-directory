@@ -4,12 +4,12 @@
 
 The **mechanical** half of the corpus-completeness audit: every dataset registered in the data catalog (`data/catalog/`) checked for existence and freshness against the committed reconcile snapshot (`data/catalog/_observed.yaml`). The **substantive** half — records an authority has *withheld* — stays human-authored in [`data/extracted/legal/corpus-completeness-audit.md`](../extracted/legal/corpus-completeness-audit.md).
 
-Snapshot reconciled: **2026-11-03T19:49:24.049903+00:00**. Regenerate with `watermark catalog audit --apply` after `watermark catalog reconcile`.
+Snapshot reconciled: **2026-11-03T21:50:20.742197+00:00**. Regenerate with `watermark catalog audit --apply` after `watermark catalog reconcile`.
 
 ## Headline
 
-- **240** catalogued datasets — **218** reviewed.
-- **239** present and fresh · **1** stale · **0** LFS pointer (not materialized in this checkout).
+- **241** catalogued datasets — **219** reviewed.
+- **240** present and fresh · **1** stale · **0** LFS pointer (not materialized in this checkout).
 - **0** missing (declared files absent) · **0** unobserved (no snapshot record).
 
 ## Coverage by collection
@@ -67,7 +67,7 @@ Snapshot reconciled: **2026-11-03T19:49:24.049903+00:00**. Regenerate with `wate
 | extracted | van-wert | 4 | 4 | 0 | 0 |
 | extracted | wapakoneta | 5 | 5 | 0 | 0 |
 | extracted | watershed | 1 | 1 | 0 | 0 |
-| extracted | west-union | 2 | 2 | 0 | 0 |
+| extracted | west-union | 3 | 3 | 0 | 0 |
 | extracted | wilmington | 2 | 2 | 0 | 0 |
 | extracted | wpafb | 2 | 2 | 0 | 0 |
 | extracted | xenia | 1 | 1 | 0 | 0 |
@@ -148,7 +148,7 @@ Snapshot reconciled: **2026-11-03T19:49:24.049903+00:00**. Regenerate with `wate
 | urbana | 61 | 54 | 7 |
 | van-wert | 67 | 61 | 6 |
 | wapakoneta | 66 | 56 | 10 |
-| west-union | 62 | 53 | 9 |
+| west-union | 63 | 54 | 9 |
 | wilmington | 62 | 56 | 6 |
 | wpafb | 60 | 52 | 8 |
 | xenia | 59 | 49 | 10 |

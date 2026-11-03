@@ -115,16 +115,20 @@ consistent with the applicant's consultant having measured the LOD off the same 
 but no document says so, and 1,009 could be an independently drawn boundary that happens to land
 within half an acre.
 
-**What this settles:** the campus is a SINGLE existing parcel, not an assembled one. There is no
-land-assembly story here of the kind Sidney, Wilmington or Bowling Green have — no multi-seller
-roll-up to trace, because the ~1,016 acres was already one tract (the former DP&L landfill north
-of the retired J.M. Stuart Station). Whoever conveyed it conveyed it once.
+~~**What this settles:** the campus is a SINGLE existing parcel, not an assembled one.~~
+⚠️ **Corrected 2026-11-03.** The campus is one parcel on today's tax map, but that parcel was
+**assembled**. The ALTA survey in the County's draft development agreement
+(`data/documents/west-union/county/development-agreement.pdf`, Exhibit A) builds the 1016.2174 ac
+from five whole tracts, 22.214 ac of a sixth, and part of a 945.997-ac tract owned by Hamerkop
+Development, LLC (O.R. 544 Pg. 694). Its field survey is dated 2021-07-02. Who assembled it, and
+when, is `[open]` (lead `COUNTY-CAMPUS-LAND-ASSEMBLY`).
 
 ⚠️ **The county layer carries NO owner.** It is a tax-map service with no CAMA join, so the
 committed features' `owner`, `situs_address` and `transfer_date` are **null because the county
-serves none of them** — not because the parcel is unowned or never sold. Ownership and the
-conveyance that put Buck Canyon (or anyone) on this tract are `[open]`, and are a separate pull
-from the Adams County Auditor or the Recorder.
+serves none of them** — not because the parcel is unowned or never sold. *Narrowed 2026-11-03:*
+the County draft's survey labels the parcel Buck Canyon Properties LLC (KY), Inst. 2024-912. That
+is `[verified]` as the survey's statement. The deed, and the conveyance it records, are still
+`[open]` and are a pull from the Adams County Recorder.
 
 ## Carter Hollow, twice
 

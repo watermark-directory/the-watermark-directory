@@ -1,0 +1,81 @@
+meta:
+  subject: >
+    Canonical filename map for west-union/county/: records of the Adams County Board of County
+    Commissioners. The first is the County's DRAFT development agreement with Amazon Data
+    Services, Inc. for the Buck Canyon campus, posted on the County's own website. It is the first
+    instrument in this corpus to name the developer.
+  note: >-
+    Per chain-of-custody rules (CLAUDE.md → Data discipline) the file keeps its as-received name.
+    The bytes were saved from the URL path's basename, `development-agreement.pdf`; the server's
+    Content-Disposition header names it `Development-Agreement.pdf`. Neither name says whose
+    agreement it is or that it is unsigned. Both of those live in `canonical` and `carries`.
+  retrieved: "2026-11-03"
+  source: >-
+    Adams County, Ohio website,
+    https://adamscountyoh.gov/download/295/development-agreement/34171/development-agreement.pdf
+    (HTTP 200, Apache, 2026-11-03). The link was passed to the operator by an Adams County
+    resident. The County page that links to it was NOT found: /download/295/ and
+    /download-category/295/ both return 404, and amazon.adamscountyoh.gov (HTTP 200) does not link
+    it. So the agenda or posting context that would date the County's publication is unknown.
+  gap: >-
+    The Commissioners' resolution approving the agreement is not held. The draft leaves its number
+    and date blank. Also not held: the executed agreement, if one exists; the ACEDA nondisclosure
+    agreement of 2024-01-04 it recites; the CRA agreement and the JEDD contract §8.14 depends on;
+    the ODOT-approved "Project Galaxy" Traffic Impact Study the Kimley-Horn memo calls "attached"
+    (it is not in this PDF); and the deed (Inst. 2024-912) that the survey cites for Buck Canyon's
+    title.
+
+documents:
+  - filename: development-agreement.pdf
+    canonical: adams-county-amazon-data-services-development-agreement-DRAFT-2026-10-30.pdf
+    type: draft-development-agreement
+    date: "2026-10-30"
+    date_note: >-
+      ⚠️ THE AGREEMENT HAS NO DATE. Its Effective Date reads "__________________, 2026". The date
+      here is the PDF's creation timestamp (CreationDate 2026-10-30 12:19:57 -07:00, Word for
+      Microsoft 365, Author "Sullivan, Landon"). It dates this rendering of the draft, not any act
+      of either party. The latest date printed anywhere in the text is the Kimley-Horn memo's,
+      2026-10-08 (0-based PDF p. 115), which the draft says was submitted "Prior to the Effective
+      Date".
+    content_verified: text-layer   # p.0 "PROJECT SUMMARY … Developer: AMAZON DATA SERVICES, INC."; Exhibit A pp. 21-29 are image-only and were read from 300-DPI renders
+    pages: 123
+    sha256: "337ca5dc5d76bd769b5ef6e0145bfe44cb9414e168d11257615d17ceab70537a"
+    bytes: 18152812
+    carries:
+      - "⚠️ AN UNSIGNED DRAFT. The Effective Date, the authorizing 'Resolution ___ dated ___', and every signature block (County, Prosecuting Attorney, Amazon Data Services, Auditor's R.C. 5705.41(D)(1) certificate, p. 20) are blank. Exhibit F's noise limits are in square brackets. Its footnote 1 reads 'Note to draft: this section is still being reviewed by the subject matter expert at AWS.' Every page is headed '(Adams County, OH) / Confidential', yet the County published it."
+      - "PARTIES (p. 0): Developer 'AMAZON DATA SERVICES, INC., a Delaware corporation'; County 'ADAMS COUNTY, OHIO'. Project Site 'Approximately 1,016.22 acres … located at 1022 Ginger Ridge Rd. in Manchester, OH 45144 (Adams County Auditor Parcel ID No. 183-00-00-079.000)'. Developer notices to 'Real Estate Manager (AWS) CMH243', which makes CMH243 Amazon's internal site code for the campus."
+      - "A SECOND NDA (p. 0): 'That certain Nondisclosure Agreement, dated January 4, 2024, executed by Adams County Economic Development Authority'. That is six days before the Water District's executed NDA of 2024-01-10 (../acrwd/ginger-ridge/NDA.pdf)."
+      - "EXHIBIT A (pp. 21-28, image only) is a metes-and-bounds description of 1016.2174 acres in Sprigg Township, VMS Nos. 423, 1038, 1751, 5182, 13213 and 13214. It takes ALL of five tracts (228.714 ac 194-00-00-006.000; 31.000 ac 194-00-00-005.000; 39.565 ac 183-00-00-079.000; 20.000 ac 183-00-00-079.001; 1.470 ac 183-00-00-078.000), plus 22.214 ac out of an original 100.722-ac tract (183-00-00-070.000), plus PART of a 945.997-ac tract (193-00-00-016.000) 'owned by Hamerkop Development, LLC. in O.R. 544 Pg. 694'. It closes with 'An actual Field Survey was performed under the supervision of David C. Hook, Registered Land Surveyor No. 8024, on July 2, 2021 as found in File No. L521-010.'"
+      - "EXHIBIT A depiction (p. 29) is sheet 2 of an 'ALTA / NSPS LAND TITLE SURVEY FOR BUCK CANYON PROPERTIES, LLC' (Ramboll / SAM). Its parcel label reads 'PID: 183-00-00-079.000 / BUCK CANYON PROPERTIES LLC, A KENTUCKY LIMITED LIABILITY COMPANY / VOL. 636 PAGE 182 / INST. NO. 2024-912 / 1017.272 AC. TR. (GROSS LAND AREA) / AREA WITHIN U.S. 52 R/W = 13.817 ACRES / AREA WITHIN GINGER RIDGE R/W = 7.349 ACRES / NET LAND AREA = 996.106 ACRES'. The sheet is rendered small and the adjoiner table is barely legible at 300 DPI."
+      - "MONEY (§§2.1-2.2, 3.3): the County builds the County Improvements (the northern Ginger Ridge Road and Cabin Creek Road, widened to ~20 ft) under a GMP contract 'not exceeding $9,000,000'. The Developer contributes a fixed '$9,000,000' in four tranches (50/25/15/10 %). The County keeps any savings and the County or its contractor bears costs above the GMP. Developer Improvements are capped at $18,000,000."
+      - "§2.3.1: County Improvements to be complete 'by no later than January 1, 2033 (the Outside Completion Date)'. §5.5: road closures and detours 'until as late as Q1 2029'; 'Developer shall not be required to obtain site plan approval (or any similar permit or approval) from the County'."
+      - "§5.6 VESTING: 'Developer has a vested right … to develop and operate the Project under the Applicable Rules … regardless of any modification to the Applicable Rules adopted after the Effective Date'. 'No addition to, or modification of, the Applicable Rules … will be applied … without Developer's prior written consent'. A contrary County action 'will constitute a breach'. The sentence ends mid-phrase: 'remedies available at law or.' 'Applicable Rules' are the County's own ordinances, resolutions, rules, regulations and policies, not State or federal law."
+      - "§8.14: in consideration of a County CRA tax exemption (R.C. 3735.65-3735.70), 'the Developer as owner of the Project Site' petitions (Exhibit I) to add the site to a JEDD among Sprigg Township, the County and the Village of Manchester 'for purposes of subjecting the Project Site to the JEDD income tax' (R.C. 715.72). §8.15: all Developer obligations are contingent on 'Economic Development Incentives' on terms 'acceptable to Developer … in its discretion'."
+      - "§8.18 PUBLIC RECORDS: before releasing Developer Confidential Information, the County gives notice and 'at least five (5) business days' for the Developer to reach an agreed response or 'pursue legal remedies to stop the County's release'. The Developer pays the County's records-request legal costs, capped at $70,000. Same five-business-day mechanism as Sidney's CRA §32."
+      - "§8.24: water and wastewater service is 'not governed by this Agreement' but by separate agreement(s) 'by and between Developer and the County and/or by and between Developer and Adams County Regional Water District'."
+      - "EXHIBIT H (pp. 120-121): the Developer designs and builds a 'water and wastewater treatment facility serving the Project'. The COUNTY acts 'as the governmental applicant or owner, in applications for any Permit-to-Install (PTI), National Pollutant Discharge Elimination System (NPDES) permit'. The County later owns and operates the wastewater components under a full cost-recovery wastewater service agreement."
+      - "EXHIBIT F (pp. 105-114) carries the design requirements: lighting 0.5 fc at the receiving property line; noise [55]/[50] dBA residential and 70/65 dBC, with CadnaA modeling; generator testing on weekdays 9-5, at most 2 hr and at most twice a month; a fugitive dust plan; a complaint address AdamsCounty@amazon.com; decommissioning within 36 months. Appendix A (pp. 115-118) is a Kimley-Horn memo of 2026-10-08 'on behalf of AWS' to Adams County staff. It cites 'the Project Galaxy Traffic Impact Study, approved by the Ohio Department of Transportation (ODOT) on July 24, 2026 (attached)' (the TIS is NOT attached in this PDF) and states 'construction duration … from Quarter 1 of 2026 through Quarter 4 of 2034 … the multi-campus data center build-out'."
+      - "Exhibits B/C (pp. 30-95) are Kimley-Horn 'Ginger Ridge Road and Cabin Creek Road Improvements' plan sheets. Exhibits D/E are forms (Recovery Plan, Change Order), G is a monthly report, I is the JEDD petition form in which 'Amazon Data Services, Inc. … is the record owner' of the site."
+      - "NO MEGAWATT FIGURE and NO WATER QUANTITY appear anywhere in the 123 pages."
+    pii: >-
+      Screened 2026-11-03. The text layer of all 123 pages was grepped for e-mail addresses, phone
+      numbers and owner callouts. The image-only Exhibit A pages (21-29) were rendered and read.
+      Private individuals appear in ONE place: the Exhibit A survey. The legal description names
+      one adjoining owner with a deed-book reference (p. 21), and the depiction (p. 29) carries an
+      adjoiner table of owner NAMES with instrument references and parcel IDs and no street or
+      mailing addresses. That is recorded-deed data on a public survey. It is the same kind of
+      content, on the same basis, as the Ginger Ridge plan set's route-parcel owner table, which
+      the `- west-union` collection rule cleared on 2026-08-16. Every other contact is a business
+      or official one: Developer counsel (Baker Hostetler) and Amazon role addresses; the County's
+      outside counsel (Frost Brown Todd); County staff; and the Kimley-Horn engineers' office
+      address, phone and work e-mail.
+    notes: >-
+      ⚠️ DO NOT CITE THIS AS AN AGREEMENT THE COUNTY ENTERED INTO. It is `[verified]` that Adams
+      County published, on its own website, a draft development agreement with Amazon Data
+      Services, Inc. for this parcel. Execution, approval, the Effective Date and every bracketed
+      term are `[open]` until the Commissioners' resolution and a signed copy are in hand.
+      ⚠️ The survey is the source for Buck Canyon's title, NOT the deed. Inst. 2024-912 is the
+      primary record and is not held. The draft's §8.14 and Exhibit I call the DEVELOPER the
+      "owner" / "record owner" of the site, which disagrees with the survey's Buck Canyon label.
+      That is consistent with a conveyance yet to happen, or with form language, and the corpus
+      does not resolve it.

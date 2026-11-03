@@ -187,26 +187,141 @@ leads:
   kind: question
   status: unanswered
   tag: open
-  title: The campus parcel is identified, and who owns it is not
+  title: The campus parcel's owner is named by a survey, and the deed is still not held
   detail: >-
-    The campus is Adams County parcel 1830000079000, Sprigg Township, deeded 1016.2174 ac —
+    The campus is Adams County parcel 1830000079000, Sprigg Township, deeded 1016.2174 ac. This was
     established 2026-08-16 by point-in-polygon against the coordinate the USACE itself published
-    (38.646748 / -83.659828), and matching the "approximately 1,016 acres" in the federal project
-    description. Geometry is committed at data/reference/west-union/parcel-assemblage.geojson.
-    ⚠️ WHAT IS STILL MISSING IS THE OWNER. Adams County's parcel service is a TAX-MAP layer with
-    no CAMA join — no owner, no situs address, no conveyance date, no valuation anywhere in it —
-    so the committed features carry nulls for all of them, and those nulls mean "the county does
-    not serve this", NOT "unowned" or "never sold". Nothing in the corpus yet says who holds the
-    1,016 acres, when it was conveyed, or for how much; the plan set puts BUCK CANYON PROPERTIES,
-    LLC on a DIFFERENT and much smaller parcel (1830000070002, 2.125 ac) on the water-main route.
-    Route: the Adams County Auditor (adamscountyauditor.org, searchable by parcel number) for the
-    CAMA record, and the Adams County Recorder for the deed itself.
+    (38.646748 / -83.659828), and it matches the "approximately 1,016 acres" in the federal project
+    description. The geometry is committed at data/reference/west-union/parcel-assemblage.geojson.
+    The county's tax-map layer has no CAMA join, so its nulls mean "not served", NOT "unowned".
+    NARROWED 2026-11-03 — the ALTA survey in the County's draft development agreement (Exhibit A,
+    p. 29) labels the parcel "BUCK CANYON PROPERTIES LLC, A KENTUCKY LIMITED LIABILITY COMPANY /
+    VOL. 636 PAGE 182 / INST. NO. 2024-912". That is the survey's statement, not the deed. The deed
+    would give the grantor, the conveyance date and the consideration, and it is still not held.
+    ⚠️ The same draft's §8.14 and Exhibit I call Amazon Data Services, Inc. the site's "owner" /
+    "record owner". That conflict stays open until the recorder answers it.
+    Route: the Adams County Recorder, Inst. 2024-912 (Vol. 636 Pg. 182), plus the Auditor's CAMA
+    record and transfer history for parcel 183-00-00-079.000.
   source: >-
-    data/reference/west-union/parcel-assemblage.geojson (bosc:provenance caveats) ·
-    data/extracted/west-union/acrwd/ginger-ridge-service-commitment.md
+    data/extracted/west-union/county/2026-10-30-amazon-data-services-development-agreement.parties.yaml
+    (DA-SURVEY-OWNER, DA-OWNER-OF-RECORD) · data/reference/west-union/parcel-assemblage.geojson
   note: >-
-    OWED RECORD — the conveyance would date the land acquisition, which is currently the earliest
-    UNDATED step in this project's timeline (the NDA of 2024-01-10 is the earliest dated one).
+    OWED RECORD — the conveyance would date the land acquisition. The survey's field date
+    (2021-07-02) is now the earliest dated step in this project's timeline, ahead of the NDAs of
+    2024-01-04 and 2024-01-10.
+
+- id: COUNTY-CAMPUS-LAND-ASSEMBLY
+  kind: question
+  status: unanswered
+  tag: open
+  title: The 1,016 acres were assembled from at least seven tracts, and nobody has traced who did it
+  detail: >-
+    The survey's legal description (County draft agreement, Exhibit A) builds the 1016.2174-ac
+    campus from five whole tracts (194-00-00-006.000, 194-00-00-005.000, 183-00-00-079.000,
+    183-00-00-079.001, 183-00-00-078.000), 22.214 ac of a 100.722-ac tract (183-00-00-070.000), and
+    part of a 945.997-ac tract (193-00-00-016.000) owned by Hamerkop Development, LLC, O.R. 544
+    Pg. 694. Roughly 673 ac of it is Hamerkop land (an inference: the total less the fixed parts).
+    The field survey was done 2021-07-02, more than two years before either NDA. This retires the
+    earlier reading of the county tax map as "one tract, no assembly". Who bought each tract, from
+    whom, and when, is open. So is whether Hamerkop Development is related to Buck Canyon.
+    Route: the Adams County Recorder and Auditor transfer history for all seven PIDs, plus O.R. 544
+    Pg. 694; the Kentucky and Ohio SOS registries for Hamerkop Development, LLC.
+  source: >-
+    data/extracted/west-union/county/2026-10-30-amazon-data-services-development-agreement.parties.yaml
+    (DA-LAND-WAS-ASSEMBLED, DA-ASSEMBLY)
+  note: OWED RECORD — the land roll-up is the step every other site's story starts from.
+
+- id: COUNTY-DEVELOPMENT-AGREEMENT-APPROVAL
+  kind: question
+  status: unanswered
+  tag: open
+  title: The County posted a draft agreement with Amazon, and no vote or signed copy is held
+  detail: >-
+    Adams County's website carries a 123-page DRAFT development agreement with Amazon Data
+    Services, Inc. (PDF built 2026-10-30). The Effective Date, the authorizing "Resolution ___
+    dated ___" and every signature block are blank, and §8.18 says the County's authorization is
+    given "in a meeting open to the public". Not held: the Commissioners' resolution, the journal
+    entry or minutes of that meeting, and any executed copy. The County page that links the PDF
+    was not found either (the download category returns 404), so the posting date and agenda are
+    unknown. ⚠️ §5.6 vests the project against County rules adopted after the Effective Date, so
+    the date of execution decides which rules apply.
+  source: >-
+    data/documents/west-union/county/filename-map.yaml ·
+    data/extracted/west-union/county/2026-10-30-amazon-data-services-development-agreement.parties.yaml
+    (DA-EXECUTED, DA-POSTING-CONTEXT)
+  note: >-
+    OWED RECORD — R.C. 149.43 to the Board of Commissioners for the resolution, the journal and the
+    executed agreement. The draft's §8.18 gives the Developer five business days' notice first.
+
+- id: COUNTY-ACEDA-NDA-2024-01-04
+  kind: question
+  status: unanswered
+  tag: open
+  title: An Economic Development Authority NDA predates the Water District's by six days
+  detail: >-
+    The County draft agreement recites "That certain Nondisclosure Agreement, dated January 4, 2024,
+    executed by Adams County Economic Development Authority". The Water District's NDA (held) is
+    dated 2024-01-10. The ACEDA instrument, its counterparty, and any ACEDA minutes authorizing it
+    are not held.
+  source: >-
+    data/extracted/west-union/county/2026-10-30-amazon-data-services-development-agreement.parties.yaml
+    (DA-ACEDA-NDA)
+  note: OWED RECORD — R.C. 149.43 to the Adams County Economic Development Authority.
+
+- id: COUNTY-CRA-JEDD-INSTRUMENTS
+  kind: question
+  status: unanswered
+  tag: open
+  title: The incentive is a County CRA traded for a JEDD, and neither instrument is held
+  detail: >-
+    Draft §8.14 grants a County Community Reinvestment Area exemption (R.C. 3735.65-3735.70). In
+    return, the Developer petitions (Exhibit I) to add the site to a Joint Economic Development
+    District among Sprigg Township, the County and the Village of Manchester, so that the JEDD
+    income tax applies (R.C. 715.72). §8.15 makes every Developer obligation contingent on incentives
+    "acceptable to Developer". Not held: the CRA resolution and agreement (term, percentage), the
+    JEDD contract, Sprigg Township's amending resolution, and any school-board notice or
+    compensation agreement.
+  source: >-
+    data/extracted/west-union/county/2026-10-30-amazon-data-services-development-agreement.parties.yaml
+    (DA-CRA-JEDD, DA-INCENTIVES-CONTINGENCY, DA-CRA-JEDD-INSTRUMENTS)
+  note: OWED RECORD — County, Sprigg Township and Village of Manchester records.
+
+- id: ODOT-PROJECT-GALAXY-TIS
+  kind: question
+  status: unanswered
+  tag: open
+  title: >-
+    A Kimley-Horn memo says ODOT approved a "Project Galaxy" traffic study for this campus; the
+    study is not held
+  detail: >-
+    The Kimley-Horn memo of 2026-10-08, written on behalf of AWS and appended to the County draft
+    agreement, cites "the Project Galaxy Traffic Impact Study, approved by the Ohio Department of
+    Transportation (ODOT) on July 24, 2026 (attached)". The study is not in the PDF. It would carry
+    the trip generation, and so the workforce and phasing, for what the memo calls a "multi-campus
+    data center build-out", Q1 2026 through Q4 2034. The ODOT approval rests on the memo's own
+    citation and is unconfirmed until the study or an ODOT record is held. If it exists, it would
+    be the first State record to use the Galaxy codename at this site.
+  source: >-
+    data/extracted/west-union/county/2026-10-30-amazon-data-services-development-agreement.parties.yaml
+    (DA-PROJECT-GALAXY-TIS)
+  note: OWED RECORD — ODOT District 9 public-records request for the TIS and its approval letter.
+
+- id: COUNTY-AS-NPDES-APPLICANT
+  kind: signal
+  status: unanswered
+  tag: inference
+  title: The County, not Amazon, is set up to be the campus's wastewater permittee
+  detail: >-
+    Exhibit H of the County draft agreement has the Developer design and build a water and
+    wastewater treatment facility for the project, with the COUNTY acting "as the governmental
+    applicant or owner" in any PTI or NPDES application, and then owning and operating it under a
+    cost-recovery service agreement. If executed, the campus discharge would be permitted to Adams
+    County. An ECHO or eDocument watch keyed on an Amazon or Buck Canyon permittee name would miss
+    it.
+  source: >-
+    data/extracted/west-union/county/2026-10-30-amazon-data-services-development-agreement.parties.yaml
+    (DA-COUNTY-AS-NPDES-APPLICANT)
+  note: Watch the Ohio EPA eDocument portal for an Adams County PTI/NPDES application in Sprigg Township.
 
 - id: USACE-LRH-2025-00457-ATTACHMENTS
   kind: question

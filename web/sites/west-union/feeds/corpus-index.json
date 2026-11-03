@@ -28,7 +28,7 @@
     "label": "West Union · Adams Co",
     "scope": "site",
     "links_out": 3,
-    "links_in": 27,
+    "links_in": 34,
     "lines": 14,
     "updated": null
   },
@@ -905,7 +905,7 @@
     "id": "question/lead-acrwd-campus-parcel-ownership",
     "node_class": "question",
     "kind": "lead",
-    "label": "The campus parcel is identified, and who owns it is not",
+    "label": "The campus parcel's owner is named by a survey, and the deed is still not held",
     "scope": "site",
     "links_out": 3,
     "links_in": 0,
@@ -987,6 +987,72 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 24,
+    "updated": null
+  },
+  {
+    "id": "question/lead-county-aceda-nda-2024-01-04",
+    "node_class": "question",
+    "kind": "lead",
+    "label": "An Economic Development Authority NDA predates the Water District's by six days",
+    "scope": "site",
+    "links_out": 2,
+    "links_in": 0,
+    "lines": 21,
+    "updated": null
+  },
+  {
+    "id": "question/lead-county-as-npdes-applicant",
+    "node_class": "question",
+    "kind": "lead",
+    "label": "The County, not Amazon, is set up to be the campus's wastewater permittee",
+    "scope": "site",
+    "links_out": 2,
+    "links_in": 0,
+    "lines": 23,
+    "updated": null
+  },
+  {
+    "id": "question/lead-county-campus-land-assembly",
+    "node_class": "question",
+    "kind": "lead",
+    "label": "The 1,016 acres were assembled from at least seven tracts, and nobody has traced who did it",
+    "scope": "site",
+    "links_out": 2,
+    "links_in": 0,
+    "lines": 26,
+    "updated": null
+  },
+  {
+    "id": "question/lead-county-cra-jedd-instruments",
+    "node_class": "question",
+    "kind": "lead",
+    "label": "The incentive is a County CRA traded for a JEDD, and neither instrument is held",
+    "scope": "site",
+    "links_out": 2,
+    "links_in": 0,
+    "lines": 25,
+    "updated": null
+  },
+  {
+    "id": "question/lead-county-development-agreement-approval",
+    "node_class": "question",
+    "kind": "lead",
+    "label": "The County posted a draft agreement with Amazon, and no vote or signed copy is held",
+    "scope": "site",
+    "links_out": 2,
+    "links_in": 0,
+    "lines": 27,
+    "updated": null
+  },
+  {
+    "id": "question/lead-odot-project-galaxy-tis",
+    "node_class": "question",
+    "kind": "lead",
+    "label": "A Kimley-Horn memo says ODOT approved a \"Project Galaxy\" traffic study for this campus; the study is not held",
+    "scope": "site",
+    "links_out": 2,
+    "links_in": 0,
+    "lines": 26,
     "updated": null
   },
   {
@@ -1119,7 +1185,18 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 22,
-    "updated": "2026-08-16"
+    "updated": "2026-11-03"
+  },
+  {
+    "id": "record/west-union-county-2026-10-30-amazon-data-service",
+    "node_class": "record",
+    "kind": "record",
+    "label": "Adams County ↔ Amazon Data Services, Inc. — DRAFT development agreement, rendered 2026-10-30.",
+    "scope": "site",
+    "links_out": 2,
+    "links_in": 0,
+    "lines": 22,
+    "updated": "2026-11-03"
   },
   {
     "id": "record/west-union-data-centers",
@@ -1130,7 +1207,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 22,
-    "updated": "2026-11-02"
+    "updated": "2026-11-03"
   },
   {
     "id": "relation/npdes-0pc00019--discharges-to--beasley-creek",

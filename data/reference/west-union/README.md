@@ -36,8 +36,15 @@ among them:
 - planar **1009.50 ac** ↔ "limits of disturbance … approximately **1,009 acres**" — `[inference]`,
   consistent with the consultant measuring off the same geometry, but nothing says so
 
-**One tract, not an assemblage.** There is no multi-seller land roll-up to trace here, unlike
-Sidney, Wilmington, Bowling Green or Van Wert. The ~1,016 acres was already a single parcel.
+⚠️ **One tract on today's tax map, but an assemblage on the record** *(corrected 2026-11-03)*.
+This README first read the single current parcel as "no multi-seller land roll-up to trace". That
+was wrong. The ALTA survey in the County's draft development agreement with Amazon Data Services
+(`data/documents/west-union/county/development-agreement.pdf`, Exhibit A) builds the 1016.2174 ac
+from five whole tracts, 22.214 ac of a sixth, and part of a 945.997-ac tract owned by Hamerkop
+Development, LLC (O.R. 544 Pg. 694). Its field survey is dated **2021-07-02**. A single parcel
+today is the *result* of a consolidation, not evidence that none happened. Who assembled it is
+`[open]` (lead `COUNTY-CAMPUS-LAND-ASSEMBLY`). The committed geometry is unchanged: it is the
+current parcel, and it is regenerable.
 
 ⚠️ **Neither acreage is a property of the committed features.** The geojson writer emits a fixed
 property set — `parcel_id`, `owner`, `situs_address`, `owner_mailing_address`, `transfer_date` —
@@ -58,10 +65,13 @@ them**, not because the parcel is unowned or was never sold.
 This is a step past Findlay's OGRIP substitute, which is owner-redacted but still carries a
 tax-bill mailing name. Here there is nothing.
 
-**Who owns the campus is `[open]`.** See lead `ACRWD-CAMPUS-PARCEL-OWNERSHIP` in
+**Who owns the campus is named by a survey, not yet by a deed.** The County draft agreement's ALTA
+survey labels the parcel **Buck Canyon Properties LLC (a Kentucky LLC), Vol. 636 Pg. 182, Inst.
+No. 2024-912**. That is `[verified]` as the survey's statement. The deed is not held, and the same
+draft calls Amazon Data Services the "owner" in §8.14. See lead `ACRWD-CAMPUS-PARCEL-OWNERSHIP` in
 [`data/site/west-union/leads.yaml`](../../site/west-union/leads.yaml). The routes are the Adams
 County Auditor (`adamscountyauditor.org`, searchable by parcel number) for the CAMA record and the
-Adams County Recorder for the deed.
+Adams County Recorder for Inst. 2024-912.
 
 ## Right-county guard
 

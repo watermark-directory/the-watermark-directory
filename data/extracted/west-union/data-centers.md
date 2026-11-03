@@ -2,7 +2,7 @@
 
 Discover-and-pin register for the West Union watershed point (basin `ohio-brush-creek`; Ohio
 River direct branch). Sweep status **as of 2026-08-05; substation, land and statewide-ballot press
-updated 2026-11-02** (#1983). Tags are BOSC evidentiary
+updated 2026-11-02; the County's draft development agreement read 2026-11-03** (#1983). Tags are BOSC evidentiary
 discipline: `[verified]` = a cited primary instrument or an authoritative agency dataset,
 `[reference]` = credible media / secondary source, `[inference]`, `[open]`.
 
@@ -19,9 +19,12 @@ strong but unfiled **`[inference]`** — see "The evidentiary spine" below, whic
 this register. Nothing here should be read as Amazon having disclosed a megawatt figure; it has
 not.
 
-Nothing in this register is in the BOSC corpus yet — no source document under
-`data/documents/` is cited below. This records the *verified public record* and names the
-instruments to pull. Do not bridge the Lima/Allen County graph, the Van Wert/QTS graph or the
+When this register was first written, nothing in it was in the BOSC corpus. That has since
+changed: the Water District's file (`data/documents/west-union/acrwd/`), the USACE emails, the
+Ohio EPA Buck Canyon file and, as of 2026-11-03, **the County's draft development agreement with
+Amazon Data Services, Inc.** (`data/documents/west-union/county/`; see "Update 2026-11-03" at the
+end) are shelved. The sections below still record the public record as it stood when each was
+written, and name the instruments to pull. Do not bridge the Lima/Allen County graph, the Van Wert/QTS graph or the
 Urbana/Thor graph onto Adams County; there is no evidentiary link to any of them.
 
 ## Disambiguation guardrail
@@ -52,6 +55,7 @@ both the operator and the load.** Three separate names appear across three separ
 | Ohio EPA construction NOI `0GC04922*AG` | 2026-06-08 | **Derek Harmon** / **Buck Canyon LLC** | 535 ac land disturbance |
 | PJM TEAC `Dayton-2026-001` | 2026-02-03 | *no customer named* | 100 → 1,300 MW at Stuart Substation |
 | `amazon.adamscountyoh.gov` (county domain) | 2026-06 | **Amazon Web Services** | $10B, 500 jobs, Ohio River cooling |
+| County **draft** development agreement (unsigned) | 2026-10-30 | **Amazon Data Services, Inc.**; survey owner **Buck Canyon Properties LLC (KY)** | Developer on parcel 183-00-00-079.000; no MW figure |
 
 - AES Ohio **declined to name the operator** in the PJM filing; the filing says only "a customer
   request for service in the vicinity of its Stuart Substation in Adams County, OH."
@@ -83,6 +87,11 @@ both the operator and the load.** Three separate names appear across three separ
 - The county states the land currently generates **~$18,000 in annual tax revenue** and the
   project is expected to generate "tens of millions in new tax revenue." No CRA, PILOT, TIF or
   enterprise-zone instrument has been located. **`[open]`**
+  *Amended 2026-11-03:* the County's draft development agreement (§8.14) names the structure: a
+  County **CRA** real-property exemption (R.C. 3735.65-.70) in exchange for adding the site to a
+  **JEDD** among Sprigg Township, the County and the Village of Manchester, so that the JEDD
+  income tax applies. `[verified]` as a draft term only. The CRA agreement, its resolution and the
+  JEDD contract are still not held. `[open]`
 
 ### Land
 
@@ -95,6 +104,16 @@ both the operator and the load.** Three separate names appear across three separ
   Flemingsburg, KY 41041** as the applicant of record.
 - **Deed instrument number, grantor, and the Adams County auditor parcel IDs are `[open]`** —
   the $2.65M / 1,016 ac figures are media-sourced and have not been pulled from the recorder.
+  *Amended 2026-11-03:* the parcel is **183-00-00-079.000** (committed geometry since 2026-08-16).
+  The ALTA survey in the County's draft agreement (Exhibit A) labels it **"BUCK CANYON PROPERTIES
+  LLC, A KENTUCKY LIMITED LIABILITY COMPANY, VOL. 636 PAGE 182, INST. NO. 2024-912"**. That is
+  `[verified]` as the survey's statement. The deed is still the primary record, it is not held, and
+  the grantor and price are still `[open]`.
+  ⚠️ **The parcel was assembled.** The survey's legal description builds the 1,016.2174 ac from five
+  whole tracts, part of a sixth, and part of a 945.997-ac tract owned by **Hamerkop Development,
+  LLC** (O.R. 544 Pg. 694), with a field survey dated **2021-07-02**. Who assembled it is `[open]`.
+  The earlier "single tract" reading of the county tax map is corrected in
+  `data/reference/west-union/README.md`.
 
 ### Instruments on the record
 
@@ -279,6 +298,12 @@ centers at 10 MW** over a 150 MW site. **Adams County has no such instrument to 
   approval in this project's path.** That is why this register's instruments are USACE, Ohio EPA
   and PJM — and why there are no council resolutions, rezonings or annexations to pull, unlike
   Van Wert (#1401) or Wilmington (#1470). `[inference]`
+  *Amended 2026-11-03:* there is no land-use approval, but there IS a **local legislative path**.
+  The County's draft development agreement is to be authorized by a Commissioners' resolution "in
+  a meeting open to the public" (§§4.1, 8.18). It contemplates a County CRA resolution with a
+  referendum period, and a JEDD amendment by Sprigg Township (§8.14). It also has the County agree
+  that the Developer "shall not be required to obtain site plan approval" (§5.5). Those are
+  instruments to pull. `[verified]` as draft terms.
 
 ### The statewide ballot track — filed, and failed, out of this county
 
@@ -450,7 +475,13 @@ tier was `backdrop`**, since it derives from the four record-bearing domains and
    LLC applicant identity, the jurisdictional determination and the 11 special conditions.
 4. **Adams County auditor / recorder** — the Buck Canyon parcels: IDs, acreage, the 2024 deed
    (grantor, instrument number, $2.65M), and the current taxable value behind the county's
-   "~$18,000/yr" figure.
+   "~$18,000/yr" figure. *Narrowed 2026-11-03:* the instrument number is now known from the survey
+   (**Inst. 2024-912**, Vol. 636 Pg. 182). Pull that deed, Hamerkop Development's O.R. 544 Pg. 694,
+   and the vesting deeds for the seven predecessor PIDs the survey consolidates.
+4a. **Adams County Commissioners** — the resolution approving the development agreement, the
+   executed agreement, the CRA agreement and resolution, the JEDD contract, and the Adams County
+   Economic Development Authority NDA of 2024-01-04. R.C. 149.43. ⚠️ The draft's §8.18 gives the
+   Developer five business days' notice before release.
 5. **Ohio Secretary of State** — 68 Yards LLC, Buck Canyon LLC, Buck Canyon Properties LLC,
    Energy Strike LLC, High Table LLC: registered agents, formation dates, affiliation. This is
    what would close the three-names gap. Blocked in-environment (#1950).
@@ -475,6 +506,10 @@ Any one of these reopens this register:
 - An **Ohio River intake authorization** or an ACRWD service agreement.
 - A **2027 re-filing** of the Conserve Ohio 25 MW constitutional amendment.
 - **Adams County commissioners adopting rural zoning**, or Sprigg Township adopting zoning.
+  ⚠️ Read any such adoption against **§5.6 of the draft development agreement**. If the agreement
+  is executed first, it says no County rule adopted after its Effective Date applies to the
+  project without Amazon's consent. Township zoning is not a County rule.
+- The **Commissioners' vote on the development agreement**, or its execution.
 - Any instrument that **names both AWS and the 1,300 MW load**, which would convert this
   register's central `[inference]` into a `[verified]` link.
 
@@ -538,7 +573,7 @@ primary instrument was read this session, and **no dated negative above is re-ru
 it.**
 
 - **Land:** WVXU names **Buck Canyon Properties** as the site's owner, consistent with §1 "Land". The
-  deed instrument and parcel IDs are still `[open]`.
+  deed instrument and parcel IDs are still `[open]`. *(Superseded 2026-11-03: see the update below.)*
 - **Building count:** WVXU describes the wetland-permit application as covering up to **12 "light
   industrial buildings"**. That matches the NWP 39 verification's **twelve buildings** (§1,
   `[verified]`). The press wording adds no use classification beyond the permit's.
@@ -565,3 +600,59 @@ it.**
 
 - WVXU, 2026-08-25 —
   <https://www.wvxu.org/local-news/2026-08-25/adams-county-ohio-utility-costs-data-center-amazon>
+
+## Update 2026-11-03
+
+**One primary instrument was read:** a **draft** development agreement between Adams County and
+**Amazon Data Services, Inc.** It is posted on the County's own website and shelved at
+[`data/documents/west-union/county/development-agreement.pdf`](../../documents/west-union/county/development-agreement.pdf)
+(123 pp, sha256 `337ca5dc…537a`). The structured read is
+[`county/2026-10-30-amazon-data-services-development-agreement.parties.yaml`](county/2026-10-30-amazon-data-services-development-agreement.parties.yaml).
+⚠️ **It is unsigned.** The Effective Date, the resolution number and every signature block are
+blank, and some terms are still bracketed. Everything below is `[verified]` only as a statement of
+the draft. That the County entered into it is `[open]`.
+
+- **Developer named:** "AMAZON DATA SERVICES, INC., a Delaware corporation", on Auditor parcel
+  **183-00-00-079.000**, "Approximately 1,016.22 acres … 1022 Ginger Ridge Rd." This is the first
+  instrument in the corpus that puts an Amazon entity on the campus parcel. Developer notices go to
+  "Real Estate Manager (AWS) CMH243". That CMH243 is AWS's internal site code is `[inference]`.
+- **Owner of record (from the survey):** Exhibit A's ALTA survey labels the tract **Buck Canyon
+  Properties LLC, a Kentucky LLC, Vol. 636 Pg. 182, Inst. No. 2024-912**. That is `[verified]` as the
+  survey's statement. The deed is not held. ⚠️ §8.14 and Exhibit I call the Developer the site's
+  "owner" / "record owner". The two documents disagree, and that is `[open]`.
+- ⚠️ **Assembly, not one tract.** The legal description consolidates five whole tracts, 22.214 ac of a
+  sixth, and part of a 945.997-ac tract owned by **Hamerkop Development, LLC** (O.R. 544 Pg. 694). The
+  total is **1016.2174 ac**, from a field survey of **2021-07-02**. About 673 ac comes from the Hamerkop
+  tract `[inference]` (the total less the fixed parts). This corrects the "single parcel, no assembly"
+  reading in `data/reference/west-union/README.md`. Who assembled the tracts, and when, is `[open]`.
+- **A second NDA:** the draft recites an NDA "dated January 4, 2024, executed by Adams County Economic
+  Development Authority". That is six days before the Water District's (2024-01-10). Not held.
+- **Money:** the County builds the Ginger Ridge / Cabin Creek road improvements under a GMP contract
+  of no more than **$9,000,000**, against a fixed Developer contribution of **$9,000,000** (§§2.1-2.2).
+  The outside completion date is **2033-01-01**. Developer improvements are capped at $18,000,000.
+- **Incentives:** a County CRA exemption, in exchange for adding the site to a Sprigg Twp / County /
+  Manchester **JEDD** (§8.14). Every Developer obligation is contingent on incentives "acceptable to
+  Developer" (§8.15).
+- **Vesting (§5.6):** no County rule adopted after the Effective Date applies to the project without
+  Developer consent. §5.5 says no County site-plan approval is required. See Standing-watch.
+- **Water:** service is left to separate agreements with the County and/or ACRWD (§8.24). **Exhibit
+  H** makes the **County the applicant** for any PTI or NPDES permit for a Developer-built water and
+  wastewater treatment facility, which the County then owns and operates. A future NPDES permittee
+  for this campus is therefore expected to be **Adams County**, not Amazon `[inference]`.
+- **"Project Galaxy":** the Kimley-Horn memo (2026-10-08, "on behalf of AWS") cites "the Project
+  Galaxy Traffic Impact Study, approved by … ODOT on July 24, 2026". That ties the name to this site
+  `[verified]`. That it is the same project ACRWD's records call Galaxy is `[inference]` (see the
+  "Project Galaxy is not an identifier" note in
+  [`data/documents/west-union/README.md`](../../documents/west-union/README.md)). The memo puts
+  construction at Q1 2026–Q4 2034, a "multi-campus" build-out. The TIS is not attached.
+- **No MW and no water quantity** appear anywhere in the 123 pages. The 1.3 GW figure stays
+  `[inference]`.
+- **Records (§8.18):** the County gives the Developer five business days' notice before releasing
+  Developer Confidential Information. This is the same mechanism as Sidney's CRA §32. Every page is
+  stamped "Confidential", yet the County posted it.
+
+### Sources (added 2026-11-03)
+
+- Adams County, Ohio — draft development agreement (retrieved 2026-11-03) —
+  <https://adamscountyoh.gov/download/295/development-agreement/34171/development-agreement.pdf>.
+  The County page that links it was not found (404). See `data/documents/west-union/county/filename-map.yaml`.

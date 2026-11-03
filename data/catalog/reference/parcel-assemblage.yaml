@@ -177,9 +177,13 @@ notes: >-
   -83.659828), which falls inside exactly one parcel — and the county's two acreage columns turn
   out to be BOTH of the Corps' figures: the deeded 1016.2174 is the "approximately 1,016 acres" of
   the project description [verified], and the planar 1009.50 sits within half an acre of the
-  "approximately 1,009 acres" limits of disturbance [inference, not stated anywhere]. Because it is
-  a single existing tract there is NO land-assembly story here of the Sidney / Wilmington /
-  Bowling Green kind — no multi-seller roll-up to trace. THE FIRST ENTRY IN THIS SET WITH NO OWNER
+  "approximately 1,009 acres" limits of disturbance [inference, not stated anywhere]. CORRECTED
+  2026-11-03 — this entry first read the single current parcel as "no land-assembly story". That
+  was wrong. The ALTA survey in the County's draft development agreement with Amazon Data Services
+  (west-union/county/development-agreement.pdf, Exhibit A) consolidates five whole tracts, 22.214
+  ac of a sixth, and part of a 945.997-ac Hamerkop Development, LLC tract (field survey
+  2021-07-02), and labels the result Buck Canyon Properties LLC (KY), Inst. 2024-912. One parcel
+  today is the result of an assembly, which is [open] as to who and when. THE FIRST ENTRY IN THIS SET WITH NO OWNER
   DATA WHATSOEVER: Adams County serves a TAX-MAP layer (Parcel_Layer FeatureServer layer 4
   'MasterParcel', the new adams_gis field-map) with no CAMA join at all — no owner, no owner
   mailing name, no situs, no conveyance date, no valuation, no land use; its CAMA_LINK column is
@@ -188,8 +192,8 @@ notes: >-
   any form (the connector refuses cleanly on an empty owner_field), and this file is the reason the
   by-NUMBER `--parcel <ids> --geojson` path exists. Its features read owner / situs_address /
   owner_mailing_address / transfer_date = null, and those nulls mean THE COUNTY SERVES NONE OF
-  THEM, never "unowned" or "never sold" — ownership and the conveyance are [open] and are an
-  Auditor/Recorder pull. The file also carries a SECOND, much smaller parcel with a different role:
+  THEM, never "unowned" or "never sold". The conveyance is [open] and is an Auditor/Recorder pull
+  (the owner is named only by the survey above). The file also carries a SECOND, much smaller parcel with a different role:
   1830000070002 (2.125 ac deeded), which sheet G-003 of the ACRWD Ginger Ridge plan set lists as
   route parcel #30 standing in BUCK CANYON PROPERTIES, LLC — the same entity the Corps addressed
   its jurisdictional determination to. It sits ~1 km north of the campus boundary on the water-main

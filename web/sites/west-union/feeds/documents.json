@@ -1269,6 +1269,21 @@
         "canonical_document_id": null,
         "version": null,
         "supersedes": []
+      },
+      {
+        "rel": "west-union/county/development-agreement.pdf",
+        "name": "development-agreement.pdf",
+        "size_bytes": 18152812,
+        "suffix": "pdf",
+        "media_type": "application/pdf",
+        "render_class": "pdf",
+        "published": true,
+        "available": true,
+        "download_url": null,
+        "duplicate_cluster": null,
+        "canonical_document_id": null,
+        "version": null,
+        "supersedes": []
       }
     ]
   }
