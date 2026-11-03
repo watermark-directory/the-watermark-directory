@@ -243,14 +243,22 @@ concerned CTS is `[open]`**:
 ### 1.7 — The City's people on WAEDC's board (status as of 2026-11-03)
 
 WAEDC, the intermediary CTS approached (§1.1), is a private non-profit (EIN 34-1556135), not a
-City body. Two City officials, the Mayor and the Council President, are listed as its directors
-`[reference]`. A third, Councilman Sheipline, holds Council's WAEDC representative seat
-`[verified]`, but whether that seat makes him a director is `[open]`. Each reaches WAEDC by a
-different route and on a different kind of source. This section records which; it does not say
-any of them acted improperly. Whether
-any seat creates a conflict on a CTS vote is a legal question nobody has asked yet `[open]`.
+City body. Three City officials appear as directors on WAEDC's own returns: the Mayor, the Council
+President, and Councilman Sheipline, who also holds Council's WAEDC representative seat. Each is
+`[verified]` as to what the return reports. Each reaches WAEDC by a different route. This section
+records which; it does not say any of them acted improperly. Whether any seat creates a conflict
+on a CTS vote is a legal question nobody has asked yet `[open]`.
 
-- **Councilman John Sheipline: Council's designated WAEDC representative.**
+**What the returns are.** WAEDC's Form 990-EZ returns for the ten tax years ending 2016-09-30 to
+2025-09-30 are held under `data/documents/wapakoneta/irs/`. They are the IRS's own TEOS copies,
+which are image-only, so each officer list was read from the rendered page. The e-file XML for
+the last three agrees with them name for name. Form 990-EZ's instructions have a return list
+everyone who held the role at any time during the year, so a return dates a seat to a fiscal year
+(October to September), not to a day.
+No return marks any seat ex officio or as a City designation, and every director is shown at
+1 hour a week and $0 `[verified]` as to the returns.
+
+- **Councilman John Sheipline: Council's designated WAEDC representative, and a listed director.**
   - 2024-01-02 organizational meeting, p. 2: the "2024 Wapakoneta City Committees" table names
     John Sheipline as "WAEDC Rep" (and Terry Campbell as "CIC Rep"); approved Dunlap / Greve, 7–0
     `[verified]` (`governance/01-02-2024-Minutes.pdf`; column order checked on the rendered page).
@@ -261,33 +269,42 @@ any seat creates a conflict on a CTS vote is a legal question nobody has asked y
     Miller) `[verified]` (`governance/12-15-2025-Minutes.pdf`). The minutes record that vote as
     "7 yeas, 0 nays" while p. 1 lists six members present (Greve absent) and every other vote that
     night is 6–0. Which count is right is `[open]`.
+  - WAEDC's returns list "John Sheipline / Director" for the years ending 2024-09-30 and
+    2025-09-30, and not for the year ending 2023-09-30 or any earlier return held `[verified]` as
+    to the returns (`irs/341556135_202409_990EO_2025032723266748.pdf` p. 6;
+    `irs/341556135_202509_990EO_2026032424029331.pdf` p. 6). So WAEDC itself reported Council's
+    rep as a director. The FY2025 return covers 2024-11-18, the night he seconded Ord. 2024-46. It
+    does not date his seat within that year.
   - WAEDC's board page (captured 2026-11-03) does **not** list him. The page carries no as-of
-    date, so whether he left the board or the page is stale is `[open]`. Whether a "council rep"
-    is a voting director or a liaison is also `[open]`.
+    date. Whether he left the board after 2025-09-30, despite the 2025-12-15 re-appointment, or
+    the page is wrong is `[open]` until the FY2026 return or item 7 of the City request answers it.
 - **Mayor Dan Lee: a WAEDC director, by a route not on Council's slate.**
-  - The board page lists "Dan Lee / Mayor of Wapakoneta, Ohio" `[reference]`
-    (`reference/whywapakoneta.com-waedc-board.html`). ProPublica's rendering of WAEDC's FY ending
-    Sept. 2025 990-EZ lists him as a Director `[reference]`
-    (`reference/propublica-nonprofits-341556135.html`). The returns themselves are not in hand.
+  - WAEDC's returns list "Dan Lee / Director" for the years ending 2024-09-30 and 2025-09-30
+    `[verified]` as to the returns (p. 6 of each). He is on no earlier return held. The board page
+    lists "Dan Lee / Mayor of Wapakoneta, Ohio" `[reference]`
+    (`reference/whywapakoneta.com-waedc-board.html`). The returns give his title as Director only.
   - His own reports to Council list WAEDC meetings: "Waedc 2.7" (2024-02-19, p. 3), "8.7 Waedc
     Board" (2024-08-19, p. 2), "Attended WAEDC board meeting" (2025-08-18, p. 2) and "Dec 3 Wedac
     Annual Meeting" (2025-12-15, p. 3) `[verified]` as the Mayor's own statements.
   - Council's appointment slates do not name the Mayor, so the seat is not a Council appointment
     `[inference]`. Whether WAEDC's code of regulations gives the Mayor an ex officio seat is
     `[open]`.
-- **Council President Chad Doll: a WAEDC director, apparently in his own name.**
+- **Council President Chad Doll: a WAEDC director for at least ten years, apparently in his own
+  name.**
+  - Every return held lists "Chad Doll / Director", from the year ending 2016-09-30 (p. 7) through
+    the year ending 2025-09-30 (p. 6) `[verified]` as to the returns. Returns before FY2016 are not
+    held, so whether his seat predates that is `[open]`. When he became Council President is not
+    in the minutes read, so whether his seat predates the presidency, too, is `[open]`.
   - The board page lists him as a St. Marys Memorial High School teacher. Its bio names his
-    Council committees but not the office of Council President `[reference]`. ProPublica lists
-    him as a Director on the FY2025 return `[reference]`; whether he has served since FY2014, as
-    the earlier returns there suggest, needs the returns `[open]`.
+    Council committees but not the office of Council President `[reference]`.
   - He is on no Council appointment slate read so far `[inference]`.
   - Doll presides; the minutes record seven members voting and him among none of them
     `[verified]` for the minutes read. That he votes only to break a tie is `[inference]` from
     that pattern, not from the charter.
 - **The tip (2026-11-02).** A resident reported that "the mayor and the council president" sit on
-  WAEDC's board, which the sources above bear out `[reference]` for both, and that the Mayor did
-  not acknowledge a speaker on data centers at the 2026-11-02 meeting. That second claim is
-  `[open]` until the minutes or a recording are posted.
+  WAEDC's board, which WAEDC's own returns bear out for both `[verified]` as to the returns, and
+  that the Mayor did not acknowledge a speaker on data centers at the 2026-11-02 meeting. That
+  second claim is `[open]` until the minutes or a recording are posted.
 
 **Council's executive sessions with WAEDC.** Five more sessions inviting Bloomfield are in the
 2024–2025 minutes, in addition to the 2024-10-21 session (§2) and the two 2026 sessions (§1.2a). None
@@ -533,6 +550,10 @@ This is **not** a data-center entry. It is recorded because it concerns the same
   Nonprofit Explorer, EIN 34-1556135
   (<https://projects.propublica.org/nonprofits/organizations/341556135>), both captured 2026-11-03
   under `data/documents/wapakoneta/reference/`.
+- WAEDC Form 990-EZ returns, tax years ending 2016-09-30 to 2025-09-30, IRS Tax Exempt
+  Organization Search copies (<https://apps.irs.gov/app/eos/>), with the e-file XML for the last
+  three, filed under `data/documents/wapakoneta/irs/` (DLNs, sha256 and each year's officer list
+  in that shelf's `filename-map.yaml`).
 - City Council agenda 2026-04-20 and minutes 2026-04-20, 06-15, 09-08 and 10-05, filed under
   `data/documents/wapakoneta/governance/` (source URLs and sha256 in that shelf's `filename-map.yaml`).
 - *Wapakoneta Daily News*, Bob Neelski, "Council greenlights trial to address TDS issues", 2026-04-22

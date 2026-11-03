@@ -14,6 +14,9 @@ producer:
     The 2024-01-02 and 2025-12-15 minutes (Council's WAEDC and CIC representative appointments) and the
     2024-2025 minutes recording WAEDC executive sessions and the Mayor's WAEDC meetings, captured
     2026-11-03, are cited by page in the register's §1.7.
+    WAEDC's Form 990-EZ returns for the tax years ending 2016-09-30 to 2025-09-30 (IRS TEOS copies, with
+    the e-file XML for the last three), fetched 2026-11-03 under data/documents/wapakoneta/irs/, supply
+    §1.7's board lists.
     Also an R.C. 149.43 request to the City, drafted 2026-10-18 and NOT SENT, with its response log.
 license: Public record (municipal codified ordinances); the codification is American Legal Publishing's
 access_tier: public

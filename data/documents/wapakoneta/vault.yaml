@@ -5,12 +5,12 @@ meta:
     Regenerate with `watermark documents manifest`; verify with `--check`. Never hand-edit an entry —
     the next run reverts it. Losing the vault costs no claim, only a re-fetch, because every digest here
     is in a commit.'
-  generated_at: '2026-11-03T15:14:25+00:00'
+  generated_at: '2026-11-03T17:42:12+00:00'
   generated_by: watermark documents manifest
   counts:
-    artifacts: 22
-    bytes: 10546055
-    distinct_addresses: 22
+    artifacts: 32
+    bytes: 13101366
+    distinct_addresses: 32
 artifacts:
 - rel: documents/wapakoneta/governance/01-02-2024-Minutes.pdf
   sha256: 2989b9c4d7822adc433fbd9550071a8ed4780f2f71146c5528e0701474282336
@@ -115,6 +115,56 @@ artifacts:
 - rel: documents/wapakoneta/governance/9-8-2026-Minutes.pdf
   sha256: c4d613094cce7322846ae12d918c682f19f15722b190d54a56e676b6bc959c70
   bytes: 1421200
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/wapakoneta/irs/341556135_201609_990EO_2017071814572284.pdf
+  sha256: 0c809c8b3302600ba18d17b6f63cdffb54c34ce55cfffa9d9cbcf7136995132f
+  bytes: 249330
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/wapakoneta/irs/341556135_201709_990EO_2018030515202751.pdf
+  sha256: f663487b03301bef286e6a3e23f70f5b3bcd112e5ef602b45c313e6d3516ce18
+  bytes: 254077
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/wapakoneta/irs/341556135_201809_990EO_2018121015988354.pdf
+  sha256: 92ead2406a535ea234ff50247c295cfac520a180f02b1c28c18985d7c950cb5b
+  bytes: 244231
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/wapakoneta/irs/341556135_201909_990EO_2020011617039930.pdf
+  sha256: 12e303ffebff32b9fb468d584df4b197a950045d3a282022a8992f4077f2bcfc
+  bytes: 244846
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/wapakoneta/irs/341556135_202009_990EO_2021042117983271.pdf
+  sha256: c47a8330d882ba843f32e50acc4bf4933d5ecfbbc2b77fed957be37c1aac96de
+  bytes: 261853
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/wapakoneta/irs/341556135_202109_990EO_2022042419950498.pdf
+  sha256: 17bb163b7009d98ad5e7b4788de5d087157e86ada64ed7b1894f9a9dbc487a42
+  bytes: 267161
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/wapakoneta/irs/341556135_202209_990EO_2023052421305924.pdf
+  sha256: 3039b16985e60d400b02b5dab91a907470f03eebb4baeab9a137dff098f983d1
+  bytes: 260610
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/wapakoneta/irs/341556135_202309_990EO_2024020822276952.pdf
+  sha256: 6f51d9ccfa17e85c7af96e66efc82cb13b2eb05a550a392a55868d03810b7e1f
+  bytes: 255699
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/wapakoneta/irs/341556135_202409_990EO_2025032723266748.pdf
+  sha256: a85262ea318f3979f7cec210c7693780d63d91a8225fde9545169ba858ecb109
+  bytes: 259134
+  media_type: application/pdf
+  redistributable: true
+- rel: documents/wapakoneta/irs/341556135_202509_990EO_2026032424029331.pdf
+  sha256: ca2aa9e58af48e3e6db796a6dc6ad6781b56f6a2539d2f47915c73fef9f0a06b
+  bytes: 258370
   media_type: application/pdf
   redistributable: true
 - rel: documents/wapakoneta/reference/OWEA_2019-Wapakoneta.pdf
