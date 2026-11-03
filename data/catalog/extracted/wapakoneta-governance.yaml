@@ -17,7 +17,12 @@ producer:
     WAEDC's Form 990-EZ returns for the tax years ending 2016-09-30 to 2025-09-30 (IRS TEOS copies, with
     the e-file XML for the last three), fetched 2026-11-03 under data/documents/wapakoneta/irs/, supply
     §1.7's board lists.
-    Also an R.C. 149.43 request to the City, drafted 2026-10-18 and NOT SENT, with its response log.
+    The 2018-2022 minutes recording the City's funding of WAEDC (Res. 2022-64, $85,000 a year), and
+    three Auglaize County commissioners' minutes recording its dealings with WAEDC, captured
+    2026-11-03 under data/documents/wapakoneta/governance/ and auglaize-commissioners/, are cited by
+    page in the register's §1.8.
+    Also R.C. 149.43 requests to the City (drafted 2026-10-18) and to the County commissioners
+    (drafted 2026-11-03), both NOT SENT, with their response logs.
 license: Public record (municipal codified ordinances); the codification is American Legal Publishing's
 access_tier: public
 site_scope: site:wapakoneta
@@ -29,6 +34,9 @@ storage:
   media_type: application/x-yaml
   lfs: false
 - relpath: extracted/wapakoneta/governance/records-requests/2026-10-18-wapakoneta-clerk-of-council.md
+  media_type: text/markdown
+  lfs: false
+- relpath: extracted/wapakoneta/governance/records-requests/2026-11-03-auglaize-county-commissioners.md
   media_type: text/markdown
   lfs: false
 refresh:

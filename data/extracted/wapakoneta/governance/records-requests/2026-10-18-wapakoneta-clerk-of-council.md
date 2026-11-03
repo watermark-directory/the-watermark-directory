@@ -37,6 +37,10 @@ fill, because the records exist only at the City:
   "WAEDC Rep" and a "CIC Rep" each term, but the Mayor and the Council President also appear on
   WAEDC's board by routes Council's slates do not show (register §1.7). Items 7 and 8 ask for the
   City's side of those seats.
+- **What the City pays WAEDC** (added 2026-11-03). Res. 2022-64 authorized an economic-development
+  services agreement at $85,000 a year from 2023, which may be most of WAEDC's revenue, but the
+  minutes disagree on the term and nothing shows what was paid (register §1.8). Items 7 and 9 ask
+  for the agreement and the payments.
 
 ## Scoping notes (why the request is written the way it is)
 
@@ -103,12 +107,19 @@ bounded by counterparty, subject and a window that starts 2026-01-01, which is t
 >    Economic Development Council** since 2024-01-01, including any provision of WAEDC's code of
 >    regulations or of an agreement with the City that gives the Mayor or a member of Council a
 >    seat; and **any agreement between the City and WAEDC** (funding, membership or services) in
->    force at any time since 2024-01-01.
+>    force at any time since 2022-01-01, including **Resolution 2022-64** (adopted 2022-11-21) as
+>    signed and the economic development services agreement it authorized, as executed, with any
+>    renewal or successor agreement.
 >
 > 8. **For the Community Improvement Corporation** to which Council appoints a representative: any
 >    ordinance or resolution designating it as the City's agency for industrial, commercial or
 >    research development, any agreement between it and the City, and its board minutes and roster
 >    since 2024-01-01, to the extent the City holds them.
+>
+> 9. **Records of payments by the City to the Wapakoneta Area Economic Development Council** from
+>    2022-01-01 to the date of this request, such as a vendor ledger, warrant register or check
+>    register entries, showing each payment's date, amount and fund. A report from the City's
+>    accounting system is fine.
 >
 > If any responsive record is withheld in whole or in part, please identify the record and cite
 > the specific exemption relied upon, as R.C. 149.43(B)(3) requires, and release any segregable
@@ -138,8 +149,9 @@ part of the record.
 | 4 | Zoning map sheet for WCOIC + rezonings since 2024 | — | — | — | — | not yet sent |
 | 5 | Correspondence with AEP / AMP / WAEDC / CTS, 2026 | — | — | — | — | not yet sent |
 | 6 | Data-center conditional-use / rezoning applications | — | — | — | — | not yet sent |
-| 7 | City designations to WAEDC's board + City–WAEDC agreements, since 2024 | — | — | — | — | not yet sent |
+| 7 | City designations to WAEDC's board + City–WAEDC agreements (incl. Res. 2022-64), since 2022 | — | — | — | — | not yet sent |
 | 8 | CIC agency designation, City agreements, board minutes + roster, since 2024 | — | — | — | — | not yet sent |
+| 9 | City payments to WAEDC, 2022 to date | — | — | — | — | not yet sent |
 
 ### Constructive-denial watch
 
@@ -167,5 +179,7 @@ Record here, once sent:
 - Item 6 confirms or corrects the City's statement that no conditional-use request has been made.
 - Item 7 closes §1.7's WAEDC seat questions: whether the Mayor's seat is ex officio, by what route
   the Council President sits, and whether Council's "WAEDC Rep" is a voting director or a liaison.
+- Items 7 and 9 close §1.8: the term of the Res. 2022-64 agreement, whether it was renewed, and what
+  the City actually paid WAEDC in each year.
 - Item 8 closes §1.7's Community Improvement Corporation questions: whether the CIC is the City's
   designated development agency, on what agreement, and who sits on its board.

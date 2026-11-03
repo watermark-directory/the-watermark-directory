@@ -1,4 +1,4 @@
-reconciled_at: '2026-11-03T17:43:58.846781+00:00'
+reconciled_at: '2026-11-03T19:49:24.049903+00:00'
 entries:
   abatement-parameters:
     exists: true
@@ -334,8 +334,8 @@ entries:
     site_scope: basin-shared
   data-centers:
     exists: true
-    sha256: 15d1b017d2e68147a56e26218b9dd0f9c0d1ef22d44e20c48c2173b7114a4a1f
-    size_bytes: 616334
+    sha256: ef2d4c6bc9c4a21ffc9583bd3d60c2eebbcb81435402f487baa10314e31ece03
+    size_bytes: 621465
     lfs_materialized: true
     file_count: 35
     missing: []
@@ -577,8 +577,8 @@ entries:
         stale: false
       wapakoneta:
         exists: true
-        sha256: 40a5e42250da786fc7cf9bd78f4d96207636429195cf259cdb3aee4be17e51a9
-        size_bytes: 51680
+        sha256: 5fd5688cd71888c904fdb2332533b5d60bb4c096becd8e7ea4715c5d81fcdc02
+        size_bytes: 56811
         lfs_materialized: true
         file_count: 1
         asof: null
@@ -865,8 +865,8 @@ entries:
     site_scope: site:van-wert
   data-centers-wapakoneta:
     exists: true
-    sha256: 40a5e42250da786fc7cf9bd78f4d96207636429195cf259cdb3aee4be17e51a9
-    size_bytes: 51680
+    sha256: 5fd5688cd71888c904fdb2332533b5d60bb4c096becd8e7ea4715c5d81fcdc02
+    size_bytes: 56811
     lfs_materialized: true
     file_count: 1
     missing: []
@@ -4015,10 +4015,10 @@ entries:
     site_scope: site:van-wert
   wapakoneta-governance:
     exists: true
-    sha256: fa1abd491b93b11356f6bfad7952d4cf3742064cdd88a39a49191cc602831d9c
-    size_bytes: 31077
+    sha256: 2ffd1bbdbbd4600bd638b61a969652aa53f8266e74b7f8be4b4e2c2252200f9b
+    size_bytes: 37440
     lfs_materialized: true
-    file_count: 3
+    file_count: 4
     missing: []
     asof: null
     stale: false

@@ -324,6 +324,71 @@ minutes its subject, so whether any concerned CTS or data centers is `[open]`:
 CTS's first contact came "about 9 months" before 2026-10-08 (§1.2), so the 2025 sessions predate it
 on the press's account `[inference]`; the 2025-11-17 session is the nearest to it.
 
+### 1.8 — Who funds WAEDC (status as of 2026-11-03)
+
+WAEDC's returns do not answer whether it is mostly publicly funded. A 501(c)(6) filing Form 990-EZ
+reports contributions as one line, with no split between government grants and private gifts. It
+files no Schedule A, and Schedule B (contributor names) is not part of the public copy `[verified]`
+as to the returns. The City's own minutes partly fill that gap.
+
+**What WAEDC reported** (e-file XML, `data/documents/wapakoneta/irs/`) `[verified]` as to the returns:
+
+| Fiscal year (Oct–Sep) | Contributions | Membership dues | Program service | Total revenue |
+|---|---|---|---|---|
+| ending 2023-09-30 | $91,750 | $60,475 | $2,270 | $154,654 |
+| ending 2024-09-30 | $91,750 | $51,725 | $3,360 | $147,804 |
+| ending 2025-09-30 | $91,750 | $51,725 | $3,180 | $154,195 |
+
+**What the City committed.** All `[verified]` as to the minutes; each passage was checked against
+the page image (`governance/`).
+
+- **2018:** the Service Director's report refers to "the $80,000 granted to them" (2018-03-05, p. 3).
+  The instrument behind it is not in hand.
+- **2019:** "An additional $40,000 should be budgeted by the City" for WAEDC's director transition
+  (2019-10-07, p. 1). Doll's summary of 2020 budget needs gives "up to $38,000" (2019-11-04, p. 2).
+  Both are budget statements, not appropriations.
+- **2022, Res. 2022-64.** The Finance Committee recommended "the WAEDC request for $85,000 per year
+  for five years. (Beginning January 1, 2023)", 3–0 (2022-09-19, p. 2). At first reading of "A
+  RESOLUTION AUTHORIZING AN AGREEMENT FOR ECONOMIC DEVELOPMENT SERVICES WITH WAPAKONETA AREA ECONOMIC
+  DEVELOPMENT COUNCIL (W.A.E.D.C.)", Service Director Brillhart "stated the funding amount is $85,000
+  per year for three years" (2022-10-17, p. 2). The resolution was adopted Lee / Dunlap, 7–0
+  (2022-11-21, p. 2). Doll, already a WAEDC director (§1.7), presided at all three readings.
+  - Whether the term is three years or five is `[open]` until the executed agreement is in hand.
+  - No renewal is in the 2025–2026 minutes held. The 2026 minutes were searched by OCR, which is a
+    lead, not a negative `[open]`.
+
+**What follows, and what does not.** Program service revenue is only $2,270–$3,360, so a City payment
+of $85,000 a year would have to be reported as contributions or as dues. If it went to contributions,
+the City alone would be about 93% of that line ($85,000 of $91,750), and 55%, 58% and 55% of total
+revenue in the three years `[inference]`. Three things keep this an inference:
+
+- **Authorized is not paid.** No payment record ties $85,000 to any WAEDC fiscal year. The City's
+  calendar year and WAEDC's October–September year do not line up either.
+- **The split by funder is not shown.** Other public bodies (villages, townships) may pay dues. If
+  they do, the public share is higher, but that is not in hand either.
+- **The services agreement itself is not in hand.** Whether the $85,000 is a grant or a fee for
+  services bears on how WAEDC books it.
+
+So "the City is WAEDC's largest single funder" is well supported, and "majority publicly funded" is
+likely, but neither is `[verified]`. Either would bear on the functional-equivalency question for
+R.C. 149.43 (§1.7 and the request's scoping notes), which stays `[open]`.
+
+**Auglaize County: no appropriation found.** All 239 commissioners' minutes the County posts for
+2023–2026 were read by OCR. They show no appropriation to WAEDC. They do show two ad hoc
+reimbursements, for travel to a meeting (2024-04-25, p. 3) and for conference registration fees
+(2026-04-02, p. 1), with no amounts. They also show the County Administrator reporting on "the
+monthly WAEDC meeting" (2026-04-02) and on the WAEDC director's 2023 resignation (2023-09-07, p. 3).
+All `[verified]` as to the minutes (`auglaize-commissioners/`). The minutes list resolutions by title
+only, so an appropriation inside the annual appropriation resolution or the Board's Journal would
+not show there `[open]`. An "Erica Preston" is listed as a WAEDC director on the return for the year
+ending 2016-09-30 only. That this is the County Administrator is `[inference]`, and what her current
+attendance is (director, ex officio or guest) is `[open]`.
+
+**Not yet searched:** the Auditor of State's audit reports for the City and the County, and Ohio
+Checkbook. Either could put a paid figure on the record. Requests are drafted, **not sent**: City
+items 7 and 9 (`governance/records-requests/2026-10-18-wapakoneta-clerk-of-council.md`) and a County
+request (`governance/records-requests/2026-11-03-auglaize-county-commissioners.md`).
+
 ## 2 — The City's prior instrument: data centers as a conditional use (2024)
 
 The source for the entries below is the City Council minutes, held since 2026-10-28 under
@@ -554,6 +619,12 @@ This is **not** a data-center entry. It is recorded because it concerns the same
   Organization Search copies (<https://apps.irs.gov/app/eos/>), with the e-file XML for the last
   three, filed under `data/documents/wapakoneta/irs/` (DLNs, sha256 and each year's officer list
   in that shelf's `filename-map.yaml`).
+- City Council minutes 2018-03-05, 2019-10-07, 2019-11-04, 2022-09-19, 2022-10-17 and 2022-11-21
+  (the City's funding of WAEDC, §1.8), filed under `data/documents/wapakoneta/governance/` (source
+  URLs and sha256 in that shelf's `filename-map.yaml`).
+- Auglaize County Board of Commissioners minutes, 2023-09-05/07, 2024-04-23/25 and 2026-04-02
+  (<https://www2.auglaizecounty.org/elected-officials/commissioners/minutes>), filed under
+  `data/documents/wapakoneta/auglaize-commissioners/`.
 - City Council agenda 2026-04-20 and minutes 2026-04-20, 06-15, 09-08 and 10-05, filed under
   `data/documents/wapakoneta/governance/` (source URLs and sha256 in that shelf's `filename-map.yaml`).
 - *Wapakoneta Daily News*, Bob Neelski, "Council greenlights trial to address TDS issues", 2026-04-22

@@ -39,7 +39,7 @@
     "label": "Wapakoneta",
     "scope": "site",
     "links_out": 3,
-    "links_in": 32,
+    "links_in": 33,
     "lines": 14,
     "updated": null
   },
@@ -1137,6 +1137,17 @@
     "node_class": "record",
     "kind": "record",
     "label": "R.C. 149.43 request — City of Wapakoneta (DRAFT, NOT SENT)",
+    "scope": "site",
+    "links_out": 2,
+    "links_in": 0,
+    "lines": 17,
+    "updated": "2026-11-03"
+  },
+  {
+    "id": "record/wapakoneta-governance-records-requests-2026-11-0",
+    "node_class": "record",
+    "kind": "record",
+    "label": "R.C. 149.43 request — Auglaize County Board of Commissioners (DRAFT, NOT SENT)",
     "scope": "site",
     "links_out": 2,
     "links_in": 0,

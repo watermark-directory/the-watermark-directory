@@ -1,0 +1,64 @@
+meta:
+  collection: wapakoneta/auglaize-commissioners
+  note: >-
+    Minutes of the Auglaize County Board of County Commissioners, downloaded from the County's own
+    site (www2.auglaizecounty.org → Elected Officials → Commissioners → Minutes, one PDF per week),
+    kept under their as-received names (the URL basename, percent-decoded). They are image-only
+    scans with no text layer, so all 239 posted files for 2023-2026 were read by OCR and searched
+    for WAEDC; the three shelved here are the ones that record a dealing with it, and every passage
+    cited was checked against the page image. The minutes summarize the day and list resolutions by
+    title only ("the entire texts of same are documented in the Board's Journal"), so the absence of
+    a WAEDC appropriation from them is not a negative for the Journal or the annual appropriation
+    resolution [open]. Shelved under the Wapakoneta site because the subject is WAEDC. Added for
+    #2184.
+  publisher: Auglaize County Board of Commissioners
+documents:
+- filename: September 5 & September 7, 2023.pdf
+  title: Auglaize County commissioners' minutes, 2023-09-05 and 2023-09-07
+  source_url: https://www2.auglaizecounty.org/sites/default/files/documents/September%205%20%26%20September%207%2C%202023.pdf
+  sha256: 0f2eec527228c4f85195cf178b5238d96e3fb6d6f8ef055dd8085c41da7c671c
+  bytes: 247684
+  pages: 4
+  content_type: application/pdf
+  fetched_at: '2026-11-03T18:50:13Z'
+  content_verified: ocr+image
+  evidence: rendered_scan
+  status: downloaded
+  note: >-
+    p.3 (2023-09-07), Administrator Preston's report: "Informed the Board of the resignation of the
+    WAEDC Director and the WAEDC Board is forming a search committee to find a replacement."
+- filename: April 23 & April 25, 2024.pdf
+  title: Auglaize County commissioners' minutes, 2024-04-23 and 2024-04-25
+  source_url: https://www2.auglaizecounty.org/sites/default/files/documents/April%2023%20%26%20April%2025%2C%202024.pdf
+  sha256: 3cbd53ccaa0f8d2cffe612ebf7630f89c2ba9dbbbb9af8f192a71f61dd49ff66
+  bytes: 312484
+  pages: 4
+  content_type: application/pdf
+  fetched_at: '2026-11-03T18:50:18Z'
+  content_verified: ocr+image
+  evidence: rendered_scan
+  status: downloaded
+  note: >-
+    p.3 (2024-04-25), Administrator Preston: "Discussed a request from Josh Bloomfield for
+    reimbursement to attend a meeting. The Board will reimburse WAEDC for this expense." No amount
+    is given.
+- filename: April 2, 2026_0.pdf
+  title: Auglaize County commissioners' minutes, 2026-04-02
+  source_url: https://www2.auglaizecounty.org/sites/default/files/documents/April%202%2C%202026_0.pdf
+  sha256: f67b97945a919d4dafd3e33edc36bb5f85a0c231c5bb4642b26dd154a52f4fc0
+  bytes: 127714
+  pages: 2
+  content_type: application/pdf
+  fetched_at: '2026-11-03T18:52:38Z'
+  content_verified: ocr+image
+  evidence: rendered_scan
+  status: downloaded
+  note: >-
+    p.1, Administrator Preston: "Reported she attended the monthly WAEDC meeting on April 1" and
+    "Presented a reimbursement request from the Wapakoneta Area Economic Development Council for
+    conference registration fees. The Board approved the request." No amount is given. "The monthly
+    WAEDC meeting" fits a regular County presence; OCR of the unshelved 2024-03, 2025-11 and 2026-04
+    minutes shows her reporting on other WAEDC meetings (not image-checked). WAEDC's returns list an
+    "Erica Preston" as a director for the year ending 2016-09-30 only, and on none of the nine later
+    returns (irs/filename-map.yaml). That she is the same person is [inference]; whether she now
+    attends as a director, an ex officio member or a guest is [open].
