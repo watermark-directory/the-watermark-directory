@@ -114,5 +114,6 @@ documents:
     990-EZ (filed 2025-10-31) lists Dan Lee, John Sheipline and Chad Doll as Directors at $0, among
     others; each year's list is cut off at "+ View more people". The return XML behind
     /nonprofits/download-xml answered with a "Security Check" interstitial to a scripted client and
-    was not taken; the IRS returns themselves are still to be held [open]. The filename is this
-    repo's.
+    was not taken by script. The returns themselves were fetched by hand on 2026-11-03 and are held
+    under data/documents/wapakoneta/irs/, which supersedes this capture as the source for every
+    board list. The filename is this repo's.

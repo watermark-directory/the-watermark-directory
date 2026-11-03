@@ -1,0 +1,290 @@
+meta:
+  collection: wapakoneta/irs
+  note: 'The Wapakoneta Area Economic Development Council''s own Form 990-EZ returns, tax years ending
+    2016-09-30 to 2025-09-30. WAEDC is a private non-profit (EIN 34-1556135), not a public office; its
+    returns are public under 26 U.S.C. 6104. The PDFs are the IRS''s Tax Exempt Organization Search copies,
+    image-only renderings of the e-files (0 text characters), so every figure here was read from the page
+    image. They are the filer''s statement, signed under penalty of perjury: they establish what WAEDC
+    reported (who it listed as a director, in which year) [verified as to the return], not why a person
+    held the seat. No return marks any seat ex officio or as a City designation; every director is shown
+    at 1.00 hr/week ("000 00" in the two oldest) and $0. Fetched by hand by the requester on 2026-11-03
+    (fetched_at is the download''s file time); the PDF filenames are TEOS''s own and are kept verbatim.
+    Added for #2184.'
+documents:
+- filename: 202423209349200142_public.xml
+  title: WAEDC Form 990-EZ e-file XML, tax year 2023-10-01 to 2024-09-30 (object id 202423209349200142)
+  type: irs-return-efile
+  filer: Wapakoneta Area Economic Development Council Inc (EIN 34-1556135)
+  form: 990-EZ
+  tax_period:
+    begin: '2023-10-01'
+    end: '2024-09-30'
+  object_id: '202423209349200142'
+  source_url: https://projects.propublica.org/nonprofits/download-xml?object_id=202423209349200142
+  sha256: 536a038559286f2d161c02524d88be29b651cdfd1f108a3af9c0bc52e84623be
+  bytes: 12682
+  content_type: application/xml
+  fetched_at: '2026-11-03T17:33:32Z'
+  status: downloaded
+  content_verified: xml
+  note: The IRS e-file data for the return whose TEOS rendering is 341556135_202409_990EO_*.pdf on this
+    shelf (the object id carries that return's DLN, 93492320001424). Taken through ProPublica's download
+    link, so it is a third party's copy of the IRS data; the PDF is the IRS-hosted copy and is the one
+    cited. Its OfficerDirectorTrusteeEmplGrp list agrees with the PDF's Part IV name for name.
+- filename: 202430269349200203_public.xml
+  title: WAEDC Form 990-EZ e-file XML, tax year 2022-10-01 to 2023-09-30 (object id 202430269349200203)
+  type: irs-return-efile
+  filer: Wapakoneta Area Economic Development Council Inc (EIN 34-1556135)
+  form: 990-EZ
+  tax_period:
+    begin: '2022-10-01'
+    end: '2023-09-30'
+  object_id: '202430269349200203'
+  source_url: https://projects.propublica.org/nonprofits/download-xml?object_id=202430269349200203
+  sha256: 6f7332b6181ffc6d08b02656ada0bf80d0bfd82fc809c9c8bb7a66ad254f4013
+  bytes: 12572
+  content_type: application/xml
+  fetched_at: '2026-11-03T17:33:25Z'
+  status: downloaded
+  content_verified: xml
+  note: The IRS e-file data for the return whose TEOS rendering is 341556135_202309_990EO_*.pdf on this
+    shelf (the object id carries that return's DLN, 93492026002034). Taken through ProPublica's download
+    link, so it is a third party's copy of the IRS data; the PDF is the IRS-hosted copy and is the one
+    cited. Its OfficerDirectorTrusteeEmplGrp list agrees with the PDF's Part IV name for name.
+- filename: 202513049349200236_public.xml
+  title: WAEDC Form 990-EZ e-file XML, tax year 2024-10-01 to 2025-09-30 (object id 202513049349200236)
+  type: irs-return-efile
+  filer: Wapakoneta Area Economic Development Council Inc (EIN 34-1556135)
+  form: 990-EZ
+  tax_period:
+    begin: '2024-10-01'
+    end: '2025-09-30'
+  object_id: '202513049349200236'
+  source_url: https://projects.propublica.org/nonprofits/download-xml?object_id=202513049349200236
+  sha256: 9e3a578f131ac1fd6987f35a70ac4e7dddc6da0b7324e8346bf3e955c64ccb9e
+  bytes: 12616
+  content_type: application/xml
+  fetched_at: '2026-11-03T17:33:20Z'
+  status: downloaded
+  content_verified: xml
+  note: The IRS e-file data for the return whose TEOS rendering is 341556135_202509_990EO_*.pdf on this
+    shelf (the object id carries that return's DLN, 93492304002365). Taken through ProPublica's download
+    link, so it is a third party's copy of the IRS data; the PDF is the IRS-hosted copy and is the one
+    cited. Its OfficerDirectorTrusteeEmplGrp list agrees with the PDF's Part IV name for name.
+- filename: 341556135_201609_990EO_2017071814572284.pdf
+  title: WAEDC Form 990-EZ, tax year 2015-10-01 to 2016-09-30 (IRS TEOS copy, DLN 93492024006377)
+  type: irs-return
+  filer: Wapakoneta Area Economic Development Council Inc (EIN 34-1556135)
+  form: 990-EZ
+  tax_period:
+    begin: '2015-10-01'
+    end: '2016-09-30'
+  dln: '93492024006377'
+  source_url: https://apps.irs.gov/app/eos/
+  sha256: 0c809c8b3302600ba18d17b6f63cdffb54c34ce55cfffa9d9cbcf7136995132f
+  bytes: 249330
+  pages: 9
+  content_type: application/pdf
+  fetched_at: '2026-11-03T17:32:52Z'
+  status: downloaded
+  content_verified: ocr+image
+  note: 'Part IV (officers, directors, trustees, key employees) is continued on p.7, read from the rendered
+    page image, not from OCR, which drops the table''s lower rows: Clay Kantner, Chad Doll, Ron Gasior,
+    Andy Farley, Carl Wintzer, Deb Zwez (Treasurer), Mark Jarvis, Tom Stinebaugh (President), Steve Henderson
+    (VP), Mike Burton (President), Keith Horner, Chad Scott, Lonnie Pedersen, Erica Preston, Nannette
+    Schneider — 15 rows, every one but the three officers titled Director; hours printed "000 00". Two
+    rows are titled President, as filed.'
+- filename: 341556135_201709_990EO_2018030515202751.pdf
+  title: WAEDC Form 990-EZ, tax year 2016-10-01 to 2017-09-30 (IRS TEOS copy, DLN 93492008005058)
+  type: irs-return
+  filer: Wapakoneta Area Economic Development Council Inc (EIN 34-1556135)
+  form: 990-EZ
+  tax_period:
+    begin: '2016-10-01'
+    end: '2017-09-30'
+  dln: '93492008005058'
+  source_url: https://apps.irs.gov/app/eos/
+  sha256: f663487b03301bef286e6a3e23f70f5b3bcd112e5ef602b45c313e6d3516ce18
+  bytes: 254077
+  pages: 11
+  content_type: application/pdf
+  fetched_at: '2026-11-03T17:32:43Z'
+  status: downloaded
+  content_verified: ocr+image
+  note: 'Part IV (officers, directors, trustees, key employees) is continued on p.7, read from the rendered
+    page image, not from OCR, which drops the table''s lower rows: Clay Kantner, Chad Doll, Ron Gasior,
+    Andy Farley, Kirk Azbell, Deb Zwez (Treasurer), Mark Jarvis, Tom Stinebaugh, Steve Henderson (VP),
+    Mike Burton (President), Keith Horner, Chad Scott, Lonnie Pedersen, Bob Hager, Melissa Carlin — 15
+    rows; hours printed "000 00".'
+- filename: 341556135_201809_990EO_2018121015988354.pdf
+  title: WAEDC Form 990-EZ, tax year 2017-10-01 to 2018-09-30 (IRS TEOS copy, DLN 93492313018568)
+  type: irs-return
+  filer: Wapakoneta Area Economic Development Council Inc (EIN 34-1556135)
+  form: 990-EZ
+  tax_period:
+    begin: '2017-10-01'
+    end: '2018-09-30'
+  dln: '93492313018568'
+  source_url: https://apps.irs.gov/app/eos/
+  sha256: 92ead2406a535ea234ff50247c295cfac520a180f02b1c28c18985d7c950cb5b
+  bytes: 244231
+  pages: 10
+  content_type: application/pdf
+  fetched_at: '2026-11-03T17:32:34Z'
+  status: downloaded
+  content_verified: ocr+image
+  note: 'Part IV (officers, directors, trustees, key employees) is continued on p.6, read from the rendered
+    page image, not from OCR, which drops the table''s lower rows: Gregory Myers (Executive Director,
+    40 hr), Mike Burton (President), Steve Henderson (VP), Natalie Bice (Treasurer), Chad Doll, Andy Farley,
+    Ron Gasior, Bob Hager, Mark Jarvis, Clay Kantner, Tom Stinebaugh, Lonnie Pedersen, Kirk Azbell — 13
+    rows.'
+- filename: 341556135_201909_990EO_2020011617039930.pdf
+  title: WAEDC Form 990-EZ, tax year 2018-10-01 to 2019-09-30 (IRS TEOS copy, DLN 93492317030219)
+  type: irs-return
+  filer: Wapakoneta Area Economic Development Council Inc (EIN 34-1556135)
+  form: 990-EZ
+  tax_period:
+    begin: '2018-10-01'
+    end: '2019-09-30'
+  dln: '93492317030219'
+  source_url: https://apps.irs.gov/app/eos/
+  sha256: 12e303ffebff32b9fb468d584df4b197a950045d3a282022a8992f4077f2bcfc
+  bytes: 244846
+  pages: 10
+  content_type: application/pdf
+  fetched_at: '2026-11-03T17:32:26Z'
+  status: downloaded
+  content_verified: ocr+image
+  note: 'Part IV (officers, directors, trustees, key employees) is continued on p.6, read from the rendered
+    page image, not from OCR, which drops the table''s lower rows: Gregory Myers (Executive Director),
+    Burton (President), Henderson (VP), Bice (Treasurer), Doll, Farley, Gasior, Hager, Jarvis, Clay Kantner,
+    Stinebaugh, Pedersen, Azbell, Jackie Martell — 14 rows.'
+- filename: 341556135_202009_990EO_2021042117983271.pdf
+  title: WAEDC Form 990-EZ, tax year 2019-10-01 to 2020-09-30 (IRS TEOS copy, DLN 93492338000010)
+  type: irs-return
+  filer: Wapakoneta Area Economic Development Council Inc (EIN 34-1556135)
+  form: 990-EZ
+  tax_period:
+    begin: '2019-10-01'
+    end: '2020-09-30'
+  dln: '93492338000010'
+  source_url: https://apps.irs.gov/app/eos/
+  sha256: c47a8330d882ba843f32e50acc4bf4933d5ecfbbc2b77fed957be37c1aac96de
+  bytes: 261853
+  pages: 11
+  content_type: application/pdf
+  fetched_at: '2026-11-03T17:32:18Z'
+  status: downloaded
+  content_verified: ocr+image
+  note: 'Part IV (officers, directors, trustees, key employees) is continued on p.6, read from the rendered
+    page image, not from OCR, which drops the table''s lower rows: Logan O''Neill (Executive Director),
+    Burton (President), Henderson (VP), Bice (Treasurer), Azbell, Doll, Farley, Gasior, Hager, Jarvis,
+    Clay Kantner, Martell, Pedersen, Stinebaugh — 14 rows.'
+- filename: 341556135_202109_990EO_2022042419950498.pdf
+  title: WAEDC Form 990-EZ, tax year 2020-10-01 to 2021-09-30 (IRS TEOS copy, DLN 93492336007221)
+  type: irs-return
+  filer: Wapakoneta Area Economic Development Council Inc (EIN 34-1556135)
+  form: 990-EZ
+  tax_period:
+    begin: '2020-10-01'
+    end: '2021-09-30'
+  dln: '93492336007221'
+  source_url: https://apps.irs.gov/app/eos/
+  sha256: 17bb163b7009d98ad5e7b4788de5d087157e86ada64ed7b1894f9a9dbc487a42
+  bytes: 267161
+  pages: 12
+  content_type: application/pdf
+  fetched_at: '2026-11-03T17:32:09Z'
+  status: downloaded
+  content_verified: ocr+image
+  note: 'Part IV (officers, directors, trustees, key employees) is continued on p.6, read from the rendered
+    page image, not from OCR, which drops the table''s lower rows: O''Neill (Executive Director), Burton
+    (President), Henderson (VP), Bice (Treasurer), Azbell, Doll, Farley, Hager, Jarvis, Martell, Pedersen,
+    Alan Davis, Ryan Place — 13 rows.'
+- filename: 341556135_202209_990EO_2023052421305924.pdf
+  title: WAEDC Form 990-EZ, tax year 2021-10-01 to 2022-09-30 (IRS TEOS copy, DLN 93492023000043)
+  type: irs-return
+  filer: Wapakoneta Area Economic Development Council Inc (EIN 34-1556135)
+  form: 990-EZ
+  tax_period:
+    begin: '2021-10-01'
+    end: '2022-09-30'
+  dln: '93492023000043'
+  source_url: https://apps.irs.gov/app/eos/
+  sha256: 3039b16985e60d400b02b5dab91a907470f03eebb4baeab9a137dff098f983d1
+  bytes: 260610
+  pages: 11
+  content_type: application/pdf
+  fetched_at: '2026-11-03T17:32:01Z'
+  status: downloaded
+  content_verified: ocr+image
+  note: 'Part IV (officers, directors, trustees, key employees) is continued on p.6, read from the rendered
+    page image, not from OCR, which drops the table''s lower rows: O''Neill (Executive Director), Burton
+    (President), Henderson (VP), Bice (Treasurer), Azbell, Davis, Doll, Farley, Hager, Jarvis, Martell,
+    Pedersen, Place, Ross Kantner — 14 rows.'
+- filename: 341556135_202309_990EO_2024020822276952.pdf
+  title: WAEDC Form 990-EZ, tax year 2022-10-01 to 2023-09-30 (IRS TEOS copy, DLN 93492026002034)
+  type: irs-return
+  filer: Wapakoneta Area Economic Development Council Inc (EIN 34-1556135)
+  form: 990-EZ
+  tax_period:
+    begin: '2022-10-01'
+    end: '2023-09-30'
+  dln: '93492026002034'
+  source_url: https://apps.irs.gov/app/eos/
+  sha256: 6f51d9ccfa17e85c7af96e66efc82cb13b2eb05a550a392a55868d03810b7e1f
+  bytes: 255699
+  pages: 10
+  content_type: application/pdf
+  fetched_at: '2026-11-03T17:31:51Z'
+  status: downloaded
+  content_verified: ocr+image
+  note: 'Part IV (officers, directors, trustees, key employees) is continued on p.6, read from the rendered
+    page image, not from OCR, which drops the table''s lower rows: O''Neill (Executive Director), Davis
+    (President), Henderson (VP), Bice (Treasurer), Burton, Azbell, Doll, Farley, Hager, Jarvis, Martell,
+    Pedersen, Place, Ross Kantner — 14 rows. The officer''s signature is dated 2023-01-17 (p.4), before
+    the year it reports had ended; the preparer''s date is 2024-01-18. Printed as filed; the cause is
+    [open].'
+- filename: 341556135_202409_990EO_2025032723266748.pdf
+  title: WAEDC Form 990-EZ, tax year 2023-10-01 to 2024-09-30 (IRS TEOS copy, DLN 93492320001424)
+  type: irs-return
+  filer: Wapakoneta Area Economic Development Council Inc (EIN 34-1556135)
+  form: 990-EZ
+  tax_period:
+    begin: '2023-10-01'
+    end: '2024-09-30'
+  dln: '93492320001424'
+  source_url: https://apps.irs.gov/app/eos/
+  sha256: a85262ea318f3979f7cec210c7693780d63d91a8225fde9545169ba858ecb109
+  bytes: 259134
+  pages: 11
+  content_type: application/pdf
+  fetched_at: '2026-11-03T17:31:36Z'
+  status: downloaded
+  content_verified: ocr+image
+  note: 'Part IV (officers, directors, trustees, key employees) is continued on p.6, read from the rendered
+    page image, not from OCR, which drops the table''s lower rows: Josh Bloomfield (Executive Director),
+    Davis (President), Bob Hager (VP), Bice (Treasurer), Azbell, Burton, Doll, Farley, Jarvis, Dan Lee,
+    Martell, Pedersen, Place, John Sheipline — 14 rows. The first return held that lists Lee or Sheipline.'
+- filename: 341556135_202509_990EO_2026032424029331.pdf
+  title: WAEDC Form 990-EZ, tax year 2024-10-01 to 2025-09-30 (IRS TEOS copy, DLN 93492304002365)
+  type: irs-return
+  filer: Wapakoneta Area Economic Development Council Inc (EIN 34-1556135)
+  form: 990-EZ
+  tax_period:
+    begin: '2024-10-01'
+    end: '2025-09-30'
+  dln: '93492304002365'
+  source_url: https://apps.irs.gov/app/eos/
+  sha256: ca2aa9e58af48e3e6db796a6dc6ad6781b56f6a2539d2f47915c73fef9f0a06b
+  bytes: 258370
+  pages: 11
+  content_type: application/pdf
+  fetched_at: '2026-11-03T17:31:11Z'
+  status: downloaded
+  content_verified: ocr+image
+  note: 'Part IV (officers, directors, trustees, key employees) is continued on p.6, read from the rendered
+    page image, not from OCR, which drops the table''s lower rows: Bloomfield (Executive Director), Davis
+    (President), Hager (VP), Bice (Treasurer), Azbell, Pedersen, Burton, Jarvis, Andrew Farley, Place,
+    Dan Lee, John Sheipline, Chad Doll, Lindsey Young — 14 rows.'
+
