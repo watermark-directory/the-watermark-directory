@@ -138,6 +138,8 @@ part of the record.
 | 4 | Zoning map sheet for WCOIC + rezonings since 2024 | — | — | — | — | not yet sent |
 | 5 | Correspondence with AEP / AMP / WAEDC / CTS, 2026 | — | — | — | — | not yet sent |
 | 6 | Data-center conditional-use / rezoning applications | — | — | — | — | not yet sent |
+| 7 | City designations to WAEDC's board + City–WAEDC agreements, since 2024 | — | — | — | — | not yet sent |
+| 8 | CIC agency designation, City agreements, board minutes + roster, since 2024 | — | — | — | — | not yet sent |
 
 ### Constructive-denial watch
 
@@ -163,3 +165,7 @@ Record here, once sent:
 - Item 5 is the lawful route to the subject of the 2026-06-15 and 2026-09-08 executive sessions,
   as far as it reaches correspondence.
 - Item 6 confirms or corrects the City's statement that no conditional-use request has been made.
+- Item 7 closes §1.7's WAEDC seat questions: whether the Mayor's seat is ex officio, by what route
+  the Council President sits, and whether Council's "WAEDC Rep" is a voting director or a liaison.
+- Item 8 closes §1.7's Community Improvement Corporation questions: whether the CIC is the City's
+  designated development agency, on what agreement, and who sits on its board.

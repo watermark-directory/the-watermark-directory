@@ -243,8 +243,11 @@ concerned CTS is `[open]`**:
 ### 1.7 — The City's people on WAEDC's board (status as of 2026-11-03)
 
 WAEDC, the intermediary CTS approached (§1.1), is a private non-profit (EIN 34-1556135), not a
-City body. Three City officials appear on its board, each by a different route and on a different
-kind of source. This section records which; it does not say any of them acted improperly. Whether
+City body. Two City officials, the Mayor and the Council President, are listed as its directors
+`[reference]`. A third, Councilman Sheipline, holds Council's WAEDC representative seat
+`[verified]`, but whether that seat makes him a director is `[open]`. Each reaches WAEDC by a
+different route and on a different kind of source. This section records which; it does not say
+any of them acted improperly. Whether
 any seat creates a conflict on a CTS vote is a legal question nobody has asked yet `[open]`.
 
 - **Councilman John Sheipline: Council's designated WAEDC representative.**
