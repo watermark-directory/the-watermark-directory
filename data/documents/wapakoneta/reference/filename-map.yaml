@@ -77,3 +77,42 @@ documents:
     highlighted in blue and six red location flags, including two in South Carolina". It names no
     state but South Carolina, no address, no officer, no Ohio project. Whether this company is the
     entity that approached WAEDC about Wapakoneta rests on the name alone [inference].
+- filename: whywapakoneta.com-waedc-board.html
+  title: WAEDC — "WAEDC Board Members" page (whywapakoneta.com)
+  type: web-capture
+  publisher: Wapakoneta Area Economic Development Council, Inc. (a private non-profit, EIN 34-1556135)
+  source_url: https://www.whywapakoneta.com/waedc-board
+  sha256: 0998ec93d15a150c465b82484ee239bbfbbe69b6efe14d9dc27376fdc363f226
+  bytes: 126464
+  content_type: text/html
+  fetched_at: '2026-11-03T15:10:41Z'
+  status: downloaded
+  content_verified: html-text
+  evidence: html_capture
+  note: >-
+    The roster carries no as-of date (footer "© 2026" only). It lists the Executive Director and 14
+    board members, among them "Dan Lee / Mayor of Wapakoneta, Ohio" (bio "In Progress") and Chad
+    Doll, described as a St. Marys Memorial High School teacher whose bio names his Council
+    committees ("Chair of the Communications & Rules Committee … Lands, Buildings & Building Code …
+    Finance") without naming the office of Council President. John Sheipline and Tyler Price are not
+    listed. Captured because the page changes without notice and the 990s lag it by a year. The
+    filename is this repo's.
+- filename: propublica-nonprofits-341556135.html
+  title: ProPublica Nonprofit Explorer — Wapakoneta Area Economic Development Council Inc (EIN 34-1556135)
+  type: web-capture
+  publisher: ProPublica (a compilation of IRS Form 990 e-file data)
+  source_url: https://projects.propublica.org/nonprofits/organizations/341556135
+  sha256: 5d4348037f149862d165bed452e136dff3c79e14b9bd9a4f8b7205bd3af71e87
+  bytes: 201956
+  content_type: text/html
+  fetched_at: '2026-11-03T15:10:42Z'
+  status: downloaded
+  content_verified: html-text
+  evidence: html_capture
+  note: >-
+    A third party's rendering of the IRS e-file data, not the returns. The FY ending Sept. 2025
+    990-EZ (filed 2025-10-31) lists Dan Lee, John Sheipline and Chad Doll as Directors at $0, among
+    others; each year's list is cut off at "+ View more people". The return XML behind
+    /nonprofits/download-xml answered with a "Security Check" interstitial to a scripted client and
+    was not taken; the IRS returns themselves are still to be held [open]. The filename is this
+    repo's.

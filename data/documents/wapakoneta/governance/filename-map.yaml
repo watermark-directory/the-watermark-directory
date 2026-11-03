@@ -308,3 +308,143 @@ documents:
   note: >-
     p.1: third readings; Ord. 2024-46 adopted (Dunlap / Sheipline) and Ord. 2024-48 adopted (Dunlap
     / Muhlenkamp), both 7-0. The URL is the one the register cited from 2026-10-12.
+# --- 2026-11-03: Council's WAEDC / CIC representation, and the WAEDC executive sessions (#2184) ---
+# Taken from the same library's 2024 (22223216) and 2025 (22223225) folders. Every one carries a
+# native text layer and no images (the 12-15-2025 and 08-18-2025 files are "Microsoft: Print To
+# PDF" but, unlike the 2026 minutes, keep their text), so they were read from text; the 2024-01-02
+# assignment table was also checked against the page rendered at 2x, because a table's columns do
+# not survive text extraction. Residents' home addresses in public comment are not repeated.
+- filename: 01-02-2024-Minutes.pdf
+  title: City Council minutes, 2024-01-02 (organizational meeting)
+  source_url: https://files-backend.assets.thrillshare.com/documents/asset/uploaded_file/5500/Cow/b746be48-eaa8-456b-a9dd-94b075de8512/01-02-2024-Minutes.pdf
+  sha256: 2989b9c4d7822adc433fbd9550071a8ed4780f2f71146c5528e0701474282336
+  bytes: 80822
+  pages: 5
+  content_type: application/pdf
+  fetched_at: '2026-11-03T15:09:06Z'
+  content_verified: text-layer
+  evidence: native_text
+  status: downloaded
+  note: >-
+    p.2: "2024 Wapakoneta City Committees". Under the column heads "CIC Rep / WAEDC Rep / Tourism
+    Rep / Design Review Board Rep" the names are Terry Campbell / John Sheipline / Jessica
+    Muhlenkamp / John Sheipline (column order checked on the rendered page). Approved "for the new
+    Council term as written", Dunlap / Greve, 7-0.
+- filename: 2-19-2024-MInutes.pdf
+  title: City Council minutes, 2024-02-19
+  source_url: https://files-backend.assets.thrillshare.com/documents/asset/uploaded_file/5500/Cow/3f4c22c7-b0dc-41d9-a9cc-8033a71e102f/2-19-2024-MInutes.pdf
+  sha256: a68fd8e5363b651113bff7a76b4c8dd6d548864fd1eef7c5f2dbea9cc8cd5829
+  bytes: 76283
+  pages: 4
+  content_type: application/pdf
+  fetched_at: '2026-11-03T15:08:41Z'
+  content_verified: text-layer
+  evidence: native_text
+  status: downloaded
+  note: >-
+    The as-received name's "MInutes" is kept. p.4: executive session 8:02-8:37pm "for the purposes
+    of economic development and inviting City Administration and Mr. Josh Bloomfield of WAEDC", 7-0.
+    p.3: the Mayor's report lists "Waedc 2.7".
+- filename: 07-15-2024-Minutes.pdf
+  title: City Council minutes, 2024-07-15
+  source_url: https://files-backend.assets.thrillshare.com/documents/asset/uploaded_file/5500/Cow/9f72ec49-3354-425d-8fa5-bf0c9e5e26a7/07-15-2024-Minutes.pdf
+  sha256: 4fda6741e9f3c25579a82f751bcf4edb88ee0936ef5c8aa720eb71af0273e8d4
+  bytes: 65161
+  pages: 3
+  content_type: application/pdf
+  fetched_at: '2026-11-03T15:09:03Z'
+  content_verified: text-layer
+  evidence: native_text
+  status: downloaded
+  note: >-
+    p.3: executive session at 8:16pm "to discuss economic development and inviting WAEDC Director
+    Josh Bloomfield, and to review negotiations with public employees", 7-0. President Doll was
+    absent; President Pro Tem Miller presided.
+- filename: 08-19-2024-Minutes.pdf
+  title: City Council minutes, 2024-08-19
+  source_url: https://files-backend.assets.thrillshare.com/documents/asset/uploaded_file/5500/Cow/3ce7ad62-c6ed-4e0c-85fe-0b84e5ab4e5b/08-19-2024-Minutes.pdf
+  sha256: dbb60dc04129f999c5dd9fe7656e7a70cb0892d2559b715e20fd6b6b2868a853
+  bytes: 68278
+  pages: 3
+  content_type: application/pdf
+  fetched_at: '2026-11-03T15:08:40Z'
+  content_verified: text-layer
+  evidence: native_text
+  status: downloaded
+  note: >-
+    p.2: the Mayor's report lists "8.7 Waedc Board", two weeks before WAEDC's first scheduled
+    data-center briefing (2024-09-03).
+- filename: 02-03-2025-Minutes.pdf
+  title: City Council minutes, 2025-02-03
+  source_url: https://files-backend.assets.thrillshare.com/documents/asset/uploaded_file/5500/Cow/4332ec48-c167-4127-b947-6812b86570f6/02-03-2025-Minutes.pdf
+  sha256: fb97589ec556638274140987570e704c7a42e31c9bff12f2858ded4abb41c743
+  bytes: 77588
+  pages: 4
+  content_type: application/pdf
+  fetched_at: '2026-11-03T15:08:44Z'
+  content_verified: text-layer
+  evidence: native_text
+  status: downloaded
+  note: >-
+    p.4: executive session 8:03-9:00pm "to discuss confidential matters related to economic
+    development and inviting WAEDC Josh Bloomfield and City Administration", entered 6-0, exited 5-0.
+- filename: 05-05-2025_Minutes.pdf
+  title: City Council minutes, 2025-05-05
+  source_url: https://files-backend.assets.thrillshare.com/documents/asset/uploaded_file/5500/Cow/cf776aca-59cc-49fa-b500-0f9c458a14c5/05-05-2025_Minutes.pdf
+  sha256: f05a0215df99a09ff071717aa5d20613a2dcf953a1223723b29637a82708103c
+  bytes: 106290
+  pages: 5
+  content_type: application/pdf
+  fetched_at: '2026-11-03T15:09:15Z'
+  content_verified: text-layer
+  evidence: native_text
+  status: downloaded
+  note: >-
+    p.4: executive session 8:30-9:23pm "to discuss confidential items concerning economic
+    development and invite City Administration and WAEDC Josh Bloomfield", 7-0.
+- filename: 08-18-2025_Minutes.pdf
+  title: City Council minutes, 2025-08-18
+  source_url: https://files-backend.assets.thrillshare.com/documents/asset/uploaded_file/5500/Cow/d91e4b39-3cc8-4ace-8ba2-fe9222b4ff77/08-18-2025_Minutes.pdf
+  sha256: 1a13f69a6f508b4ca6b398579f391c36523f9134c4abc47f69d3b2118fd35008
+  bytes: 208951
+  pages: 3
+  content_type: application/pdf
+  fetched_at: '2026-11-03T15:09:16Z'
+  content_verified: text-layer
+  evidence: native_text
+  status: downloaded
+  note: >-
+    p.2: the Mayor's report: "Attended WAEDC board meeting."
+- filename: 11-17-2025-Minutes.pdf
+  title: City Council minutes, 2025-11-17
+  source_url: https://files-backend.assets.thrillshare.com/documents/asset/uploaded_file/5500/Cow/72a74846-2639-43d1-888a-10a53977293e/11-17-2025-Minutes.pdf
+  sha256: fb74be686e8d261e800c80b8ce7ca4d6036e11e9ed66579a157606f35cb78d0b
+  bytes: 74816
+  pages: 2
+  content_type: application/pdf
+  fetched_at: '2026-11-03T15:08:51Z'
+  content_verified: text-layer
+  evidence: native_text
+  status: downloaded
+  note: >-
+    p.2: executive session 7:58-8:38pm "to discuss confidential information regarding economic
+    development and inviting Mr. Josh Bloomfield of WAEDC and City Administration", 7-0. Mayor Lee
+    was absent.
+- filename: 12-15-2025-Minutes.pdf
+  title: City Council minutes, 2025-12-15
+  source_url: https://files-backend.assets.thrillshare.com/documents/asset/uploaded_file/5500/Cow/64f8a9c0-ab72-4a23-985b-964f83ee065e/12-15-2025-Minutes.pdf
+  sha256: 2300b36613b323c2e9e38aae9a83d6727452d8b80467cec596a830bc35d42339
+  bytes: 278524
+  pages: 4
+  content_type: application/pdf
+  fetched_at: '2026-11-03T14:54:24Z'
+  content_verified: text-layer
+  evidence: native_text
+  status: downloaded
+  note: >-
+    pp.2-3: re-appointments "as submitted" (Sheipline / Miller), including "WAEDC / John Sheipline -
+    council rep" and "Community Improvement Corporation / John Sheipline - council rep". Recorded
+    "Vote – 7 yeas, 0 nays", although p.1 lists six members present with Councilman Greve absent
+    and every other vote that night is 6-0 [open]. p.3: the Mayor's report lists "Dec 3 Wedac
+    Annual Meeting"; p.4: the Safety Service Director reports "Flow augmentation tests are showing
+    promise with the levels." Supplied by the user's URL; the same file is in the 2025 folder.

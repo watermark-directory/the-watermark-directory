@@ -33,6 +33,11 @@ fill, because the records exist only at the City:
 - **The zoning of WCOIC.** If the parcels are not M-3, a data center there needs a rezoning before
   any conditional use (§2).
 
+- **Who sits on WAEDC's board, and on whose behalf** (added 2026-11-03). Council appoints a
+  "WAEDC Rep" and a "CIC Rep" each term, but the Mayor and the Council President also appear on
+  WAEDC's board by routes Council's slates do not show (register §1.7). Items 7 and 8 ask for the
+  City's side of those seats.
+
 ## Scoping notes (why the request is written the way it is)
 
 The request is narrow on purpose, as in the Findlay request
@@ -93,6 +98,17 @@ bounded by counterparty, subject and a window that starts 2026-01-01, which is t
 > 6. **Any application** for a conditional use permit, zoning certificate or rezoning for a
 >    "data warehouse (center)" filed with the City or its Planning Commission since 2024-11-18. If
 >    there is none, I would be grateful for a statement saying so.
+>
+> 7. **Any record appointing or designating a City official to the board of the Wapakoneta Area
+>    Economic Development Council** since 2024-01-01, including any provision of WAEDC's code of
+>    regulations or of an agreement with the City that gives the Mayor or a member of Council a
+>    seat; and **any agreement between the City and WAEDC** (funding, membership or services) in
+>    force at any time since 2024-01-01.
+>
+> 8. **For the Community Improvement Corporation** to which Council appoints a representative: any
+>    ordinance or resolution designating it as the City's agency for industrial, commercial or
+>    research development, any agreement between it and the City, and its board minutes and roster
+>    since 2024-01-01, to the extent the City holds them.
 >
 > If any responsive record is withheld in whole or in part, please identify the record and cite
 > the specific exemption relied upon, as R.C. 149.43(B)(3) requires, and release any segregable

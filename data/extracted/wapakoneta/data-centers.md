@@ -1,7 +1,7 @@
 # Wapakoneta / Auglaize Co., OH — Data-Center Activity Register
 
 Discover-and-pin register for the Wapakoneta watershed point (upper Auglaize River → **Maumee** at
-Defiance → Lake Erie). Status **as of 2026-10-28** (#2184). Tags are BOSC evidentiary discipline:
+Defiance → Lake Erie). Status **as of 2026-11-03** (#2184). Tags are BOSC evidentiary discipline:
 `[verified]` = cited primary/government source, `[reference]` = secondary source or a party's own
 self-report (leads only, never a finding), `[inference]` = arithmetic or pattern from cited inputs,
 `[open]` = not found in any public source yet. This records the public record as of the date above
@@ -137,7 +137,7 @@ Council* is `[verified]`. What he relays about the project is the developer's ac
 - **Council's response.** Ms. Behr, Mr. Dunlap and Mr. Greve "recommended that the developers conduct
   town hall style meetings for public input." No motion was made.
 
-**Two earlier executive sessions** invited Bloomfield. Neither names its subject, so **whether either
+**Two earlier 2026 executive sessions** invited Bloomfield (the 2024–2025 ones are in §1.7). Neither names its subject, so **whether either
 concerned CTS is `[open]`**:
 
 - **2026-06-15** (p. 4): 9:10–9:56 pm, for pending or imminent litigation **and** "confidential
@@ -239,6 +239,70 @@ concerned CTS is `[open]`**:
 | Ohio EPA air PTI (emergency generators) | None expected pre-application; not searched `[open]` |
 | Ohio EPA NPDES (stormwater / industrial) | None; not searched `[open]` |
 | AMP delivery-service contract | `[open]` |
+
+### 1.7 — The City's people on WAEDC's board (status as of 2026-11-03)
+
+WAEDC, the intermediary CTS approached (§1.1), is a private non-profit (EIN 34-1556135), not a
+City body. Three City officials appear on its board, each by a different route and on a different
+kind of source. This section records which; it does not say any of them acted improperly. Whether
+any seat creates a conflict on a CTS vote is a legal question nobody has asked yet `[open]`.
+
+- **Councilman John Sheipline: Council's designated WAEDC representative.**
+  - 2024-01-02 organizational meeting, p. 2: the "2024 Wapakoneta City Committees" table names
+    John Sheipline as "WAEDC Rep" (and Terry Campbell as "CIC Rep"); approved Dunlap / Greve, 7–0
+    `[verified]` (`governance/01-02-2024-Minutes.pdf`; column order checked on the rendered page).
+  - So Sheipline held that seat when he seconded **Ord. 2024-46** (§2), adopted 7–0 on 2024-11-18
+    `[verified]`.
+  - 2025-12-15, pp. 2–3: re-appointed "WAEDC / John Sheipline - council rep" **and** "Community
+    Improvement Corporation / John Sheipline - council rep", on his own motion (Sheipline /
+    Miller) `[verified]` (`governance/12-15-2025-Minutes.pdf`). The minutes record that vote as
+    "7 yeas, 0 nays" while p. 1 lists six members present (Greve absent) and every other vote that
+    night is 6–0. Which count is right is `[open]`.
+  - WAEDC's board page (captured 2026-11-03) does **not** list him. The page carries no as-of
+    date, so whether he left the board or the page is stale is `[open]`. Whether a "council rep"
+    is a voting director or a liaison is also `[open]`.
+- **Mayor Dan Lee: a WAEDC director, by a route not on Council's slate.**
+  - The board page lists "Dan Lee / Mayor of Wapakoneta, Ohio" `[reference]`
+    (`reference/whywapakoneta.com-waedc-board.html`). ProPublica's rendering of WAEDC's FY ending
+    Sept. 2025 990-EZ lists him as a Director `[reference]`
+    (`reference/propublica-nonprofits-341556135.html`). The returns themselves are not in hand.
+  - His own reports to Council list WAEDC meetings: "Waedc 2.7" (2024-02-19, p. 3), "8.7 Waedc
+    Board" (2024-08-19, p. 2), "Attended WAEDC board meeting" (2025-08-18, p. 2) and "Dec 3 Wedac
+    Annual Meeting" (2025-12-15, p. 3) `[verified]` as the Mayor's own statements.
+  - Council's appointment slates do not name the Mayor, so the seat is not a Council appointment
+    `[inference]`. Whether WAEDC's code of regulations gives the Mayor an ex officio seat is
+    `[open]`.
+- **Council President Chad Doll: a WAEDC director, apparently in his own name.**
+  - The board page lists him as a St. Marys Memorial High School teacher. Its bio names his
+    Council committees but not the office of Council President `[reference]`. ProPublica lists
+    him as a Director on the FY2025 return `[reference]`; whether he has served since FY2014, as
+    the earlier returns there suggest, needs the returns `[open]`.
+  - He is on no Council appointment slate read so far `[inference]`.
+  - Doll presides; the minutes record seven members voting and him among none of them
+    `[verified]` for the minutes read. That he votes only to break a tie is `[inference]` from
+    that pattern, not from the charter.
+- **The tip (2026-11-02).** A resident reported that "the mayor and the council president" sit on
+  WAEDC's board, which the sources above bear out `[reference]` for both, and that the Mayor did
+  not acknowledge a speaker on data centers at the 2026-11-02 meeting. That second claim is
+  `[open]` until the minutes or a recording are posted.
+
+**Council's executive sessions with WAEDC.** Five more sessions inviting Bloomfield are in the
+2024–2025 minutes, in addition to the 2024-10-21 session (§2) and the two 2026 sessions (§1.2a). None
+minutes its subject, so whether any concerned CTS or data centers is `[open]`:
+
+- **2024-02-19** (p. 4): 8:02–8:37 pm, "for the purposes of economic development", inviting City
+  Administration and Bloomfield; 7–0 `[verified]`.
+- **2024-07-15** (p. 3): from 8:16 pm, economic development (Bloomfield) and negotiations with
+  public employees; 7–0, President Pro Tem Miller presiding `[verified]`.
+- **2025-02-03** (p. 4): 8:03–9:00 pm, "confidential matters related to economic development";
+  in 6–0, out 5–0 `[verified]`.
+- **2025-05-05** (p. 4): 8:30–9:23 pm, "confidential items concerning economic development"; 7–0
+  `[verified]`.
+- **2025-11-17** (p. 2): 7:58–8:38 pm, "confidential information regarding economic development";
+  7–0; Mayor Lee absent `[verified]`.
+
+CTS's first contact came "about 9 months" before 2026-10-08 (§1.2), so the 2025 sessions predate it
+on the press's account `[inference]`; the 2025-11-17 session is the nearest to it.
 
 ## 2 — The City's prior instrument: data centers as a conditional use (2024)
 
@@ -393,7 +457,7 @@ This is **not** a data-center entry. It is recorded because it concerns the same
 5. **The AEP feasibility study** the City requested, via an R.C. 149.43 request to the City. With it,
    the City's correspondence with AEP, AMP, WAEDC and CTS. Drafted, **not sent**:
    `governance/records-requests/2026-10-18-wapakoneta-clerk-of-council.md` (it also asks for items 2
-   and 3 and the WCOIC zoning).
+   and 3, the WCOIC zoning, and the City's side of the WAEDC and CIC board seats, §1.7).
 6. **The CTS informational meetings**: dates, venue and materials.
 7. **The WCOIC parcel(s)**: which land the "30 acre" site is, and the official zoning map. The
    City's GIS zoning viewer
@@ -459,6 +523,13 @@ This is **not** a data-center entry. It is recorded because it concerns the same
 - City Council agenda 2024-09-03 and minutes 2024-09-03, 09-16, 10-07, 10-21, 11-04 and 11-18, filed
   under `data/documents/wapakoneta/governance/` (source URLs and sha256 in that shelf's
   `filename-map.yaml`) and extracted in `governance/council-2024-data-center-ordinances.timeline.yaml`.
+- City Council minutes 2024-01-02, 02-19, 07-15, 08-19 and 2025-02-03, 05-05, 08-18, 11-17 and
+  12-15, filed under `data/documents/wapakoneta/governance/` (source URLs and sha256 in that
+  shelf's `filename-map.yaml`).
+- WAEDC, "WAEDC Board Members" (<https://www.whywapakoneta.com/waedc-board>), and ProPublica
+  Nonprofit Explorer, EIN 34-1556135
+  (<https://projects.propublica.org/nonprofits/organizations/341556135>), both captured 2026-11-03
+  under `data/documents/wapakoneta/reference/`.
 - City Council agenda 2026-04-20 and minutes 2026-04-20, 06-15, 09-08 and 10-05, filed under
   `data/documents/wapakoneta/governance/` (source URLs and sha256 in that shelf's `filename-map.yaml`).
 - *Wapakoneta Daily News*, Bob Neelski, "Council greenlights trial to address TDS issues", 2026-04-22
