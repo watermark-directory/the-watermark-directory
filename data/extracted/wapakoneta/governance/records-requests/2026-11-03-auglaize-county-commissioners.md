@@ -97,4 +97,6 @@ for the worked example.
 
 - Item 1 puts a paid County figure, or a paid zero, on §1.8.
 - Item 2 settles whether the County funds WAEDC beyond ad hoc reimbursements.
-- Item 3 settles whether the County Administrator's attendance at WAEDC meetings is a board seat.
+- Item 3 establishes only whether the County designated an official to WAEDC's board. A
+  produced designation would show a seat. A negative answer would not settle whether the
+  Administrator's attendance at WAEDC meetings is a board seat, which stays `[open]`.
