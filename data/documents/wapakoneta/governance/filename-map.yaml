@@ -448,3 +448,102 @@ documents:
     and every other vote that night is 6-0 [open]. p.3: the Mayor's report lists "Dec 3 Wedac
     Annual Meeting"; p.4: the Safety Service Director reports "Flow augmentation tests are showing
     promise with the levels." Supplied by the user's URL; the same file is in the 2025 folder.
+# --- 2026-11-03: the City's funding of WAEDC, 2018-2022 (#2184) ---
+# Taken from the same library's 2018, 2019 and 2022 folders (Thrillshare documents API). Each carries
+# a native text layer, so it was read from text, and every passage cited below was also checked
+# against the page rendered as an image. Found by searching all 445 Council agendas and minutes
+# for 2018-2026 for WAEDC near money words; the image-only 2026 files were searched by OCR.
+# Residents' home addresses in public comment are not repeated.
+- filename: 03-05-2018_Minutes.pdf
+  title: City Council minutes, 2018-03-05
+  source_url: https://files-backend.assets.thrillshare.com/documents/asset/uploaded_file/5500/Cow/9dc3db77-cae2-4a23-a572-34a72ad5ac3a/03-05-2018_Minutes.pdf
+  sha256: aaa19fff0d825fac247c9b93ede6467fe6eb331367b3d8a276c4c6f3f11eda50
+  bytes: 27668
+  pages: 3
+  content_type: application/pdf
+  fetched_at: '2026-11-03T18:41:31Z'
+  content_verified: text-layer
+  evidence: native_text
+  status: downloaded
+  note: >-
+    p.3, Service Director's report: "Mr. Scott asked Council if the cost of the working meals
+    provided at WAEDC meetings be taken out of the $80,000 granted to them. Mrs. Wurst stated that
+    this ought to be taken from the agreed upon $80,000 worth of funds." Image-checked. The earliest
+    City dollar figure for WAEDC in the held minutes; the instrument behind it is not in hand.
+- filename: 10-07-2019-Minutes.pdf
+  title: City Council minutes, 2019-10-07
+  source_url: https://files-backend.assets.thrillshare.com/documents/asset/uploaded_file/5500/Cow/ab658260-ce3c-4189-8f46-00a4eda64661/10-07-2019-Minutes.pdf
+  sha256: ca9cba678a264c8eb54bac9f9da38c5df66bab90de47dc637a7192768e40bb87
+  bytes: 26421
+  pages: 3
+  content_type: application/pdf
+  fetched_at: '2026-11-03T18:41:07Z'
+  content_verified: text-layer
+  evidence: native_text
+  status: downloaded
+  note: >-
+    p.1, New Business: "Mr. Doll stated that the WAEDC is seeking to hire a new director by January
+    1, 2020, as Greg Myers is retiring from the position. An additional $40,000 should be budgeted by
+    the City for this transition period." Image-checked.
+- filename: 11-04-2019-Minutes.pdf
+  title: City Council minutes, 2019-11-04
+  source_url: https://files-backend.assets.thrillshare.com/documents/asset/uploaded_file/5500/Cow/26108e5e-79c5-4e94-9ddf-e9d68a2e21bd/11-04-2019-Minutes.pdf
+  sha256: 14bdaf2e4eda4f7d881503f2ff2c2052ec28d5de24b0c2a424ce4a586de10193
+  bytes: 29623
+  pages: 3
+  content_type: application/pdf
+  fetched_at: '2026-11-03T18:41:11Z'
+  content_verified: text-layer
+  evidence: native_text
+  status: downloaded
+  note: >-
+    pp.1-2: Mr. Doll's summary of "budget needs for 2020" ends "Additional funding for WAEDC
+    executive director transition up to $38,000". Image-checked. A budget need as summarized, not
+    an appropriation.
+- filename: 09-19-2022-minutes.pdf
+  title: City Council minutes, 2022-09-19
+  source_url: https://files-backend.assets.thrillshare.com/documents/asset/uploaded_file/5500/Cow/6b5b43c4-d017-4522-bf6a-b65a9e48d688/09-19-2022-minutes.pdf
+  sha256: 1cc1a9a08b75ada03528de12f97514ec2857c4abbb75ab91f6e898d427702c1c
+  bytes: 42042
+  pages: 5
+  content_type: application/pdf
+  fetched_at: '2026-11-03T18:38:29Z'
+  content_verified: text-layer
+  evidence: native_text
+  status: downloaded
+  note: >-
+    p.2, Finance Committee report of its 09-15-2022 meeting: "The committee then discussed the
+    WAEDC request for increased funding. By a 3-0 vote, the committee voted to recommend approval of
+    the WAEDC request for $85,000 per year for five years. (Beginning January 1, 2023)." Also that
+    WAEDC is "encouraging the city to update Wapakoneta's Comprehensive Plan". Image-checked.
+- filename: 10-17-2022-Minutes.pdf
+  title: City Council minutes, 2022-10-17
+  source_url: https://files-backend.assets.thrillshare.com/documents/asset/uploaded_file/5500/Cow/5de326ba-019b-4686-97fc-18a861c77a5a/10-17-2022-Minutes.pdf
+  sha256: 9086c189307489ec80d5a4ae5e47c8efed264adce996393e0e73831d75b50f88
+  bytes: 28955
+  pages: 3
+  content_type: application/pdf
+  fetched_at: '2026-11-03T18:38:34Z'
+  content_verified: text-layer
+  evidence: native_text
+  status: downloaded
+  note: >-
+    p.2: first reading of Res. 2022-64, "A RESOLUTION AUTHORIZING AN AGREEMENT FOR ECONOMIC
+    DEVELOPMENT SERVICES WITH WAPAKONETA AREA ECONOMIC DEVELOPMENT COUNCIL (W.A.E.D.C.)". "Service
+    Director Brillhart stated the funding amount is $85,000 per year for three years." Three years
+    here against the committee's five on 09-19 [open until the agreement is in hand].
+    Image-checked.
+- filename: 11-21-2022-minutes.pdf
+  title: City Council minutes, 2022-11-21
+  source_url: https://files-backend.assets.thrillshare.com/documents/asset/uploaded_file/5500/Cow/93a2bf3e-d4b6-4c92-8a94-b97bfbe7be5c/11-21-2022-minutes.pdf
+  sha256: b3414b3af22c7331053aa4ee6b8b79a1cf5b8c0d34978f650b9a1881fe816fa0
+  bytes: 27925
+  pages: 3
+  content_type: application/pdf
+  fetched_at: '2026-11-03T18:38:40Z'
+  content_verified: text-layer
+  evidence: native_text
+  status: downloaded
+  note: >-
+    p.2: third reading of Res. 2022-64; "Motion by Lee, second by Dunlap to adopt Res 2022-64. Vote
+    – 7 yeas, 0 nays. Motion passed." Image-checked. The second reading was 11-07-2022 (not shelved).
