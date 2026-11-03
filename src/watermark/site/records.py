@@ -216,6 +216,10 @@ _OPC_KEYS = frozenset({"estimate", "sub_estimates", "estimate_template"})
 #                   ACT that authorized the contract, not the contract. Whole-document because
 #                   `parties:` names only the counterparties; the terms, execution and authorizing
 #                   resolutions sit beside it.
+#                   A PUBLISHED DRAFT is also a member (#2217, the Adams County ↔ Amazon Data
+#                   Services agreement, unsigned): it must carry a top-level `status:` saying so,
+#                   which the whole-document payload keeps, and the group label is neutral about
+#                   execution for exactly that reason.
 #                   MUST BE LAST. `findlay/governance/litigation-one-energy-v-allen-twp.yaml`
 #                   carries both `case:` and `parties:`, and `case` must keep it. (A consent order
 #                   carrying `parties:` is already safe — `order:` is a BLOCK key, and the block

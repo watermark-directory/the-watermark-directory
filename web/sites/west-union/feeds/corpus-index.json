@@ -1048,11 +1048,11 @@
     "id": "question/lead-odot-project-galaxy-tis",
     "node_class": "question",
     "kind": "lead",
-    "label": "ODOT approved a \"Project Galaxy\" traffic study for this campus, and it is not attached",
+    "label": "A Kimley-Horn memo says ODOT approved a \"Project Galaxy\" traffic study for this campus; the study is not held",
     "scope": "site",
     "links_out": 2,
     "links_in": 0,
-    "lines": 25,
+    "lines": 26,
     "updated": null
   },
   {
@@ -1185,7 +1185,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 22,
-    "updated": "2026-08-16"
+    "updated": "2026-11-03"
   },
   {
     "id": "record/west-union-county-2026-10-30-amazon-data-service",
@@ -1196,7 +1196,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 22,
-    "updated": null
+    "updated": "2026-11-03"
   },
   {
     "id": "record/west-union-data-centers",
@@ -1207,7 +1207,7 @@
     "links_out": 2,
     "links_in": 0,
     "lines": 22,
-    "updated": "2026-11-02"
+    "updated": "2026-11-03"
   },
   {
     "id": "relation/npdes-0pc00019--discharges-to--beasley-creek",

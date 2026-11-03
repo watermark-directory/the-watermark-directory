@@ -4,7 +4,10 @@ import type { RecordItem } from "./feeds";
 /** Human labels for the contractor-agnostic record groups (mirrors nav.yaml). */
 export const RECORD_GROUP_LABELS: Record<string, string> = {
   "agency-policy": "Agency policy — records availability & retention",
-  agreements: "Agreements — executed instruments",
+  // Neutral about execution (#2217): a PUBLISHED DRAFT (west-union's County ↔ Amazon Data
+  // Services agreement, unsigned) is a member, and it carries its own `status:` in the payload so
+  // it can never read as an executed contract. Same rule as `siting-cases`.
+  agreements: "Agreements — executed & draft instruments",
   deeds: "Deeds",
   enforcement: "Enforcement — orders & decrees",
   inspections: "Inspections & compliance reviews",

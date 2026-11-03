@@ -105,6 +105,7 @@
     "confidence": null,
     "warnings": [],
     "fields": {
+      "status": "DRAFT — UNSIGNED AND UNEXECUTED. The authorizing Resolution number and date, the Effective Date, and every signature block are blank (see `authorization`). This record states what the County published, not what it agreed to. [verified] as to the blanks.",
       "provenance": {
         "source_path": "data/documents/west-union/county/development-agreement.pdf",
         "sha256": "337ca5dc5d76bd769b5ef6e0145bfe44cb9414e168d11257615d17ceab70537a",

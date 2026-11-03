@@ -184,8 +184,8 @@
   {
     "id": "ODOT-PROJECT-GALAXY-TIS",
     "origin": "lead",
-    "question": "ODOT approved a \"Project Galaxy\" traffic study for this campus, and it is not attached",
-    "detail": "The Kimley-Horn memo of 2026-10-08, written on behalf of AWS and appended to the County draft agreement, cites \"the Project Galaxy Traffic Impact Study, approved by the Ohio Department of Transportation (ODOT) on July 24, 2026 (attached)\". The study is not in the PDF. It would carry the trip generation, and so the workforce and phasing, for what the memo calls a \"multi-campus data center build-out\", Q1 2026 through Q4 2034. It is also the first State record to use the Galaxy codename at this site.",
+    "question": "A Kimley-Horn memo says ODOT approved a \"Project Galaxy\" traffic study for this campus; the study is not held",
+    "detail": "The Kimley-Horn memo of 2026-10-08, written on behalf of AWS and appended to the County draft agreement, cites \"the Project Galaxy Traffic Impact Study, approved by the Ohio Department of Transportation (ODOT) on July 24, 2026 (attached)\". The study is not in the PDF. It would carry the trip generation, and so the workforce and phasing, for what the memo calls a \"multi-campus data center build-out\", Q1 2026 through Q4 2034. The ODOT approval rests on the memo's own citation and is unconfirmed until the study or an ODOT record is held. If it exists, it would be the first State record to use the Galaxy codename at this site.",
     "source": "data/extracted/west-union/county/2026-10-30-amazon-data-services-development-agreement.parties.yaml (DA-PROJECT-GALAXY-TIS)",
     "kind": "question",
     "status": "unanswered",
