@@ -1,6 +1,6 @@
 {
   "site": "lima",
-  "catalog_version": "055691fc944b352aedf7dd6050ed1c9459d05009a63c9acc126403be7a0efef3",
+  "catalog_version": "1e3d12c6118a73464d33a992a7d28efbb2b920a92ab773166002b73c2b90bb00",
   "contract_version": "2.5.0",
   "atoms": [
     {
@@ -2481,6 +2481,14 @@
       "site": "lima",
       "local_id": "watershed",
       "title": "Watershed / Conservation Extractions & Findings (Maumee)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:lima:west-union-county",
+      "kind": "dataset",
+      "site": "lima",
+      "local_id": "west-union-county",
+      "title": "West Union / Adams County OH — County Development Agreement with Amazon Data Services (DRAFT)",
       "feed": "catalog"
     },
     {

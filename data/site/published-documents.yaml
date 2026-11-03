@@ -319,7 +319,21 @@ collections:      # whole data/documents/<slug> trees, e.g.  - aedg
   #
   # The remaining 32 files are clean: board minutes, budgets, financial statements and by-laws,
   # whose only personal data is the names and official work contacts of District officers.
+  #
+  # ⚠️ AMENDED 2026-11-03 (#1983) — `west-union/county/development-agreement.pdf`, Adams County's
+  # DRAFT development agreement with Amazon Data Services, Inc. (123 pp.), saved from the County's
+  # own website. It clears on this collection rule WITHOUT a per-file decision, which is why it is
+  # recorded here. Screened by grepping the full text layer and rendering the nine image-only
+  # Exhibit A pages (pp. 21-29, 0-based). The only private individuals are the survey's adjoining
+  # owners: names, deed references and parcel IDs, with no street or mailing addresses. That is
+  # the same kind of content, on the same basis, as the Ginger Ridge plan set's G-003 table above.
+  # Every other contact is a business or official one (Amazon role addresses, Baker Hostetler,
+  # Frost Brown Todd, County staff, Kimley-Horn). Every page is stamped "Confidential", but the
+  # County published it itself. Reviewed and cleared by the operator 2026-11-03 (the second line
+  # below), knowing that the p. 29 adjoiner table is barely legible at 300 DPI, so its name
+  # inventory is not claimed to be complete.
   # review: { by: goedelsoup, date: 2026-08-16, result: publish, basis: disclosed-public-record }
+  # review: { by: goedelsoup, date: 2026-11-03, result: publish, basis: disclosed-public-record }
   - west-union
 globs:            # fnmatch globs over the data/documents rel, e.g.  - 'permits/*/*.pdf'
   # Findlay's grid instruments — the AEP large-load request, the Rocky Ford 138 kV station

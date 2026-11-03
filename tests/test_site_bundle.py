@@ -840,6 +840,9 @@ def test_west_union_exports_at_case_tier(site_bundle: Callable[[str], Path]) -> 
         "west-union/acrwd/1997-1998-trustee-self-appointment.resolution.yaml",
         "west-union/acrwd/2024-01-10-nondisclosure-agreement.parties.yaml",
         "west-union/acrwd/2026-07-09-board-resolutions.resolution.yaml",
+        # #1983: the County's DRAFT development agreement with Amazon Data Services, Inc. —
+        # unsigned, and published as an `agreements` record on the strength of its parties block.
+        "west-union/county/2026-10-30-amazon-data-services-development-agreement.parties.yaml",
         # #2050: the Ohio EPA Level Two Isolated Wetland Permit, the site's first STATE
         # environmental authorization — reached via `oepa/west-union`, the site's derived
         # `*/<slug>` agency-nesting prefix rather than its own `west-union/` collection.

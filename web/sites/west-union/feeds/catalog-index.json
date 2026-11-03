@@ -1,6 +1,6 @@
 {
   "site": "west-union",
-  "catalog_version": "10eeff892dc8ff6c4ff5a6e59c5b64cc601f2a6dd1582d4cee0f504bd7b89610",
+  "catalog_version": "6b83855efae2c57f6e063c6d8047b80fa05c8cb8388cc19a1c1f449301f51981",
   "contract_version": "2.5.0",
   "atoms": [
     {
@@ -1084,6 +1084,14 @@
       "feed": "catalog"
     },
     {
+      "handle": "dataset:west-union:west-union-county",
+      "kind": "dataset",
+      "site": "west-union",
+      "local_id": "west-union-county",
+      "title": "West Union / Adams County OH — County Development Agreement with Amazon Data Services (DRAFT)",
+      "feed": "catalog"
+    },
+    {
       "handle": "dataset:west-union:wqs-criteria",
       "kind": "dataset",
       "site": "west-union",
@@ -1144,7 +1152,7 @@
       "kind": "lead",
       "site": "west-union",
       "local_id": "ACRWD-CAMPUS-PARCEL-OWNERSHIP",
-      "title": "The campus parcel is identified, and who owns it is not",
+      "title": "The campus parcel's owner is named by a survey, and the deed is still not held",
       "feed": "leads"
     },
     {
@@ -1201,6 +1209,54 @@
       "site": "west-union",
       "local_id": "BUCK-CANYON-ENTITY-FAMILIES",
       "title": "Four instruments, two entity families, and nothing joins them",
+      "feed": "leads"
+    },
+    {
+      "handle": "lead:west-union:COUNTY-ACEDA-NDA-2024-01-04",
+      "kind": "lead",
+      "site": "west-union",
+      "local_id": "COUNTY-ACEDA-NDA-2024-01-04",
+      "title": "An Economic Development Authority NDA predates the Water District's by six days",
+      "feed": "leads"
+    },
+    {
+      "handle": "lead:west-union:COUNTY-AS-NPDES-APPLICANT",
+      "kind": "lead",
+      "site": "west-union",
+      "local_id": "COUNTY-AS-NPDES-APPLICANT",
+      "title": "The County, not Amazon, is set up to be the campus's wastewater permittee",
+      "feed": "leads"
+    },
+    {
+      "handle": "lead:west-union:COUNTY-CAMPUS-LAND-ASSEMBLY",
+      "kind": "lead",
+      "site": "west-union",
+      "local_id": "COUNTY-CAMPUS-LAND-ASSEMBLY",
+      "title": "The 1,016 acres were assembled from at least seven tracts, and nobody has traced who did it",
+      "feed": "leads"
+    },
+    {
+      "handle": "lead:west-union:COUNTY-CRA-JEDD-INSTRUMENTS",
+      "kind": "lead",
+      "site": "west-union",
+      "local_id": "COUNTY-CRA-JEDD-INSTRUMENTS",
+      "title": "The incentive is a County CRA traded for a JEDD, and neither instrument is held",
+      "feed": "leads"
+    },
+    {
+      "handle": "lead:west-union:COUNTY-DEVELOPMENT-AGREEMENT-APPROVAL",
+      "kind": "lead",
+      "site": "west-union",
+      "local_id": "COUNTY-DEVELOPMENT-AGREEMENT-APPROVAL",
+      "title": "The County posted a draft agreement with Amazon, and no vote or signed copy is held",
+      "feed": "leads"
+    },
+    {
+      "handle": "lead:west-union:ODOT-PROJECT-GALAXY-TIS",
+      "kind": "lead",
+      "site": "west-union",
+      "local_id": "ODOT-PROJECT-GALAXY-TIS",
+      "title": "ODOT approved a \"Project Galaxy\" traffic study for this campus, and it is not attached",
       "feed": "leads"
     },
     {
@@ -1281,6 +1337,14 @@
       "site": "west-union",
       "local_id": "west-union/acrwd/2026-07-09-board-resolutions.resolution.yaml",
       "title": "Adams County Regional Water District — Resolutions 26-41 through 26-47, adopted 2026-07-09",
+      "feed": "records"
+    },
+    {
+      "handle": "record:west-union:west-union/county/2026-10-30-amazon-data-services-development-agreement.parties.yaml",
+      "kind": "record",
+      "site": "west-union",
+      "local_id": "west-union/county/2026-10-30-amazon-data-services-development-agreement.parties.yaml",
+      "title": "Development Agreement — Adams County, Ohio and Amazon Data Services, Inc., for a data center campus on Adams County Auditor parcel 183-00-00-079.000 (DRAFT, unsigned, Effective Date blank)",
       "feed": "records"
     }
   ]

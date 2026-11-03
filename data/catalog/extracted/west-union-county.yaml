@@ -1,0 +1,45 @@
+id: west-union-county
+title: West Union / Adams County OH — County Development Agreement with Amazon Data Services (DRAFT)
+scope: extracted
+status: reviewed
+producer:
+  kind: manual
+  source: Adams County, Ohio website, retrieved 2026-11-03 —
+    adamscountyoh.gov/download/295/development-agreement/34171/development-agreement.pdf, a
+    123-page UNSIGNED draft development agreement between Adams County and Amazon Data Services,
+    Inc. (PDF built 2026-10-30). Shelved at data/documents/west-union/county/; hash, page map and
+    screening in filename-map.yaml there. Exhibit A (image only) was read from 300-DPI renders.
+license: Public record (Ohio R.C. 149.43)
+access_tier: public
+site_scope: site:west-union
+storage:
+- relpath: extracted/west-union/county/2026-10-30-amazon-data-services-development-agreement.parties.yaml
+  media_type: application/x-yaml
+  lfs: false
+refresh:
+  cadence: on-demand
+provenance: document
+tags:
+- data-center
+- aws
+- amazon
+- development-agreement
+- cra
+- jedd
+- land-assembly
+- public-records
+- project-galaxy
+- west-union
+notes: 'Clause-level structured read of the County''s DRAFT development agreement with Amazon Data
+  Services, Inc. for the Buck Canyon campus (issue 1983). The draft is unsigned, with a blank
+  Effective Date, resolution and signatures, so every term is [verified] only as a statement of
+  the draft. It names the developer on parcel 183-00-00-079.000 for the first time in the corpus.
+  Its Exhibit A ALTA survey labels the owner of record Buck Canyon Properties LLC (KY), Inst.
+  2024-912, and shows the 1,016 ac was ASSEMBLED from at least seven predecessor tracts, one part
+  owned by Hamerkop Development, LLC (field survey 2021-07-02). That corrects the "single tract"
+  reading in parcel-assemblage. It also recites an ACEDA NDA of 2024-01-04, sets a $9M GMP against
+  a fixed $9M developer contribution, makes the County the PTI/NPDES applicant for the campus
+  wastewater plant (Exhibit H), and vests the project against later County rules (section 5.6).
+  The Kimley-Horn memo cites an ODOT-approved "Project Galaxy" traffic study. No MW or water
+  figure appears. Regenerate by re-reading the committed source PDF; nothing here is
+  machine-derived.'
