@@ -1,0 +1,10 @@
+{
+  "tool": "paths",
+  "capability": "ontology",
+  "why": "Two nodes three hops apart, asked for within two. The answer is empty and is not a rejection, and `nearest` says how far the connection actually is, which is the repair. A server that answered only the empty list would leave a caller unable to tell this from two nodes nothing joins, where `nearest` is null and raising the bound does nothing.",
+  "call": { "from": "concept/embedding-space", "to": "concept/traversal", "max_hops": 2 },
+  "expect": {
+    "equals": { "rejected": null, "max_hops": 2, "found": 0, "returned": 0, "nearest": 3, "complete": true },
+    "count": { "paths": 0, "withheld": 0 }
+  }
+}

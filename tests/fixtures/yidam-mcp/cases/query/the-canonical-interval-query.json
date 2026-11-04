@@ -1,0 +1,12 @@
+{
+  "tool": "query",
+  "corpus": "corpus-dated",
+  "capability": "ontology",
+  "why": "The question the ordering operators exist for, written the way a real corpus wrote it: `allen-county-ohio`'s `tenure/ACTIONS.md` says *\"Tenures open at a date: `began` on or before it, `ended` after it or absent\"* over 83 instances it could not ask. Three rows are open in 1893 and each is open for a different reason — `spanning` on both bounds, `still-open` through the absence affix, and `partial` through both the affix and the precision rule. A server that gets any one of the three wrong answers 2 here, and the shortfall is silent: fewer rows reads as a corpus with less in it, not as a query that was answered wrongly.",
+  "call": { "query": "tenure[began<=1893,ended>?1893]" },
+  "expect": {
+    "equals": { "scope": "local", "matched": 3, "rejected": null, "absence": null },
+    "count": { "results": 3 },
+    "everyItemHas": { "results": { "class": "tenure" } }
+  }
+}

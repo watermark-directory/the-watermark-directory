@@ -1,0 +1,15 @@
+{
+  "tool": "resolve_source",
+  "corpus": "corpus-sourced",
+  "capability": "sources",
+  "why": "`.yidam/catalog/another.md` already holds `doi:10.1000/xyz`, and `catalogued` says so by path. It is the question an agent asks before `source add`, which refuses an identifier the catalog holds; a server answering null here has sent the agent to a refusal it could have seen coming.",
+  "call": {
+    "identifier": "doi:10.1000/xyz"
+  },
+  "expect": {
+    "equalsAt": {
+      "catalogued": ".yidam/catalog/another.md",
+      "locations.0.identifier": "doi:10.1000/xyz"
+    }
+  }
+}

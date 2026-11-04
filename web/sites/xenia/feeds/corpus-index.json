@@ -924,7 +924,7 @@
     "updated": "2026-08-04"
   },
   {
-    "id": "relation/city-of-xenia--operates--npdes-1pd00015",
+    "id": "relation/city-of-xenia-operates-npdes-1pd00015",
     "node_class": "relation",
     "kind": "relation",
     "label": "CITY OF XENIA operates npdes:1PD00015",
@@ -935,7 +935,7 @@
     "updated": "2026-08-26"
   },
   {
-    "id": "relation/npdes-1pd00015--discharges-to--little-miami-river",
+    "id": "relation/npdes-1pd00015-discharges-to-little-miami-river",
     "node_class": "relation",
     "kind": "relation",
     "label": "npdes:1PD00015 discharges_to LITTLE MIAMI RIVER",

@@ -1,0 +1,40 @@
+{
+  "tool": "search_sources",
+  "corpus": "corpus-sourced",
+  "capability": "sources",
+  "why": "The corpus declares `[serve] offline_sources`, so the search is answered from the pack's recorded fixture and says so. `answered` is the marker RFC-0048's open question 1 asked for: an identifier being a fixture's own does not tell a caller the list was not the publisher's live answer, and a server that answered from a fixture without saying so has handed an agent a list it will treat as current.\n\nThree candidates and not four. The fixture lists four results and one has no DOI; a publisher listing something it holds no identifier for is not a candidate, and a server answering four has made one `source add` cannot take. The order is the publisher's, so the first is the first it answered.",
+  "call": {
+    "pack": "scholarly",
+    "query": "retinal imaging"
+  },
+  "expect": {
+    "fields": [
+      "pack",
+      "query",
+      "scheme",
+      "url",
+      "answered",
+      "candidates",
+      "undescribed"
+    ],
+    "count": {
+      "candidates": 3
+    },
+    "each": {
+      "candidates": [
+        "identifier",
+        "title",
+        "summary"
+      ]
+    },
+    "equalsAt": {
+      "answered": "fixture",
+      "scheme": "doi",
+      "pack": "scholarly",
+      "candidates.0.identifier": "doi:10.1167/tvst.8.5.14",
+      "candidates.0.title": "Retinal Imaging",
+      "candidates.2.identifier": "doi:10.1000/abc",
+      "candidates.2.title": null
+    }
+  }
+}

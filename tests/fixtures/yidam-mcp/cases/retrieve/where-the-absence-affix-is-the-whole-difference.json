@@ -1,0 +1,16 @@
+{
+  "tool": "retrieve",
+  "corpus": "corpus-dated",
+  "capability": "ontology",
+  "why": "The same interval without the affix, and named to one class (contract 0.26.0). A bare `ended>1893` never matches an absent `ended`, exactly as it does not in `query`: the still-open and partial holdings drop out and the spanning one is the whole answer. This case and the one beside it are the two readings of one predicate, and a server that widened `>` to admit absence on its own — or that read `>?` as `>` — passes one of them and fails the other. `class` is given here and `where` is checked against it, so a `where` naming a property `tenure` does not declare would be rejected rather than narrowed away.",
+  "call": {
+    "query": "holding",
+    "class": "tenure",
+    "where": "began<=1893,ended>1893"
+  },
+  "expect": {
+    "equals": { "scope": "local", "rejected": null, "absence": null },
+    "count": { "results": 1 },
+    "everyItemHas": { "results": { "class": "tenure", "label": "Spanning" } }
+  }
+}

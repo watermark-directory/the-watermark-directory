@@ -20,13 +20,16 @@ implementation would collapse:
 
 The grammar is small and whitespace-delimited — ``-rel->`` and ``<-rel-`` are single tokens, so
 a path is ``STEP HOP STEP HOP STEP``. A step is a class name or ``*``, optionally narrowed by a
-property predicate ``[name=value]``, optionally opened by a similarity anchor ``~"text"`` which
-only the entry step may carry.
+property filter ``[name=value]``, optionally opened by a similarity anchor ``~"text"`` which only
+the entry step may carry. A filter is comma-separated predicates (contract 0.30.0): ``=``,
+``!=``, ``~``, an ordering (``<`` ``<=`` ``>`` ``>=``, on ``date`` and ``number`` only), the
+absence test ``name?``, and the ``>?`` affix that widens one comparison to admit the absent.
 """
 
 from __future__ import annotations
 
 import re
+from collections import deque
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -47,17 +50,42 @@ SELECTABLE = ("node", "class", "label", "description", "body")
 DEFAULT_SELECT = "node,class,label"
 
 #: Rejection codes, frozen by the contract. A client branches on these.
+#:
+#: **These are the names a server ANSWERS with** (contract 0.15.0). Until then the list held
+#: three lint check ids — ``unknown-property``, ``unlicensed-edge``, ``edge-target-class`` — that
+#: no reference rejection ever carried, so a client branching on the frozen set had arms that
+#: could not be taken. ``anchor-across`` is the one BOSC can reach only by asking for it:
+#: ``across`` with an anchored entry. The contract freezes ``anchor-at-revision`` and
+#: ``history-unreadable`` OUT, because no MCP call names a revision.
 REJECTION_CODES = (
     "parse",
     "unknown-class",
-    "unknown-property",
-    "unlicensed-edge",
-    "edge-target-class",
+    "undeclared-property",
+    "unordered-property",
+    "unsatisfiable-predicate",
+    "unlicensed-hop",
     "unknown-field",
     "anchor-not-entry",
     "anchor-unavailable",
     "anchor-unresolvable",
+    "anchor-across",
 )
+
+#: Diagnostic codes, frozen too (contract 0.18.0) — a query that RAN, and a near miss worth
+#: saying. ``corpus-excluded`` needs an installed dependency, which BOSC does not pin.
+DIAGNOSTIC_CODES = (
+    "trivial-predicate",
+    "undeclared-relationship",
+    "narrowed",
+    "corpus-excluded",
+)
+
+#: The only declared types with an order. Anything else — a coined type included — refuses an
+#: ordering with ``unordered-property`` rather than comparing text, which reads ``10`` before ``9``.
+ORDERED_TYPES = ("date", "number")
+
+#: The claim vocabulary a `type: claim` property can hold, bracketed or bare.
+CLAIM_STANDINGS = ("verified", "inference", "open")
 
 #: Absence codes, frozen by the contract. Three about the entry step, four about a hop, one
 #: fallback. ``relationship-unauthored`` is the one worth the most — a relationship a class
@@ -86,12 +114,39 @@ _FORWARD_RE = re.compile(r"^-(?P<rel>[^>\s]+)->$")
 _BACKWARD_RE = re.compile(r"^<-(?P<rel>[^>\s]+)-$")
 
 
+#: Operators in the order they are recognised. Two-character ones first, so `<=` is not read as
+#: `<` followed by a value starting `=`.
+_OPERATORS = ("!=", "<=", ">=", "<", ">", "?", "=", "~")
+ORDERINGS = ("<", "<=", ">", ">=")
+
+
+@dataclass(frozen=True)
+class Predicate:
+    """One property test inside a step's brackets.
+
+    ``op`` is one of ``=``, ``!=``, ``~``, ``<``, ``<=``, ``>``, ``>=`` or ``?``. ``?`` IS the
+    absence test and takes no operand; ``or_absent`` is the AFFIX (``ended>?1893``) that widens
+    one comparison to admit a node that does not carry the property. They are not spellings of
+    each other, which is why neither is modelled as the other.
+    """
+
+    name: str
+    op: str
+    value: str = ""
+    or_absent: bool = False
+
+    def text(self) -> str:
+        if self.op == "?":
+            return f"{self.name}?"
+        return f"{self.name}{self.op}{'?' if self.or_absent else ''}{self.value}"
+
+
 @dataclass(frozen=True)
 class Step:
     """One step of a path: where to stand, and (after the first) how we got here."""
 
     node_class: str  # a class name, or "*"
-    predicate: tuple[str, str] | None = None
+    predicates: tuple[Predicate, ...] = ()
     anchor: str | None = None
     relationship: str | None = None  # None on the entry step
     direction: str = "out"  # "out" follows an authored edge, "in" follows it backwards
@@ -280,6 +335,81 @@ def tokenize(query: str) -> list[str]:
     return _TOKEN_RE.findall(query or "")
 
 
+_IDENT_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_.-]*$")
+
+
+def _unquote(raw: str) -> str | None:
+    if len(raw) >= 2 and raw.startswith('"') and raw.endswith('"'):
+        return raw[1:-1].replace('\\"', '"')
+    return None
+
+
+def parse_filter(raw: str) -> tuple[tuple[Predicate, ...], str | None]:
+    """The predicates a `[...]` holds — comma-separated, commas inside quotes kept.
+
+    One grammar for a step's brackets and for `retrieve`'s ``where``: a predicate that parsed in
+    one and not the other would be the surface disagreeing with itself about what a predicate
+    is. Returns ``(predicates, None)`` or ``((), message)``.
+    """
+    parts: list[str] = []
+    current, quoted = "", False
+    for ch in raw:
+        if ch == '"':
+            quoted = not quoted
+        if ch == "," and not quoted:
+            parts.append(current)
+            current = ""
+            continue
+        current += ch
+    parts.append(current)
+
+    out: list[Predicate] = []
+    for part in (p.strip() for p in parts):
+        if not part:
+            return (), "an empty predicate between commas"
+        # The first operator character wins, so a value may itself contain one.
+        at = min((i for i, ch in enumerate(part) if ch in "=!~<>?"), default=None)
+        if at is None:
+            return (), f"`{part}` is not a predicate — it has no operator"
+        name, rest = part[:at].strip(), part[at:]
+        op = next((o for o in _OPERATORS if rest.startswith(o)), None)
+        if op is None:  # a lone `!`
+            return (), f"`!` is not an operator — write `!=` (in `{part}`)"
+        if not _IDENT_RE.match(name):
+            return (), f"`{name}` is not a property name"
+        rest = rest[len(op) :]
+        if op == "?":
+            if rest.strip():
+                return (), (
+                    f"`{name}?` tests whether the property is absent and takes no value — for a "
+                    "comparison an absent property also satisfies, write the `?` after the "
+                    f"operator, as `{name}>?{rest.strip()}`"
+                )
+            out.append(Predicate(name, "?"))
+            continue
+        or_absent = rest.startswith("?")
+        value = rest[1:] if or_absent else rest
+        value = value.strip()
+        if not value:
+            return (), f"`{part}` has no value"
+        unquoted = _unquote(value)
+        out.append(Predicate(name, op, unquoted if unquoted is not None else value, or_absent))
+    return tuple(out), None
+
+
+def parse_where(raw: str) -> tuple[tuple[Predicate, ...], Rejection | None]:
+    """`retrieve`'s ``where`` — a step's filter with the brackets off (or on; both are taken)."""
+    text = (raw or "").strip()
+    if not text:
+        return (), Rejection(0, "parse", "an empty `where` — write at least one predicate")
+    if text.startswith("[") and text.endswith("]"):
+        text = text[1:-1]
+    predicates, problem = parse_filter(text)
+    if problem is not None:
+        return (), Rejection(0, "parse", problem)
+    return predicates, None
+
+
 def parse(query: str) -> tuple[tuple[Step, ...], Rejection | None]:
     """Split a path into steps, or reject it with ``parse``."""
     tokens = tokenize(query)
@@ -299,20 +429,15 @@ def parse(query: str) -> tuple[tuple[Step, ...], Rejection | None]:
                     f"`{token}` is not a step — write a class name, `*`, "
                     '`class[property=value]`, or `class~"text"`',
                 )
-            predicate: tuple[str, str] | None = None
+            predicates: tuple[Predicate, ...] = ()
             if (raw := match.group("pred")) is not None:
-                if "=" not in raw:
-                    return (), Rejection(
-                        len(steps),
-                        "parse",
-                        f"`[{raw}]` is not a predicate — write `[property=value]`",
-                    )
-                key, _, value = raw.partition("=")
-                predicate = (key.strip(), value.strip())
+                predicates, problem = parse_filter(raw)
+                if problem is not None:
+                    return (), Rejection(len(steps), "parse", problem)
             steps.append(
                 Step(
                     node_class=match.group("cls"),
-                    predicate=predicate,
+                    predicates=predicates,
                     anchor=match.group("anchor"),
                     relationship=relationship,
                     direction=direction,
@@ -338,18 +463,166 @@ def parse(query: str) -> tuple[tuple[Step, ...], Rejection | None]:
 
 
 # --- typechecking -----------------------------------------------------------------------------
+_DATE_RE = re.compile(r"^(\d{4})(?:-(\d{2})(?:-(\d{2}))?)?$")
+
+
+def parse_date(raw: Any) -> tuple[int, ...] | None:
+    """An ISO date at whatever precision it is known to — ``YYYY``, ``YYYY-MM``, ``YYYY-MM-DD``.
+
+    Structural, not a calendar: what this refuses is prose in a date field, never reduced
+    precision, because a year is the precision many facts are actually known to.
+    """
+    match = _DATE_RE.match(str(raw).strip())
+    if match is None:
+        return None
+    return tuple(int(g) for g in match.groups() if g is not None)
+
+
+def parse_number(raw: Any) -> float | None:
+    if isinstance(raw, bool):
+        return None
+    try:
+        value = float(str(raw).strip())
+    except ValueError:
+        return None
+    return value if value == value and value not in (float("inf"), float("-inf")) else None
+
+
+def _value_problem(declared: str, value: str) -> str | None:
+    """Why a property of type ``declared`` could never hold ``value`` — or ``None``."""
+    if declared == "date" and parse_date(value) is None:
+        return f"`{value}` is not a date — write `YYYY-MM-DD`, or `YYYY-MM` or `YYYY`"
+    if declared == "number" and parse_number(value) is None:
+        return f"`{value}` is not a number"
+    if declared == "claim" and value.strip().strip("[]") not in CLAIM_STANDINGS:
+        return f"`{value}` is not a claim tag — a claim holds one of {', '.join(CLAIM_STANDINGS)}"
+    if declared in ("list", "mapping"):
+        return f"a `{declared}` property is not a single value"
+    return None
+
+
+def _ask(
+    node_class: str, index: int, pred: Predicate
+) -> tuple[Rejection | None, Diagnostic | None]:
+    """Whether ``pred`` can be ASKED of ``node_class`` — a rejection, or a warning, or neither.
+
+    Asked of, not merely declared by: a class declaring `date` as `string` declares it and still
+    cannot be asked `date<1900`, which is why `*` narrows on this and not on declaration alone.
+    """
+    declared = declared_properties(node_class).get(pred.name)
+    if declared is None:
+        return Rejection(
+            index, "undeclared-property", f"`{node_class}` does not declare `{pred.name}`"
+        ), None
+    if pred.op == "?":
+        return None, None
+    if pred.op in ORDERINGS and declared not in ORDERED_TYPES:
+        return (
+            Rejection(
+                index,
+                "unordered-property",
+                f"`{pred.name}` is `type: {declared}` on `{node_class}`, and `{pred.op}` is "
+                "defined on `date` and `number` only — comparing anything else would be a "
+                "comparison of text, which reads `10` as before `9`. Use `=`, `!=` or `~`.",
+            ),
+            None,
+        )
+    if declared in ("list", "mapping") and pred.op in ("=", "~"):
+        return (
+            Rejection(
+                index,
+                "unsatisfiable-predicate",
+                f"`{pred.name}` is `type: {declared}` on `{node_class}`, and a query does not "
+                f"read inside a {declared} — `{pred.op}` would match nothing. Use "
+                f"`{pred.name}?`.",
+            ),
+            None,
+        )
+    if pred.op == "~":
+        return None, None  # substring over text: a fragment need not be a legal value
+    problem = _value_problem(declared, pred.value)
+    if problem is None:
+        return None, None
+    if pred.op == "!=":
+        return None, Diagnostic(
+            "warn",
+            index,
+            "trivial-predicate",
+            f"`{pred.text()}` is true of every `{node_class}` that carries the property: {problem}",
+        )
+    return (
+        Rejection(
+            index,
+            "unsatisfiable-predicate",
+            f"`{pred.name}` cannot hold that value: {problem}",
+        ),
+        None,
+    )
+
+
+def _narrow(step: Step, index: int) -> tuple[tuple[str, ...], Rejection | None, list[Diagnostic]]:
+    """The classes a step stands on once its predicates are asked of each candidate."""
+    if step.node_class != "*":
+        candidates: tuple[str, ...] = (step.node_class,)
+    else:
+        candidates = tuple(CLASSES)
+    if not step.predicates:
+        return candidates, None, []
+    for pred in step.predicates:
+        if not any(pred.name in declared_properties(c) for c in candidates):
+            # Over EVERY candidate, not `candidates[0]`: the rejection was decided across all of
+            # them, so drawing the hint from one arbitrary class hides a later class's near miss.
+            near = _near_miss(pred.name, {p for c in candidates for p in declared_properties(c)})
+            return (
+                (),
+                Rejection(
+                    index,
+                    "undeclared-property",
+                    f"no class declares `{pred.name}`"
+                    + (f" — did you mean `{near}`?" if near else ""),
+                ),
+                [],
+            )
+    kept: list[str] = []
+    first: Rejection | None = None
+    warnings: dict[str, Diagnostic] = {}
+    for node_class in candidates:
+        refused: Rejection | None = None
+        for pred in step.predicates:
+            rejection, warning = _ask(node_class, index, pred)
+            if rejection is not None:
+                refused = rejection
+                break
+            if warning is not None:
+                warnings.setdefault(pred.text(), warning)
+        if refused is None:
+            kept.append(node_class)
+        elif first is None or first.code == "undeclared-property":
+            # A class that does not declare the property is the least informative refusal
+            # when another declares it and cannot be asked — say the more specific one.
+            first = refused
+    if not kept:
+        assert first is not None
+        return (), first, []
+    diagnostics = list(warnings.values())
+    if step.node_class == "*" and len(kept) < len(candidates):
+        skipped = [c for c in candidates if c not in kept]
+        diagnostics.insert(
+            0,
+            Diagnostic(
+                "info",
+                index,
+                "narrowed",
+                f"`*` narrowed to the classes `{', '.join(p.text() for p in step.predicates)}` "
+                f"can be asked of: {', '.join(kept)} (skipped: {', '.join(skipped)})",
+            ),
+        )
+    return tuple(kept), None, diagnostics
+
+
 def step_classes(steps: tuple[Step, ...]) -> tuple[tuple[str, ...], ...]:
-    """The classes each step actually stands on, after a `*` is narrowed by its predicate."""
-    out: list[tuple[str, ...]] = []
-    for step in steps:
-        if step.node_class != "*":
-            out.append((step.node_class,))
-            continue
-        if step.predicate is None:
-            out.append(tuple(CLASSES))
-            continue
-        out.append(tuple(c for c in CLASSES if step.predicate[0] in declared_properties(c)))
-    return tuple(out)
+    """The classes each step actually stands on, after a `*` is narrowed by its predicates."""
+    return tuple(_narrow(step, i)[0] for i, step in enumerate(steps))
 
 
 def typecheck(steps: tuple[Step, ...]) -> tuple[Rejection | None, list[Diagnostic]]:
@@ -382,37 +655,16 @@ def typecheck(steps: tuple[Step, ...]) -> tuple[Rejection | None, list[Diagnosti
                 ),
                 diagnostics,
             )
-        if step.predicate is not None:
-            classes = CLASSES if step.node_class == "*" else (step.node_class,)
-            declaring = [c for c in classes if step.predicate[0] in declared_properties(c)]
-            if not declaring:
-                # Over EVERY candidate, not `classes[0]`: the rejection was decided across all
-                # of them, so drawing the hint from one arbitrary class hides the near miss a
-                # later class would have supplied.
-                near = _near_miss(
-                    step.predicate[0], {p for c in classes for p in declared_properties(c)}
-                )
-                return (
-                    Rejection(
-                        index,
-                        "unknown-property",
-                        f"no class declares `{step.predicate[0]}`"
-                        + (f" — did you mean `{near}`?" if near else ""),
-                    ),
-                    diagnostics,
-                )
-            if step.node_class == "*" and len(declaring) < len(CLASSES):
-                diagnostics.append(
-                    Diagnostic(
-                        "info",
-                        index,
-                        "star-narrowed",
-                        f"`*` narrowed to the classes declaring `{step.predicate[0]}`: "
-                        + ", ".join(declaring),
-                    )
-                )
+        _, rejection, step_diagnostics = _narrow(step, index)
+        if rejection is not None:
+            return rejection, diagnostics
+        diagnostics.extend(step_diagnostics)
         if step.relationship is None:
             continue
+        # A hop is reported at the step it LEAVES — upstream's `steps[i].hop` is the edge out of
+        # step i, and both its rejection and its diagnostic name that index. An absence is the
+        # other way round (the step the walk failed to reach), and stays so.
+        hop_at = index - 1
         source = steps[index - 1].node_class
         sources = CLASSES if source == "*" else (source,)
         licensed = [c for c in sources if _edge_spec(c, step.relationship, step.direction)]
@@ -433,8 +685,8 @@ def typecheck(steps: tuple[Step, ...]) -> tuple[Rejection | None, list[Diagnosti
             if closed:
                 return (
                     Rejection(
-                        index,
-                        "unlicensed-edge",
+                        hop_at,
+                        "unlicensed-hop",
                         f"`{source}` does not license `{step.relationship}` {direction}{hint}",
                     ),
                     diagnostics,
@@ -442,7 +694,7 @@ def typecheck(steps: tuple[Step, ...]) -> tuple[Rejection | None, list[Diagnosti
             diagnostics.append(
                 Diagnostic(
                     "warn",
-                    index,
+                    hop_at,
                     "undeclared-relationship",
                     f"`{source}` does not declare `{step.relationship}` {direction}{hint}; its "
                     "edge policy is not exhaustive, so the query runs",
@@ -458,8 +710,8 @@ def typecheck(steps: tuple[Step, ...]) -> tuple[Rejection | None, list[Diagnosti
             if step.node_class not in targets:
                 return (
                     Rejection(
-                        index,
-                        "edge-target-class",
+                        hop_at,
+                        "unlicensed-hop",
                         f"`{step.relationship}` lands on {', '.join(sorted(targets))}, "
                         f"not on `{step.node_class}`",
                     ),
@@ -473,20 +725,87 @@ def _property_of(node: MirrorNode, name: str) -> Any:
     return node.meta.get(name)
 
 
-def _satisfies(node: MirrorNode, predicate: tuple[str, str]) -> bool:
-    """Whether a node's property matches, comparing on the tag rather than the spelling.
+def _scalars(raw: Any) -> list[str]:
+    """A property's values as text — one per list element; absent, ``null`` and ``[]`` alike
+    yield none, which is what makes the three ONE absence condition rather than three."""
+    if raw is None or isinstance(raw, dict):
+        return []
+    if isinstance(raw, list):
+        return [v for item in raw for v in _scalars(item)]
+    return [str(raw)]
 
-    A `type: claim` property is written `[open]` here and `open` upstream, and both are the same
-    standing — so `[claim_tag=open]` must match either. Stripping the brackets on both sides is
-    what makes the predicate answer the same question the claim counter does.
+
+def _compare_dates(stored: str, operand: str) -> int | None:
+    """Compare at the precision the two sides SHARE — ``1893-04-01 < 1900`` is decided on the
+    years. Dropping both to the coarser is what lets ``began>=1893-06-01`` return a row that
+    knows only ``1893`` instead of silently undercounting."""
+    left, right = parse_date(stored), parse_date(operand)
+    if left is None or right is None:
+        return None
+    shared = min(len(left), len(right))
+    a, b = left[:shared], right[:shared]
+    return (a > b) - (a < b)
+
+
+def _compare_numbers(stored: str, operand: str) -> int | None:
+    left, right = parse_number(stored), parse_number(operand)
+    if left is None or right is None:
+        return None
+    return (left > right) - (left < right)
+
+
+def _holds(values: list[str], pred: Predicate, declared: str | None) -> bool:
+    """Whether a node's values satisfy one predicate.
+
+    Absence satisfies NO operator — ``!=`` included — unless the predicate is the absence test
+    itself or carries the ``>?`` affix. A stored value that is not a date (or not a number)
+    orders against nothing: guessing for it would be the undercount's louder twin.
     """
-    name, wanted = predicate
-    value = _property_of(node, name)
-    if value is None:
+    if not values:
+        return pred.op == "?" or pred.or_absent
+    if pred.op == "?":
         return False
-    if isinstance(value, list):
-        return any(str(v).strip().strip("[]") == wanted.strip("[]") for v in value)
-    return str(value).strip().strip("[]") == wanted.strip("[]")
+    claim = declared == "claim"
+    numeric = declared == "number"
+    dated = declared == "date"
+
+    def norm(v: str) -> str:
+        # A `type: claim` value is written `[open]` here and `open` upstream; both are the same
+        # standing, so `claim_tag=open` matches either spelling.
+        return v.strip().strip("[]") if claim else v
+
+    wanted = norm(pred.value)
+
+    def equal(v: str) -> bool:
+        if numeric:
+            return _compare_numbers(v, pred.value) == 0
+        v = norm(v)
+        # `=` compares at the precision the QUERY wrote: `observed_on=2026-08` matches every day
+        # in that month, and `began=1893-04-01` does not match `began: 1893`.
+        return v == wanted or (dated and v.startswith(wanted + "-"))
+
+    def one(v: str) -> bool:
+        if pred.op == "=":
+            return equal(v)
+        if pred.op == "!=":
+            return not equal(v)
+        if pred.op == "~":
+            return pred.value.lower() in v.lower()
+        order = _compare_numbers(v, pred.value) if numeric else _compare_dates(v, pred.value)
+        if order is None:
+            return False
+        return {"<": order < 0, "<=": order <= 0, ">": order > 0, ">=": order >= 0}[pred.op]
+
+    # `!=` has to hold of every element, or `[open, verified]` would satisfy `!= open`.
+    return all(one(v) for v in values) if pred.op == "!=" else any(one(v) for v in values)
+
+
+def satisfies(node: MirrorNode, predicates: tuple[Predicate, ...]) -> bool:
+    """Whether a node satisfies every predicate, each read at the type its class declares."""
+    declared = declared_properties(node.node_class)
+    return all(
+        _holds(_scalars(_property_of(node, p.name)), p, declared.get(p.name)) for p in predicates
+    )
 
 
 def _keyword_entries(
@@ -532,8 +851,17 @@ def execute(
     *,
     anchor_k: int = 1,
     vector_ready: bool = False,
+    across: bool = False,
 ) -> Execution:
-    """Parse, typecheck and walk. Never raises for a bad query — it returns a rejection."""
+    """Parse, typecheck and walk. Never raises for a bad query — it returns a rejection.
+
+    ``across`` changes nothing about the walk — BOSC installs no dependency, so a spanning run
+    reads the same corpus a local one does — except that an ANCHORED spanning query is rejected
+    ``anchor-across``, as the CLI rejects it: the vector index is this corpus's, and an anchor
+    that entered a foreign corpus through it would rank a dependency's nodes in a space built
+    from someone else's text. Asking is enough to be refused; that nothing foreign is installed
+    does not make the request coherent.
+    """
     run = Execution(query=query)
     run.cost.corpus_nodes = len(mirror.nodes)
 
@@ -549,6 +877,15 @@ def execute(
     run.diagnostics = diagnostics
     if rejection is not None:
         run.rejected = rejection
+        return run
+    if across and steps[0].anchor is not None:
+        run.rejected = Rejection(
+            0,
+            "anchor-across",
+            "a similarity anchor cannot open a spanning query: the vector index is this "
+            "corpus's, and entering another corpus through it would rank that corpus's nodes "
+            "in a space built from this one's text — drop `across` or the `~` anchor",
+        )
         return run
 
     by_id = {n.id: n for n in mirror.nodes}
@@ -597,16 +934,16 @@ def execute(
             )
             return run
 
-    if entry.predicate is not None:
+    if entry.predicates:
         run.cost.read(n.id for n in current)
         before = len(current)
-        current = [n for n in current if _satisfies(n, entry.predicate)]
+        current = [n for n in current if satisfies(n, entry.predicates)]
         if not current:
             run.absence = Absence(
                 0,
                 "predicate-unsatisfied",
                 f"`{entry.node_class}` holds instances and none satisfies "
-                f"`{entry.predicate[0]}={entry.predicate[1]}`",
+                f"`{','.join(p.text() for p in entry.predicates)}`",
                 before,
             )
             return run
@@ -652,14 +989,14 @@ def execute(
                 reached,
             )
             return run
-        if step.predicate is not None:
+        if step.predicates:
             before = len(current)
-            current = [n for n in current if _satisfies(n, step.predicate)]
+            current = [n for n in current if satisfies(n, step.predicates)]
             if not current:
                 run.absence = Absence(
                     index,
                     "predicate-unsatisfied",
-                    f"nothing reached satisfies `{step.predicate[0]}={step.predicate[1]}`",
+                    f"nothing reached satisfies `{','.join(p.text() for p in step.predicates)}`",
                     before,
                 )
                 return run
@@ -718,3 +1055,216 @@ def parse_select(raw: str | None) -> tuple[list[str], Rejection | None]:
             ),
         )
     return fields, None
+
+
+# --- paths: how two nodes are related, as queries that run (contract 0.27.0) -------------------
+# A port of upstream's `cmd/query/paths.rs`, not a reinvention of it: the bounds, the budget, the
+# id forms, the grouping and the order are its, so a caller moving between the binary and this
+# server reads the same answer. Every path returned has been run through `execute` above and its
+# answer holds the target — a path this server spelled and did not run would be a guess about
+# the grammar presented as a fact about the corpus.
+
+#: Longest chain considered, in hops, when the caller names none.
+PATHS_MAX_HOPS = 4
+#: Runnable paths returned when the caller names no limit. Past it a path is counted, not run.
+PATHS_LIMIT = 5
+#: Node chains kept per class path, as evidence.
+PATHS_EVIDENCE = 3
+#: DFS steps before the search stops and says so (`complete: false`).
+PATHS_BUDGET = 200_000
+
+
+def _paths_resolve(mirror: Mirror, written: str) -> MirrorNode | None:
+    """``reach/tailwater``, with or without ``.yml``, with or without the corpus directory."""
+    want = written.strip().lstrip("/")
+    want = want.removeprefix(".yidam/corpus/")
+    want = want.removesuffix(".yml")
+    return next((n for n in mirror.nodes if n.id == want), None)
+
+
+def find_paths(
+    mirror: Mirror,
+    frm: str,
+    to: str,
+    *,
+    max_hops: int = PATHS_MAX_HOPS,
+    limit: int = PATHS_LIMIT,
+) -> dict[str, Any]:
+    """The typed paths between two nodes, each a query that runs and returns ``to``.
+
+    Hops read edges in BOTH directions — a path is spelled ``<-rel-`` where it walks one
+    backwards — because "how are these related" has no authoring direction, and a search that
+    followed only outbound links would call two nodes unconnected when one merely cites the
+    other. A node that does not resolve is a ``unknown-node`` rejection, never an empty list:
+    the empty list asserts the two are unrelated, about a node this search never found.
+    """
+    max_hops = max(1, max_hops)
+    limit = max(1, limit)
+
+    def unknown(written: str, which: int) -> dict[str, Any]:
+        return {
+            "kind": "paths",
+            "from": frm,
+            "to": to,
+            "scope": "local",
+            "rejected": {
+                "step": None,
+                "code": "unknown-node",
+                "message": f"`{written}` names no node in this corpus — write it as "
+                f"`class/name`, the id `yidam query` prints (argument {which})",
+            },
+            "max_hops": max_hops,
+            "paths": [],
+            "found": 0,
+            "returned": 0,
+            "unchecked": 0,
+            "withheld": [],
+            "complete": True,
+            "nearest": None,
+        }
+
+    source = _paths_resolve(mirror, frm)
+    if source is None:
+        return unknown(frm, 1)
+    target = _paths_resolve(mirror, to)
+    if target is None:
+        return unknown(to, 2)
+
+    index = {n.id: i for i, n in enumerate(mirror.nodes)}
+    count = len(mirror.nodes)
+    # Both directions of every edge `execute` can walk, per node, in corpus order. Only links
+    # that resolve to a mirror node count — a citation of a catalog FILE is not a hop.
+    arcs: list[list[tuple[str, str, int]]] = [[] for _ in range(count)]
+    for frm_id, to_id, rel in _edges(mirror):
+        i, j = index.get(frm_id), index.get(to_id)
+        if i is None or j is None or i == j:
+            continue
+        forward, backward = (rel, "out", j), (rel, "in", i)
+        if forward not in arcs[i]:
+            arcs[i].append(forward)
+        if backward not in arcs[j]:
+            arcs[j].append(backward)
+
+    s, t = index[source.id], index[target.id]
+    dist: list[int | None] = [None] * count
+    dist[t] = 0
+    queue = deque([t])
+    while queue:
+        at = queue.popleft()
+        here = dist[at] or 0
+        for _, _, nxt in arcs[at]:
+            if dist[nxt] is None:
+                dist[nxt] = here + 1
+                queue.append(nxt)
+
+    # Every simple chain within the bound, pruned on distance, stopped at a work budget.
+    found: list[tuple[list[int], list[tuple[str, str, int]]]] = []
+    on_chain = [False] * count
+    nodes: list[int] = [s]
+    taken: list[tuple[str, str, int]] = []
+    steps = 0
+
+    def go(at: int) -> bool:
+        nonlocal steps
+        steps += 1
+        if steps > PATHS_BUDGET:
+            return False
+        if at == t:
+            found.append((list(nodes), list(taken)))
+            return True
+        depth = len(taken)
+        for arc in arcs[at]:
+            d = dist[arc[2]]
+            if on_chain[arc[2]] or d is None or depth + 1 + d > max_hops:
+                continue
+            on_chain[arc[2]] = True
+            nodes.append(arc[2])
+            taken.append(arc)
+            finished = go(arc[2])
+            taken.pop()
+            nodes.pop()
+            on_chain[arc[2]] = False
+            if not finished:
+                return False
+        return True
+
+    on_chain[s] = True
+    try:
+        complete = go(s)
+    except RecursionError:
+        # Only a caller-set `max_hops` in the hundreds gets here. The search stopped before
+        # enumerating every chain, which is what `complete: false` says — not a crash.
+        complete = False
+
+    def ident(i: int) -> str:
+        return f"{mirror.nodes[i].id}.yml"
+
+    def spell(chain_nodes: list[int], chain_arcs: list[tuple[str, str, int]]) -> str:
+        out = mirror.nodes[chain_nodes[0]].node_class
+        for (rel, direction, _), node in zip(chain_arcs, chain_nodes[1:], strict=True):
+            hop = f"-{rel}->" if direction == "out" else f"<-{rel}-"
+            out += f" {hop} {mirror.nodes[node].node_class}"
+        return out
+
+    # Grouped by spelling — what a caller would run — fewest hops first, then by text.
+    by_path: dict[tuple[int, str], list[list[str]]] = {}
+    for chain_nodes, chain_arcs in found:
+        key = (len(chain_arcs), spell(chain_nodes, chain_arcs))
+        by_path.setdefault(key, []).append([ident(n) for n in chain_nodes])
+
+    target_id = ident(t)
+    paths: list[dict[str, Any]] = []
+    withheld: list[dict[str, Any]] = []
+    unchecked = 0
+    for (hops, text), evidence in sorted(by_path.items()):
+        if len(paths) == limit:
+            unchecked += 1
+            continue
+        chains = len(evidence)
+        run = execute(mirror, text)
+        if run.rejected is not None:
+            withheld.append(
+                {
+                    "query": text,
+                    "chains": chains,
+                    "code": run.rejected.code,
+                    "reason": run.rejected.message,
+                }
+            )
+        elif any(n.id == target.id for n in run.matched):
+            paths.append(
+                {
+                    "query": text,
+                    "hops": hops,
+                    "chains": chains,
+                    "evidence": sorted(evidence)[:PATHS_EVIDENCE],
+                    "matched": len(run.matched),
+                }
+            )
+        else:
+            withheld.append(
+                {
+                    "query": text,
+                    "chains": chains,
+                    "code": None,
+                    "reason": f"ran, and its answer does not contain `{target_id}` — a chain "
+                    "realises this path, so this is a defect in `--paths`, not a fact about "
+                    "the corpus",
+                }
+            )
+
+    return {
+        "kind": "paths",
+        "from": ident(s),
+        "to": target_id,
+        "scope": "local",
+        "rejected": None,
+        "max_hops": max_hops,
+        "paths": paths,
+        "found": len(by_path),
+        "returned": len(paths),
+        "unchecked": unchecked,
+        "withheld": withheld,
+        "complete": complete,
+        "nearest": dist[s],
+    }

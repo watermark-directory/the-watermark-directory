@@ -1,0 +1,12 @@
+{
+  "tool": "query",
+  "corpus": "corpus-measured",
+  "capability": "ontology",
+  "why": "`=` on a `number` compares numerically, so `length_km=7.0` matches the reach that wrote `7`. As text it matches nothing. The rule exists so that `<`, `=` and `>` stay trichotomous on a number: a server that ordered numerically and compared equality as text would have a value in none of the three, and `=`'s date rule — match at the precision the query wrote — has no analogue here because `7` and `7.0` denote one point where `1893` denotes an interval. `~` stays textual on every type, so `length_km~7` reads the digits.",
+  "call": { "query": "reach[length_km=7.0]" },
+  "expect": {
+    "equals": { "scope": "local", "matched": 1, "rejected": null, "absence": null },
+    "count": { "results": 1 },
+    "equalsAt": { "results.0.node": "reach/short.yml" }
+  }
+}

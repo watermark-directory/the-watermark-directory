@@ -924,7 +924,7 @@
     "updated": "2026-08-26"
   },
   {
-    "id": "relation/city-of-greenville--operates--npdes-1pd00005",
+    "id": "relation/city-of-greenville-operates-npdes-1pd00005",
     "node_class": "relation",
     "kind": "relation",
     "label": "CITY OF GREENVILLE operates npdes:1PD00005",
@@ -935,7 +935,7 @@
     "updated": "2026-08-26"
   },
   {
-    "id": "relation/npdes-1pd00005--discharges-to--greenville-creek",
+    "id": "relation/npdes-1pd00005-discharges-to-greenville-creek",
     "node_class": "relation",
     "kind": "relation",
     "label": "npdes:1PD00005 discharges_to GREENVILLE CREEK",

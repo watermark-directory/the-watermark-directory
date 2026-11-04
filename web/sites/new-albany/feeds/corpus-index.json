@@ -924,7 +924,7 @@
     "updated": "2026-08-26"
   },
   {
-    "id": "relation/city-of-johnstown--operates--npdes-4pc00001",
+    "id": "relation/city-of-johnstown-operates-npdes-4pc00001",
     "node_class": "relation",
     "kind": "relation",
     "label": "CITY OF JOHNSTOWN operates npdes:4PC00001",
@@ -935,7 +935,7 @@
     "updated": "2026-08-26"
   },
   {
-    "id": "relation/npdes-4pc00001--discharges-to--raccoon-creek",
+    "id": "relation/npdes-4pc00001-discharges-to-raccoon-creek",
     "node_class": "relation",
     "kind": "relation",
     "label": "npdes:4PC00001 discharges_to RACCOON CREEK",

@@ -1,0 +1,14 @@
+{
+  "tool": "paths",
+  "capability": "ontology",
+  "why": "The same chain asked from the other end. Every edge points away from traversal's side, so a search that follows only outbound links finds nothing here and reports the two nodes unconnected. The answer walks each hop inbound, and the path is spelled with `<-rel-` so that `query` walks it the same way. It also holds the id forms: `from` is written as `neighbors` takes it and `to` as `query` prints it, with `.yml`, and both resolve.",
+  "call": { "from": "concept/traversal", "to": "concept/embedding-space.yml" },
+  "expect": {
+    "equals": { "rejected": null, "nearest": 3, "to": "concept/embedding-space.yml" },
+    "count": { "paths": 1 },
+    "equalsAt": {
+      "paths.0.query": "concept <-enables- concept <-relates-to- concept <-relates-to- concept",
+      "paths.0.hops": 3
+    }
+  }
+}

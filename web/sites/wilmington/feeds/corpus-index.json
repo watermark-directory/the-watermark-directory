@@ -1221,7 +1221,7 @@
     "updated": "2026-10-27"
   },
   {
-    "id": "relation/city-of-wilmington--operates--npdes-1ii00129",
+    "id": "relation/city-of-wilmington-operates-npdes-1ii00129",
     "node_class": "relation",
     "kind": "relation",
     "label": "CITY OF WILMINGTON operates npdes:1II00129",
@@ -1232,7 +1232,7 @@
     "updated": "2026-08-01"
   },
   {
-    "id": "relation/city-of-wilmington--operates--npdes-1pd00013",
+    "id": "relation/city-of-wilmington-operates-npdes-1pd00013",
     "node_class": "relation",
     "kind": "relation",
     "label": "CITY OF WILMINGTON operates npdes:1PD00013",
@@ -1243,7 +1243,7 @@
     "updated": "2026-08-01"
   },
   {
-    "id": "relation/clinton-county-board-of-developmental-disabiliti--operates--npdes-1pt00125",
+    "id": "relation/clinton-county-board-of-developmental-disabiliti-operates-npdes-1pt00125",
     "node_class": "relation",
     "kind": "relation",
     "label": "CLINTON COUNTY BOARD OF DEVELOPMENTAL DISABILITIES operates npdes:1PT00125",
@@ -1254,7 +1254,7 @@
     "updated": "2026-08-01"
   },
   {
-    "id": "relation/kyle-isler--operates--npdes-1mp00060",
+    "id": "relation/kyle-isler-operates-npdes-1mp00060",
     "node_class": "relation",
     "kind": "relation",
     "label": "KYLE ISLER operates npdes:1MP00060",
@@ -1265,7 +1265,7 @@
     "updated": "2026-08-01"
   },
   {
-    "id": "relation/mhc-tt--operates--npdes-1px00010",
+    "id": "relation/mhc-tt-operates-npdes-1px00010",
     "node_class": "relation",
     "kind": "relation",
     "label": "MHC TT operates npdes:1PX00010",
@@ -1276,7 +1276,7 @@
     "updated": "2026-08-01"
   },
   {
-    "id": "relation/npdes-1ii00129--discharges-to--lytle-creek",
+    "id": "relation/npdes-1ii00129-discharges-to-lytle-creek",
     "node_class": "relation",
     "kind": "relation",
     "label": "npdes:1II00129 discharges_to LYTLE CREEK",
@@ -1287,7 +1287,7 @@
     "updated": "2026-08-01"
   },
   {
-    "id": "relation/npdes-1iw00240--discharges-to--unnamed-tributary-of-lytle-creek",
+    "id": "relation/npdes-1iw00240-discharges-to-unnamed-tributary-of-lytle-creek",
     "node_class": "relation",
     "kind": "relation",
     "label": "npdes:1IW00240 discharges_to UNNAMED TRIBUTARY OF LYTLE CREEK",
@@ -1298,7 +1298,7 @@
     "updated": "2026-08-01"
   },
   {
-    "id": "relation/npdes-1pd00013--discharges-to--lytle-creek",
+    "id": "relation/npdes-1pd00013-discharges-to-lytle-creek",
     "node_class": "relation",
     "kind": "relation",
     "label": "npdes:1PD00013 discharges_to LYTLE CREEK",
@@ -1309,7 +1309,7 @@
     "updated": "2026-08-01"
   },
   {
-    "id": "relation/npdes-1pt00125--discharges-to--unnamed-tributary-of-wilson-creek",
+    "id": "relation/npdes-1pt00125-discharges-to-unnamed-tributary-of-wilson-creek",
     "node_class": "relation",
     "kind": "relation",
     "label": "npdes:1PT00125 discharges_to UNNAMED TRIBUTARY OF WILSON CREEK",
@@ -1320,7 +1320,7 @@
     "updated": "2026-08-01"
   },
   {
-    "id": "relation/npdes-1pv00089--discharges-to--unnamed-tributary-of-lytle-creek",
+    "id": "relation/npdes-1pv00089-discharges-to-unnamed-tributary-of-lytle-creek",
     "node_class": "relation",
     "kind": "relation",
     "label": "npdes:1PV00089 discharges_to UNNAMED TRIBUTARY OF LYTLE CREEK",
@@ -1331,7 +1331,7 @@
     "updated": "2026-08-01"
   },
   {
-    "id": "relation/npdes-1px00010--discharges-to--unnamed-tributary-of-todd-fork",
+    "id": "relation/npdes-1px00010-discharges-to-unnamed-tributary-of-todd-fork",
     "node_class": "relation",
     "kind": "relation",
     "label": "npdes:1PX00010 discharges_to UNNAMED TRIBUTARY OF TODD FORK",
@@ -1342,7 +1342,7 @@
     "updated": "2026-08-01"
   },
   {
-    "id": "relation/rlr-investments--operates--npdes-1pv00089",
+    "id": "relation/rlr-investments-operates-npdes-1pv00089",
     "node_class": "relation",
     "kind": "relation",
     "label": "RLR INVESTMENTS operates npdes:1PV00089",
@@ -1353,7 +1353,7 @@
     "updated": "2026-08-01"
   },
   {
-    "id": "relation/wilmington-water-plant--operates--npdes-1iw00240",
+    "id": "relation/wilmington-water-plant-operates-npdes-1iw00240",
     "node_class": "relation",
     "kind": "relation",
     "label": "WILMINGTON WATER PLANT operates npdes:1IW00240",

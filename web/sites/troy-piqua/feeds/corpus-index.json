@@ -1089,7 +1089,7 @@
     "updated": "2026-07-24"
   },
   {
-    "id": "relation/city-of-piqua--operates--npdes-1pd00008",
+    "id": "relation/city-of-piqua-operates-npdes-1pd00008",
     "node_class": "relation",
     "kind": "relation",
     "label": "CITY OF PIQUA operates npdes:1PD00008",
@@ -1100,7 +1100,7 @@
     "updated": "2026-07-13"
   },
   {
-    "id": "relation/npdes-1pd00008--discharges-to--great-miami-river",
+    "id": "relation/npdes-1pd00008-discharges-to-great-miami-river",
     "node_class": "relation",
     "kind": "relation",
     "label": "npdes:1PD00008 discharges_to GREAT MIAMI RIVER",

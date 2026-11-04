@@ -39,19 +39,22 @@ Wraps the Claude Agent SDK and the Anthropic Messages API. Defers to the root
     `tier1_swmm`) still return a `_reference_only(...)` notice off-home — tracked in #900.
 - `yidam_tools.py` — a **second** in-process SDK MCP server (`yidam`, namespace
   `mcp__yidam__*`), implementing the **frozen MCP tool contract** (RFC-0005), vendored beside it
-  as `mcp_contract.json` (**contract 0.13.0**). The contract lists **13** tools across four
-  tiers; BOSC serves **12** — the seven `core` ones (`retrieve` / `get_node` / `list_nodes` /
+  as `mcp_contract.json` (**contract 0.30.0**, pin `cli/v0.23.0`). The contract lists **18**
+  tools; BOSC serves **13** — the seven `core` ones (`retrieve` / `get_node` / `list_nodes` /
   `open_questions` / `claims` / `check_subject` / `claim_tags`), `neighbors` (`graph`), and
-  `query` / `pack` / `estimate` / `licensed_edges` (`ontology`, since #2132). Descriptions and input schemas are **read from that file**, and the served list is
+  `query` / `paths` / `pack` / `estimate` / `licensed_edges` (`ontology`, since #2132; `paths`
+  since the v0.23.0 re-pin). Descriptions and input schemas are **read from that file**, and the served list is
   **derived** from it by `served_tool_names()`, so a tool added upstream and not added here is
   an `ImportError` rather than a tool that quietly does not exist — which is exactly what the
   0.1.0 → 0.12.0 bump produced (#2127). **Never rename a tool or hand-write a schema here**;
   re-vendor with `mise run yidam-contract-sync` (CI proves the copy matches the pin — and the
   vendored `commit_vocabulary.json`, which is `check_subject`'s closed list, with it).
 
-  **The one BOSC does not serve is declined honestly, not skipped.** `check_citation` is
+  **The five BOSC does not serve are declined honestly, not skipped.** `check_citation` is
   `dependencies`, and BOSC pins no tonpa dependency, so there is no far side for a citation to
-  have drifted from. The contract's own words for that case: *"Optional is not absent: such a
+  have drifted from. `search_sources` / `resolve_source` are `sources` (a source registry this
+  repo does not keep — its sources are the catalog, already linked from nodes), and `propose` /
+  `cycle` are `act` (they author into a working yidam repo, which BOSC is not). The contract's own words for that case: *"Optional is not absent: such a
   server declares false and its cases are skipped rather than passed."*
 
   **`ontology` is one capability for all four of its tools** — there is no way to serve
@@ -59,7 +62,13 @@ Wraps the Claude Agent SDK and the Anthropic Messages API. Defers to the root
   something to say: each class declares its properties and the relationships it licenses, with
   `edge_policy: exhaustive`, which is truthful because the mirror is **generated** — a
   relationship outside the declaration is a bug in `corpus_mirror`, not a coinage. The engine
-  is `corpus_query.py`; this module keeps only the handlers. Three disciplines a shape-passing
+  is `corpus_query.py`; this module keeps only the handlers. `paths` is upstream's algorithm,
+  not an approximation of it: arcs run **both** directions, every returned path is a spelled
+  `query` that was actually **run** and returned the target (a path that cannot is `withheld`
+  with its rejection, never returned), and an unresolvable endpoint is an `unknown-node`
+  **rejection**, not an unconnected pair. `scope` on `query`/`retrieve` reports **what
+  happened**, not what was asked — always `local` here, which is how a caller learns a
+  `corpora` span did not take effect. Three disciplines a shape-passing
   implementation gets wrong, each caught by an upstream case: a **rejection is an answer**, not
   an `isError`; an **absence is not a rejection** (`rejected` says the query is wrong,
   `absence` says the corpus is quiet, and at most one is non-null); and a **pack says why in
@@ -72,14 +81,17 @@ Wraps the Claude Agent SDK and the Anthropic Messages API. Defers to the root
   `rejected` and `absence` with it — *why*, not only *whether*, because a bare boolean made a
   repo that never built an index and one whose binary cannot read its index look identical;
   `get_node` returns the **unified JSON model**, never a YAML render; the `open_questions`
-  predicate is **frozen at three arms** (`?` label, `[open]` in the body, an open tag in a
-  property the class declared `type: claim`) — no server may add a fourth, and the third arm is
+  predicate is **frozen at four node arms and one edge arm** (`?` label, `[open]` in the body,
+  an open tag in a property the class declared `type: claim`, a `yidam.findings` record whose
+  `standing` is `open`; an edge whose `claim_tag` spells `open`) — no server may add an arm.
+  The findings and edge arms are structurally empty here (no `act` tier writes findings, and the
+  projection tags no edge), which is measured, not assumed. The third arm is
   the one **this repository reported missing** (goedelsoup/yidam#127, settled by widening the
   contract); and `claims` **serves the tag or serves nothing** — there is no untagged arm, and
   `total` is always the count before `k`. `capabilities()` declares what BOSC backs (`graph`
   yes; `ontology` yes since #2132 — see above; `phases`/`sangha` no — they need a working yidam
   repo; `resources` no — SDK servers register tools only; `dependencies` no — BOSC pins no
-  tonpa dependency). At **contract 0.13.0** it also carries **`corpus`**, which answers *which*
+  tonpa dependency; `sources` / `act` no — see the five declined tools above). Since **contract 0.13.0** it also carries **`corpus`**, which answers *which*
   corpus is being served rather than what the server can do — `domain` (the active site slug,
   the only field distinguishing `lima`'s corpus from `findlay`'s), `commit`, `nodes`, `skills`,
   `decisions`, `indexed_commit`, `stale`. **Required in full**, so it is written as one block

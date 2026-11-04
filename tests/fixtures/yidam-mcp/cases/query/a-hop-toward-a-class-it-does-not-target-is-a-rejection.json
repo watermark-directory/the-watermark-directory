@@ -1,0 +1,11 @@
+{
+  "tool": "query",
+  "capability": "ontology",
+  "why": "`enables` is real, `note` is real, and `concept -enables-> note` is not: the class declares that relationship toward `concept`. Targets are closed WHERE THE CLASS NAMED ONE, which is the one place a hop can be refused on a corpus that did not write `edge_policy: exhaustive` — and it is the case that separates a server typechecking the edge from one checking only that the name exists. The code is `unlicensed-hop`. This contract froze `unlicensed-edge` and `edge-target-class` until 0.15.0 and neither is a rejection code: both are `yidam lint` check ids, reported about a corpus file rather than about a step, and one string cannot mean both. `edge-target-class` in particular was not a near miss — no query path has ever reached it, because this is the rejection a mistargeted hop gets.",
+  "call": { "query": "concept -enables-> note" },
+  "expect": {
+    "equals": { "matched": 0, "returned": 0, "absence": null },
+    "count": { "results": 0 },
+    "equalsAt": { "rejected.code": "unlicensed-hop", "rejected.step": 0 }
+  }
+}

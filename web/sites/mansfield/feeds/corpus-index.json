@@ -1012,7 +1012,7 @@
     "updated": "2026-08-21"
   },
   {
-    "id": "relation/city-of-mansfield--operates--npdes-2pe00001",
+    "id": "relation/city-of-mansfield-operates-npdes-2pe00001",
     "node_class": "relation",
     "kind": "relation",
     "label": "CITY OF MANSFIELD operates npdes:2PE00001",
@@ -1023,7 +1023,7 @@
     "updated": "2026-08-21"
   },
   {
-    "id": "relation/npdes-2pe00001--discharges-to--rocky-fork-of-the-mohican-river",
+    "id": "relation/npdes-2pe00001-discharges-to-rocky-fork-of-the-mohican-river",
     "node_class": "relation",
     "kind": "relation",
     "label": "npdes:2PE00001 discharges_to ROCKY FORK OF THE MOHICAN RIVER",

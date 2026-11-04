@@ -1,0 +1,12 @@
+{
+  "tool": "query",
+  "corpus": "corpus-measured",
+  "capability": "ontology",
+  "why": "The assertion no other corpus can make, and the reason this one exists. `length_km` is `type: number` and the three reaches measure 10, 9 and 7; `length_km>9` returns exactly the 10. As text, `\"10\"` sorts before `\"9\"` and a lexical implementation answers ZERO rows here — the trap RFC-0018 deferred the ordering operators over, now reachable because a numeric type exists. Over `corpus-dated/` the trap is invisible: fixed-width dates order the same as text and as values, so a server comparing text passes every date case. This is the query #1030 was opened for, and it is the shortfall of the dangerous kind — fewer rows reads as a corpus with less in it, not as a query answered wrongly.",
+  "call": { "query": "reach[length_km>9]" },
+  "expect": {
+    "equals": { "scope": "local", "matched": 1, "rejected": null, "absence": null },
+    "count": { "results": 1 },
+    "equalsAt": { "results.0.node": "reach/long.yml" }
+  }
+}

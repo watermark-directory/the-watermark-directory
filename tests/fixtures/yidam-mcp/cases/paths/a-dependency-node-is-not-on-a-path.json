@@ -1,0 +1,11 @@
+{
+  "tool": "paths",
+  "capability": "ontology",
+  "why": "`upstream::concept/telemetry` exists, in an installed dependency, and `get_node` reads it. A hop never crosses corpora, so no path can reach it from a local node, and the answer is `unknown-node` rather than an empty list with `nearest: null`. The second answer would be a claim that the two are unconnected, made about a corpus this search never walked.",
+  "call": { "from": "concept/traversal", "to": "upstream::concept/telemetry" },
+  "expect": {
+    "equals": { "scope": "local" },
+    "count": { "paths": 0 },
+    "equalsAt": { "rejected.code": "unknown-node" }
+  }
+}

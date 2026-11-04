@@ -1,0 +1,17 @@
+{
+  "tool": "query",
+  "capability": "ontology",
+  "why": "A spanning query is checked against EACH corpus's own ontology, and `upstream`'s `concept` declares no properties at all — so `claim_tag` typechecks here and does not there. That is not a defect in the query and not a failed run: the dependency is excluded with the reason, as a diagnostic, and the local rows still come back. A shared class name is not agreement, which this case is the sharpest statement of — two corpora both declaring `concept` mean different things by it, and one of them cannot be asked this question. A server that failed the whole run would make a caller's answer depend on what happens to be installed; one that excluded the corpus silently would report a local-only answer under `\"scope\": \"across\"`, which is the reading `scope` exists to prevent.",
+  "call": { "query": "concept[claim_tag=open]", "across": true },
+  "expect": {
+    "equals": { "scope": "across", "matched": 1, "rejected": null, "absence": null },
+    "count": { "results": 1 },
+    "nonEmpty": ["diagnostics"],
+    "each": { "diagnostics": ["level", "step", "code", "message"] },
+    "equalsAt": {
+      "results.0.origin": null,
+      "diagnostics.0.code": "corpus-excluded",
+      "diagnostics.0.level": "info"
+    }
+  }
+}

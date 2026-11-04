@@ -979,7 +979,7 @@
     "updated": "2026-09-16"
   },
   {
-    "id": "relation/npdes-2pd00028--discharges-to--blanchard-river",
+    "id": "relation/npdes-2pd00028-discharges-to-blanchard-river",
     "node_class": "relation",
     "kind": "relation",
     "label": "npdes:2PD00028 discharges_to BLANCHARD RIVER",
@@ -990,7 +990,7 @@
     "updated": "2026-08-02"
   },
   {
-    "id": "relation/village-of-ottawa--operates--npdes-2pd00028",
+    "id": "relation/village-of-ottawa-operates-npdes-2pd00028",
     "node_class": "relation",
     "kind": "relation",
     "label": "VILLAGE OF OTTAWA operates npdes:2PD00028",

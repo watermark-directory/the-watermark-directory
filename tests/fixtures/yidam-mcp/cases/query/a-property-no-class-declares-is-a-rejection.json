@@ -1,0 +1,11 @@
+{
+  "tool": "query",
+  "capability": "ontology",
+  "why": "The same failure `unknown-class` prevents, one field in: `concept[depth=3]` typechecks against nothing, and a server that runs it returns zero rows that are indistinguishable from a class nobody has written into. The code is `undeclared-property` and not `unknown-property` — the name this contract froze until 0.15.0 and no server has ever answered with. The two read as the same thing to a person and as different strings to a `match`, so a client branching on the frozen one reached its `else` arm on every misspelled property, which is the one caller the code set exists to serve. The message carries the declared list, because the repair is a name the caller has not seen.",
+  "call": { "query": "concept[depth=3]" },
+  "expect": {
+    "equals": { "matched": 0, "returned": 0, "absence": null },
+    "count": { "results": 0 },
+    "equalsAt": { "rejected.code": "undeclared-property", "rejected.step": 0 }
+  }
+}

@@ -979,7 +979,7 @@
     "updated": "2026-08-26"
   },
   {
-    "id": "relation/city-of-hamilton--operates--npdes-1pe00002",
+    "id": "relation/city-of-hamilton-operates-npdes-1pe00002",
     "node_class": "relation",
     "kind": "relation",
     "label": "CITY OF HAMILTON operates npdes:1PE00002",
@@ -990,7 +990,7 @@
     "updated": "2026-08-26"
   },
   {
-    "id": "relation/city-of-middletown--operates--npdes-1pe00003",
+    "id": "relation/city-of-middletown-operates-npdes-1pe00003",
     "node_class": "relation",
     "kind": "relation",
     "label": "CITY OF MIDDLETOWN operates npdes:1PE00003",
@@ -1001,7 +1001,7 @@
     "updated": "2026-08-26"
   },
   {
-    "id": "relation/npdes-1pe00002--discharges-to--great-miami-river",
+    "id": "relation/npdes-1pe00002-discharges-to-great-miami-river",
     "node_class": "relation",
     "kind": "relation",
     "label": "npdes:1PE00002 discharges_to GREAT MIAMI RIVER",
@@ -1012,7 +1012,7 @@
     "updated": "2026-08-26"
   },
   {
-    "id": "relation/npdes-1pe00003--discharges-to--great-miami-river",
+    "id": "relation/npdes-1pe00003-discharges-to-great-miami-river",
     "node_class": "relation",
     "kind": "relation",
     "label": "npdes:1PE00003 discharges_to GREAT MIAMI RIVER",

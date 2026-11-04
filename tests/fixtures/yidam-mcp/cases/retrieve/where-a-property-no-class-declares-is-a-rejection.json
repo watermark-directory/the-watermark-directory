@@ -1,0 +1,16 @@
+{
+  "tool": "retrieve",
+  "corpus": "corpus-dated",
+  "capability": "ontology",
+  "why": "A `where` naming a property no class declares is rejected before the search, under the code `query` gives the same text (contract 0.26.0). The rule is `unknown-class`'s one argument over: a predicate that cannot be asked cannot produce a true negative, and searching anyway would report a typo as a fact about the corpus. `rejected.code` is `undeclared-property` — `query`'s code and not a new one — so a client branching on the codes branches once for both tools. There is no `rejected.step`: `retrieve` has no steps.",
+  "call": {
+    "query": "holding",
+    "where": "began<=1893,colour=red"
+  },
+  "expect": {
+    "fields": ["rejected", "absence", "results"],
+    "equals": { "absence": null },
+    "equalsAt": { "rejected.code": "undeclared-property" },
+    "count": { "results": 0 }
+  }
+}

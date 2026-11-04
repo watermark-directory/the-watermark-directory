@@ -1,0 +1,15 @@
+{
+  "tool": "retrieve",
+  "capability": "ontology",
+  "why": "`claim_tag` is `type: claim`, and an ordering is defined on `date` and `number` and on nothing else (contract 0.26.0). `query` refuses `concept[claim_tag>open]` as `unordered-property`, and this is the same refusal through `retrieve`'s `where`: a server that compared the text anyway would return rows, and one that never parsed the ordering operators would say `parse`. Neither is this code. It also pins that a `where` is typechecked against the corpus and not merely parsed — the text is well-formed and still refused.",
+  "call": {
+    "query": "knowledge graph",
+    "class": "concept",
+    "where": "claim_tag>open"
+  },
+  "expect": {
+    "equals": { "absence": null },
+    "equalsAt": { "rejected.code": "unordered-property" },
+    "count": { "results": 0 }
+  }
+}

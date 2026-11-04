@@ -924,7 +924,7 @@
     "updated": "2026-11-02"
   },
   {
-    "id": "relation/city-of-sandusky--operates--npdes-2pf00001",
+    "id": "relation/city-of-sandusky-operates-npdes-2pf00001",
     "node_class": "relation",
     "kind": "relation",
     "label": "CITY OF SANDUSKY operates npdes:2PF00001",
@@ -935,7 +935,7 @@
     "updated": "2026-08-26"
   },
   {
-    "id": "relation/npdes-2pf00001--discharges-to--sandusky-bay",
+    "id": "relation/npdes-2pf00001-discharges-to-sandusky-bay",
     "node_class": "relation",
     "kind": "relation",
     "label": "npdes:2PF00001 discharges_to SANDUSKY BAY",

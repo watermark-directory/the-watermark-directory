@@ -1,0 +1,18 @@
+{
+  "tool": "paths",
+  "capability": "ontology",
+  "why": "The fixture is one chain, embedding-space → retrieval → knowledge-graph → traversal, so exactly one class path joins its two ends and its spelling is decided. Three hops, one chain realising it, and running it returns traversal alone. A server returning the chain of nodes without the class path has answered the question `neighbors` already answers; one returning a path it did not run cannot know its `matched`.",
+  "call": { "from": "concept/embedding-space", "to": "concept/traversal" },
+  "expect": {
+    "equals": { "kind": "paths", "scope": "local", "rejected": null, "found": 1, "returned": 1, "unchecked": 0, "complete": true, "nearest": 3 },
+    "count": { "paths": 1, "withheld": 0, "paths.0.evidence": 1 },
+    "equalsAt": {
+      "paths.0.query": "concept -relates-to-> concept -relates-to-> concept -enables-> concept",
+      "paths.0.hops": 3,
+      "paths.0.chains": 1,
+      "paths.0.matched": 1,
+      "paths.0.evidence.0.0": "concept/embedding-space.yml",
+      "paths.0.evidence.0.3": "concept/traversal.yml"
+    }
+  }
+}

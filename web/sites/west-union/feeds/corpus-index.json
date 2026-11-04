@@ -1210,7 +1210,7 @@
     "updated": "2026-11-03"
   },
   {
-    "id": "relation/npdes-0pc00019--discharges-to--beasley-creek",
+    "id": "relation/npdes-0pc00019-discharges-to-beasley-creek",
     "node_class": "relation",
     "kind": "relation",
     "label": "npdes:0PC00019 discharges_to BEASLEY CREEK",
@@ -1221,7 +1221,7 @@
     "updated": "2026-08-26"
   },
   {
-    "id": "relation/village-of-west-union--operates--npdes-0pc00019",
+    "id": "relation/village-of-west-union-operates-npdes-0pc00019",
     "node_class": "relation",
     "kind": "relation",
     "label": "VILLAGE OF WEST UNION operates npdes:0PC00019",

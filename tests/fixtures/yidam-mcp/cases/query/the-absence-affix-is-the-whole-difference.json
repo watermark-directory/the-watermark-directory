@@ -1,0 +1,12 @@
+{
+  "tool": "query",
+  "corpus": "corpus-dated",
+  "capability": "ontology",
+  "why": "The same query with the `?` dropped, so a failure says which half moved. An absent property never satisfies an operator — including `!=`, and that is the standing rule rather than an oversight, because three-valued logic everywhere would make `!=` mean two things depending on the corpus. So `ended>1893` excludes both rows that never ended, and only `spanning` survives. `>?` is the one place a caller opts out, one predicate at a time and where a reader can see it. A server that treats absence as satisfying an ordering answers 3 here and cannot be told apart from a conforming one by the case above.",
+  "call": { "query": "tenure[began<=1893,ended>1893]" },
+  "expect": {
+    "equals": { "scope": "local", "matched": 1, "rejected": null, "absence": null },
+    "count": { "results": 1 },
+    "equalsAt": { "results.0.node": "tenure/spanning.yml" }
+  }
+}

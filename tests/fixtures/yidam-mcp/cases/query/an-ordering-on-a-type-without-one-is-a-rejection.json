@@ -1,0 +1,11 @@
+{
+  "tool": "query",
+  "capability": "ontology",
+  "why": "`claim_tag` is `type: claim`, and `>` is defined on `type: date` and `type: number` and on nothing else. Every other declared type has no order of its own, so an ordering that fell back to comparing text would be correct on the two and a trap on the rest — it would read `10` as before `9` and say nothing about having done so. A plausible ordering of the wrong thing is worse than a refusal and, from the outside, indistinguishable from a right one; a corpus that coins its own type gets the same refusal rather than a lexical guess, because nothing knows what its order is. This case also pins the half a server is likeliest to skip: a server that does not parse the ordering operators at all rejects `parse` here, and a server that parses and compares anyway returns rows. Neither is this code.",
+  "call": { "query": "concept[claim_tag>open]" },
+  "expect": {
+    "equals": { "matched": 0, "returned": 0, "absence": null },
+    "count": { "results": 0 },
+    "equalsAt": { "rejected.code": "unordered-property", "rejected.step": 0 }
+  }
+}
