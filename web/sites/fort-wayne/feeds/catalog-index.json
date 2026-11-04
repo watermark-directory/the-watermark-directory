@@ -1,7 +1,7 @@
 {
   "site": "fort-wayne",
   "catalog_version": "bfd1767bddb66b2cfbb1daf5dba2b5fd590b263731027efa822f6549d8769ccb",
-  "contract_version": "2.6.0",
+  "contract_version": "2.7.0",
   "atoms": [
     {
       "handle": "concept:fort-wayne:7q10",

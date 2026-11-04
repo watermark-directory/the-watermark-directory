@@ -11,8 +11,8 @@ models. Gated behind the Tier-0 emissions inventory (:mod:`watermark.air`).
 - :mod:`watermark.air.aermod.inp` — the ``aermod.inp`` five-pathway deck builders.
 - :mod:`watermark.air.aermod.engine` — locate + run the AERMOD Fortran binary (graceful
   degradation when absent), parse its plotfiles.
-- :mod:`watermark.air.aermod.screening` — wire the Tier-0 permit rates into a minimal
-  single-source deck.
+- :mod:`watermark.air.aermod.screening` — wire the Tier-0 permit rates into the fleet
+  screening deck: one ``POINT`` per permitted unit in an assumed array (#2099).
 - :mod:`watermark.air.aermod.dispersion` — run the deck, screen the peak concentrations
   against the NAAQS, and anchor a calibration run to the captured dispatch event (#1182).
 

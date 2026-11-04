@@ -41,7 +41,11 @@
     "stack_is_assumption": true,
     "engine_version": "",
     "caveats": [
-      "Screening field: a single modeled genset source, flat terrain + canned met, no monitored background. The genset stack geometry is a CBI-redacted assumption, so every concentration is [inference], never [verified]."
+      "Fleet screen: all 115 permitted units (including P115, rated separately) modeled as separate sources firing together — the reliability-dispatch premise of the Tier-0 cap check. NO monitored background and no other nearby sources are added, which biases the screen LOW: a peak below the NAAQS is a lower bound on the ambient concentration, not a clearance. A peak above it flags the need for a full demonstration, not an automatic violation.",
+      "Array layout is a screening assumption: a 11 x 11 grid at 15 m spacing (~150 x 150 m). No record places the stacks; a real layout moves the near-field peak and its location, so where the peak falls is [inference]. Flat terrain and canned met are screening defaults too.",
+      "NOx is compared to the NO2 standard as if fully converted (EPA Tier 1), which biases that comparison HIGH; the background omission above biases it LOW. The two do not cancel by any known amount.",
+      "Stack geometry is a screening assumption (engine specs not in the record), applied to every unit including any rated separately — the modeled concentration inherits that uncertainty; supersede with manufacturer stack data (SiteFacility.genset_stack_*).",
+      "Every concentration in this field is [inference], never [verified]."
     ],
     "note": "AERMOD engine unavailable (binary not located)"
   },
@@ -87,7 +91,10 @@
     "stack_is_assumption": true,
     "engine_version": "",
     "caveats": [
-      "Screening field: a single modeled genset source, flat terrain + canned met, no monitored background. The genset stack geometry is a CBI-redacted assumption, so every concentration is [inference], never [verified]."
+      "Fleet screen: all 115 permitted units (including P115, rated separately) modeled as separate sources firing together — the reliability-dispatch premise of the Tier-0 cap check. NO monitored background and no other nearby sources are added, which biases the screen LOW: a peak below the NAAQS is a lower bound on the ambient concentration, not a clearance. A peak above it flags the need for a full demonstration, not an automatic violation.",
+      "Array layout is a screening assumption: a 11 x 11 grid at 15 m spacing (~150 x 150 m). No record places the stacks; a real layout moves the near-field peak and its location, so where the peak falls is [inference]. Flat terrain and canned met are screening defaults too.",
+      "Stack geometry is a screening assumption (engine specs not in the record), applied to every unit including any rated separately — the modeled concentration inherits that uncertainty; supersede with manufacturer stack data (SiteFacility.genset_stack_*).",
+      "Every concentration in this field is [inference], never [verified]."
     ],
     "note": "AERMOD engine unavailable (binary not located)"
   }

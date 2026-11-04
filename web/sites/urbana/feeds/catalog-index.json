@@ -1,7 +1,7 @@
 {
   "site": "urbana",
   "catalog_version": "e213fa98748ae66e9598f4ca6d6e9ef7c35c16631210b08cb3d2e91d1541fac2",
-  "contract_version": "2.6.0",
+  "contract_version": "2.7.0",
   "atoms": [
     {
       "handle": "concept:urbana:7q10",

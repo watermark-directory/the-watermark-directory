@@ -1,7 +1,7 @@
 {
   "site": "fremont",
   "catalog_version": "f1356dd46096277367cee166d00d2bb4d8a022d227242add1eb00b508fec2cfb",
-  "contract_version": "2.6.0",
+  "contract_version": "2.7.0",
   "atoms": [
     {
       "handle": "concept:fremont:7q10",

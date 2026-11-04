@@ -51,6 +51,34 @@
         "default": null,
         "title": "Source Emission G S"
       },
+      "modeled_sources": {
+        "default": 0,
+        "title": "Modeled Sources",
+        "type": "integer"
+      },
+      "fleet_emission_g_s": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Fleet Emission G S"
+      },
+      "layout": {
+        "anyOf": [
+          {
+            "$ref": "#/$defs/FleetLayout"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null
+      },
       "stack": {
         "anyOf": [
           {
@@ -288,6 +316,46 @@
         "max_conc_ug_m3"
       ],
       "title": "ConcentrationScreen",
+      "type": "object"
+    },
+    "FleetLayout": {
+      "additionalProperties": false,
+      "description": "Where the modeled units sit relative to each other — the multi-source array (#2099).\n\nA reliability dispatch fires the fleet *together*, so the deck carries one ``POINT`` per\npermitted unit. No record in the corpus places the stacks (the permit redacts engine specs\nas CBI and no site plan locates them), so the array is a uniform grid centred on the model\norigin and its ``spacing_m`` is an ``assumption`` — exactly as the stack geometry is. It\nmoves *where* the near-field peak falls and how the plumes overlap; it never changes the\nsource term, which is grounded per unit.",
+      "properties": {
+        "units": {
+          "minimum": 1,
+          "title": "Units",
+          "type": "integer"
+        },
+        "columns": {
+          "minimum": 1,
+          "title": "Columns",
+          "type": "integer"
+        },
+        "rows": {
+          "minimum": 1,
+          "title": "Rows",
+          "type": "integer"
+        },
+        "spacing_m": {
+          "$ref": "#/$defs/ProvenancedValue"
+        },
+        "unit_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Unit Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "units",
+        "columns",
+        "rows",
+        "spacing_m",
+        "unit_ids"
+      ],
+      "title": "FleetLayout",
       "type": "object"
     },
     "GensetStackParams": {

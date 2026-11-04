@@ -757,7 +757,14 @@ from watermark.sites import (
 #   no cap to compare against, and the old `false` there published "compliant" for a question
 #   nobody had asked. Additive for feed READERS (a pre-2.6 air-scenarios.json stays valid) but a
 #   pre-2.6 air-scenarios.schema.json rejects the null — MINOR, schema refresh required.
-CONTRACT_VERSION = "2.6.0"
+# 2.7.0: the `air-dispersion` screen models the permitted fleet, not one engine (#2099). The deck
+#   carries one AERMOD POINT per unit (Lima: P001-P114 + the separately-rated P115), so
+#   `DispersionResult` gains `modeled_sources`, `fleet_emission_g_s` and `layout` (a
+#   `FleetLayout`, the assumed array); `source_emission_g_s` keeps its meaning, ONE unit's rate.
+#   Both air-dispersion feeds' caveats now state the direction of each omission (no background
+#   biases LOW) instead of reading as a conservatism disclaimer. Additive for feed READERS, but a
+#   pre-2.7 air-dispersion.schema.json rejects the new keys — MINOR, schema refresh required.
+CONTRACT_VERSION = "2.7.0"
 
 # SourceKind / Confidence now live in watermark.provenance (shared with watermark.hypotheses +
 # hydrology.ProvenancedValue, #605); re-exported here so importers of watermark.site.feeds are

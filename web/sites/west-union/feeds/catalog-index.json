@@ -1,7 +1,7 @@
 {
   "site": "west-union",
   "catalog_version": "6b83855efae2c57f6e063c6d8047b80fa05c8cb8388cc19a1c1f449301f51981",
-  "contract_version": "2.6.0",
+  "contract_version": "2.7.0",
   "atoms": [
     {
       "handle": "concept:west-union:7q10",

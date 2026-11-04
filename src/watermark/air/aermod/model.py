@@ -86,11 +86,39 @@ class AermodSource(BaseModel):
     stack: GensetStackParams
 
 
+class FleetLayout(BaseModel):
+    """Where the modeled units sit relative to each other — the multi-source array (#2099).
+
+    A reliability dispatch fires the fleet *together*, so the deck carries one ``POINT`` per
+    permitted unit. No record in the corpus places the stacks (the permit redacts engine specs
+    as CBI and no site plan locates them), so the array is a uniform grid centred on the model
+    origin and its ``spacing_m`` is an ``assumption`` — exactly as the stack geometry is. It
+    moves *where* the near-field peak falls and how the plumes overlap; it never changes the
+    source term, which is grounded per unit.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    units: int = Field(ge=1)
+    columns: int = Field(ge=1)
+    rows: int = Field(ge=1)
+    spacing_m: ProvenancedValue
+    unit_ids: list[str]  # the AERMOD source ids, in placement order
+
+    @property
+    def extent_m(self) -> tuple[float, float]:
+        """The array's (x, y) span, stack centre to stack centre (m)."""
+        return (
+            (self.columns - 1) * self.spacing_m.value,
+            (self.rows - 1) * self.spacing_m.value,
+        )
+
+
 class ReceptorGrid(BaseModel):
     """A uniform Cartesian receptor grid (AERMOD ``GRIDCART`` / ``XYINC``).
 
     ``x0``/``y0`` are the SW corner (m), ``nx``/``ny`` the counts, ``dx``/``dy`` the spacing
-    (m). A modest grid centered on the source is enough for a screening single-source run.
+    (m). A modest grid centred on the fleet array is enough for a screening run.
     """
 
     model_config = ConfigDict(extra="forbid")
