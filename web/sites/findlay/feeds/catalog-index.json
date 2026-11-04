@@ -1,7 +1,7 @@
 {
   "site": "findlay",
   "catalog_version": "0c65eddea068deec4f4316428ca6903f5733f1ced00cd021217356730cca26cf",
-  "contract_version": "2.5.0",
+  "contract_version": "2.6.0",
   "atoms": [
     {
       "handle": "concept:findlay:7q10",

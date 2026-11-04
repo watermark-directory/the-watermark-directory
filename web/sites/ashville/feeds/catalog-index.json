@@ -1,7 +1,7 @@
 {
   "site": "ashville",
   "catalog_version": "87d386a0f62954ff4601c5413dbc9db5f8a877d0b6a30a900cbf6231b73db20f",
-  "contract_version": "2.5.0",
+  "contract_version": "2.6.0",
   "atoms": [
     {
       "handle": "concept:ashville:7q10",

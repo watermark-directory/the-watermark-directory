@@ -206,11 +206,71 @@ def test_cap_breach_runtime_thresholds(air_settings: Settings) -> None:
     assert "NOx" not in under.breached_pollutants
 
 
+def test_cap_check_is_cumulative_with_testing(air_settings: Settings) -> None:
+    """AQ-01 (#2096): testing and dispatch share the rolling 12-month cap, so a dispatch's
+    standing is baseline-testing tonnage (idle) + dispatch tonnage (load) — not dispatch alone."""
+    base = evaluate(baseline_scenario(), settings=air_settings)
+    disp = evaluate(reliability_dispatch_scenario(18.0), settings=air_settings)
+    b = next(e for e in base.emissions if e.pollutant == "NOx")
+    d = next(e for e in disp.emissions if e.pollutant == "NOx")
+    assert b.annual_tpy is not None and d.annual_tpy is not None
+    assert b.annual_tpy.value == b.tpy.value  # the baseline IS the testing allowance
+    assert d.annual_tpy.value == pytest.approx(b.tpy.value + d.tpy.value, abs=0.002)
+    assert d.pct_of_cap == pytest.approx(d.annual_tpy.value / 235.62 * 100, abs=0.05)
+    # diff() keeps the net-new framing: scenario tpy is the dispatch alone.
+    delta = next(x for x in diff(base, disp).deltas if x.pollutant == "NOx")
+    assert delta.scenario_tpy == d.tpy.value
+
+
+def test_cap_breach_runtime_subtracts_testing(air_settings: Settings) -> None:
+    """The headline threshold is the headroom LEFT after testing (AQ-01) at the fleet the cap
+    covers (AQ-15): ~38 hr/yr, not the one-term 54.5 hr/yr once published."""
+    nox_hr = cap_breach_runtime("NOx", settings=air_settings)
+    co_hr = cap_breach_runtime("CO", settings=air_settings)
+    assert nox_hr is not None and co_hr is not None
+    assert nox_hr == pytest.approx(38.3, abs=0.1)
+    assert co_hr == pytest.approx(54.9, abs=0.1)
+    at = evaluate(reliability_dispatch_scenario(nox_hr), settings=air_settings)
+    nox = next(e for e in at.emissions if e.pollutant == "NOx")
+    assert nox.pct_of_cap == pytest.approx(100.0, abs=0.2)
+
+
+def test_modeled_fleet_is_the_fleet_the_cap_covers(air_settings: Settings) -> None:
+    """AQ-15 (#2110): the cap covers P001-P115; the P115 HUBGEN is modeled at its own rate."""
+    r = evaluate(reliability_dispatch_scenario(10.0), settings=air_settings)
+    assert (r.fleet_size, r.auxiliary_units, r.modeled_units) == (114, 1, 115)
+    nox = next(e for e in r.emissions if e.pollutant == "NOx")
+    # 10 hr x (75.78 x 114 + 13.71 x 1) / 2000
+    assert nox.tpy.value == pytest.approx(10 * (75.78 * 114 + 13.71) / 2000, abs=0.001)
+    assert "P115" in (nox.tpy.citation or "")
+    assert "conservative" not in r.note  # the old, wrong-way bias statement is gone
+    # The AP-42 cross-check counts the same 115 units against the same cap.
+    ap = evaluate(reliability_dispatch_scenario(10.0, factors_basis="ap42"), settings=air_settings)
+    assert ap.modeled_units == 115
+
+
+def test_no_wired_permit_is_unknown_not_compliant() -> None:
+    """AQ-03 (#2098): Fort Wayne has a disclosed fleet but no wired permit. ~820 tpy of NOx must
+    not read as "within caps" — the check is UNKNOWN."""
+    fw = Settings(
+        site="fort-wayne",
+        data_dir=REPO_ROOT / "data",
+        econ_offline=True,
+        econ_fixtures_dir=REPO_ROOT / "tests" / "fixtures" / "economics",
+    )
+    r = evaluate(reliability_dispatch_scenario(500.0, factors_basis="ap42"), settings=fw)
+    assert r.caps_known is False
+    assert r.any_cap_exceeded is None
+    assert {e.cap_status for e in r.emissions} == {"unknown"}
+    assert all(e.annual_tpy is None and e.pct_of_cap is None for e in r.emissions)
+
+
 def test_uncapped_pollutant_has_no_cap(air_settings: Settings) -> None:
     r = evaluate(reliability_dispatch_scenario(60.0), settings=air_settings)
     pm = next(e for e in r.emissions if e.pollutant == "PM10")
     assert pm.cap_tpy is None
     assert pm.exceeds_cap is False
+    assert pm.cap_status == "uncapped"  # a wired permit that caps only NOx/CO
 
 
 def test_diff_reports_increase_and_new_breach(air_settings: Settings) -> None:

@@ -187,7 +187,7 @@ def scenarios_cmd(
     else:
         console.print("[yellow]No captured dispatch event — reporting the baseline only.[/]")
 
-    table = Table("scenario", "runtime (hr/yr)", "NOx tpy", "CO tpy", "cap check")
+    table = Table("scenario", "runtime (hr/yr)", "NOx tpy", "CO tpy", "cap check (with testing)")
     for r in results:
         by = {e.pollutant: e for e in r.emissions}
         nox, co = by.get("NOx"), by.get("CO")
@@ -195,15 +195,25 @@ def scenarios_cmd(
         def _cell(e: PollutantTonnage | None) -> str:
             if e is None:
                 return "—"
-            pct = f" [dim]({e.pct_of_cap:g}% of cap)[/]" if e.pct_of_cap is not None else ""
+            if e.cap_status == "unknown":
+                return f"{e.tpy.value:g} [yellow](cap unknown)[/]"
+            if e.annual_tpy is None or e.pct_of_cap is None:
+                return f"{e.tpy.value:g}"
             colour = "red" if e.exceeds_cap else "green"
-            return f"[{colour}]{e.tpy.value:g}[/]{pct}"
+            # The scenario's own tons, then what the cap counts: testing + this dispatch (AQ-01).
+            cum = (
+                f" -> {e.annual_tpy.value:g} w/ testing"
+                if e.annual_tpy.value != e.tpy.value
+                else ""
+            )
+            return f"[{colour}]{e.tpy.value:g}{cum}[/] [dim]({e.pct_of_cap:g}% of cap)[/]"
 
-        breach = (
-            f"[red]BREACH: {', '.join(r.breached_pollutants)}[/]"
-            if r.any_cap_exceeded
-            else "[green]within caps[/]"
-        )
+        if r.any_cap_exceeded is None:
+            breach = "[yellow]UNKNOWN — no wired air permit[/]"
+        elif r.any_cap_exceeded:
+            breach = f"[red]BREACH: {', '.join(r.breached_pollutants)}[/]"
+        else:
+            breach = "[green]within caps[/]"
         table.add_row(
             r.scenario.name, f"{r.scenario.runtime_hours.value:g}", _cell(nox), _cell(co), breach
         )
@@ -213,8 +223,9 @@ def scenarios_cmd(
     if nox_thresh is not None:
         console.print(
             f"\n[bold]Cap-breach threshold[/]: the fleet crosses the NOx synthetic-minor cap at "
-            f"[bold]~{nox_thresh:g} hr/yr[/] per engine of forced runtime at load "
-            "[dim](how much forced generation before this becomes a major NSR source)[/]"
+            f"[bold]~{nox_thresh:g} hr/yr[/] per engine of forced runtime at load, on top of "
+            "readiness testing [dim](how much forced generation before this becomes a major NSR "
+            "source)[/]"
         )
     console.print(
         "\n[dim]Caps are the facility-wide synthetic-minor NSR limits from the air permit "

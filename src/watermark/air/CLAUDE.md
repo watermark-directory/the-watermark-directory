@@ -30,6 +30,18 @@ backup fleet into runtime, what is the air burden — and does forced generation
   against, so the cap-exceedance check is faithful. AP-42 (`factors_basis="ap42"`) is the
   conservative cross-check, at `load` only. (The `#1175` *factor model* stays AP-42-primary
   per its reconciliation — a separate concern from the compliance question.)
+- **The cap check obeys three rules** (#2096/#2097/#2098/#2110 — each was a live bug):
+  1. **Cumulative.** The cap is a rolling-12-month total over the permitted units, so a
+     dispatch is measured as *testing baseline + dispatch* (`PollutantTonnage.annual_tpy`),
+     never dispatch alone; `tpy` keeps the net-new figure. `cap_breach_runtime` subtracts the
+     testing baseline before dividing.
+  2. **The fleet the cap covers.** The profile's `genset_count` is the identical data-hall
+     fleet; units the permit rates separately (Lima's P115 HUBGEN) ride along as
+     `GensetEmissionFactors.auxiliary` (`emissions.permit_rate_groups`). Lima models 114 + 1.
+  3. **No permit ⇒ `unknown`, never compliant.** Without wired caps every pollutant is
+     `cap_status="unknown"` and `any_cap_exceeded` is `None`. The ledger likewise never falls
+     back to another site's permit: `_burden_air` resolves only through the active campus's
+     `air_permit_relpath`.
 - **No new grid work** (`dispatch.py`): consume `watermark.grid` interchange outputs
   (`net_import_hours_fraction`, `peak_import_need_mw`, `import_dependent_at_peak`).
   The grid→runtime magnitude is `[inference]` (the escalation fraction) and stays so until

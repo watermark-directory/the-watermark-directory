@@ -1,7 +1,7 @@
 {
   "site": "wapakoneta",
   "catalog_version": "c85b21e41073ecf3a6f3855c56a1d1b1e193c2350a19909971eb65829223a001",
-  "contract_version": "2.5.0",
+  "contract_version": "2.6.0",
   "atoms": [
     {
       "handle": "concept:wapakoneta:7q10",

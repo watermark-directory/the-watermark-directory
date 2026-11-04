@@ -107,7 +107,7 @@ def test_event_anchored_scenario_evaluates_against_caps(air_settings: Settings) 
     """The headline: the captured event's full authorized window breaches the NOx cap.
 
     The epic's investigable question, answered against a real order. At the full authorized
-    72 h window (the [derived] ceiling), the fleet at load emits ~132% of the NOx
+    72 h window (the [derived] ceiling), the fleet at load plus readiness testing reaches ~162% of the NOx
     synthetic-minor cap — a breach. A partial (central-duty) event stays under. Both are
     [inference]/[open] on whether the facility actually ran; this dimensions the model, it
     does not assert a logged runtime.

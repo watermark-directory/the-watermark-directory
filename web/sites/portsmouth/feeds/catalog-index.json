@@ -1,7 +1,7 @@
 {
   "site": "portsmouth",
   "catalog_version": "1761336ada237c7c35b73dff7d803d4e4717c4251490fc0b67da8942743d85b4",
-  "contract_version": "2.5.0",
+  "contract_version": "2.6.0",
   "atoms": [
     {
       "handle": "concept:portsmouth:7q10",

@@ -1,7 +1,7 @@
 {
   "site": "lordstown",
   "catalog_version": "348e543dca783feea4018a24d2be4a967613879124c20a8ee7c65e0432a14e7c",
-  "contract_version": "2.5.0",
+  "contract_version": "2.6.0",
   "atoms": [
     {
       "handle": "concept:lordstown:7q10",
