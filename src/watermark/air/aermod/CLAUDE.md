@@ -7,8 +7,17 @@ inventory (`watermark.air`). Defers to [`../CLAUDE.md`](../CLAUDE.md) and the ro
 
 - **Build a deck, run the binary, parse the output.** `inp.py` writes the AERMOD five-pathway
   control file (`CO`/`SO`/`RE`/`ME`/`OU`); `engine.py` locates + runs the EPA Fortran binary
-  and parses its `PLOTFILE`s; `screening.py` wires the permit emission rates into a minimal
-  single-source deck. `model.py` holds the typed, provenance-tagged deck inputs.
+  and parses its `PLOTFILE`s; `screening.py` wires the permit emission rates into the fleet
+  screening deck. `model.py` holds the typed, provenance-tagged deck inputs.
+- **Model the fleet the dispatch fires, not one engine** (#2099). `build_screening_run` emits
+  one `POINT` per permitted unit — the identical fleet plus every unit the permit rates
+  separately (Lima: P001-P114 + P115 at its own rate), i.e. the same scope as the Tier-0 cap
+  check. A one-engine screen is 1/115th of the source term, and a `False` from it is close to
+  meaningless. The **array layout** (`FleetLayout`, a uniform grid) is an `assumption` like the
+  stack geometry: no record places the stacks. Caveats come from one function,
+  `dispersion.screening_caveats`, for both feeds, and each says **which way** it moves the
+  answer: omitting background biases LOW (so a pass is a lower bound, never a clearance);
+  NOx-as-NO2 biases HIGH.
 - **The binary is located on disk, never imported** — AERMOD is a SCRAM Fortran build, not a
   pip wheel (unlike `pyswmm`). Resolution: `WATERMARK_AERMOD_BIN` → `aermod` on `PATH` →
   nothing. Absent ⇒ `AermodResult(available=False)`, mirroring `swmm_available()`; deck

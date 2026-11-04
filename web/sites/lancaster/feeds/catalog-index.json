@@ -1,7 +1,7 @@
 {
   "site": "lancaster",
   "catalog_version": "da84c2909b8212c29df8157837e8bc8dd15a343c70fdd26dbc728bf7297bd4b4",
-  "contract_version": "2.6.0",
+  "contract_version": "2.7.0",
   "atoms": [
     {
       "handle": "concept:lancaster:7q10",

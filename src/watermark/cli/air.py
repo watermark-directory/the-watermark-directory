@@ -320,7 +320,7 @@ def dispersion_cmd(
     console.print(
         f"[bold]AERMOD dispersion screen[/] — {settings.site} {pollutant} "
         f"[dim]({result.factors_basis} rate at {result.load_regime} load; "
-        f"source {result.source_emission_g_s:g} g/s; "
+        f"{result.modeled_sources} sources, {result.fleet_emission_g_s:g} g/s fleet; "
         f"stack {'assumed' if result.stack_is_assumption else 'documented'})[/]"
     )
     if result.event is not None:

@@ -1,7 +1,7 @@
 {
   "site": "lima",
   "catalog_version": "1e3d12c6118a73464d33a992a7d28efbb2b920a92ab773166002b73c2b90bb00",
-  "contract_version": "2.6.0",
+  "contract_version": "2.7.0",
   "atoms": [
     {
       "handle": "concept:lima:7q10",

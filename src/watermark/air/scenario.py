@@ -206,7 +206,7 @@ def _fleet_size(settings: Settings) -> int:
     return fac.genset_count
 
 
-def _auxiliary_for(
+def auxiliary_units_for(
     factors: GensetEmissionFactors, settings: Settings, caps_known: bool
 ) -> list[AuxiliaryUnits]:
     """The separately-rated units to add to the fleet (AQ-15).
@@ -286,7 +286,7 @@ def evaluate(
     fleet = _fleet_size(settings)
     caps = load_nsr_caps(settings=settings)
     caps_known = bool(caps)
-    auxiliary = _auxiliary_for(factors, settings, caps_known)
+    auxiliary = auxiliary_units_for(factors, settings, caps_known)
     n_aux = sum(a.count for a in auxiliary)
     runtime = scenario.runtime_hours.value
     testing = (
@@ -415,7 +415,9 @@ def cap_breach_runtime(
     if cap is None:
         return None
     fleet = _fleet_size(settings)
-    r = _pollutant_lb_per_hr(factors, _auxiliary_for(factors, settings, True), pollutant, fleet)
+    r = _pollutant_lb_per_hr(
+        factors, auxiliary_units_for(factors, settings, True), pollutant, fleet
+    )
     if r is None or r[0] <= 0:
         return None
     headroom = cap.value - _testing_baseline_tpy(settings, fleet).get(pollutant, 0.0)

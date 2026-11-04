@@ -65,6 +65,21 @@ def unit_range_count(ids: str) -> int:
     return b - a + 1
 
 
+def expand_unit_ids(ids: str) -> list[str]:
+    """Every emission-unit id a permit range names: ``"P001-P003"`` -> ``["P001","P002","P003"]``.
+
+    Keeps the range's own prefix and zero-padding, so an expanded id is the permit's own label
+    for that unit. A bare id (``"P115"``) expands to itself.
+    """
+    lo, _, hi = ids.partition("-")
+    if not hi:
+        return [lo]
+    prefix = lo.rstrip("0123456789")
+    width = len(lo) - len(prefix)
+    start = int(lo[len(prefix) :])
+    return [f"{prefix}{n:0{width}d}" for n in range(start, start + unit_range_count(ids))]
+
+
 def permit_rate_groups(permit: dict[str, Any]) -> tuple[str, list[str]]:
     """The permit's (identical-fleet rate key, [separately-rated id ranges]) from its extraction."""
     rates = permit["action"]["facility_wide_limits"]["per_engine_rates_lb_per_hr"]

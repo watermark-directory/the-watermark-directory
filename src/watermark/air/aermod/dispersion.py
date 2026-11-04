@@ -4,7 +4,7 @@ The last mile of the AERMOD integration: take the Tier-0 emissions inventory int
 ground-level **concentration** and compare it to the federal **NAAQS** (the criteria-pollutant
 health standards). Two entry points:
 
-- :func:`run_dispersion` — build the site's single-source screening deck
+- :func:`run_dispersion` — build the site's fleet screening deck (one source per permitted unit)
   (:mod:`watermark.air.aermod.screening`), run the located AERMOD binary against an
   operator-supplied canned met pair, and screen the peak concentration per averaging period
   against the NAAQS. Degrades to ``available=False`` (empty screens) when the binary or the
@@ -17,9 +17,10 @@ health standards). Two entry points:
   ran stays `[open]` — so the result reports concentrations against the standards **without**
   asserting the fleet actually produced them.
 
-Discipline: this is a **screening** comparison — one source, no monitored background. A modeled
-peak under the NAAQS is reassuring; a peak over it flags the need for a full demonstration, not
-an automatic violation. The NAAQS themselves are a committed `reference` dataset
+Discipline: this is a **screening** comparison — the whole permitted fleet firing together, but
+with no monitored background, so it is a *lower bound* on ambient concentration, not a
+clearance (see :func:`screening_caveats` for which way each simplification points). A peak over
+the NAAQS flags the need for a full demonstration, not an automatic violation. The NAAQS themselves are a committed `reference` dataset
 (``data/reference/air/naaqs/naaqs.yaml``), tagged `reference`, never `verified`.
 """
 
@@ -32,9 +33,8 @@ from pydantic import BaseModel, ConfigDict
 
 from watermark.air.aermod.engine import AermodResult
 from watermark.air.aermod.engine import run as run_aermod
-from watermark.air.aermod.inp import stack_params_from_profile
-from watermark.air.aermod.model import AveragePeriod, GensetStackParams
-from watermark.air.aermod.screening import build_screening_deck
+from watermark.air.aermod.model import AveragePeriod, FleetLayout, GensetStackParams
+from watermark.air.aermod.screening import ScreeningDeck, build_screening_run
 from watermark.air.calibration import CapturedDispatchEvent, load_captured_event
 from watermark.air.model import FactorBasis, LoadRegime, Pollutant
 from watermark.config import Settings, get_settings
@@ -94,7 +94,11 @@ class DispersionResult(BaseModel):
     load_regime: LoadRegime
     available: bool
     engine_version: str = ""
-    source_emission_g_s: float | None = None
+    source_emission_g_s: float | None = None  # ONE identical-fleet unit's rate (g/s)
+    # The deck's scope (#2099): every permitted unit as its own POINT, firing together.
+    modeled_sources: int = 0
+    fleet_emission_g_s: float | None = None  # all modeled sources summed (g/s)
+    layout: FleetLayout | None = None
     stack: GensetStackParams | None = None
     stack_is_assumption: bool = True
     receptor_grid: dict[str, float] = {}
@@ -166,12 +170,44 @@ def screen_concentrations(
     return out
 
 
-_SCREENING_CAVEAT = (
-    "Screening comparison: a single modeled source with NO monitored background concentration "
-    "and flat terrain + canned met. A peak below the NAAQS is reassuring; a peak above it flags "
-    "the need for a full demonstration (background + cumulative sources), not an automatic "
-    "violation."
-)
+def screening_caveats(deck: ScreeningDeck, pollutant: Pollutant) -> list[str]:
+    """What the screen leaves out, each stated with the direction it moves the answer (#2099).
+
+    A caveat that only says "screening" reads as a conservatism disclaimer, which is wrong for
+    most of these: omitting background biases the screen LOW. Shared by the ``air-dispersion``
+    screen and the ``air-dispersion-field`` viz so the two never describe one deck differently.
+    """
+    lay = deck.layout
+    aux = (
+        f" (including {', '.join(deck.auxiliary_ids)}, rated separately)"
+        if deck.auxiliary_ids
+        else ""
+    )
+    x_m, y_m = lay.extent_m
+    out = [
+        f"Fleet screen: all {lay.units} permitted units{aux} modeled as separate sources firing "
+        "together — the reliability-dispatch premise of the Tier-0 cap check. NO monitored "
+        "background and no other nearby sources are added, which biases the screen LOW: a peak "
+        "below the NAAQS is a lower bound on the ambient concentration, not a clearance. A peak "
+        "above it flags the need for a full demonstration, not an automatic violation.",
+        f"Array layout is a screening assumption: a {lay.columns} x {lay.rows} grid at "
+        f"{lay.spacing_m.value:g} m spacing (~{x_m:g} x {y_m:g} m). No record places the stacks; "
+        "a real layout moves the near-field peak and its location, so where the peak falls is "
+        "[inference]. Flat terrain and canned met are screening defaults too.",
+    ]
+    if pollutant == "NOx":
+        out.append(
+            "NOx is compared to the NO2 standard as if fully converted (EPA Tier 1), which biases "
+            "that comparison HIGH; the background omission above biases it LOW. The two do not "
+            "cancel by any known amount."
+        )
+    if deck.stack.all_assumption:
+        out.append(
+            "Stack geometry is a screening assumption (engine specs not in the record), applied "
+            "to every unit including any rated separately — the modeled concentration inherits "
+            "that uncertainty; supersede with manufacturer stack data (SiteFacility.genset_stack_*)."
+        )
+    return out
 
 
 def run_dispersion(
@@ -197,7 +233,7 @@ def run_dispersion(
     omitted, the run is attempted with no met payload (which the absent binary short-circuits).
     """
     settings = settings or get_settings()
-    built = build_screening_deck(
+    deck = build_screening_run(
         pollutant=pollutant,
         basis=basis,
         load_regime=load_regime,
@@ -208,20 +244,13 @@ def run_dispersion(
         profile_file=profile_file,
         settings=settings,
     )
-    if built is None:
+    if deck is None:
         log.info("aermod.dispersion.no_deck", site=settings.site, pollutant=pollutant)
         return None
-    inp_text, plotfiles = built
-    stack = stack_params_from_profile(settings)
+    stack = deck.stack
     grid_meta = {"half_extent_m": grid_half_extent_m, "spacing_m": grid_spacing_m}
 
-    caveats = [_SCREENING_CAVEAT]
-    if stack.all_assumption:
-        caveats.append(
-            "Stack geometry is a screening assumption (engine specs not in the record) — the "
-            "modeled concentration inherits that uncertainty; supersede with manufacturer stack "
-            "data (SiteFacility.genset_stack_*)."
-        )
+    caveats = screening_caveats(deck, pollutant)
     if event is not None:
         caveats.append(
             "Event-anchored: modeled at the permit LOAD-point rate a real authorized dispatch "
@@ -234,9 +263,9 @@ def run_dispersion(
         )
 
     result: AermodResult = run_aermod(
-        inp_text,
+        deck.inp_text,
         met_files=met_files or {},
-        plotfiles=plotfiles,
+        plotfiles=deck.plotfiles,
         pollutant=pollutant,
         settings=settings,
     )
@@ -261,7 +290,10 @@ def run_dispersion(
         load_regime=load_regime,
         available=result.available and bool(result.max_conc),
         engine_version=result.engine_version,
-        source_emission_g_s=_source_rate_g_s(inp_text),
+        source_emission_g_s=deck.unit_rate_g_s,
+        modeled_sources=len(deck.sources),
+        fleet_emission_g_s=deck.fleet_rate_g_s,
+        layout=deck.layout,
         stack=stack,
         stack_is_assumption=stack.all_assumption,
         receptor_grid=grid_meta,
@@ -280,6 +312,7 @@ def run_dispersion(
         available=dr.available,
         exceeded=exceeded,
         anchored=event is not None,
+        sources=len(deck.sources),
     )
     return dr
 
@@ -313,17 +346,3 @@ def run_calibration_dispersion(
         event=event,
         settings=settings,
     )
-
-
-def _source_rate_g_s(inp_text: str) -> float | None:
-    """Pull the single-source emission rate (g/s) back out of the deck's ``SO SRCPARAM`` line."""
-    for line in inp_text.splitlines():
-        if line.startswith("SO SRCPARAM"):
-            parts = line.split()
-            # SO SRCPARAM <id> <rate> <height> <temp> <velocity> <diameter>
-            if len(parts) >= 4:
-                try:
-                    return float(parts[3])
-                except ValueError:
-                    return None
-    return None

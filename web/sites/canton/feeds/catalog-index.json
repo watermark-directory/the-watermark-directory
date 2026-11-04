@@ -1,7 +1,7 @@
 {
   "site": "canton",
   "catalog_version": "05269783f70003a23d9d765fb6de66aa73115c86a375f9cc337e4e69a5c082ee",
-  "contract_version": "2.6.0",
+  "contract_version": "2.7.0",
   "atoms": [
     {
       "handle": "concept:canton:7q10",

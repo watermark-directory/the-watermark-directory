@@ -1,7 +1,7 @@
 {
   "site": "sidney",
   "catalog_version": "2a1aa825b1f8eafb83fea73f4cf2204110dd77651e98770f9b1978cfb016dd78",
-  "contract_version": "2.6.0",
+  "contract_version": "2.7.0",
   "atoms": [
     {
       "handle": "concept:sidney:7q10",

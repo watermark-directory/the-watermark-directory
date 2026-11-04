@@ -1,7 +1,7 @@
 {
   "site": "youngstown",
   "catalog_version": "38f89904318418d62958f4aa4e9cee0d4845c3341cd990a91b7dd4eac188d879",
-  "contract_version": "2.6.0",
+  "contract_version": "2.7.0",
   "atoms": [
     {
       "handle": "concept:youngstown:7q10",

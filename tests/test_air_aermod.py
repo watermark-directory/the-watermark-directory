@@ -20,7 +20,12 @@ from watermark.air.aermod.model import (
     ReceptorGrid,
     lb_per_hr_to_g_per_s,
 )
-from watermark.air.aermod.screening import build_screening_deck
+from watermark.air.aermod.screening import (
+    array_positions,
+    build_screening_deck,
+    build_screening_run,
+)
+from watermark.air.emissions import expand_unit_ids
 from watermark.config import Settings
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -205,9 +210,52 @@ def test_build_screening_deck_uses_permit_nox_rate(air_settings: Settings) -> No
     text, plotfiles = result
     # Permit NOx at >25% load = 75.78 lb/hr -> ~9.548 g/s in the SRCPARAM line.
     srcparam = next(ln for ln in text.splitlines() if ln.startswith("SO SRCPARAM"))
-    assert srcparam.startswith("SO SRCPARAM  GEN1  9.5481")
+    assert srcparam.startswith("SO SRCPARAM  P001  9.5481")
     assert set(plotfiles) == {"1", "ANNUAL"}
     assert "CO POLLUTID  NOX" in text
+
+
+def test_screening_deck_models_the_whole_permitted_fleet(air_settings: Settings) -> None:
+    """#2099 (AQ-04): one POINT per permitted unit, not one representative engine.
+
+    The Tier-0 premise is a dispatch firing the fleet together, so the deck's scope must be
+    the cap check's scope: Lima's 114 identical units plus P115, each at its own permit rate.
+    """
+    deck = build_screening_run(pollutant="NOx", settings=air_settings)
+    assert deck is not None
+    assert len(deck.sources) == 115
+    assert deck.inp_text.count("SO LOCATION") == 115
+    assert deck.inp_text.count("SO SRCPARAM") == 115
+    assert "SO SRCGROUP  ALL" in deck.inp_text
+    # The permit's own unit labels name the sources; P115 is the separately-rated unit.
+    assert [s.src_id for s in deck.sources[:2]] == ["P001", "P002"]
+    assert deck.auxiliary_ids == ["P115"]
+    hall = lb_per_hr_to_g_per_s(75.78)
+    hub = lb_per_hr_to_g_per_s(13.71)  # P115 HUBGEN's flat NOx rate, not the hall rate
+    assert deck.sources[-1].emission_g_s.value == pytest.approx(hub, rel=1e-5)
+    assert deck.unit_rate_g_s == pytest.approx(hall, rel=1e-5)
+    assert deck.fleet_rate_g_s == pytest.approx(114 * hall + hub, rel=1e-5)
+    # Every source sits at a distinct position; the layout is an assumption, not a reading.
+    assert len({(s.x_m, s.y_m) for s in deck.sources}) == 115
+    assert deck.layout.spacing_m.source == "assumption"
+    assert deck.layout.units == 115
+
+
+def test_array_positions_are_centred_and_distinct() -> None:
+    cols, rows, pts = array_positions(115, 15.0)
+    assert (cols, rows) == (11, 11)
+    assert len(pts) == 115 and len(set(pts)) == 115
+    xs = [x for x, _ in pts]
+    assert min(xs) == -max(xs) == -75.0  # centred on the receptor grid's origin
+    assert array_positions(1, 15.0)[2] == [(0.0, 0.0)]
+    with pytest.raises(ValueError):
+        array_positions(0, 15.0)
+
+
+def test_expand_unit_ids_keeps_the_permit_labels() -> None:
+    assert expand_unit_ids("P001-P003") == ["P001", "P002", "P003"]
+    assert expand_unit_ids("P115") == ["P115"]
+    assert len(expand_unit_ids("P001-P114")) == 114
 
 
 # --- plotfile parsing ---------------------------------------------------------------

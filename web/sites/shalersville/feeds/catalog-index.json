@@ -1,7 +1,7 @@
 {
   "site": "shalersville",
   "catalog_version": "beca65ec1f860a5697a6750d7f25156933d52d2db59f205be80fb25653cc7565",
-  "contract_version": "2.6.0",
+  "contract_version": "2.7.0",
   "atoms": [
     {
       "handle": "concept:shalersville:7q10",

@@ -1,7 +1,7 @@
 {
   "site": "athens",
   "catalog_version": "414c5a89887f649d1e64c6872f751597792a86eb2fdd8527910187745f5ebcfe",
-  "contract_version": "2.6.0",
+  "contract_version": "2.7.0",
   "atoms": [
     {
       "handle": "concept:athens:7q10",

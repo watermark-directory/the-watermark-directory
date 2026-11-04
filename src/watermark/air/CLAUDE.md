@@ -72,8 +72,9 @@ backup fleet into runtime, what is the air burden — and does forced generation
 - **NAAQS screen** (`aermod/dispersion.py`, **#1182**): `run_dispersion` /
   `run_calibration_dispersion` build the deck, run the (absent-degrading) engine, and screen the
   peak concentration per averaging period against the committed NAAQS reference table
-  (`data/reference/air/naaqs/naaqs.yaml`, `reference`). Screening only — one source, no
-  monitored background: a peak over the standard flags a full demonstration, not a violation.
+  (`data/reference/air/naaqs/naaqs.yaml`, `reference`). Screening only: the whole permitted
+  fleet, one `POINT` per unit (#2099), but no monitored background, so a peak under the
+  standard is a lower bound, not a clearance; a peak over it flags a full demonstration.
   The calibration run is event-anchored (permit load-point rate, cited to the captured order);
   the window is `[verified]`, facility dispatch stays `[open]`. Absent binary ⇒ `available=False`,
   empty screens — the deck + NAAQS basis are real, no concentration is fabricated.

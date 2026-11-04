@@ -39,10 +39,15 @@ if TYPE_CHECKING:
 import yaml
 from pydantic import BaseModel
 
-from watermark.air.aermod.dispersion import DispersionResult, naaqs_for, run_calibration_dispersion
+from watermark.air.aermod.dispersion import (
+    DispersionResult,
+    naaqs_for,
+    run_calibration_dispersion,
+    screening_caveats,
+)
 from watermark.air.aermod.engine import run as run_aermod
 from watermark.air.aermod.model import AveragePeriod, ReceptorGrid
-from watermark.air.aermod.screening import build_screening_deck
+from watermark.air.aermod.screening import build_screening_run
 from watermark.air.model import Pollutant
 from watermark.air.scenario import AirScenarioResult
 from watermark.candidates import (
@@ -382,7 +387,7 @@ def _load_air_scenarios(settings: Settings) -> list[AirScenarioResult]:
 
 # The two capped / short-term-critical criteria pollutants modeled by both air-dispersion feeds:
 # NOx (1-hr + annual NO2 NAAQS) and CO (1-hr + 8-hr). Averaging periods line up with the operative
-# standards. The screening receptor grid: ±2.5 km at 100 m spacing (a 51x51 single-source grid).
+# standards. The screening receptor grid: ±2.5 km at 100 m spacing (51x51), centred on the fleet array.
 _DISPERSION_SPEC: list[tuple[Pollutant, tuple[AveragePeriod, ...]]] = [
     ("NOx", ("1", "ANNUAL")),
     ("CO", ("1", "8")),
@@ -453,18 +458,21 @@ def _dispersion_field(settings: Settings) -> list[DispersionField] | None:
         return None
     fields: list[DispersionField] = []
     for pollutant, periods in _DISPERSION_SPEC:
-        built = build_screening_deck(
+        deck = build_screening_run(
             pollutant=pollutant,
             averaging_periods=periods,
             grid_half_extent_m=_FIELD_GRID_HALF_EXTENT_M,
             grid_spacing_m=_FIELD_GRID_SPACING_M,
             settings=settings,
         )
-        if built is None:
+        if deck is None:
             continue
-        inp_text, plotfiles = built
         result = run_aermod(
-            inp_text, met_files={}, plotfiles=plotfiles, pollutant=pollutant, settings=settings
+            deck.inp_text,
+            met_files={},
+            plotfiles=deck.plotfiles,
+            pollutant=pollutant,
+            settings=settings,
         )
         rgrid = ReceptorGrid.centered(
             half_extent_m=_FIELD_GRID_HALF_EXTENT_M, spacing_m=_FIELD_GRID_SPACING_M
@@ -500,9 +508,8 @@ def _dispersion_field(settings: Settings) -> list[DispersionField] | None:
                 unit=result.unit or "ug/m3",
                 engine_version=result.engine_version,
                 caveats=[
-                    "Screening field: a single modeled genset source, flat terrain + canned met, "
-                    "no monitored background. The genset stack geometry is a CBI-redacted "
-                    "assumption, so every concentration is [inference], never [verified].",
+                    *screening_caveats(deck, pollutant),
+                    "Every concentration in this field is [inference], never [verified].",
                 ],
                 note=result.note
                 or (

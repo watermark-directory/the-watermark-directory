@@ -82,6 +82,10 @@ def test_run_dispersion_degrades_without_binary(air_settings: Settings) -> None:
     assert res.any_naaqs_exceeded is False
     # The deck IS real: the permit NOx load-point rate resolved to a source g/s.
     assert res.source_emission_g_s == pytest.approx(9.5481, rel=1e-4)
+    # ...and the screen is the fleet's, not one engine's (#2099).
+    assert res.modeled_sources == 115
+    assert res.fleet_emission_g_s == pytest.approx(114 * 9.548119 + 1.727431, rel=1e-5)
+    assert res.layout is not None and res.layout.spacing_m.source == "assumption"
     assert res.stack_is_assumption is True  # Lima's stack is CBI-redacted
     assert "degraded" in res.note or "unavailable" in res.note
 
@@ -124,3 +128,19 @@ def test_calibration_dispersion_co_uses_short_term_periods(air_settings: Setting
     assert res is not None
     assert res.averaging_periods == ["1", "8"]
     assert res.pollutant == "CO"
+
+
+def test_screening_caveat_states_the_direction_of_the_error(air_settings: Settings) -> None:
+    """#2099: the old caveat read as a conservatism disclaimer. Omitting background biases LOW."""
+    res = d.run_dispersion(pollutant="NOx", settings=air_settings)
+    assert res is not None
+    text = " ".join(res.caveats)
+    assert "single" not in text.lower()
+    assert "biases the screen LOW" in text
+    assert "not a clearance" in text
+    assert "115 permitted units" in text and "P115" in text
+    # NOx-as-NO2 is the one simplification that runs high, and it is said so.
+    assert "biases that comparison HIGH" in text
+    co = d.run_dispersion(pollutant="CO", averaging_periods=("1", "8"), settings=air_settings)
+    assert co is not None
+    assert not any("HIGH" in c for c in co.caveats)

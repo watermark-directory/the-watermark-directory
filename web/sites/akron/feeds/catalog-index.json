@@ -1,7 +1,7 @@
 {
   "site": "akron",
   "catalog_version": "2e9bff9e8f210930343fcc128ebc04a3551cbdc9e086651c37ae04a1bd039933",
-  "contract_version": "2.6.0",
+  "contract_version": "2.7.0",
   "atoms": [
     {
       "handle": "concept:akron:7q10",
