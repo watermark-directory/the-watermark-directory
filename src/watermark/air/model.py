@@ -54,6 +54,24 @@ class EmissionFactor(BaseModel):
     per_engine_hour: ProvenancedValue  # lb / hr, one engine at rated load
 
 
+class AuxiliaryUnits(BaseModel):
+    """Permitted engines rated separately from the identical fleet (#2110, AQ-15).
+
+    A permit's facility-wide cap covers *every* unit it names, but the site profile's
+    ``genset_count`` is the identical data-hall fleet (Lima: P001-P114, 114 engines; the cap is
+    P001-P115 combined). The remainder — Lima's P115 HUBGEN — carries its own permit rate block,
+    and leaving it out makes every cap check low by its contribution. Only the pollutants the
+    permit rates for these units are populated; ``per_engine_hour`` is ``lb/hr`` per unit.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    unit_ids: str  # the permit's own emission-unit id range, e.g. "P115"
+    count: int
+    per_engine_hour: dict[Pollutant, ProvenancedValue]
+    note: str = ""
+
+
 class GensetEmissionFactors(BaseModel):
     """A backup-genset fleet's emission factors from one grounded source.
 
@@ -72,6 +90,8 @@ class GensetEmissionFactors(BaseModel):
     factors: dict[Pollutant, EmissionFactor]  # keyed by Pollutant label (typo-checked)
     citation: str  # the grounding source (reference file / permit extraction)
     note: str = ""
+    # Units the permit rates separately from the identical fleet (permit basis only).
+    auxiliary: list[AuxiliaryUnits] = []
 
     def factor(self, pollutant: Pollutant) -> EmissionFactor | None:
         """The factor for a pollutant, or ``None`` if this basis does not ground it."""

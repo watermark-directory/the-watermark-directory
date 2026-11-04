@@ -265,14 +265,41 @@ def _burden_federal(settings: Settings) -> BurdenItem | None:
     )
 
 
+def _fleet_phrase(settings: Settings, modeled: int, fleet: int, aux_ids: str | None) -> str:
+    """The genset-fleet phrase both air headlines share, so they can never disagree (AQ-15).
+
+    Counts come from the caller (the scenario artifact or the permit's own unit list); the
+    backup total is the profile's *cited* ``genset_total_mw``, never a literal.
+    """
+    campus = active_profile(settings).campus
+    total = campus.genset_total_mw if campus is not None else None
+    mw = ""
+    if total is not None:
+        approx = "~" if campus is not None and campus.genset_total_approximate else ""
+        mw = f", {approx}{total:g} MW backup"
+    if modeled > fleet:
+        extra = modeled - fleet
+        unit = f" ({aux_ids})" if aux_ids else ""
+        return (
+            f"{modeled} diesel emergency gensets ({fleet} identical data-hall units{mw}, + "
+            f"{extra} rated separately{unit})"
+        )
+    return (
+        f"{modeled} diesel emergency gensets ({mw.lstrip(', ')})"
+        if mw
+        else f"{modeled} diesel emergency gensets"
+    )
+
+
 def _air_cap_breach_headline(settings: Settings) -> tuple[str, str] | None:
     """The modeled cap-exceedance headline + source from the committed event-anchored scenario.
 
     Reads the Tier-0 air scenario runner's committed output (``<site>.air-reliability_dispatch_
     event_high.scenario.yaml``, epic #1172) rather than a static string: at the captured event's
     verified authorized-window ceiling, does forced dispatch breach the synthetic-minor NSR cap?
-    Returns ``None`` when no committed air scenario exists (caller falls back to the static
-    permit fact) — a peer site without the modeling degrades, it doesn't break.
+    The figures quoted are the **cumulative** annual tonnage the cap counts (testing + dispatch,
+    AQ-01). Returns ``None`` when no committed air scenario exists, or when it carries no known
+    cap (AQ-03) — a peer site without the modeling degrades, it doesn't break.
     """
     path = (
         settings.scenarios_dir
@@ -282,58 +309,100 @@ def _air_cap_breach_headline(settings: Settings) -> tuple[str, str] | None:
         return None
     try:
         data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+        if not data.get("caps_known"):
+            return None
         fleet = int(data["fleet_size"])
+        modeled = int(data["modeled_units"])
         runtime = round(float(data["scenario"]["runtime_hours"]["value"]), 1)
         by_pol = {e["pollutant"]: e for e in data["emissions"]}
         nox = by_pol.get("NOx")
-        if nox is None or nox.get("cap_tpy") is None:
+        if nox is None or nox.get("cap_tpy") is None or nox.get("annual_tpy") is None:
             return None
         # Float, not _num: the cap is a federally-enforceable limit (235.62 tpy) — its decimals
         # must survive; the tonnage is rounded for the headline but the cap is quoted exactly.
-        tpy = round(float(nox["tpy"]["value"]), 1)
+        tpy = round(float(nox["annual_tpy"]["value"]), 1)
         cap = float(nox["cap_tpy"])
         pct = nox.get("pct_of_cap")
-        breached = bool(data.get("any_cap_exceeded"))
+        breached = nox.get("cap_status") == "exceeded"
     except (KeyError, TypeError, ValueError):
         return None
     verb = (
-        f"would breach the {cap:g} tpy synthetic-minor NOx NSR cap ({tpy:g} tpy, {pct:g}% of cap)"
+        f"would breach the {cap:g} tpy synthetic-minor NOx NSR cap ({tpy:g} tpy with readiness "
+        f"testing, {pct:g}% of cap)"
         if breached
-        else f"reaches {tpy:g} tpy NOx ({pct:g}% of the {cap:g} tpy cap)"
+        else f"reaches {tpy:g} tpy NOx with readiness testing ({pct:g}% of the {cap:g} tpy cap)"
     )
+    aux_ids = _permit_auxiliary_ids(settings)
     headline = (
-        f"{fleet} diesel emergency gensets (~313 MW backup) permitted synthetic-minor to stay "
+        f"{_fleet_phrase(settings, modeled, fleet, aux_ids)} permitted synthetic-minor to stay "
         f"under major-source NSR — but a reliability-forced dispatch at the captured event's "
         f"verified {runtime:g}-hour authorized-window ceiling {verb}"
     )
     source = (
         f"data/scenarios/{path.name} (Tier-0 air emissions inventory, epic #1172; permit "
-        "P0138965 caps x AP-42/permit factors x the PJM §202(c) event window, #1177/#1182)"
+        "caps x permit factors x the PJM §202(c) event window, #1177/#1182)"
     )
     return headline, source
 
 
+def _permit_doc(settings: Settings) -> tuple[str, dict[str, Any]] | None:
+    """The active site's own air-permit extraction (relpath, parsed), or ``None``.
+
+    Resolved through ``SiteFacility.air_permit_relpath`` on the site's *campus* — never a
+    literal relpath, because ``extracted_dir`` is a shared tree and every site would find
+    Lima's permit there (AQ-02, #2097). A federal installation has no campus, so no fleet.
+    """
+    campus = active_profile(settings).campus
+    if campus is None or campus.air_permit_relpath is None:
+        return None
+    path = settings.extracted_dir / campus.air_permit_relpath
+    if not path.is_file():
+        return None
+    data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    return campus.air_permit_relpath, data
+
+
+def _permit_auxiliary_ids(settings: Settings) -> str | None:
+    """The permit's separately-rated genset id range(s), e.g. ``"P115"`` — read, not assumed."""
+    from watermark.air.emissions import permit_rate_groups
+
+    doc = _permit_doc(settings)
+    if doc is None:
+        return None
+    try:
+        aux = permit_rate_groups(doc[1])[1]
+    except (KeyError, TypeError):
+        return None
+    return ", ".join(aux) or None
+
+
 def _burden_air(settings: Settings) -> BurdenItem | None:
     # Prefer the modeled cap-exceedance headline (the committed air scenario, epic #1172); fall
-    # back to the static permit fact when the modeling hasn't been run for this site.
+    # back to the site's OWN permit fact when the modeling hasn't been run. A site with no campus
+    # or no wired permit has no air burden to report — never Lima's (AQ-02, #2097).
     modeled = _air_cap_breach_headline(settings)
     if modeled is not None:
         headline, source = modeled
         return BurdenItem(thread="air permit", headline=headline, source=source)
-    if not (settings.extracted_dir / "permits" / "4132514.epa.yaml").is_file():
+    doc = _permit_doc(settings)
+    campus = active_profile(settings).campus
+    if doc is None or campus is None or campus.genset_count is None:
+        return None
+    relpath, data = doc
+    try:
+        group = data["action"]["emission_unit_groups"]["emergency_generators"]
+        modeled_units = int(group["count"])
+    except (KeyError, TypeError, ValueError):
         return None
     return BurdenItem(
         thread="air permit",
         headline=(
-            "115 diesel emergency gensets (114 data-hall + 1 HUBGEN, ~313 MW backup), "
+            f"{_fleet_phrase(settings, modeled_units, campus.genset_count, _permit_auxiliary_ids(settings))}, "
             "permitted synthetic-minor to stay just under major-source NSR review"
         ),
-        # Count + synthetic-minor caps from the final PTI; the ~313 MW per-engine ekW
-        # is from the draft public notice (engine size is CBI-redacted in the final).
-        source=(
-            "data/extracted/permits/4132514.epa.yaml (OEPA Final Air PTI P0138965, "
-            "issued 2026-05-28; ekW basis: draft notice 3987141/3987144)"
-        ),
+        # Unit count from the site's own permit extraction; the backup total is the profile's
+        # cited genset_total_mw (its citation lives on the profile, not repeated here).
+        source=f"data/extracted/{relpath} (site air permit; backup total per the site profile)",
     )
 
 

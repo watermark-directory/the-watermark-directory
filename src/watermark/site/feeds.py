@@ -749,7 +749,15 @@ from watermark.sites import (
 #   plus the appendix limits tables the permits themselves set. Enum growth is additive for feed
 #   READERS (a pre-2.5 records.json stays valid) but a pre-2.5 records.schema.json rejects the new
 #   value — MINOR, back-compatible for data, schema refresh required.
-CONTRACT_VERSION = "2.5.0"
+# 2.6.0: the `air-scenarios` feed's synthetic-minor cap check is corrected (#2096/#2097/#2098/
+#   #2110). `PollutantTonnage` gains `annual_tpy` (testing baseline + dispatch, the figure the
+#   rolling-12-month cap is actually measured against) and `cap_status` (`within | exceeded |
+#   unknown | uncapped`); `AirScenarioResult` gains `role`, `modeled_units`, `auxiliary_units` and
+#   `caps_known`, and `any_cap_exceeded` widens to `bool | null`: a fleet with no wired permit has
+#   no cap to compare against, and the old `false` there published "compliant" for a question
+#   nobody had asked. Additive for feed READERS (a pre-2.6 air-scenarios.json stays valid) but a
+#   pre-2.6 air-scenarios.schema.json rejects the null — MINOR, schema refresh required.
+CONTRACT_VERSION = "2.6.0"
 
 # SourceKind / Confidence now live in watermark.provenance (shared with watermark.hypotheses +
 # hydrology.ProvenancedValue, #605); re-exported here so importers of watermark.site.feeds are

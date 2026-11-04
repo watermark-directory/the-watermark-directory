@@ -11,8 +11,11 @@ scenario:
       duty/recurrence [inference]; facility dispatch [open]'
     confidence: low
     asof: null
+    low: null
+    high: null
   factors_basis: permit
   load_regime: load
+  role: dispatch
 engine_mw:
   value: 2.75
   unit: MW
@@ -24,56 +27,97 @@ engine_mw:
     (OAC 3745-49-03, 2025-10-08; data/extracted/permits/3859883.epa.yaml).'
   confidence: medium
   asof: null
+  low: null
+  high: null
 fleet_size: 114
+auxiliary_units: 1
+modeled_units: 115
 fuel: ultra-low sulfur diesel (ULSD) or renewable diesel (HVO / hydrotreated vegetable
   oil)
 emissions:
 - pollutant: NOx
   tpy:
-    value: 77.75
+    value: 77.874
     unit: tpy
     source: derived
-    citation: 18 hr/yr x 75.78 lb/hr x 114 engines / 2000 (permit factors)
+    citation: 18 hr/yr x (75.78 lb/hr x 114 + 13.71 lb/hr x 1 (P115)) / 2000 (permit
+      factors)
     confidence: medium
     asof: null
+    low: null
+    high: null
+  annual_tpy:
+    value: 147.814
+    unit: tpy
+    source: derived
+    citation: 69.941 tpy readiness testing (100 hr/yr idle, permit rates) + 77.874
+      tpy this dispatch — both count against the same rolling 12-month cap
+    confidence: medium
+    asof: null
+    low: null
+    high: null
   cap_tpy: 235.62
-  pct_of_cap: 33.0
+  pct_of_cap: 62.7
   exceeds_cap: false
+  cap_status: within
 - pollutant: CO
   tpy:
-    value: 18.078
+    value: 18.148
     unit: tpy
     source: derived
-    citation: 18 hr/yr x 17.62 lb/hr x 114 engines / 2000 (permit factors)
+    citation: 18 hr/yr x (17.62 lb/hr x 114 + 7.72 lb/hr x 1 (P115)) / 2000 (permit
+      factors)
     confidence: medium
     asof: null
+    low: null
+    high: null
+  annual_tpy:
+    value: 58.89
+    unit: tpy
+    source: derived
+    citation: 40.742 tpy readiness testing (100 hr/yr idle, permit rates) + 18.148
+      tpy this dispatch — both count against the same rolling 12-month cap
+    confidence: medium
+    asof: null
+    low: null
+    high: null
   cap_tpy: 96.06
-  pct_of_cap: 18.8
+  pct_of_cap: 61.3
   exceeds_cap: false
+  cap_status: within
 - pollutant: PM10
   tpy:
     value: 1.244
     unit: tpy
     source: derived
-    citation: 18 hr/yr x 1.2125 lb/hr x 114 engines / 2000 (permit factors)
+    citation: 18 hr/yr x (1.2125 lb/hr x 114) / 2000 (permit factors)
     confidence: medium
     asof: null
+    low: null
+    high: null
+  annual_tpy: null
   cap_tpy: null
   pct_of_cap: null
   exceeds_cap: false
+  cap_status: uncapped
 - pollutant: PM2.5
   tpy:
     value: 1.244
     unit: tpy
     source: derived
-    citation: 18 hr/yr x 1.2125 lb/hr x 114 engines / 2000 (permit factors)
+    citation: 18 hr/yr x (1.2125 lb/hr x 114) / 2000 (permit factors)
     confidence: medium
     asof: null
+    low: null
+    high: null
+  annual_tpy: null
   cap_tpy: null
   pct_of_cap: null
   exceeds_cap: false
+  cap_status: uncapped
+caps_known: true
 any_cap_exceeded: false
 breached_pollutants: []
-note: Fleet = 114 gensets at the standard-unit factor (the site's disclosed count);
-  any separate smaller units are not modeled individually (conservative). Caps, where
-  present, are the facility-wide synthetic-minor limits.
+note: 'Modeled units = 114 identical gensets + 1 rated separately by the permit (1
+  x P115), at each unit''s own rate. The cap check is cumulative: readiness testing
+  and this dispatch share the facility-wide rolling 12-month synthetic-minor limit.'

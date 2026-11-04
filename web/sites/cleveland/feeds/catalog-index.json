@@ -1,7 +1,7 @@
 {
   "site": "cleveland",
   "catalog_version": "c76a235c8d106063c63e4b78f2a9e50f0b668bf91312efa20b7c906ef9bfaa84",
-  "contract_version": "2.5.0",
+  "contract_version": "2.6.0",
   "atoms": [
     {
       "handle": "concept:cleveland:7q10",

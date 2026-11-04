@@ -1,7 +1,7 @@
 {
   "site": "coshocton",
   "catalog_version": "f50776cfca54f718c45193eacc1b8c8c47e756c34d6ef14ae4896832739211da",
-  "contract_version": "2.5.0",
+  "contract_version": "2.6.0",
   "atoms": [
     {
       "handle": "concept:coshocton:7q10",

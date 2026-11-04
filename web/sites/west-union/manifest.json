@@ -1,8 +1,8 @@
 {
   "site": "west-union",
   "bundle_version": "1.0.0",
-  "contract_version": "2.5.0",
-  "generated_at": "2026-11-04T00:23:46+00:00",
+  "contract_version": "2.6.0",
+  "generated_at": "2026-11-04T07:01:43+00:00",
   "feed_count": 32,
   "row_total": 523,
   "readiness": {

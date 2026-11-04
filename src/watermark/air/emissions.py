@@ -27,6 +27,7 @@ import yaml
 from watermark.air.model import (
     CAPPED_POLLUTANTS,
     POLLUTANTS,
+    AuxiliaryUnits,
     EmissionFactor,
     FactorBasis,
     FactorReconciliation,
@@ -47,6 +48,70 @@ _AP42_RELPATH = "air/emission-factors/ap42-3.4.yaml"
 # Ultra-low-sulfur diesel cap (40 CFR 1090.305): 15 ppm S = 0.0015 wt-%. The AP-42 SOx
 # factor scales with fuel sulfur; evaluated here at the permit fuel spec.
 _ULSD_SULFUR_WT_PCT = 0.0015
+
+# The permit's rate block for the identical data-hall fleet. Every other key in
+# ``per_engine_rates_lb_per_hr`` is a separately-rated unit group (#2110).
+_HALL_RATE_KEY = "P001-P114"
+
+
+def unit_range_count(ids: str) -> int:
+    """How many emission units a permit id range names: ``"P001-P114"`` -> 114, ``"P115"`` -> 1."""
+    lo, _, hi = ids.partition("-")
+    if not hi:
+        return 1
+    a, b = int("".join(c for c in lo if c.isdigit())), int("".join(c for c in hi if c.isdigit()))
+    if b < a:
+        raise ValueError(f"emission-unit range {ids!r} runs backwards")
+    return b - a + 1
+
+
+def permit_rate_groups(permit: dict[str, Any]) -> tuple[str, list[str]]:
+    """The permit's (identical-fleet rate key, [separately-rated id ranges]) from its extraction."""
+    rates = permit["action"]["facility_wide_limits"]["per_engine_rates_lb_per_hr"]
+    return _HALL_RATE_KEY, [k for k in rates if k != _HALL_RATE_KEY]
+
+
+def _auxiliary_units(
+    rates: dict[str, Any], *, load_regime: LoadRegime, cite: str
+) -> list[AuxiliaryUnits]:
+    """The separately-rated unit groups in a permit rate block (everything but the hall fleet).
+
+    A group rated at both load points uses the requested one. A group rated with a single
+    ``nox``/``co`` figure (Lima's P115 HUBGEN) has no load split in the permit, so that one
+    rate stands for both regimes — a substitution recorded in the citation, not hidden.
+    """
+    suffix = "gt_25pct_load" if load_regime == "load" else "le_25pct_load"
+    out: list[AuxiliaryUnits] = []
+    for ids, block in rates.items():
+        if ids == _HALL_RATE_KEY or not isinstance(block, dict):
+            continue
+        per_hr: dict[Pollutant, ProvenancedValue] = {}
+        flat = False
+        for pol, key in (("NOx", "nox"), ("CO", "co")):
+            split = block.get(f"{key}_{suffix}")
+            if split is not None:
+                val, why = float(split), f"{ids} {pol} at the requested load point (B.4.b)"
+            elif block.get(key) is not None:
+                val, flat = float(block[key]), True
+                why = (
+                    f"{ids} {pol} (B.4.b) — the permit rates this unit at one point, with no "
+                    "load split, so the same rate stands for idle testing and dispatch"
+                )
+            else:
+                continue
+            per_hr[cast("Pollutant", pol)] = ProvenancedValue.from_document(
+                round(val, 4), "lb/hr", citation=f"{cite}: {why}"
+            )
+        if per_hr:
+            out.append(
+                AuxiliaryUnits(
+                    unit_ids=ids,
+                    count=unit_range_count(ids),
+                    per_engine_hour=per_hr,
+                    note="single-point rate (no load split in the permit)" if flat else "",
+                )
+            )
+    return out
 
 
 def _load_ap42(settings: Settings) -> dict[str, Any]:
@@ -183,7 +248,7 @@ def permit_factors(
     cite = f"OEPA Air PTI (data/extracted/permits/{rel})"
 
     # Data-hall gensets (P001-P114). The load point selects the certified per-hour rate.
-    hall = rates["P001-P114"]
+    hall = rates[_HALL_RATE_KEY]
     nox_key = "nox_gt_25pct_load" if load_regime == "load" else "nox_le_25pct_load"
     co_key = "co_gt_25pct_load" if load_regime == "load" else "co_le_25pct_load"
     nox_hr = float(hall[nox_key])
@@ -237,6 +302,7 @@ def permit_factors(
             "+ the Tier-2 PM standard. SO2/VOC are sub-1-tpy facility-wide and not "
             "isolated per engine. The PM standard is load-independent (g/kWh certification)."
         ),
+        auxiliary=_auxiliary_units(rates, load_regime=load_regime, cite=cite),
     )
 
 

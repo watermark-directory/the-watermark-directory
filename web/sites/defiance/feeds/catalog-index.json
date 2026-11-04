@@ -1,7 +1,7 @@
 {
   "site": "defiance",
   "catalog_version": "704c530d6badc409e8bff2d113dc4c69b1b88c26045a7adf3d3640810efc369b",
-  "contract_version": "2.5.0",
+  "contract_version": "2.6.0",
   "atoms": [
     {
       "handle": "concept:defiance:7q10",

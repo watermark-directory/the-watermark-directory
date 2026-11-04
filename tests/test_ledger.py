@@ -4,6 +4,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import pytest
+
 from watermark import ledger
 from watermark.config import Settings
 
@@ -96,7 +98,11 @@ def test_air_burden_cites_the_modeled_cap_breach(hydro_settings: Settings) -> No
     headline — the event-anchored ceiling breaches the synthetic-minor NOx cap."""
     air = next(b for b in ledger.build_ledger(hydro_settings).burdens if b.thread == "air permit")
     assert "235.62 tpy" in air.headline  # the exact synthetic-minor NOx cap survives (not rounded)
-    assert "breach" in air.headline and "132% of cap" in air.headline
+    # The cumulative figure the cap counts (testing + dispatch, AQ-01 #2096), not dispatch alone.
+    assert "breach" in air.headline and "161.9% of cap" in air.headline
+    assert "with readiness testing" in air.headline
+    # Both air headlines count the fleet the cap covers: 114 hall gensets + the P115 HUBGEN.
+    assert air.headline.startswith("115 diesel emergency gensets (114 identical")
     # The source points at the committed air scenario artifact, not just the static permit.
     assert "data/scenarios/lima.air-reliability_dispatch_event_high.scenario.yaml" in air.source
 
@@ -113,4 +119,14 @@ def test_air_burden_falls_back_to_static_permit_fact(tmp_path: Path) -> None:
     item = ledger._burden_air(Settings(data_dir=tmp_path))
     assert item is not None
     assert "synthetic-minor" in item.headline
-    assert "P0138965" in item.source  # the static permit citation, not the scenario
+    # Same fleet phrase as the modeled headline (AQ-15, #2110) — the two can never disagree.
+    assert item.headline.startswith("115 diesel emergency gensets (114 identical")
+    assert "P115" in item.headline
+    assert item.source.startswith("data/extracted/permits/4132514.epa.yaml")
+
+
+@pytest.mark.parametrize("site", ["findlay", "van-wert", "wpafb", "sidney", "fort-wayne"])
+def test_air_burden_never_inherits_limas_permit(site: str) -> None:
+    """AQ-02 (#2097): extracted_dir is a SHARED tree, so a literal relpath finds Lima's permit
+    from every site. A site with no campus (wpafb) or no wired permit reports no air burden."""
+    assert ledger._burden_air(Settings(site=site, data_dir=REPO_ROOT / "data")) is None

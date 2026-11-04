@@ -284,8 +284,9 @@ than the relator's own Ohio comparable of ~$1M/job of revenue loss. Regenerate w
   estimates itemized and no detention sized.
 - **Federal nexus:** the corridor's defense anchor (JSMC operator GDLS, ~$34B all-time
   federal awards; parent GD Corp ~$299B).
-- **Air:** 114 diesel emergency gensets (~313 MW backup), permitted **synthetic-minor**
-  to stay just under major-source NSR review.
+- **Air:** 115 diesel emergency gensets (114 identical data-hall units at ~313 MW backup,
+  plus the separately-rated P115 HUBGEN), permitted **synthetic-minor** to stay just
+  under major-source NSR review.
 - **Roadwork:** a parallel **$14.5M** Roadwork Development Agreement (PAAC/Bistrozzi)
   builds 4 roundabouts + 2 road rehabs the County then maintains in perpetuity; RDA
   **§5.5** lets State 629 / ODOD grants *refund* the developer's "contribution" — so

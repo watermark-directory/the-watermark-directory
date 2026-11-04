@@ -1,8 +1,8 @@
 {
   "site": "columbus",
   "bundle_version": "1.0.0",
-  "contract_version": "2.5.0",
-  "generated_at": "2026-11-04T00:20:59+00:00",
+  "contract_version": "2.6.0",
+  "generated_at": "2026-11-04T06:58:59+00:00",
   "feed_count": 29,
   "row_total": 442,
   "readiness": {

@@ -16,6 +16,15 @@
         "title": "Fleet Size",
         "type": "integer"
       },
+      "auxiliary_units": {
+        "default": 0,
+        "title": "Auxiliary Units",
+        "type": "integer"
+      },
+      "modeled_units": {
+        "title": "Modeled Units",
+        "type": "integer"
+      },
       "fuel": {
         "title": "Fuel",
         "type": "string"
@@ -27,9 +36,20 @@
         "title": "Emissions",
         "type": "array"
       },
-      "any_cap_exceeded": {
-        "title": "Any Cap Exceeded",
+      "caps_known": {
+        "title": "Caps Known",
         "type": "boolean"
+      },
+      "any_cap_exceeded": {
+        "anyOf": [
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Any Cap Exceeded"
       },
       "breached_pollutants": {
         "default": [],
@@ -49,8 +69,10 @@
       "scenario",
       "engine_mw",
       "fleet_size",
+      "modeled_units",
       "fuel",
       "emissions",
+      "caps_known",
       "any_cap_exceeded"
     ],
     "title": "AirScenarioResult",
@@ -89,6 +111,15 @@
           ],
           "title": "Load Regime",
           "type": "string"
+        },
+        "role": {
+          "default": "dispatch",
+          "enum": [
+            "baseline",
+            "dispatch"
+          ],
+          "title": "Role",
+          "type": "string"
         }
       },
       "required": [
@@ -101,7 +132,7 @@
     },
     "PollutantTonnage": {
       "additionalProperties": false,
-      "description": "One pollutant's annual fleet emissions and its standing against the NSR cap.",
+      "description": "One pollutant's annual fleet emissions and its standing against the NSR cap.\n\n``tpy`` is this scenario's own tonnage (the net-new burden :func:`diff` reports).\n``annual_tpy`` is what the cap actually counts: for a dispatch, the readiness-testing\nbaseline plus the dispatch, in the same rolling 12 months. ``pct_of_cap`` and\n``exceeds_cap`` are computed from ``annual_tpy``, and ``cap_status`` distinguishes\n\"within the cap\" from \"no cap is known\" — which ``exceeds_cap=False`` alone cannot.",
       "properties": {
         "pollutant": {
           "title": "Pollutant",
@@ -109,6 +140,17 @@
         },
         "tpy": {
           "$ref": "#/$defs/ProvenancedValue"
+        },
+        "annual_tpy": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ProvenancedValue"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
         },
         "cap_tpy": {
           "anyOf": [
@@ -138,6 +180,17 @@
           "default": false,
           "title": "Exceeds Cap",
           "type": "boolean"
+        },
+        "cap_status": {
+          "default": "unknown",
+          "enum": [
+            "within",
+            "exceeded",
+            "unknown",
+            "uncapped"
+          ],
+          "title": "Cap Status",
+          "type": "string"
         }
       },
       "required": [
