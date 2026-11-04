@@ -458,7 +458,13 @@ def test_turtle_matches_the_real_yidam_renderer(tmp_path: Path) -> None:
     write_mirror(mirror, corpus)
     _git_repo(tmp_path)
     prov = resolve_provenance(settings)
-    prov.genesis_hash = _git(tmp_path, "rev-parse", "HEAD")
+    # BOTH genesis fields come from the corpus repository the binary reads, not from this
+    # checkout: on CI's depth-1 clone `resolve_provenance` withholds them (correctly), and a
+    # test that took only the hash compared a dated corpus against an undated one — green on a
+    # full local clone, red on CI, which is exactly the depth-dependence this must not have.
+    prov.genesis_hash = _git_genesis_hash(tmp_path)
+    prov.genesis = _git_genesis_date(tmp_path)
+    assert prov.genesis_hash and prov.genesis, "the corpus repo must have an identity to compare"
     write_exports(mirror, tmp_path / "ours", prov)
 
     binary = yidam_cli.yidam_path()
