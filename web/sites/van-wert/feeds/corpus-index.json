@@ -1353,7 +1353,7 @@
     "updated": "2026-10-27"
   },
   {
-    "id": "relation/city-of-van-wert--operates--npdes-2pd00006",
+    "id": "relation/city-of-van-wert-operates-npdes-2pd00006",
     "node_class": "relation",
     "kind": "relation",
     "label": "CITY OF VAN WERT operates npdes:2PD00006",
@@ -1364,7 +1364,7 @@
     "updated": "2026-08-01"
   },
   {
-    "id": "relation/npdes-2gc08872--discharges-to--town-creek",
+    "id": "relation/npdes-2gc08872-discharges-to-town-creek",
     "node_class": "relation",
     "kind": "relation",
     "label": "npdes:2GC08872 discharges_to TOWN CREEK",
@@ -1375,7 +1375,7 @@
     "updated": "2026-08-14"
   },
   {
-    "id": "relation/npdes-2pd00006--discharges-to--town-creek",
+    "id": "relation/npdes-2pd00006-discharges-to-town-creek",
     "node_class": "relation",
     "kind": "relation",
     "label": "npdes:2PD00006 discharges_to TOWN CREEK",
@@ -1386,7 +1386,7 @@
     "updated": "2026-08-01"
   },
   {
-    "id": "relation/qts-realty--operates--npdes-2gc08872",
+    "id": "relation/qts-realty-operates-npdes-2gc08872",
     "node_class": "relation",
     "kind": "relation",
     "label": "QTS REALTY operates npdes:2GC08872",
@@ -1397,7 +1397,7 @@
     "updated": "2026-08-14"
   },
   {
-    "id": "relation/van-wert-wwtp--operates--npdes-2pd00006",
+    "id": "relation/van-wert-wwtp-operates-npdes-2pd00006",
     "node_class": "relation",
     "kind": "relation",
     "label": "VAN WERT WWTP operates npdes:2PD00006",

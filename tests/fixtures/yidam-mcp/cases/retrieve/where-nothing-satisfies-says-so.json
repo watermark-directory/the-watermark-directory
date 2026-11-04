@@ -1,0 +1,15 @@
+{
+  "tool": "retrieve",
+  "corpus": "corpus-dated",
+  "capability": "ontology",
+  "why": "A `where` that parsed, typechecked and admitted nothing is its own kind of empty (contract 0.26.0). No holding in this fixture began before 1880, and that is a fact about the values — evidence — rather than a search that missed. The frozen code is `predicate-unsatisfied`, and `instances` is the denominator the predicate was evaluated over: the four tenures the class half admitted. It is not `no-term-match`, whose claim is about words, and a server reporting that here has told an agent to rephrase a question the corpus answered.",
+  "call": {
+    "query": "holding",
+    "where": "began<1880"
+  },
+  "expect": {
+    "equals": { "rejected": null },
+    "equalsAt": { "absence.code": "predicate-unsatisfied", "absence.instances": 4 },
+    "count": { "results": 0 }
+  }
+}

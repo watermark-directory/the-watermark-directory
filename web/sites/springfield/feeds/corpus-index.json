@@ -935,7 +935,7 @@
     "updated": "2026-11-02"
   },
   {
-    "id": "relation/city-of-springfield--operates--npdes-1pe00007",
+    "id": "relation/city-of-springfield-operates-npdes-1pe00007",
     "node_class": "relation",
     "kind": "relation",
     "label": "CITY OF SPRINGFIELD operates npdes:1PE00007",
@@ -946,7 +946,7 @@
     "updated": "2026-08-26"
   },
   {
-    "id": "relation/npdes-1pe00007--discharges-to--mad-river",
+    "id": "relation/npdes-1pe00007-discharges-to-mad-river",
     "node_class": "relation",
     "kind": "relation",
     "label": "npdes:1PE00007 discharges_to MAD RIVER",

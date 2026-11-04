@@ -236,14 +236,12 @@ def test_relationship_edges_point_at_their_entities(tmp_path: Path) -> None:
     corpus = tmp_path / "corpus"
     write_mirror(_project(), corpus)
     # the resolved edge links to both entity artifacts...
-    edge = yaml.safe_load(
-        (corpus / "relation" / "google--operates--npdes-1ab00001.yml").read_text()
-    )
+    edge = yaml.safe_load((corpus / "relation" / "google-operates-npdes-1ab00001.yml").read_text())
     targets = {link["target"] for link in edge["links"]}
     assert "../artifact/google.yml" in targets
     assert "../artifact/npdes-1ab00001.yml" in targets
     # ...and the unresolved (ghost) edge falls back to the site anchor, never orphaning
-    ghost = yaml.safe_load((corpus / "relation" / "ghost-a--linked-to--ghost-b.yml").read_text())
+    ghost = yaml.safe_load((corpus / "relation" / "ghost-a-linked-to-ghost-b.yml").read_text())
     assert ghost["links"] == [{"target": "../artifact/site-lima.yml", "relationship": "in-site"}]
 
 
@@ -408,6 +406,25 @@ def test_build_mirror_over_the_real_lima_corpus_is_clean(tmp_path: Path) -> None
     assert counts["artifact"] > 1  # the site anchor + real entities
     assert counts["relation"] > 0
     assert counts["question"] > 0
+    # every node's name is one yidam can put in a URI — Lima carries the most relations
+    assert [n.id for n in mirror.nodes if not _is_slug(n.name)] == []
+
+
+# yidam_core::uri::is_slug, verbatim. Since cli/v0.23.0 its `name-not-a-slug` is an ERROR, and
+# the mirror is generated: a name outside the set is a bug here, and baselining it would not
+# hold, because the next relation a source adds is a new violation of the same rule.
+_SLUG = re.compile(r"[a-z0-9]+(?:-[a-z0-9]+)*")
+
+
+def _is_slug(name: str) -> bool:
+    return bool(_SLUG.fullmatch(name))
+
+
+def test_every_projected_name_is_a_slug_yidam_can_put_in_a_uri() -> None:
+    """Relations were `<src>--<rel>--<dst>`, and a doubled hyphen is not a slug (55 at Lima)."""
+    mirror = _project()
+    assert [n.id for n in mirror.nodes if n.node_class == "relation"]  # the case this is about
+    assert [n.id for n in mirror.nodes if not _is_slug(n.name)] == []
 
 
 # --- the class contract (#2132) -------------------------------------------------------------

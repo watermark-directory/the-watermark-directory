@@ -1,0 +1,15 @@
+{
+  "tool": "query",
+  "capability": "ontology",
+  "why": "`maybe` is not a value `type: claim` can hold, so `claim_tag=maybe` is a rejection — a query that could never match — and `claim_tag!=maybe` is its opposite: satisfied by every node that carries the property at all. Legal, and worth saying, because a caller who wrote the second meant to narrow something and narrowed nothing. The asymmetry is the point and a server must not collapse it: the same operand refuses one query and passes the other, since `!=` and `~` are satisfiable against values the type cannot hold while `=` is not. It is `warn` rather than `info` — something is probably wrong here, unlike `narrowed`, where something was merely decided.",
+  "call": { "query": "concept[claim_tag!=maybe]" },
+  "expect": {
+    "equals": { "scope": "local", "matched": 1, "rejected": null, "absence": null },
+    "nonEmpty": ["diagnostics"],
+    "equalsAt": {
+      "diagnostics.0.code": "trivial-predicate",
+      "diagnostics.0.level": "warn",
+      "diagnostics.0.step": 0
+    }
+  }
+}

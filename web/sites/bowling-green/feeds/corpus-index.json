@@ -1386,7 +1386,7 @@
     "updated": "2026-08-01"
   },
   {
-    "id": "relation/city-of-bowling-green--operates--npdes-2pd00009",
+    "id": "relation/city-of-bowling-green-operates-npdes-2pd00009",
     "node_class": "relation",
     "kind": "relation",
     "label": "CITY OF BOWLING GREEN operates npdes:2PD00009",
@@ -1397,7 +1397,7 @@
     "updated": "2026-08-01"
   },
   {
-    "id": "relation/npdes-2pd00009--discharges-to--poe-ditch",
+    "id": "relation/npdes-2pd00009-discharges-to-poe-ditch",
     "node_class": "relation",
     "kind": "relation",
     "label": "npdes:2PD00009 discharges_to POE DITCH",
@@ -1408,7 +1408,7 @@
     "updated": "2026-08-01"
   },
   {
-    "id": "relation/will-power-oh-llc-apollo--represented-by--andy-woerner",
+    "id": "relation/will-power-oh-llc-apollo-represented-by-andy-woerner",
     "node_class": "relation",
     "kind": "relation",
     "label": "WILL POWER OH LLC APOLLO represented_by ANDY WOERNER",

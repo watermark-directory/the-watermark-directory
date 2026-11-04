@@ -1,0 +1,15 @@
+{
+  "tool": "retrieve",
+  "corpus": "corpus-dated",
+  "capability": "ontology",
+  "why": "`query`'s canonical interval, asked of a ranked answer (contract 0.26.0). `where` is the text inside a step's `[...]`, parsed by the same grammar, checked by the same rules and evaluated by the same comparison — so `began<=1893,ended>?1893` here returns exactly the rows `tenure[began<=1893,ended>?1893]` returns there: the spanning holding, the partial one and the still-open one, and never the one that closed before. No `class` is named, and the predicate narrows the way `*` does — to the classes that declare `began` and `ended` with an ordered type — so every row is a `tenure` without a server being told so. The query word is one every holding's description uses, because this fixture has no index and the keyword arm drops a candidate with no term in common; the `where` is the whole difference between this and four rows.",
+  "call": {
+    "query": "holding",
+    "where": "began<=1893,ended>?1893"
+  },
+  "expect": {
+    "equals": { "scope": "local", "rejected": null, "absence": null },
+    "count": { "results": 3 },
+    "everyItemHas": { "results": { "class": "tenure", "truncated": false, "corpus": null } }
+  }
+}

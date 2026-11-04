@@ -8,7 +8,7 @@ here fails rather than quietly not existing. A test that listed the five names i
 be a second freeze — which is precisely how three servers came to share one name out of five.
 
 **The upstream conformance cases run against this server.** `tests/fixtures/yidam-mcp/cases/`
-is a verbatim copy of `prelude/sdks/parity/mcp/cases/`, so the assertions are upstream's, not
+is a verbatim copy of `sdks/parity/mcp/cases/`, so the assertions are upstream's, not
 ones written to match what BOSC already did. Each case carries its own `why`, which is
 surfaced on failure — the reason a case exists is usually the thing you need when it breaks.
 
@@ -62,7 +62,7 @@ def _cases() -> list[tuple[str, dict[str, Any]]]:
 
 # --- the contract itself ---------------------------------------------------------------------
 def test_the_vendored_contract_is_the_one_this_server_was_written_against() -> None:
-    assert yidam_tools.contract()["contract"] == "0.13.0"
+    assert yidam_tools.contract()["contract"] == "0.30.0"
     assert (Path(__file__).parent / "fixtures" / "yidam-mcp" / "VERSION").read_text().strip() == (
         yidam_tools.contract()["contract"]
     )
@@ -96,6 +96,11 @@ def test_capabilities_are_declared_honestly() -> None:
     assert caps["ontology"] is True
     # `check_citation` resolves into a tonpa dependency. BOSC pins none.
     assert caps["dependencies"] is False
+    # `search_sources` / `resolve_source` read a sources catalog yidam keeps; BOSC's catalog is
+    # its own projection, not one the binary's resolver reads. `propose` / `cycle` WRITE to a
+    # yidam repository, and this server is read-only over an in-memory mirror.
+    assert caps["sources"] is False
+    assert caps["act"] is False
     assert isinstance(caps["retrieve"]["vector"], bool)
     # Null exactly when `vector` is true — the same value every call's `degraded_reason` carries,
     # answered at connect time instead of one failed search later.
@@ -172,6 +177,18 @@ def test_no_tool_name_carries_the_old_prefix() -> None:
     assert yidam_tools.ALLOWED_TOOL_NAMES[0].startswith("mcp__yidam__")
 
 
+#: A Lima pair two class paths join at two hops — measured, so a regression in the walk shows.
+_PATHS_FROM = "question/lead-oepa-2dp00130"
+_PATHS_TO = "hypothesis/water"
+
+
+def _names_an_unresolvable_node(call: dict[str, Any]) -> bool:
+    """The fixture ids every `paths` case uses, minus the ones it means not to resolve."""
+    return any(
+        "nowhere" in str(call.get(k, "")) or "::" in str(call.get(k, "")) for k in ("from", "to")
+    )
+
+
 # --- upstream's cases, run against this server -----------------------------------------------
 @pytest.mark.parametrize("case_id,case", _cases(), ids=lambda v: v if isinstance(v, str) else "")
 async def test_upstream_case_shape(case_id: str, case: dict[str, Any]) -> None:
@@ -222,6 +239,20 @@ async def test_upstream_case_shape(case_id: str, case: dict[str, Any]) -> None:
     # `related` → `concept` and the `in-corpus` fallback → `artifact`, so it spans two. This
     # passed before the fallback edges were declared only because the corpus coincided with the
     # fixture. The rule it carries is asserted over both classes below.
+    # `corpus-excluded` names an installed DEPENDENCY whose ontology cannot answer. BOSC pins
+    # none, so a spanning query reads the one corpus there is and has nothing to exclude; the
+    # `across` refusal it CAN reach (`anchor-across`) is asserted below.
+    if call.get("across") and case["expect"].get("equals", {}).get("scope") == "across":
+        pytest.skip("case needs an installed dependency; BOSC pins none")
+    # The fixture's `concept` declares `claim_tag`; BOSC's declares it on `question` only, so the
+    # same text is an `undeclared-property` rejection here. The rule — `!=` against a value the
+    # type cannot hold is a `trivial-predicate` warning, `=` is a rejection — is asserted below.
+    if case_id == "query/a-predicate-that-excludes-nothing-says-so.json":
+        pytest.skip("case pins the fixture's `concept.claim_tag`; the rule is asserted below")
+    # `paths` takes two node ids. Re-point both at a Lima pair `paths` joins, except where the
+    # case is ABOUT a node that does not resolve — that one runs exactly as written.
+    if tool == "paths" and not _names_an_unresolvable_node(call):
+        call["from"], call["to"] = _PATHS_FROM, _PATHS_TO
     if case_id == "licensed_edges/declares-edges.json":
         pytest.skip("case pins the fixture's single-target vocabulary; the rule is asserted below")
 
@@ -384,11 +415,14 @@ async def test_neighbors_reports_each_node_once_at_its_shortest_hop() -> None:
     assert by_depth == sorted(by_depth), "breadth-first: shortest hop first"
 
 
-async def test_open_questions_predicate_is_frozen_at_three_arms() -> None:
-    """No server may add a fourth arm, and none may skip one.
+async def test_open_questions_predicate_is_frozen() -> None:
+    """No server may add an arm, and none may skip one.
 
-    Three at contract 0.13.0 — a `?` label, an `[open]` claim in the body, and an open tag in a
-    property the class declared `type: claim`. The third is the arm this repository reported as
+    Four node arms and one edge arm at contract 0.30.0. The first three are recomputed here — a
+    `?` label, an `[open]` claim in the body, and an open tag in a property the class declared
+    `type: claim`. The fourth (an open finding under `yidam.findings`) and the edge arm (an open
+    `claim_tag` on a LINK) are structurally empty in BOSC: nothing writes findings, and a
+    `MirrorLink` carries no tag — so every entry is `scope: node`. The third is the arm this repository reported as
     missing (goedelsoup/yidam#127) and upstream added; it reads both spellings.
 
     The third arm changes nothing here and that is the point of asserting it. `_ont_yaml`
@@ -402,11 +436,12 @@ async def test_open_questions_predicate_is_frozen_at_three_arms() -> None:
     body = await _call("open_questions", {})
     assert body["open_questions"]
     for item in body["open_questions"]:
-        assert set(item) == {"id", "label", "path"}
+        assert set(item) == {"id", "label", "path", "scope"}
+        assert item["scope"] == "node"
 
     mirror = yidam_tools._mirror()
     served = {q["id"] for q in body["open_questions"]}
-    # Recompute with the *contract's* three arms, independently of the implementation.
+    # Recompute with the *contract's* first three node arms, independently of the implementation.
     import yaml
 
     declared = yidam_tools._CLAIM_PROPERTY
@@ -486,8 +521,24 @@ async def test_claims_serves_the_tag_or_nothing() -> None:
     body = await _call("claims", {})
     assert body["claims"], "the Lima mirror carries tagged claims"
     for claim in body["claims"]:
-        assert set(claim) >= {"text", "standing", "node", "class", "scope", "sources"}
+        assert set(claim) >= {
+            "text",
+            "standing",
+            "qualifier",
+            "scope",
+            "property",
+            "relationship",
+            "target",
+            "node",
+            "class",
+            "sources",
+        }
         assert claim["standing"] in yidam_tools.STANDINGS
+        # `scope` says what the tag is ABOUT: the node (a declared claim property) or one
+        # sentence of its prose. `edge` is the third value and no BOSC link carries a tag.
+        assert claim["scope"] in {"node", "statement"}
+        assert (claim["property"] is not None) is (claim["scope"] == "node")
+        assert claim["relationship"] is None and claim["target"] is None
     # Every claim is anchored on a node that exists — no claim invented from nowhere.
     ids = {n.id for n in yidam_tools._mirror().nodes}
     assert {c["node"] for c in body["claims"]} <= ids
@@ -526,7 +577,7 @@ async def test_claim_tags_carries_both_spellings_and_no_fourth_standing() -> Non
         assert set(tag) >= {"standing", "in_prose", "in_property", "meaning"}
         # Prose is scanned for the bracketed form only; a declared property takes the bare one.
         assert tag["in_prose"] == f"[{tag['standing']}]"
-        assert tag["in_property"] == tag["standing"]
+        assert tag["in_property"] == [tag["standing"], f"[{tag['standing']}]"]
     assert body["note"]
 
 
@@ -651,12 +702,16 @@ async def test_an_unlicensed_relationship_is_rejected_because_this_corpus_is_clo
     """
     assert all(o.edge_policy == "exhaustive" for o in corpus_mirror.ONTOLOGY.values())
     body = await _call("query", {"query": "concept -enables-> concept"})
-    assert body["rejected"]["code"] == "unlicensed-edge"
+    assert body["rejected"]["code"] == "unlicensed-hop"
+    # A hop is reported at the step it LEAVES (contract 0.15.0), so the entry step here.
+    assert body["rejected"]["step"] == 0
 
-    # A hop that IS licensed but lands somewhere else is its own code, because the repair is
-    # different: the relationship is right and the destination is wrong.
+    # A hop that IS licensed but lands somewhere else is the same frozen code — the contract
+    # names what a server ANSWERS with, and `edge-target-class` was a lint check id no
+    # rejection ever carried. The message is where the two repairs are told apart.
     wrong = await _call("query", {"query": "concept -related-> artifact"})
-    assert wrong["rejected"]["code"] == "edge-target-class"
+    assert wrong["rejected"]["code"] == "unlicensed-hop"
+    assert "lands on" in wrong["rejected"]["message"]
 
 
 async def test_an_undeclared_relationship_only_runs_when_the_policy_is_not_exhaustive(
@@ -706,8 +761,8 @@ async def test_a_star_step_narrows_to_the_classes_that_declare_the_property() ->
     assert all(row["class"] == "question" for row in body["results"])
 
     # ...and it agrees with the tool that answers a WIDER question the same way. The frozen
-    # `open_questions` predicate has three arms — a `?` label, `[open]` in the body, and an
-    # open tag in a declared claim field — and this query is only the third of them, on the
+    # `open_questions` predicate has four node arms — a `?` label, `[open]` in the body, an
+    # open tag in a declared claim field, an open finding — and this query is only the third, on the
     # one class declaring `claim_tag`. The two were equal until #2134 projected `record`
     # nodes, which carry their claim profile in the body and so arrive through the SECOND
     # arm; an equality here would have been asserting a corpus coincidence as a rule.
@@ -907,7 +962,154 @@ async def test_the_near_miss_is_drawn_from_every_candidate_class() -> None:
     near miss a later class would have supplied — a rejection without the near miss is a shrug.
     """
     body = await _call("query", {"query": "*[claimtag=open]"})
-    assert body["rejected"]["code"] == "unknown-property"
+    assert body["rejected"]["code"] == "undeclared-property"
     assert "claim_tag" in body["rejected"]["message"], (
         "`claim_tag` is declared by `question`, not by the first class searched"
     )
+
+
+# --- contract 0.14.0 → 0.30.0 -----------------------------------------------------------------
+
+
+async def test_every_path_returned_runs_and_returns_the_target() -> None:
+    """The one promise `paths` makes (contract 0.27.0), checked by running each path.
+
+    A path this server spelled and did not run would be a guess about the grammar presented as a
+    fact about the corpus, so each one goes back through `query` unchanged and must come back
+    with `to` among its results.
+    """
+    body = await _call("paths", {"from": _PATHS_FROM, "to": _PATHS_TO})
+    assert body["kind"] == "paths" and body["scope"] == "local" and body["rejected"] is None
+    assert body["from"] == f"{_PATHS_FROM}.yml" and body["to"] == f"{_PATHS_TO}.yml"
+    assert body["paths"], "this pair is joined in the Lima mirror"
+    assert body["returned"] == len(body["paths"]) and body["withheld"] == []
+    assert body["found"] == body["returned"] + body["unchecked"]
+    assert body["nearest"] == min(p["hops"] for p in body["paths"])
+    for path in body["paths"]:
+        ran = await _call("query", {"query": path["query"], "limit": 1000})
+        assert ran["rejected"] is None, path["query"]
+        assert _PATHS_TO in {row["node"] for row in ran["results"]}, path["query"]
+        assert ran["matched"] == path["matched"]
+        # Evidence is node chains, source first and target last, at most three of them.
+        assert 1 <= len(path["evidence"]) <= 3
+        for chain in path["evidence"]:
+            assert chain[0] == body["from"] and chain[-1] == body["to"]
+            assert len(chain) == path["hops"] + 1
+    # Ordered by hops, then by query text — so two runs print the same list.
+    keys = [(p["hops"], p["query"]) for p in body["paths"]]
+    assert keys == sorted(keys)
+
+
+async def test_a_path_walks_against_the_authoring_direction() -> None:
+    """Asked from the other end, the same relationship is spelled `<-rel-` and still runs."""
+    body = await _call("paths", {"from": _PATHS_TO, "to": f".yidam/corpus/{_PATHS_FROM}.yml"})
+    assert body["rejected"] is None and body["paths"]
+    assert any("<-" in p["query"] for p in body["paths"])
+
+
+async def test_an_unresolvable_node_is_a_rejection_not_an_unconnected_pair() -> None:
+    """An empty list would assert the two nodes are unrelated, about a node never found."""
+    for args, which in (
+        ({"from": "concept/nowhere", "to": _PATHS_TO}, 1),
+        ({"from": _PATHS_FROM, "to": "upstream::concept/telemetry"}, 2),
+    ):
+        body = await _call("paths", args)
+        assert body["rejected"]["code"] == "unknown-node"
+        assert body["rejected"]["step"] is None
+        assert f"(argument {which})" in body["rejected"]["message"]
+        # Echoed as written, because there is no resolved id to report.
+        assert (body["from"], body["to"]) == (args["from"], args["to"])
+        assert body["paths"] == [] and body["nearest"] is None and body["complete"] is True
+
+
+async def test_past_the_bound_says_how_far() -> None:
+    near = await _call("paths", {"from": _PATHS_FROM, "to": _PATHS_TO})
+    hops = near["nearest"]
+    assert hops and hops > 1
+    body = await _call("paths", {"from": _PATHS_FROM, "to": _PATHS_TO, "max_hops": hops - 1})
+    assert body["rejected"] is None and body["paths"] == [] and body["found"] == 0
+    assert body["nearest"] == hops, "`nearest` is the repair: raise `max_hops` to it"
+
+
+async def test_the_limit_counts_what_it_did_not_run() -> None:
+    every = await _call("paths", {"from": _PATHS_FROM, "to": _PATHS_TO})
+    assert every["found"] > 1, "the pair needs two class paths to make the point"
+    capped = await _call("paths", {"from": _PATHS_FROM, "to": _PATHS_TO, "limit": 1})
+    assert capped["returned"] == 1 and capped["unchecked"] == every["found"] - 1
+    assert capped["paths"][0] == every["paths"][0]
+
+
+async def test_a_trivial_predicate_warns_and_its_equality_twin_is_refused() -> None:
+    """`!=` against a value the type cannot hold is true of every node carrying the property.
+
+    Upstream's case pins the fixture's `concept.claim_tag`; BOSC declares the property on
+    `question`, so the rule is asserted there. The asymmetry is the point: the same operand
+    refuses `=` and passes `!=`.
+    """
+    body = await _call("query", {"query": "question[claim_tag!=maybe]"})
+    assert body["rejected"] is None and body["absence"] is None and body["matched"] > 0
+    assert [(d["code"], d["level"], d["step"]) for d in body["diagnostics"]] == [
+        ("trivial-predicate", "warn", 0)
+    ]
+    refused = await _call("query", {"query": "question[claim_tag=maybe]"})
+    assert refused["rejected"]["code"] == "unsatisfiable-predicate"
+
+
+async def test_query_scope_reports_what_happened_not_what_was_asked() -> None:
+    """Contract 0.24.0: `across` with nothing installed to span reads `local`, not `across`."""
+    body = await _call("query", {"query": "question", "across": True})
+    assert body["scope"] == "local" and body["rejected"] is None
+    # ...but an ANCHORED spanning query is refused, as the CLI refuses it.
+    anchored = await _call("query", {"query": 'question~"water"', "across": True})
+    assert anchored["rejected"]["code"] == "anchor-across"
+    assert anchored["rejected"]["step"] == 0
+
+
+async def test_retrieve_where_is_checked_by_query_s_own_rules() -> None:
+    """`where` is a `query` step's filter with the brackets off — never a second grammar."""
+    for where, code in (
+        ("claim_tag>open", "unordered-property"),
+        ("nosuch<1", "undeclared-property"),
+        ("date<", "parse"),
+        ("", "parse"),
+    ):
+        body = await _call("retrieve", {"query": "water", "where": where})
+        assert body["rejected"]["code"] == code, where
+        assert body["rejected"]["message"], "a rejection says why"
+        assert body["absence"] is None and body["results"] == []
+    # A predicate that typechecks and admits nothing is an ABSENCE, never a rejection.
+    quiet = await _call("retrieve", {"query": "water", "where": "date<1000"})
+    assert quiet["rejected"] is None
+    assert quiet["absence"]["code"] == "predicate-unsatisfied"
+    assert quiet["absence"]["message"] and quiet["absence"]["instances"] > 0
+
+
+async def test_retrieve_corpora_names_must_resolve_and_scope_stays_local() -> None:
+    named = await _call("retrieve", {"query": "water", "corpora": ["elsewhere"]})
+    assert named["rejected"]["code"] == "unknown-corpus"
+    # A genesis hash is accepted and changes nothing: no shared index can name a corpus here.
+    genesis = await _call("retrieve", {"query": "water", "corpora": ["0123456789abcdef"]})
+    assert genesis["rejected"] is None and genesis["scope"] == "local"
+    for row in genesis["results"]:
+        assert row["corpus"] is None and row["truncated"] is False
+
+
+@pytest.mark.parametrize(
+    "written,parsed",
+    [
+        ("[open]", ("open", None)),
+        ("open", ("open", None)),
+        (" [ open ] ", ("open", None)),
+        ("[inference — as to the 2019 order]", ("inference", "as to the 2019 order")),
+        ("[inference: as to Lima only]", ("inference", "as to Lima only")),
+        # A citation in the bracket looks tagged to a reader and is bare assertion to a tool.
+        ("[verified — Pearl 2009]", None),
+        ("[verified-ish]", None),
+        ("[unverified]", None),
+        # Two standings in one bracket is no standing.
+        ("[inference — as to verified records]", None),
+        ("[open", None),
+    ],
+)
+def test_parse_tag_is_upstream_s_rule(written: str, parsed: tuple[str, str | None] | None) -> None:
+    assert yidam_tools.parse_tag(written) == parsed

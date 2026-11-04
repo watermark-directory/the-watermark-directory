@@ -946,7 +946,7 @@
     "updated": "2026-08-05"
   },
   {
-    "id": "relation/city-of-defiance--operates--npdes-2pd00013",
+    "id": "relation/city-of-defiance-operates-npdes-2pd00013",
     "node_class": "relation",
     "kind": "relation",
     "label": "CITY OF DEFIANCE operates npdes:2PD00013",
@@ -957,7 +957,7 @@
     "updated": "2026-08-05"
   },
   {
-    "id": "relation/npdes-2pd00013--discharges-to--maumee-river",
+    "id": "relation/npdes-2pd00013-discharges-to-maumee-river",
     "node_class": "relation",
     "kind": "relation",
     "label": "npdes:2PD00013 discharges_to MAUMEE RIVER",

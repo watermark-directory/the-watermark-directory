@@ -957,7 +957,7 @@
     "updated": "2026-08-26"
   },
   {
-    "id": "relation/city-of-columbus--operates--npdes-4pf00000",
+    "id": "relation/city-of-columbus-operates-npdes-4pf00000",
     "node_class": "relation",
     "kind": "relation",
     "label": "CITY OF COLUMBUS operates npdes:4PF00000",
@@ -968,7 +968,7 @@
     "updated": "2026-08-26"
   },
   {
-    "id": "relation/city-of-columbus--operates--npdes-4pf00001",
+    "id": "relation/city-of-columbus-operates-npdes-4pf00001",
     "node_class": "relation",
     "kind": "relation",
     "label": "CITY OF COLUMBUS operates npdes:4PF00001",
@@ -979,7 +979,7 @@
     "updated": "2026-08-26"
   },
   {
-    "id": "relation/npdes-4pf00000--discharges-to--scioto-river",
+    "id": "relation/npdes-4pf00000-discharges-to-scioto-river",
     "node_class": "relation",
     "kind": "relation",
     "label": "npdes:4PF00000 discharges_to SCIOTO RIVER",
@@ -990,7 +990,7 @@
     "updated": "2026-08-26"
   },
   {
-    "id": "relation/npdes-4pf00001--discharges-to--scioto-river",
+    "id": "relation/npdes-4pf00001-discharges-to-scioto-river",
     "node_class": "relation",
     "kind": "relation",
     "label": "npdes:4PF00001 discharges_to SCIOTO RIVER",

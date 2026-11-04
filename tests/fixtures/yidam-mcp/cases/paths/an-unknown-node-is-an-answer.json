@@ -1,0 +1,11 @@
+{
+  "tool": "paths",
+  "capability": "ontology",
+  "why": "`concept/nowhere` names no node. The refusal is an answer, as on `query`: `rejected.code` is the frozen `unknown-node`, `step` is null because there is no query text to point into, and the tool does not set `isError`. A server that answered an empty `paths` instead would tell a caller with a typo that the two nodes are unrelated.",
+  "call": { "from": "concept/nowhere", "to": "concept/traversal" },
+  "expect": {
+    "equals": { "returned": 0, "nearest": null },
+    "count": { "paths": 0 },
+    "equalsAt": { "rejected.code": "unknown-node", "rejected.step": null }
+  }
+}

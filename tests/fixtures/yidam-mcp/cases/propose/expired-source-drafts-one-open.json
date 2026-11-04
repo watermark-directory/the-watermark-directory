@@ -1,0 +1,18 @@
+{
+  "tool": "propose",
+  "corpus": "corpus-acting",
+  "capability": "act",
+  "why": "The one thing #474 is about, run end to end: `due` names an expired catalog source as owed, and this is the tool that discharges it. `due.rs`'s own table says one of its four clocks is dischargeable by a tool at all — the index clock wants a build, and questions and phases want a person — so a server that drafts nothing here has the write tier and nothing reachable through it.\n\n`dry_run: true`, deliberately. A case that wrote a branch would make every later case on this corpus run against a repository the earlier one changed, and on a second run against a persistent checkout it would meet its own branch and refuse. What is being conformed to is what the tool DRAFTS, and the draft is identical either way — `written` is the only field that differs.\n\nThe count is exactly one and that is the assertion worth making. A server that drafted two has found something in this corpus that the reference server does not license; a server that drafted zero has the tool and not the rule. The verb is `open` and not `establish`: opening a question asserts nothing the work did not already assert, which is why RFC-0020 licenses one and not the other, and a server drafting `establish:` here has proposed a synthesis nobody authored.",
+  "call": { "dry_run": true },
+  "expect": {
+    "fields": ["branch", "head", "proposals", "skipped", "withdraw_uncited_after"],
+    "count": { "proposals": 1 },
+    "each": { "proposals": ["verb", "subject", "check", "node", "detail", "paths"] },
+    "equalsAt": {
+      "proposals.0.verb": "open",
+      "proposals.0.check": "catalog-expired",
+      "proposals.0.node": ".yidam/catalog/operating-record.md",
+      "written": null
+    }
+  }
+}

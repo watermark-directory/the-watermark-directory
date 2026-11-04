@@ -1199,7 +1199,7 @@
     "updated": "2026-10-29"
   },
   {
-    "id": "relation/city-of-wapakoneta--operates--npdes-2pd00019",
+    "id": "relation/city-of-wapakoneta-operates-npdes-2pd00019",
     "node_class": "relation",
     "kind": "relation",
     "label": "CITY OF WAPAKONETA operates npdes:2PD00019",
@@ -1210,7 +1210,7 @@
     "updated": "2026-10-27"
   },
   {
-    "id": "relation/npdes-2pd00019--discharges-to--auglaize-river",
+    "id": "relation/npdes-2pd00019-discharges-to-auglaize-river",
     "node_class": "relation",
     "kind": "relation",
     "label": "npdes:2PD00019 discharges_to AUGLAIZE RIVER",

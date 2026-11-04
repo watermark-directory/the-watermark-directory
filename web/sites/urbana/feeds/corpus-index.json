@@ -1111,7 +1111,7 @@
     "updated": "2026-08-01"
   },
   {
-    "id": "relation/city-of-urbana--operates--npdes-1pd00011",
+    "id": "relation/city-of-urbana-operates-npdes-1pd00011",
     "node_class": "relation",
     "kind": "relation",
     "label": "CITY OF URBANA operates npdes:1PD00011",
@@ -1122,7 +1122,7 @@
     "updated": "2026-08-26"
   },
   {
-    "id": "relation/npdes-1pd00011--discharges-to--mad-river",
+    "id": "relation/npdes-1pd00011-discharges-to-mad-river",
     "node_class": "relation",
     "kind": "relation",
     "label": "npdes:1PD00011 discharges_to MAD RIVER",

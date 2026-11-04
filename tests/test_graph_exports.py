@@ -1,7 +1,7 @@
 """Graph exports — RDF (Turtle + JSON-LD) + GraphML over the corpus mirror (#1574, epic #1560 D1).
 
 These serializers are the Python peer of yidam's ``export_rdf.rs`` / ``export_graphml.rs``: same
-IRI scheme (``yidam://corpus/<class>/<name>``), same vocabulary (owl/rdfs/skos/prov + ``yidam:``),
+subject names (``urn:yidam:<corpus>/node/<class>/<name>``), same vocabulary (owl/rdfs/skos/prov + ``yidam:``),
 same relationship→camelCase sanitizer, same link-target resolution, same GraphML key set.
 
 Most tests here assert that shape against hand-written expectations. That is necessary and was
@@ -13,6 +13,12 @@ unchecked (#2053).
 The conformance tests at the bottom close that: they run the **real pinned binary** over the
 same mirror and compare structurally. They skip when it is absent; CI installs it, so the
 claim in this docstring is now enforced rather than asserted.
+
+At the ``cli/v0.23.0`` re-pin the binary renamed every RDF subject
+(``yidam://corpus/<id>`` → ``urn:yidam:<genesis[:12]>/node/<id>``) and moved the ``yidam:``
+namespace — and the namespace move was invisible here, because the vocabulary was compared by
+its ``yidam:`` *prefix*, never by what the prefix expands to. The prefix declarations are
+compared now too.
 """
 
 from __future__ import annotations
@@ -38,8 +44,10 @@ from watermark.site.corpus_mirror import (
 )
 from watermark.site.feeds import ConceptItem, EntityNode, LeadItem, PersonItem, RelationshipEdge
 from watermark.site.graph_exports import (
-    DATASET_IRI,
     ExportProvenance,
+    NoCorpusIdentityError,
+    _git_genesis_date,
+    _git_genesis_hash,
     property_local_name,
     render_exports,
     render_graphml,
@@ -47,6 +55,7 @@ from watermark.site.graph_exports import (
     render_turtle,
     resolve_link_target,
     resolve_provenance,
+    subject_iri,
     write_exports,
 )
 
@@ -57,7 +66,10 @@ PROV = ExportProvenance(
     commit="abc1234",
     genesis="2026-01-01",
     generated_at="2026-01-01T00:00:00+00:00",
+    genesis_hash="0123456789abcdef0123456789abcdef01234567",
 )
+# What every subject in PROV's exports hangs off — the genesis hash, twelve characters.
+CORPUS_IRI = "urn:yidam:0123456789ab"
 
 
 # --- a small, connected synthetic mirror (the corpus_mirror projection over toy feeds) -------
@@ -125,7 +137,7 @@ def test_property_local_name_sanitizes() -> None:
 # --- RDF: Turtle ----------------------------------------------------------------------------
 def test_turtle_has_prefixes_ontology_header_and_provenance() -> None:
     ttl = render_turtle(_mirror(), PROV)
-    assert "@prefix yidam: <https://yidam.dev/ontology#> ." in ttl
+    assert "@prefix yidam: <https://goedelsoup.github.io/yidam/ontology#> ." in ttl
     assert "a owl:Ontology" in ttl
     assert "BOSC corpus mirror — Lima, Ohio" in ttl
     assert 'yidam:commit "abc1234"' in ttl
@@ -138,7 +150,7 @@ def test_turtle_types_instances_and_carries_named_relationships() -> None:
     ttl = render_turtle(mirror, PROV)
     # every instance is typed by its class and reachable by its full IRI
     for node in mirror.nodes:
-        assert f"<{DATASET_IRI}/{node.id}>" in ttl
+        assert f"<{CORPUS_IRI}/node/{node.id}>" in ttl
     assert "a yidam:concept" in ttl
     assert "a yidam:relation" in ttl
     # a named relationship becomes a yidam: object property + subproperty declaration
@@ -157,11 +169,11 @@ def test_turtle_is_deterministic() -> None:
 def test_jsonld_is_valid_with_context_and_graph() -> None:
     mirror = _mirror()
     doc = json.loads(render_jsonld(mirror, PROV))
-    assert doc["@context"]["yidam"] == "https://yidam.dev/ontology#"
+    assert doc["@context"]["yidam"] == "https://goedelsoup.github.io/yidam/ontology#"
     graph = doc["@graph"]
     by_id = {o["@id"]: o for o in graph}
 
-    ontology = by_id[DATASET_IRI]
+    ontology = by_id[CORPUS_IRI]
     assert ontology["@type"] == "owl:Ontology"
     assert ontology["prov:generatedAtTime"] == {
         "@value": "2026-01-01T00:00:00+00:00",
@@ -170,14 +182,14 @@ def test_jsonld_is_valid_with_context_and_graph() -> None:
 
     # the resolved entity relationship edge points from GOOGLE to the permit
     google = next(n for n in mirror.nodes if n.name and n.label == "Google LLC")
-    google_obj = by_id[f"{DATASET_IRI}/{google.id}"]
+    google_obj = by_id[f"{CORPUS_IRI}/node/{google.id}"]
     assert google_obj["@type"] == "yidam:artifact"
     # every yidam:* relationship value dereferences to an @id
     for key, value in google_obj.items():
         if key.startswith("yidam:"):
             entries = value if isinstance(value, list) else [value]
             for entry in entries:
-                assert entry["@id"].startswith(f"{DATASET_IRI}/")
+                assert entry["@id"].startswith(f"{CORPUS_IRI}/")
 
 
 def test_jsonld_classes_and_properties_declared() -> None:
@@ -244,11 +256,11 @@ def test_unresolved_target_becomes_owl_thing_and_skips_graphml_edge() -> None:
     mirror = Mirror(site="lima", nodes=[node])
 
     ttl = render_turtle(mirror, PROV)
-    assert f"<{DATASET_IRI}/concept/missing> a owl:Thing" in ttl
+    assert f"<{CORPUS_IRI}/node/concept/missing> a owl:Thing" in ttl
     assert "unresolved link target" in ttl
 
     doc = json.loads(render_jsonld(mirror, PROV))
-    thing = next(o for o in doc["@graph"] if o["@id"] == f"{DATASET_IRI}/concept/missing")
+    thing = next(o for o in doc["@graph"] if o["@id"] == f"{CORPUS_IRI}/node/concept/missing")
     assert thing["@type"] == "owl:Thing"
 
     xml = render_graphml(mirror, PROV)
@@ -259,6 +271,47 @@ def test_unresolved_target_becomes_owl_thing_and_skips_graphml_edge() -> None:
 
 
 # --- writing --------------------------------------------------------------------------------
+def test_subject_iri_names_catalog_escapes_as_catalog_entries() -> None:
+    """yidam's ``reference_for``: an escape into the catalog is a catalog reference, not a node."""
+    assert subject_iri(CORPUS_IRI, "concept/alpha") == f"{CORPUS_IRI}/node/concept/alpha"
+    assert subject_iri(CORPUS_IRI, "../../catalog/aedg.md") == f"{CORPUS_IRI}/catalog/aedg"
+    assert subject_iri(CORPUS_IRI, "catalog/x.md") == f"{CORPUS_IRI}/catalog/x"
+    # a node merely NAMED with `catalog/` in its path stays a node — the split needs a climb
+    assert subject_iri(CORPUS_IRI, "record/catalog/x") == f"{CORPUS_IRI}/node/record/catalog/x"
+
+
+def test_rdf_refuses_a_corpus_with_no_identity_and_graphml_does_not() -> None:
+    """No genesis hash → no RDF, never a stand-in name; GraphML names no subjects, so it stays."""
+    nameless = ExportProvenance(domain=PROV.domain, commit=PROV.commit)
+    with pytest.raises(NoCorpusIdentityError):
+        render_turtle(_mirror(), nameless)
+    with pytest.raises(NoCorpusIdentityError):
+        render_jsonld(_mirror(), nameless)
+    assert [e.fmt for e in render_exports(_mirror(), nameless)] == ["graphml"]
+
+
+def test_genesis_hash_is_withheld_from_a_shallow_or_nested_checkout(tmp_path: Path) -> None:
+    """The two routes to a wrong identity yidam refuses, refused here the same way."""
+    repo = _git_repo(tmp_path / "repo")
+    genesis = _git(repo, "rev-parse", "HEAD")
+    assert _git_genesis_hash(repo) == genesis
+    # nested: git answers for the ENCLOSING repository, whose genesis names another corpus
+    (repo / "inner").mkdir()
+    assert _git_genesis_hash(repo / "inner") == ""
+    assert _git_genesis_date(repo / "inner") == ""
+    # shallow: the boundary commit looks exactly like a root from inside
+    _commit(repo, "second")
+    shallow = tmp_path / "shallow"
+    subprocess.run(
+        ["git", "clone", "-q", "--depth", "1", f"file://{repo}", str(shallow)],
+        check=True,
+        capture_output=True,
+    )
+    assert _git(shallow, "rev-list", "--max-parents=0", "HEAD") != genesis  # the trap, live
+    assert _git_genesis_hash(shallow) == ""
+    assert _git_genesis_date(shallow) == ""
+
+
 def test_write_exports_emits_three_named_artifacts(tmp_path: Path) -> None:
     out = tmp_path / "exports"
     exports = write_exports(_mirror(), out, PROV)
@@ -306,13 +359,52 @@ def _graphml_shape(path: Path) -> tuple[set[str], set[tuple[str, str]], set[str]
     )
 
 
-def _turtle_shape(path: Path) -> tuple[set[str], set[str]]:
-    """(subject IRIs, `yidam:` predicate vocabulary) — the ontology surface, not the bytes."""
+def _turtle_shape(path: Path) -> tuple[set[str], set[str], dict[str, str]]:
+    """(subject IRIs, `yidam:` predicate vocabulary, prefix → namespace) — the ontology surface.
+
+    The prefix map is the third leg because the second compares *names under a prefix*: at the
+    v0.23.0 re-pin the binary moved `yidam:` to another namespace and this shape, comparing only
+    `yidam:commit` against `yidam:commit`, called the two exports identical. Only prefixes BOTH
+    sides declare are compared — declaring an unused `rdf:` is serialization, not vocabulary.
+    """
     text = path.read_text(encoding="utf-8")
     return (
-        set(re.findall(r"<(yidam://corpus/[^>]+)>", text)),
-        set(re.findall(r"\b(yidam:[A-Za-z][A-Za-z0-9]*)\b", text)),
+        set(re.findall(r"<(urn:yidam:[^>]+)>", text)),
+        set(re.findall(r"(?<![:\w])(yidam:[A-Za-z][A-Za-z0-9]*)\b", text)),
+        dict(re.findall(r"^@prefix\s+(\w+):\s*<([^>]+)>", text, flags=re.MULTILINE)),
     )
+
+
+def _git(repo: Path, *args: str) -> str:
+    return subprocess.run(
+        ["git", *args], cwd=repo, capture_output=True, text=True, check=True
+    ).stdout.strip()
+
+
+def _commit(repo: Path, message: str) -> None:
+    _git(repo, "add", "-A")
+    _git(
+        repo,
+        "-c",
+        "user.name=t",
+        "-c",
+        "user.email=t@example.invalid",
+        "-c",
+        "commit.gpgsign=false",
+        "commit",
+        "-q",
+        "--allow-empty",
+        "-m",
+        message,
+    )
+
+
+def _git_repo(path: Path) -> Path:
+    """A real, full-history repository at `path` — RDF names a corpus by its own genesis."""
+    path.mkdir(parents=True, exist_ok=True)
+    _git(path, "init", "-q")
+    _commit(path, "genesis")
+    return path
 
 
 def _binary_can(fmt: str) -> bool:
@@ -354,12 +446,26 @@ def test_graphml_matches_the_real_yidam_renderer(tmp_path: Path) -> None:
 
 @pytest.mark.skipif(not _binary_can("rdf"), reason="the yidam binary lacks --features export-graph")
 def test_turtle_matches_the_real_yidam_renderer(tmp_path: Path) -> None:
-    """The half that had already drifted. `yidam:genesisDate` is the one this caught."""
+    """The half that had already drifted. `yidam:genesisDate` is the one this caught.
+
+    The corpus is committed into a repository of its own first: since v0.23.0 the binary names
+    every subject by the corpus's genesis commit and refuses a directory that has none. Ours is
+    handed the same genesis, so the two name the same corpus.
+    """
     settings = Settings(site="lima", data_dir=REPO_ROOT / "data")
     mirror = build_mirror(settings)
     corpus = tmp_path / ".yidam" / "corpus"
     write_mirror(mirror, corpus)
-    write_exports(mirror, tmp_path / "ours", resolve_provenance(settings))
+    _git_repo(tmp_path)
+    prov = resolve_provenance(settings)
+    # BOTH genesis fields come from the corpus repository the binary reads, not from this
+    # checkout: on CI's depth-1 clone `resolve_provenance` withholds them (correctly), and a
+    # test that took only the hash compared a dated corpus against an undated one — green on a
+    # full local clone, red on CI, which is exactly the depth-dependence this must not have.
+    prov.genesis_hash = _git_genesis_hash(tmp_path)
+    prov.genesis = _git_genesis_date(tmp_path)
+    assert prov.genesis_hash and prov.genesis, "the corpus repo must have an identity to compare"
+    write_exports(mirror, tmp_path / "ours", prov)
 
     binary = yidam_cli.yidam_path()
     assert binary is not None
@@ -371,9 +477,16 @@ def test_turtle_matches_the_real_yidam_renderer(tmp_path: Path) -> None:
         text=True,
         check=True,
     )
-    our_subjects, our_preds = _turtle_shape(tmp_path / "ours" / "corpus.ttl")
-    their_subjects, their_preds = _turtle_shape(out)
-    assert our_subjects == their_subjects, "subject IRIs differ"
+    our_subjects, our_preds, our_ns = _turtle_shape(tmp_path / "ours" / "corpus.ttl")
+    their_subjects, their_preds, their_ns = _turtle_shape(out)
+    assert our_subjects, "no urn:yidam: subjects at all — the shape is reading the wrong scheme"
+    assert our_subjects == their_subjects, (
+        f"subject IRIs differ — only ours: {sorted(our_subjects - their_subjects)[:5]}, "
+        f"only theirs: {sorted(their_subjects - our_subjects)[:5]}"
+    )
+    shared = our_ns.keys() & their_ns.keys()
+    assert "yidam" in shared
+    assert {k: our_ns[k] for k in shared} == {k: their_ns[k] for k in shared}, "namespaces differ"
     assert our_preds == their_preds, (
         f"the yidam: ontology vocabulary differs — "
         f"only ours: {sorted(our_preds - their_preds)}, only theirs: {sorted(their_preds - our_preds)}"

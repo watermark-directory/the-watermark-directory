@@ -1,0 +1,13 @@
+{
+  "tool": "propose",
+  "corpus": "corpus",
+  "capability": "act",
+  "why": "A corpus with nothing to propose answers with an empty plan rather than an error, and this is the case that says so. It names `corpus/`, which declares `act: false` — so a conforming server SKIPS it, and the skip is the point: the `capability` key gates cases by server, and a server that declares the tier false must not be asked to answer for it.\n\nIt is here rather than absent because the next corpus to declare `act` inherits it. A case that exists only where it passes is a case that pins nothing about the tier's shape, and `written: null` on a run with nothing to propose is exactly the state a client confuses with a dry run: `proposals` is empty in one and populated in the other, and a client reading only `written` cannot tell them apart."
+  ,
+  "call": {},
+  "expect": {
+    "fields": ["branch", "head", "proposals", "skipped", "written"],
+    "count": { "proposals": 0 },
+    "equalsAt": { "written": null }
+  }
+}

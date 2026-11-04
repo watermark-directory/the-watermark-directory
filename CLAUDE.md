@@ -117,9 +117,12 @@ questions where the binary saw 2, and nothing could detect the gap.
   gap goes in `corpus_peers.KNOWN_UNSOURCED` (empty since #2137 closed the last three). That
   list ratchets both ways: closing a gap means deleting its entry. ⚠️ The binary resolves its root **upward**, so a workdir inside
   the repo reports on Lima's mirror for every site; the default is a temp dir, and a guard
-  refuses a mismatched root.
+  refuses a mismatched root. A leftover in-repo workdir (`.yidam/peers/`, git-ignored, so
+  local-only) also poisons Lima's *own* `lint`: the binary walks its copied mirror as authored
+  prose, so a generator-owned broken link there surfaces as an introduced `broken-prose-link`.
+  Delete the directory; never bless it into the baseline.
 - **The pin is `.yidam.toml`**, on upstream's schema (`origin`/`commit`/`template`/`committed`;
-  the old `cli`/`cli_ref` names are dead and fail `yidam-build`), currently **`cli/v0.10.0`**.
+  the old `cli`/`cli_ref` names are dead and fail `yidam-build`), currently **`cli/v0.23.0`**.
   `mise run yidam-vendor-status` reports drift — a report, never a gate.
   **At a re-pin, read upstream's `docs/upgrading.md` first.** It is the one file that records
   what stops working without anyone having changed it, and it is filed per tag — cheaper and
@@ -173,14 +176,25 @@ questions where the binary saw 2, and nothing could detect the gap.
   vocabulary, and GraphML nodes / edges / key schema are all identical to the previous pin's
   (GraphML byte-identical; the Turtle byte diff is statement/prefix ORDER only, which is why
   the check is structural — `diff` on these files fails on serialization and teaches everyone
-  to ignore it).
-- **The MCP surface implements the frozen tool contract** (RFC-0005) at **0.13.0**, vendored as
+  to ignore it). **At `cli/v0.23.0` the RDF identity changed, deliberately, on both sides**: a
+  subject is `urn:yidam:<genesis[:12]>/node/<class>/<name>` (a catalog citation
+  `…/catalog/<entry>`), named by the corpus's **own root commit**, because the old
+  `yidam://corpus/<id>` minted the same subject for `concept/foo` in every corpus and merging
+  two corpora's triples conflated them; the `yidam:` namespace moved to
+  `https://goedelsoup.github.io/yidam/ontology#`. A checkout with no identity of its own — a
+  **shallow clone** (its boundary commit looks like a root) or a directory nested in another
+  repo — gets **no RDF**, only GraphML, never a substituted name. The conformance tests build
+  a full-history repo in `tmp_path` for this reason, so CI's depth-1 checkout cannot make the
+  RDF half skip.
+- **The MCP surface implements the frozen tool contract** (RFC-0005) at **0.30.0**, vendored as
   `src/watermark/agent/mcp_contract.json` and re-vendored with `mise run yidam-contract-sync`
   (which also vendors `commit_vocabulary.json`, the closed commit list `check_subject` serves);
   CI proves both copies match the pin. Tool names, descriptions and schemas come **from that
   file** — never hand-written, and the served list is **derived** from it, so a tool added
-  upstream is an `ImportError` rather than a tool that quietly does not exist. BOSC serves 12 of
-  13 and declines only `dependencies` (it pins no tonpa dependency). See
+  upstream is an `ImportError` rather than a tool that quietly does not exist. BOSC serves 13 of
+  18 and declines five, each by a capability it honestly lacks: `check_citation`
+  (`dependencies` — no tonpa dependency), `search_sources` / `resolve_source` (`sources`), and
+  `propose` / `cycle` (`act` — they author into a working yidam repo). See
   `src/watermark/agent/CLAUDE.md`.
 - **The mirror's classes declare a contract** (#2132): each `<class>.ont.yml` names the
   properties its instances carry and the relationships it licenses, `edge_policy: exhaustive`,

@@ -1,0 +1,15 @@
+{
+  "tool": "cycle",
+  "corpus": "corpus-acting",
+  "capability": "act",
+  "why": "`cycle` is in the `act` tier and writes nothing, which is the tier's meaning rather than an exception to it — a report telling an agent what to do next belongs only where the agent can do it. This asserts the four halves are all present and that the report is not a gate.\n\n`passed: true` on a corpus with a due clock is the assertion that carries the most. Being owed is not being broken, and a server rendering `due > 0` as a failure has reintroduced the one reading this report exists to prevent. This corpus is owed exactly one clock — the expired source — and is blocked by nothing: `graph-check` passes over it and `lint` reports no error, so a server reporting a non-empty `blocking` has folded accepted findings into a list of things to fix.\n\n`practice.undeclared` is non-null because this corpus holds no kuten, which is a supported state and the state every corpus is in. It is what makes the fourth half honest: no profile declares a phase ORDER — what one declares is a SET of phase types — so a server ranking `next` must rank it itself rather than citing a field that does not exist.",
+  "call": {},
+  "expect": {
+    "fields": ["owed", "in_flight", "blocking", "next", "practice", "due", "passed"],
+    "count": { "owed": 5, "in_flight": 0, "blocking": 0 },
+    "each": { "owed": ["id", "question", "state", "detail"] },
+    "nonEmpty": ["next"],
+    "equals": { "due": 1, "passed": true },
+    "equalsAt": { "practice.kuten": null }
+  }
+}

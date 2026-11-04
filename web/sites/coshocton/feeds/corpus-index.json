@@ -924,7 +924,7 @@
     "updated": "2026-08-26"
   },
   {
-    "id": "relation/city-of-coshocton--operates--npdes-0pd00004",
+    "id": "relation/city-of-coshocton-operates-npdes-0pd00004",
     "node_class": "relation",
     "kind": "relation",
     "label": "CITY OF COSHOCTON operates npdes:0PD00004",
@@ -935,7 +935,7 @@
     "updated": "2026-08-26"
   },
   {
-    "id": "relation/npdes-0pd00004--discharges-to--muskingum-river",
+    "id": "relation/npdes-0pd00004-discharges-to-muskingum-river",
     "node_class": "relation",
     "kind": "relation",
     "label": "npdes:0PD00004 discharges_to MUSKINGUM RIVER",

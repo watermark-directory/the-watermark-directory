@@ -1859,7 +1859,7 @@
     "updated": "2026-07-30"
   },
   {
-    "id": "relation/city-of-findlay--operates--npdes-2pd00008",
+    "id": "relation/city-of-findlay-operates-npdes-2pd00008",
     "node_class": "relation",
     "kind": "relation",
     "label": "CITY OF FINDLAY operates npdes:2PD00008",
@@ -1870,7 +1870,7 @@
     "updated": "2026-07-30"
   },
   {
-    "id": "relation/npdes-2pd00008--discharges-to--blanchard-river",
+    "id": "relation/npdes-2pd00008-discharges-to-blanchard-river",
     "node_class": "relation",
     "kind": "relation",
     "label": "npdes:2PD00008 discharges_to BLANCHARD RIVER",

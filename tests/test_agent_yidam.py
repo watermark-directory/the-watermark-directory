@@ -326,7 +326,7 @@ async def test_retrieve_answers_a_bad_call_instead_of_refusing_it(
         (await retrieve.handler({"query": "x", "class": "bogus"}))["content"][0]["text"]
     )
     assert bad["rejected"]["code"] == "unknown-class" and bad["absence"] is None
-    assert "bogus" in bad["rejected"]["detail"], "the rejection must name what was rejected"
+    assert "bogus" in bad["rejected"]["message"], "the rejection must name what was rejected"
 
 
 # --- against the real Lima mirror (offline read of the committed corpus) --------------------

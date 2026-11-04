@@ -924,7 +924,7 @@
     "updated": "2026-11-02"
   },
   {
-    "id": "relation/npdes-0pb00031--discharges-to--scioto-river",
+    "id": "relation/npdes-0pb00031-discharges-to-scioto-river",
     "node_class": "relation",
     "kind": "relation",
     "label": "npdes:0PB00031 discharges_to SCIOTO RIVER",
@@ -935,7 +935,7 @@
     "updated": "2026-08-26"
   },
   {
-    "id": "relation/village-of-piketon--operates--npdes-0pb00031",
+    "id": "relation/village-of-piketon-operates-npdes-0pb00031",
     "node_class": "relation",
     "kind": "relation",
     "label": "VILLAGE OF PIKETON operates npdes:0PB00031",

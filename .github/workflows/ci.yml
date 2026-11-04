@@ -335,7 +335,7 @@ jobs:
       - name: The vendored MCP contract matches the pin
         run: |
           set -eu
-          src=/tmp/yidam/yidam/prelude/sdks/parity/mcp
+          src=/tmp/yidam/yidam/sdks/parity/mcp
           if ! diff -u "$src/tools.json" src/watermark/agent/mcp_contract.json; then
             echo "::error::src/watermark/agent/mcp_contract.json is not the contract at the pin."
             echo "::error::Run 'mise run yidam-contract-sync' and review the diff."
@@ -354,7 +354,7 @@ jobs:
           python3 - <<'PYEOF'
           import ast, json, sys
 
-          src = "/tmp/yidam/yidam/prelude/sdks/python/yidam_core/git.py"
+          src = "/tmp/yidam/yidam/sdks/python/yidam_core/git.py"
           tree = ast.parse(open(src, encoding="utf-8").read())
           lists = {}
           for node in ast.walk(tree):

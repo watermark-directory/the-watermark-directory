@@ -1,0 +1,20 @@
+{
+  "tool": "search_sources",
+  "corpus": "corpus-sourced",
+  "capability": "sources",
+  "why": "`limit` truncates the publisher's answer and does not reorder it. A server that sorted before truncating, or truncated the raw items before dropping the one with no identifier, answers a different first two — the second is `doi:10.1000/xyz` only when the unidentified result was passed over first.",
+  "call": {
+    "pack": "scholarly",
+    "query": "retinal imaging",
+    "limit": 2
+  },
+  "expect": {
+    "count": {
+      "candidates": 2
+    },
+    "equalsAt": {
+      "candidates.0.identifier": "doi:10.1167/tvst.8.5.14",
+      "candidates.1.identifier": "doi:10.1000/xyz"
+    }
+  }
+}

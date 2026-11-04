@@ -1,0 +1,11 @@
+{
+  "tool": "query",
+  "capability": "ontology",
+  "why": "`claim_tag` IS declared by `concept`, and `maybe` is not a value its type can hold — so this query could never match, whatever the corpus holds. That is a rejection and not an empty result: `absence` would say the corpus is quiet about a well-formed question, and the question is not well-formed. The code is `unsatisfiable-predicate` and this contract froze no code for it at all until 0.15.0, so the one rejection that is about a VALUE rather than a NAME arrived at a client with nothing to branch on. Only `=` is closed this way — `!=` and `~` against the same value are satisfiable and run with a diagnostic, which is why the check reads the operator rather than the property alone.",
+  "call": { "query": "concept[claim_tag=maybe]" },
+  "expect": {
+    "equals": { "matched": 0, "returned": 0, "absence": null },
+    "count": { "results": 0 },
+    "equalsAt": { "rejected.code": "unsatisfiable-predicate", "rejected.step": 0 }
+  }
+}

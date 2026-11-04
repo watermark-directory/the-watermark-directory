@@ -10,7 +10,15 @@ as Turtle, JSON-LD, and GraphML downloadable research artifacts — generated at
 **Faithful to the yidam Rust renderers** (``goedelsoup/yidam`` — the ground truth, not the
 prose docs):
 
-* the same IRI scheme — an instance is ``yidam://corpus/<class>/<name>`` (the mirror node id);
+* the same subject names — an instance is ``urn:yidam:<corpus>/node/<class>/<name>`` and a
+  catalog citation ``urn:yidam:<corpus>/catalog/<entry>``, where ``<corpus>`` is the first twelve
+  hex characters of the corpus's **own** genesis commit (:func:`subject_iri`, the peer of
+  ``export_rdf.rs``'s ``instance_iri``). Until ``cli/v0.23.0`` it was ``yidam://corpus/<id>``,
+  which upstream retired because the authority held the word ``corpus`` rather than a corpus:
+  two corpora holding ``concept/foo`` minted the same subject, so merging their triples
+  conflated two nodes. A corpus with no identity of its own — a shallow clone, which reports
+  its boundary commit as a root, or a directory nested inside another repository — gets **no
+  RDF at all** rather than a substituted name (:func:`render_exports` writes GraphML only);
 * the same vocabulary — ``owl`` classes, ``rdfs:label``, ``skos:definition``, ``prov``
   provenance, and the ``yidam:`` ontology namespace, with ``yidam:linksTo`` plus one
   ``owl:ObjectProperty`` per named relationship (``rdfs:subPropertyOf yidam:linksTo``);
@@ -59,7 +67,7 @@ from watermark.sites import active_profile
 log = get_logger(__name__)
 
 # --- vocabulary (identical to yidam's export_rdf.rs) ---------------------------------------
-YIDAM_NS = "https://yidam.dev/ontology#"
+YIDAM_NS = "https://goedelsoup.github.io/yidam/ontology#"
 OWL_NS = "http://www.w3.org/2002/07/owl#"
 RDFS_NS = "http://www.w3.org/2000/01/rdf-schema#"
 RDF_NS = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
@@ -67,9 +75,9 @@ SKOS_NS = "http://www.w3.org/2004/02/skos/core#"
 PROV_NS = "http://www.w3.org/ns/prov#"
 XSD_NS = "http://www.w3.org/2001/XMLSchema#"
 
-# The dataset IRI — the mirror IS the yidam corpus projection, so consumers expect this base
-# (instances hang off it as ``yidam://corpus/<class>/<name>``). Kept verbatim from yidam.
-DATASET_IRI = "yidam://corpus"
+# How many hex characters of the genesis hash name the corpus in a subject. yidam's
+# `corpus_component`: a subject is read by machines, and twelve is far past any collision margin.
+_CORPUS_COMPONENT_LEN = 12
 
 _GRAPHML_DESC_CAP = 200  # yidam truncates the GraphML node description to 200 chars
 
@@ -88,6 +96,45 @@ class ExportProvenance:
     commit: str = ""
     genesis: str = ""
     generated_at: str = ""
+    # The full sha of the corpus's own root commit, or ``""`` when it has none it can vouch for.
+    # It names every RDF subject; without it there is no RDF (see :func:`render_exports`).
+    genesis_hash: str = ""
+
+
+class NoCorpusIdentityError(ValueError):
+    """RDF was asked for over a corpus with no genesis commit of its own to name it by."""
+
+
+def dataset_iri(prov: ExportProvenance) -> str:
+    """The corpus itself as an RDF subject — ``urn:yidam:<corpus>``, named like its nodes.
+
+    Refuses rather than substitutes when there is no genesis hash: a constant here would be the
+    same string for every corpus that reached it, which is the conflation the scheme exists to
+    end. yidam refuses the same way (``corpus_component``).
+    """
+    if not prov.genesis_hash:
+        raise NoCorpusIdentityError(
+            "RDF subjects are named by the corpus's own genesis commit, and this checkout has "
+            "none to give (a shallow clone, or not the repository root) — export GraphML, or "
+            "run from a full clone"
+        )
+    return f"urn:yidam:{prov.genesis_hash[:_CORPUS_COMPONENT_LEN]}"
+
+
+def subject_iri(corpus_iri: str, target: str) -> str:
+    """One node's (or one link target's) RDF subject — yidam's ``reference_for`` + ``urn_of``.
+
+    A target that escapes the corpus into the catalog (``../../catalog/<file>.md``, the one
+    escaping shape the mirror writes) is a ``catalog`` reference, not a node: minting it under
+    ``node/`` gave a subject with ``..`` segments inside it claiming to be a node. Split on the
+    **last** ``catalog/``, and only when what precedes it climbs out (``..``) or is nothing —
+    exactly yidam's ``rsplit_once`` test, so a node merely *named* with ``catalog/`` inside its
+    path stays a node.
+    """
+    head, sep, entry = target.rpartition("catalog/")
+    if sep and (".." in head or not head):
+        return f"{corpus_iri}/catalog/{entry.removesuffix('.md')}"
+    return f"{corpus_iri}/node/{target}"
 
 
 def _git_short_commit(repo_root: Path) -> str:
@@ -105,8 +152,40 @@ def _git_short_commit(repo_root: Path) -> str:
     return out.stdout.strip()
 
 
+def _git(repo_root: Path, *args: str) -> str:
+    """One git answer, stripped — ``""`` when git is missing or refuses (never raises)."""
+    try:
+        return subprocess.run(
+            ["git", *args], cwd=repo_root, capture_output=True, text=True, check=True
+        ).stdout.strip()
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return ""
+
+
+def _git_genesis_hash(repo_root: Path) -> str:
+    """The corpus's own root commit (full sha), or ``""`` when it has none it can vouch for.
+
+    The peer of yidam's ``git::genesis_hash``, including both of its refusals:
+
+    * **not the repository root** — git resolves upward, so a directory inside another repository
+      would be handed its host's genesis (yidam#792: four example corpora shared one identity);
+    * **a shallow clone** — ``rev-list --max-parents=0`` then reports the *boundary* commit, which
+      looks exactly like a root from inside, so one commit checked out twice would carry two
+      identities. CI's default ``actions/checkout`` is ``--depth 1``.
+    """
+    top = _git(repo_root, "rev-parse", "--show-toplevel")
+    if not top or Path(top).resolve() != repo_root.resolve():
+        return ""
+    if _git(repo_root, "rev-parse", "--is-shallow-repository") == "true":
+        return ""
+    roots = _git(repo_root, "rev-list", "--max-parents=0", "HEAD").split()
+    # `roots[0]`, not the last: yidam takes `.lines().next()`. Identical while there is one root
+    # commit, and this repo has one — but a grafted history would silently diverge.
+    return roots[0] if roots else ""
+
+
 def _git_genesis_date(repo_root: Path) -> str:
-    """The repo's first-commit date (``YYYY-MM-DD``), or ``""`` when git is unavailable.
+    """The repo's first-commit date (``YYYY-MM-DD``), or ``""`` when it has no genesis to date.
 
     The peer of yidam's ``git::genesis_date``: resolve the root commit, then read its author
     date. This is what fills ``yidam:genesisDate`` in the RDF exports — a property BOSC's
@@ -117,28 +196,12 @@ def _git_genesis_date(repo_root: Path) -> str:
     BOSC's genesis message does not match its expected ``chore: genesis — <name>`` form and
     falls back to the directory name for the *domain* — a different field, and not one worth
     rewriting history to satisfy.
+
+    Dated from :func:`_git_genesis_hash`, so a shallow clone reports no date rather than the
+    date of whatever was checked out (yidam's ``genesis_date`` does the same).
     """
-    try:
-        root = subprocess.run(
-            ["git", "rev-list", "--max-parents=0", "HEAD"],
-            cwd=repo_root,
-            capture_output=True,
-            text=True,
-            check=True,
-        ).stdout.split()
-        if not root:
-            return ""
-        # `root[0]`, not the last: yidam takes `.lines().next()`. Identical while there is one
-        # root commit, and this repo has one — but a grafted history would silently diverge.
-        return subprocess.run(
-            ["git", "log", "-1", "--format=%as", root[0]],
-            cwd=repo_root,
-            capture_output=True,
-            text=True,
-            check=True,
-        ).stdout.strip()
-    except (subprocess.CalledProcessError, FileNotFoundError):
-        return ""
+    genesis = _git_genesis_hash(repo_root)
+    return _git(repo_root, "log", "-1", "--format=%as", genesis) if genesis else ""
 
 
 def resolve_provenance(
@@ -153,6 +216,7 @@ def resolve_provenance(
         commit=_git_short_commit(settings.data_dir.parent),
         genesis=_git_genesis_date(settings.data_dir.parent),
         generated_at=generated_at,
+        genesis_hash=_git_genesis_hash(settings.data_dir.parent),
     )
 
 
@@ -266,9 +330,10 @@ def render_turtle(mirror: Mirror, prov: ExportProvenance) -> str:
 
     Example SPARQL over the output — "all nodes of class concept"::
 
-        PREFIX yidam: <https://yidam.dev/ontology#>
+        PREFIX yidam: <https://goedelsoup.github.io/yidam/ontology#>
         SELECT ?node ?label WHERE { ?node a yidam:concept ; rdfs:label ?label . }
     """
+    corpus = dataset_iri(prov)
     view = _build_view(mirror)
     lines: list[str] = [
         f"@prefix yidam: <{YIDAM_NS}> .",
@@ -289,7 +354,7 @@ def render_turtle(mirror: Mirror, prov: ExportProvenance) -> str:
         header.append(f"yidam:commit {_ttl_literal(prov.commit)}")
     if prov.genesis:
         header.append(f"yidam:genesisDate {_ttl_literal(prov.genesis)}")
-    lines.append(f"<{DATASET_IRI}> " + " ;\n    ".join(header) + " .")
+    lines.append(f"<{corpus}> " + " ;\n    ".join(header) + " .")
     lines.append("")
 
     # Classes.
@@ -313,13 +378,14 @@ def render_turtle(mirror: Mirror, prov: ExportProvenance) -> str:
         if inst.description:
             preds.append(f"skos:definition {_ttl_literal(inst.description)}")
         for target_id, relationship in inst.links:
-            preds.append(f"yidam:{property_local_name(relationship)} <{DATASET_IRI}/{target_id}>")
-        lines.append(f"<{DATASET_IRI}/{inst.id}> " + " ;\n    ".join(preds) + " .")
+            target = subject_iri(corpus, target_id)
+            preds.append(f"yidam:{property_local_name(relationship)} <{target}>")
+        lines.append(f"<{subject_iri(corpus, inst.id)}> " + " ;\n    ".join(preds) + " .")
 
     # Unresolved targets exist as owl:Thing so links stay dereferenceable.
     for target_id in view.unresolved:
         lines.append("")
-        lines.append(f"<{DATASET_IRI}/{target_id}> a owl:Thing ;")
+        lines.append(f"<{subject_iri(corpus, target_id)}> a owl:Thing ;")
         lines.append(f"    rdfs:comment {_ttl_literal('unresolved link target')} .")
 
     return "\n".join(lines).rstrip() + "\n"
@@ -329,11 +395,12 @@ def render_turtle(mirror: Mirror, prov: ExportProvenance) -> str:
 def render_jsonld(mirror: Mirror, prov: ExportProvenance) -> str:
     """Serialize the mirror as JSON-LD (a ``@graph`` document with a ``@context`` mapping the
     same vocabulary the Turtle output uses) — the peer of yidam's ``render_rdf_jsonld``."""
+    corpus = dataset_iri(prov)
     view = _build_view(mirror)
     graph: list[dict[str, object]] = []
 
     header: dict[str, object] = {
-        "@id": DATASET_IRI,
+        "@id": corpus,
         "@type": "owl:Ontology",
         "rdfs:label": prov.domain,
     }
@@ -360,7 +427,7 @@ def render_jsonld(mirror: Mirror, prov: ExportProvenance) -> str:
 
     for inst in view.instances:
         obj: dict[str, object] = {
-            "@id": f"{DATASET_IRI}/{inst.id}",
+            "@id": subject_iri(corpus, inst.id),
             "@type": f"yidam:{inst.node_class}",
         }
         if inst.label:
@@ -369,7 +436,7 @@ def render_jsonld(mirror: Mirror, prov: ExportProvenance) -> str:
             obj["skos:definition"] = inst.description
         for target_id, relationship in inst.links:
             key = f"yidam:{property_local_name(relationship)}"
-            entry = {"@id": f"{DATASET_IRI}/{target_id}"}
+            entry = {"@id": subject_iri(corpus, target_id)}
             existing = obj.get(key)
             if existing is None:
                 obj[key] = entry
@@ -382,7 +449,7 @@ def render_jsonld(mirror: Mirror, prov: ExportProvenance) -> str:
     for target_id in view.unresolved:
         graph.append(
             {
-                "@id": f"{DATASET_IRI}/{target_id}",
+                "@id": subject_iri(corpus, target_id),
                 "@type": "owl:Thing",
                 "rdfs:comment": "unresolved link target",
             }
@@ -491,7 +558,13 @@ _SPECS: tuple[tuple[str, str, str], ...] = (
 
 
 def render_exports(mirror: Mirror, prov: ExportProvenance) -> list[GraphExport]:
-    """Render all graph-export formats over ``mirror`` (pure, no I/O)."""
+    """Render the graph-export formats over ``mirror`` (pure, no I/O).
+
+    All three when the corpus has an identity; **GraphML alone** when it does not
+    (``prov.genesis_hash`` empty). That is yidam's split: only RDF names subjects, so only RDF
+    needs to know which corpus it is, and every other format is unaffected. The skip is logged,
+    never silent, and is never filled with a stand-in name.
+    """
     view = _build_view(mirror)
     node_count = len(view.instances)
     edge_count = view.edge_count
@@ -502,6 +575,13 @@ def render_exports(mirror: Mirror, prov: ExportProvenance) -> list[GraphExport]:
     }
     exports: list[GraphExport] = []
     for filename, fmt, media_type in _SPECS:
+        if fmt != "graphml" and not prov.genesis_hash:
+            log.warning(
+                "graph_exports.rdf_skipped",
+                fmt=fmt,
+                reason="no genesis commit of the corpus's own (shallow clone or nested directory)",
+            )
+            continue
         exports.append(
             GraphExport(
                 name=f"corpus-graph.{filename.split('.')[-1]}",
@@ -544,6 +624,8 @@ def default_exports_dir(settings: Settings | None = None) -> Path:
 __all__ = [
     "ExportProvenance",
     "GraphExport",
+    "NoCorpusIdentityError",
+    "dataset_iri",
     "default_exports_dir",
     "property_local_name",
     "render_exports",
@@ -552,5 +634,6 @@ __all__ = [
     "render_turtle",
     "resolve_link_target",
     "resolve_provenance",
+    "subject_iri",
     "write_exports",
 ]

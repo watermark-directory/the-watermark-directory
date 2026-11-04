@@ -1,0 +1,12 @@
+{
+  "tool": "query",
+  "corpus": "corpus-dated",
+  "capability": "ontology",
+  "why": "`prop?` asks about the shape of a node rather than about a value, so it is the only predicate that can answer *which holdings are still open* — the state eleven measured classes encode by leaving the end date off. It is a separate operator from the `>?` affix and not a spelling of it: the affix widens one comparison, this one takes no operand at all, and `ended??` is not a thing a caller can write. A missing key and a key holding nothing are the same condition here, which is the condition every other operator already treated identically by coming back false for both.",
+  "call": { "query": "tenure[ended?]" },
+  "expect": {
+    "equals": { "scope": "local", "matched": 2, "rejected": null, "absence": null },
+    "count": { "results": 2 },
+    "everyItemHas": { "results": { "class": "tenure" } }
+  }
+}

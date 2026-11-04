@@ -1,0 +1,15 @@
+{
+  "tool": "retrieve",
+  "corpus": "corpus-measured",
+  "capability": "ontology",
+  "why": "`length_km>9` over three reaches measuring 10, 9 and 7 returns the 10 (contract 0.26.0). This is the query surface's numeric case asked of `retrieve`, and it is the one where a lexical implementation is visible: `\"10\"` sorts before `\"9\"` as text, so a server that stored the column as strings and compared them answers zero rows here and passes every date case. The keyword arm reads the number out of the node the query evaluator reads; the vector arm reads it out of the row's `properties` column, which `index-build` writes as JSON with the number a number — and this case is what a server storing it any other way fails.",
+  "call": {
+    "query": "kilometres",
+    "where": "length_km>9"
+  },
+  "expect": {
+    "equals": { "scope": "local", "rejected": null, "absence": null },
+    "count": { "results": 1 },
+    "everyItemHas": { "results": { "class": "reach", "label": "Long" } }
+  }
+}

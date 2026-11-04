@@ -85,7 +85,7 @@ def _mirror() -> Mirror:
             ),
             MirrorNode(
                 "relation",
-                "a--owns--b",
+                "a-owns-b",
                 label="A owns B",
                 meta={"scope": "site", "rel": "owns"},
                 links=[MirrorLink("../artifact/acme.yml", "from")],
@@ -114,13 +114,13 @@ def test_display_kind_refines_the_yidam_class() -> None:
     assert rows["hypothesis/water"].kind == "hypothesis"
     assert rows["question/lead-x"].kind == "lead"  # has a lead_kind
     assert rows["question/open-water"].kind == "open-question"  # a matrix cell, no lead_kind
-    assert rows["relation/a--owns--b"].kind == "relation"
+    assert rows["relation/a-owns-b"].kind == "relation"
 
 
 def test_out_degree_is_the_nodes_own_links() -> None:
     rows = _rows()
     assert rows["artifact/site-lima"].links_out == 1
-    assert rows["relation/a--owns--b"].links_out == 1
+    assert rows["relation/a-owns-b"].links_out == 1
 
 
 def test_in_degree_resolves_relative_link_targets() -> None:

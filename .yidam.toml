@@ -9,7 +9,7 @@
 # The four corpus REPORTS over that mirror — graph-check · lint · corpus-index ·
 # open-questions — are the real `yidam` binary's, not a Python replica's. BOSC re-implemented
 # them when the only way to obtain the binary was to build the whole native ML stack; RFC-0003
-# retired that constraint (the DEFAULT build needs no protoc, no lancedb, no ONNX runtime), and
+# retired that constraint (the DEFAULT build needs no protoc and no lancedb), and
 # RFC-0016 Phase 0 added `--format json`, so the binary is now the single source of truth for a
 # verdict. Install it with `mise run yidam-build`, which clones THIS commit and cargo-installs it.
 #
@@ -20,6 +20,12 @@
 # DEFAULT SET — that is what `cargo install yidam` resolves, what release.yml cross-compiles,
 # and what this repository builds.
 #
+# Since cli/v0.21.0 that default set includes `vector-read` (ONNX-backed semantic retrieve), so the
+# binary is ~56 MB rather than ~23. BOSC takes it as released rather than carving it back out with
+# `--no-default-features`: nothing here embeds through the binary (BOSC's own index is
+# `watermark.site.yidam_index`), so ONNX is only ever loaded by a command this repo does not run,
+# and a hand-listed feature set is one more thing to drift from upstream's.
+#
 # SCHEMA NOTE: the keys below are upstream's (`origin`/`commit`/`template`/`committed`), read by
 # `yidam-build`, `yidam-vendor-status`, and the CI corpus gate via `sed`. BOSC previously used
 # `cli`/`cli_ref`/`bootstrap` — fields it invented, which RFC-0004 proposed standardizing but
@@ -28,14 +34,14 @@
 
 [yidam]
 origin    = "git@github.com:goedelsoup/yidam.git"
-# cli/v0.10.0. A TAGGED release, deliberately: upstream's own build task will download a
+# cli/v0.23.0. A TAGGED release, deliberately: upstream's own build task will download a
 # prebuilt binary when the pin resolves to a `cli/v*` tag, and a pin that can be downloaded is
 # a pin a future reader can obtain without a Rust toolchain. BOSC still compiles (see the
 # [build] table below and `mise run yidam-build`), but the option is now open rather than
 # foreclosed by the pin.
-commit    = "fc961757db77b847eb0ce54696d1ce1c2277c8ea"
+commit    = "f5a359c0dbca77b5c9215d00b60108ca5bf4c4cc"
 template  = "untagged"
-committed = "2026-09-06"
+committed = "2026-11-02"
 
 # The feature set THIS repository's gates need, beyond the released default set.
 #

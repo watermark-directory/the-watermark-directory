@@ -985,7 +985,14 @@ def project_mirror(
         if not edge_links:  # neither endpoint resolved → keep the node connected to the site
             edge_links.append(anchor_link("in-site", cross=True))
         detail_bits = [b for b in (edge.date, edge.ref, edge.source) if b]
-        name = names.take("relation", f"{_slug(edge.src)}--{_slug(edge.rel)}--{_slug(edge.dst)}")
+        # Single hyphens, not `--` between the parts: since yidam cli/v0.23.0 `name-not-a-slug`
+        # is an ERROR, and a slug has no doubled hyphen (`yidam_core::uri::is_slug`). The `--`
+        # spelling made the triple's parts recoverable from the name, but nothing read them back
+        # out — `meta` carries src/rel/dst — and it put all 55 of Lima's relations, plus every
+        # one a later source adds, outside the set an id can be put in a URI with. Blessing them
+        # would not have held: the mirror is generated, so the next relation is a new violation.
+        # Joining with one hyphen can make two triples spell one name; `_Names` de-duplicates.
+        name = names.take("relation", f"{_slug(edge.src)}-{_slug(edge.rel)}-{_slug(edge.dst)}")
         nodes.append(
             MirrorNode(
                 "relation",

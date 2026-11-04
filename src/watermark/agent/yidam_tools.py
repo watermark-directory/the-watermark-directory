@@ -214,28 +214,26 @@ def query_nodes(
 def open_question_nodes(mirror: Mirror) -> list[MirrorNode]:
     """The still-open nodes — the in-memory peer of ``yidam open-questions``.
 
-    **The predicate is frozen** (`mcp_contract.json`, `open_questions`), and at contract 0.13.0
-    it is **three** arms: a node is open when its ``label`` starts with ``?``, when its body
-    asserts an ``[open]`` claim, **or** when a property its class declared ``type: claim`` holds
-    an open tag — in either spelling. No server may add a fourth, and none may add a blessed key
-    name: matching a bare ``open`` under any key would make ``status: open`` on a ballot measure
-    an open claim, and no corpus could opt out of that.
+    **The predicate is frozen** (`mcp_contract.json`, `open_questions`), and at contract 0.30.0
+    it has **four node arms and one edge arm**. A node is open when its ``label`` starts with
+    ``?``, when its body asserts an ``[open]`` claim, when a property its class declared
+    ``type: claim`` holds an open tag (in either spelling), or when it carries a finding record
+    under ``yidam.findings`` whose ``standing`` is ``open`` (0.14.0). An EDGE is open when its
+    own ``claim_tag`` spells ``open`` (0.21.0). No server may add an arm, and none may add a
+    blessed key name: matching a bare ``open`` under any key would make ``status: open`` on a
+    ballot measure an open claim, and no corpus could opt out of that.
 
-    **The third arm is the one BOSC reported.** It was two arms at the previous pin, and the
-    mismatch — ``yidam open-questions`` reading a structured tag the MCP predicate forbade —
-    was filed from here as `goedelsoup/yidam#127`. Upstream settled it by widening the contract
-    rather than narrowing the CLI, and the note beside the arm names this corpus by measurement:
-    *"the corpus that measured 26 open questions against this tool's 2, and reshaped its data to
-    `[open]` to be seen at all."*
+    **The third arm is the one BOSC reported** — filed from here as `goedelsoup/yidam#127`, and
+    settled upstream by widening the contract rather than narrowing the CLI.
 
-    The implementation below is unchanged and stays that way. BOSC's ``claim_tag`` is that
-    property in substance, but ``_ont_yaml`` declares no properties, so a conforming read of the
-    declaration finds nothing — and it does not need to, because
-    :func:`watermark.site.corpus_mirror._claim_token` writes the bracketed token, which puts the
-    tag in the serialized text where arm two reaches it. Two-arm and three-arm servers therefore
-    return the identical set here, which is exactly what the contract says of a corpus that
-    declares nothing. Measured across the re-pin: 31 nodes, before and after. #2132 declares the
-    property and makes the third arm literal.
+    **Two arms are structurally empty here, and that is measured, not assumed.** The findings
+    arm reads records a yidam tool (`propose`) writes onto a node; BOSC serves no ``act`` tier
+    and the projection writes no ``yidam.findings``. The edge arm reads a ``claim_tag`` on a
+    LINK; :class:`watermark.site.corpus_mirror.MirrorLink` carries a target and a relationship
+    and nothing else — the standing lives on the node. So every entry this returns is a node
+    entry. The remaining two arms are served by one scan: BOSC's ``claim_tag`` is a declared
+    ``type: claim`` property, and :func:`watermark.site.corpus_mirror._claim_token` writes it
+    bracketed, which puts the tag in the serialized text where the prose arm reaches it.
     """
     out: list[MirrorNode] = []
     for node in mirror.nodes:
@@ -427,13 +425,87 @@ def _corpus_capability(settings: Settings | None = None) -> dict[str, Any]:
 _NO_INDEX = "no_index"
 
 
-def _absent(code: str, instances: int) -> dict[str, Any]:
+def _absent(code: str, instances: int, message: str) -> dict[str, Any]:
     """An empty answer that says which kind of nothing it is.
 
     ``instances`` is how many nodes were in scope for the search — the number that separates
-    *"this corpus has nothing to say"* from *"this filter selected nothing to search"*.
+    *"this corpus has nothing to say"* from *"this filter selected nothing to search"*. The
+    ``message`` is required at contract 0.30.0: a code tells a program which branch it is on,
+    and the message is what tells the agent reading it what to do next.
     """
-    return {"code": code, "instances": instances}
+    return {"code": code, "message": message, "instances": instances}
+
+
+def _no_term_match(instances: int) -> dict[str, Any]:
+    return _absent(
+        "no-term-match",
+        instances,
+        f"none of the {instances} node(s) searched contains any word of this query. This is a "
+        "statement about the words, not about the corpus's coverage — keyword search matches "
+        "terms rather than meanings, so a corpus that discusses the subject in other words "
+        "answers exactly this way.",
+    )
+
+
+def _predicate_unsatisfied(text: str, instances: int) -> dict[str, Any]:
+    return _absent(
+        "predicate-unsatisfied",
+        instances,
+        f"`where` `{text}` admitted none of the {instances} candidate(s) its classes hold. The "
+        "predicate parsed and typechecked; the values are what refused it.",
+    )
+
+
+def _diagnose(
+    mirror: Mirror, query: str, node_class: str | None, *, vector: bool
+) -> dict[str, Any]:
+    """Which kind of nothing an empty, un-`where`d answer is — upstream's order, branch for branch.
+
+    A declared class with no instances is answered before anything about the search, because no
+    search could have found what was never written. Then the index, if one answered; then the
+    query's own words.
+    """
+    instances = sum(1 for n in mirror.nodes if node_class is None or n.node_class == node_class)
+    if node_class is not None and instances == 0:
+        # `class-undeclared` — upstream's other arm — is unreachable: it needs a corpus that
+        # declares no ontology, and this projection declares one for every class it can emit.
+        return _absent(
+            "class-unpopulated",
+            instances,
+            f"the ontology declares `{node_class}` and no node in this corpus belongs to it. "
+            "The class exists; nothing has been written into it yet.",
+        )
+    if vector:
+        if instances > 0:
+            rows = f"no rows for `{node_class}`" if node_class else "no rows"
+            return _absent(
+                "class-unindexed",
+                instances,
+                f"the vector index holds {rows}, though this corpus holds {instances} node(s). "
+                "The index was built before those nodes were written: rebuild it with "
+                "`watermark corpus-mirror --index`.",
+            )
+        return _absent(
+            "index-empty",
+            instances,
+            "the vector index holds no rows and there is nothing to search.",
+        )
+    if not _terms(query):
+        return _absent(
+            "query-no-terms",
+            instances,
+            "the query contains no searchable terms, so nothing was compared against the corpus.",
+        )
+    return _no_term_match(instances)
+
+
+def _terms(query: str) -> list[str]:
+    return [t for t in re.split(r"\s+", query.lower().strip()) if t]
+
+
+#: A genesis hash — the only spelling of another corpus this server can accept, because it
+#: declares no `[index.remote.corpora]` names to resolve.
+_GENESIS = re.compile(r"^[0-9a-f]{12,}$")
 
 
 #: The capabilities that do not depend on runtime state, and so can be answered at import time.
@@ -463,6 +535,17 @@ _STATIC_CAPABILITIES: dict[str, Any] = {
     # `check_citation` resolves citations INTO a tonpa dependency — another corpus this one
     # pins and reads. BOSC pins none, so there is no far side for a span to have drifted from.
     "dependencies": False,
+    # `search_sources` / `resolve_source` (contract 0.28.0) answer from a SOURCE PACK enabled in
+    # `.yidam/sources/`. BOSC enables none — its connectors are Python in
+    # `watermark.hydrology.connectors`, not packs — and the contract is explicit that this is a
+    # fact about the corpus: a server with no pack answering every call `no enabled source
+    # pack` would be correct and would be telling a caller nothing the handshake cannot.
+    "sources": False,
+    # `propose` / `cycle` WRITE to the corpus, and this is the one capability that is permission
+    # rather than ability (contract 0.22.0): opt-in, never inferred from what the server could
+    # do. Nothing here opts in, and nothing should — the mirror is a projection regenerated on
+    # every export, so a commit into it would be reverted by the next one.
+    "act": False,
 }
 
 
@@ -575,11 +658,27 @@ async def retrieve(args: dict[str, Any]) -> dict[str, Any]:
     `absence` with code ``query-no-terms``. That distinction is the tool's job: an agent that
     passed an empty string gets back the size of the corpus it failed to search, which is more
     useful than a refusal and is something it can act on.
+
+    **`where` and `corpora`** (contract 0.20.0+). `where` is a `query` step's predicate with the
+    brackets off, parsed and typechecked by :mod:`corpus_query` and rejected under its codes —
+    one grammar, not two. `corpora` names other corpora sharing a remote index; BOSC has none,
+    so a genesis hash is accepted and changes nothing (`scope` stays `local`, which is how the
+    caller learns the span did not take effect) and a name is `unknown-corpus`.
     """
     args = args or {}
     query = str(args.get("query") or "").strip()
     k = max(1, int(args.get("k") or 5))
     node_class = args.get("class") or None
+    where_raw = args.get("where")
+    if where_raw is not None and not isinstance(where_raw, str):
+        return _error("where must be a string")
+    # PRESENT-AND-EMPTY is a rejection, not an absent filter: a caller who sent `where: ""`
+    # meant to narrow something, and answering as if it had not would hide that it narrowed
+    # nothing. `parse_where` owns the message.
+    where = where_raw.strip() if where_raw is not None else None
+    corpora = args.get("corpora") or []
+    if not isinstance(corpora, list) or not all(isinstance(c, str) for c in corpora):
+        return _error("corpora must be an array of strings")
 
     settings = get_settings()
     mirror = _mirror(settings)
@@ -593,39 +692,108 @@ async def retrieve(args: dict[str, Any]) -> dict[str, Any]:
     vector = vector_ready(settings)
     reason = None if vector else _NO_INDEX
 
-    # A class this corpus does not declare is REJECTED, not searched — a bad request, not an
-    # empty result. BOSC can tell the difference because it knows its own class list, and the
-    # two are different repairs: a rejection means fix the call, an absence means the corpus
-    # has nothing. They are mutually exclusive; a rejection carries no absence and vice versa.
-    if node_class is not None and node_class not in CLASSES:
-        return _json(
-            {
-                "degraded": not vector,
-                "degraded_reason": reason,
-                "rejected": {
-                    "code": "unknown-class",
-                    "detail": f"unknown class {node_class!r}. Valid: {_CLASS_LIST}.",
-                },
-                "absence": None,
-                "results": [],
-            }
-        )
+    def body(
+        results: list[dict[str, Any]],
+        *,
+        rejected: dict[str, Any] | None = None,
+        absence: dict[str, Any] | None = None,
+        degraded_reason: str | None = reason,
+        note: str | None = None,
+    ) -> dict[str, Any]:
+        out: dict[str, Any] = {
+            "degraded": degraded_reason is not None,
+            # WHAT HAPPENED, NOT WHAT WAS ASKED (contract 0.24.0). Only a shared remote index
+            # can make a span take effect, and BOSC has none — so a call naming `corpora` reads
+            # `local` here, which is not an error: it is how a caller tells "nothing there said
+            # anything" from "nothing there was asked".
+            "scope": "local",
+            "degraded_reason": degraded_reason,
+            # A REJECTION IS NOT AN ABSENCE, and at most one of the two is non-null.
+            "rejected": rejected,
+            "absence": absence,
+            "results": results,
+        }
+        if note is not None:
+            out["note"] = note
+        return _json(out)
 
-    in_scope = sum(1 for n in mirror.nodes if node_class is None or n.node_class == node_class)
-    if not query:
-        return _json(
-            {
-                "degraded": not vector,
-                "degraded_reason": reason,
-                "rejected": None,
-                "absence": _absent("query-no-terms", in_scope),
-                "results": [],
-            }
+    # The rejections, in upstream's order: the class, then the corpora, then `where`. A class
+    # this corpus does not declare is REJECTED, not searched — a bad request, not an empty
+    # result, and the two are different repairs.
+    if node_class is not None and node_class not in CLASSES:
+        near = corpus_query._near_miss(node_class, CLASSES)
+        return body(
+            [],
+            rejected={
+                "code": "unknown-class",
+                "message": f"`{node_class}` is not a class this corpus declares"
+                + (f" — did you mean `{near}`?" if near else ""),
+            },
         )
+    for name in corpora:
+        # A genesis hash is accepted and changes nothing — there is no shared index for it to
+        # name a corpus in, which `scope: local` reports. A NAME needs a declaration to
+        # resolve against, and this corpus declares none.
+        if not _GENESIS.match(name):
+            return body(
+                [],
+                rejected={
+                    "code": "unknown-corpus",
+                    "message": f"`{name}` is neither a corpus name this repository declares nor "
+                    "a genesis hash, and this corpus declares no `[index.remote.corpora]` names",
+                },
+            )
+
+    # `where` is `query`'s step filter with the brackets off, checked by `query`'s own checker
+    # over one synthetic step — so it narrows a `*` exactly as `query` does and rejects under
+    # `query`'s codes. Never a second grammar.
+    predicates: tuple[corpus_query.Predicate, ...] = ()
+    where_classes: tuple[str, ...] | None = None
+    if where is not None:
+        predicates, problem = corpus_query.parse_where(where)
+        if problem is None:
+            where_classes, problem, _ = corpus_query._narrow(
+                corpus_query.Step(node_class or "*", predicates=predicates), 0
+            )
+        elif problem.code == "parse":
+            problem = corpus_query.Rejection(
+                0, "parse", f"`where` did not parse: {problem.message}"
+            )
+        if problem is not None:
+            return body([], rejected={"code": problem.code, "message": problem.message})
+
+    # The candidate set `where` admits — the class filter, then the predicate, applied BEFORE
+    # the `k` cut, so a `where` never empties a page the corpus could have filled.
+    evaluated = 0
+    candidates: list[MirrorNode] = []
+    for node in mirror.nodes:
+        if node_class is not None and node.node_class != node_class:
+            continue
+        if where_classes is not None:
+            if node.node_class not in where_classes:
+                continue
+            evaluated += 1
+            if not corpus_query.satisfies(node, predicates):
+                continue
+        candidates.append(node)
+
+    def quiet(*, vector_arm: bool) -> dict[str, Any]:
+        if where is not None and evaluated > 0 and not candidates:
+            return _predicate_unsatisfied(where, evaluated)
+        if where is not None and candidates and _terms(query):
+            return _no_term_match(len(candidates))
+        return _diagnose(mirror, query, node_class, vector=vector_arm)
+
+    if not query or not candidates:
+        return body([], absence=quiet(vector_arm=False))
 
     if vector:
         try:
-            hits = _index(settings).query(query, limit=k, node_class=node_class)
+            admitted = {n.id for n in candidates}
+            # With a `where`, the index is asked for every row and the predicate cuts it — the
+            # index holds no typed property columns to filter on, so the filter is the mirror's.
+            limit = len(mirror.nodes) if where is not None else k
+            hits = _index(settings).query(query, limit=limit, node_class=node_class)
             by_id = {n.id: n for n in mirror.nodes}
             results = [
                 {
@@ -635,61 +803,48 @@ async def retrieve(args: dict[str, Any]) -> dict[str, Any]:
                     # only reach the keyword one, so the vector arm is graded locally instead.
                     "id": hit.node_id,
                     "path": node_path(hit.node_id),
+                    # Which corpus a row came from; null for this one, and this is the only
+                    # one a local index holds (contract 0.24.0).
+                    "corpus": None,
                     "class": hit.node_class,
                     "label": hit.label,
                     "text": (
                         by_id[hit.node_id].description if hit.node_id in by_id else hit.description
                     ),
                     "score": round(float(hit.score), 6),
+                    # Whether `text` is all the text the index holds. Only a remote index that
+                    # caps per-row storage can answer true (contract 0.22.0).
+                    "truncated": False,
                 }
                 for hit in hits
-            ]
-            return _json(
-                {
-                    "degraded": False,
-                    "degraded_reason": None,
-                    "rejected": None,
-                    "absence": None if results else _absent("no-term-match", in_scope),
-                    "results": results,
-                }
-            )
+                if hit.node_id in admitted
+            ][:k]
+            return body(results, absence=None if results else quiet(vector_arm=True))
         except Exception as exc:  # the index exists but would not answer — say so, do not guess
             log_hint = next(iter(str(exc).splitlines()), repr(exc))
-            results = _keyword_results(mirror, query, k, node_class)
-            return _json(
-                {
-                    "degraded": True,
-                    "degraded_reason": _NO_INDEX,
-                    "rejected": None,
-                    "absence": None if results else _absent("no-term-match", in_scope),
-                    "results": results,
-                    "note": f"vector retrieval unavailable ({log_hint}); answered by keyword",
-                }
+            results = _keyword_results(candidates, query, k)
+            return body(
+                results,
+                absence=None if results else quiet(vector_arm=False),
+                degraded_reason=_NO_INDEX,
+                note=f"vector retrieval unavailable ({log_hint}); answered by keyword",
             )
 
-    results = _keyword_results(mirror, query, k, node_class)
-    return _json(
-        {
-            "degraded": True,
-            "degraded_reason": _NO_INDEX,
-            "rejected": None,
-            "absence": None if results else _absent("no-term-match", in_scope),
-            "results": results,
-        }
-    )
+    results = _keyword_results(candidates, query, k)
+    return body(results, absence=None if results else quiet(vector_arm=False))
 
 
-def _keyword_results(
-    mirror: Mirror, query: str, k: int, node_class: str | None
-) -> list[dict[str, Any]]:
-    """Keyword hits in the contract's result shape, scored 0..1 by term coverage."""
-    terms = [t for t in re.split(r"\s+", query.lower().strip()) if t]
+def _keyword_results(candidates: list[MirrorNode], query: str, k: int) -> list[dict[str, Any]]:
+    """Keyword hits in the contract's result shape, scored 0..1 by term coverage.
+
+    Upstream ranks this arm by BM25 since the re-pin; no case grades a ranking, and this one is
+    kept because the order an agent sees is not a conformance question.
+    """
+    terms = _terms(query)
     if not terms:
         return []
     scored: list[tuple[float, MirrorNode]] = []
-    for node in mirror.nodes:
-        if node_class is not None and node.node_class != node_class:
-            continue
+    for node in candidates:
         haystack = f"{node.label} {node.description} {node.meta}".lower()
         hits = sum(1 for t in terms if t in haystack)
         if hits:
@@ -701,10 +856,12 @@ def _keyword_results(
             # return one shape or the server is non-conforming whichever one answered.
             "id": node.id,
             "path": node_path(node.id),
+            "corpus": None,
             "class": node.node_class,
             "label": node.label,
             "text": node.description,
             "score": round(score, 6),
+            "truncated": False,
         }
         for score, node in scored[:k]
     ]
@@ -758,7 +915,14 @@ _OPEN_QUESTIONS = _spec("open_questions")
 async def open_questions(_args: dict[str, Any]) -> dict[str, Any]:
     nodes = open_question_nodes(_mirror(get_settings()))
     return _json(
-        {"open_questions": [{"id": n.id, "label": n.label, "path": node_path(n.id)} for n in nodes]}
+        {
+            "open_questions": [
+                # `scope` says which half of the predicate matched (contract 0.21.0). Always
+                # `node` here — the edge arm has nothing to read; see `open_question_nodes`.
+                {"id": n.id, "label": n.label, "path": node_path(n.id), "scope": "node"}
+                for n in nodes
+            ]
+        }
     )
 
 
@@ -773,7 +937,64 @@ STANDINGS = ("verified", "inference", "open")
 
 #: The bracketed form, which is the ONLY form scanned for in prose. A bare `open` in a sentence
 #: is a word — matching it under any key would make `status: open` on a ballot measure a claim.
-_TAG_IN_PROSE = re.compile(r"\[(" + "|".join(STANDINGS) + r")\]")
+#: The bracket may carry a QUALIFIER after the standing (`[inference — as to the 2019 order]`);
+#: whether it is one, or a citation that disqualifies the tag, is :func:`parse_tag`'s call.
+_TAG_IN_PROSE = re.compile(r"\[(?:" + "|".join(STANDINGS) + r")[^\[\]]*\]")
+
+#: What may sit between a standing and its qualifier — upstream's `TAG_SEPARATORS`.
+_TAG_SEPARATORS = "\u2014\u2013-:;,|/="  # em dash, en dash, then ASCII
+
+#: A detail is a qualifier only when it NARROWS the standing — upstream's `NARROWING_HEADS`.
+_NARROWING_HEADS = ("as", "for", "which", "only", "not", "insofar")
+
+
+def _lstrip_separators(text: str) -> str:
+    return text.lstrip(_TAG_SEPARATORS + " \t\n\r\f\v")
+
+
+def _has_word(text: str, word: str) -> bool:
+    return re.search(rf"(?<![\w']){re.escape(word)}(?![\w'])", text, re.I) is not None
+
+
+def _narrowing_detail(inner: str) -> bool:
+    standing = next((w for w in STANDINGS if inner.startswith(w)), None)
+    if standing is None:
+        return False
+    words = [w.lower() for w in re.split(r"[^\w']+", _lstrip_separators(inner[len(standing) :]))]
+    words = [w for w in words if w]
+    if not words:
+        return False
+    return words[0] in _NARROWING_HEADS or any(w in STANDINGS for w in words)
+
+
+def parse_tag(value: str) -> tuple[str, str | None] | None:
+    """``(standing, qualifier)`` for a claim tag, or ``None`` — upstream's `parse_tag`, ported.
+
+    A port and not a paraphrase, because the edge cases are the rule. ``[open]`` and bare
+    ``open`` are the same tag. ``[inference — as to the 2019 order]`` is an inference
+    QUALIFIED by what it narrows to. ``[verified — Pearl 2009]`` is **no tag at all**: a
+    citation in the bracket looks tagged to a reader and is bare assertion to every tool, which
+    is the rule `claim_tags` states and this enforces. ``[verified-ish]`` is not a tag, and
+    neither is a bracket naming two standings.
+    """
+    text = value.strip()
+    if text.startswith("["):
+        if not text.endswith("]"):
+            return None
+        text = text[1:-1]
+    inner = " ".join(text.split())
+    standing = next((w for w in STANDINGS if inner.startswith(w)), None)
+    if standing is None:
+        return None
+    detail = _lstrip_separators(inner[len(standing) :])
+    if not detail:
+        return standing, None
+    if not _narrowing_detail(inner):
+        return None  # a citation, not a qualifier
+    if any(_has_word(detail, w) for w in STANDINGS):
+        return None  # two standings in one bracket
+    return standing, detail
+
 
 #: A fenced block is masked before scanning; inline code deliberately is NOT.
 #:
@@ -809,10 +1030,9 @@ _MENTION_BEFORE = re.compile(
 _CLAIM_PROPERTY = "claim_tag"
 
 
-def _standing_of(raw: Any) -> str | None:
-    """The standing a claim-property value carries, in either spelling, or ``None``."""
-    token = str(raw or "").strip().strip("[]").lower()
-    return token if token in STANDINGS else None
+def _standing_of(raw: Any) -> tuple[str, str | None] | None:
+    """The tag a claim-property value carries, in either spelling, or ``None``."""
+    return parse_tag(str(raw)) if isinstance(raw, str) and raw.strip() else None
 
 
 def _prose_of(node: MirrorNode) -> list[str]:
@@ -827,11 +1047,13 @@ def _prose_of(node: MirrorNode) -> list[str]:
     return [t for t in out if t]
 
 
-def _tagged_sentences(text: str) -> list[tuple[str, str]]:
-    """``(standing, sentence)`` for each asserted claim in ``text``; mentions dropped."""
+def _tagged_sentences(text: str) -> list[tuple[str, str | None, str]]:
+    """``(standing, qualifier, sentence)`` per asserted claim in ``text``; mentions dropped."""
     masked = _FENCED.sub(" ", text)
-    out: list[tuple[str, str]] = []
+    out: list[tuple[str, str | None, str]] = []
     for match in _TAG_IN_PROSE.finditer(masked):
+        if (tag := parse_tag(match.group(0))) is None:
+            continue
         if _MENTION_AFTER.match(masked[match.end() :]):
             continue
         if _MENTION_BEFORE.search(masked[: match.start()]):
@@ -840,7 +1062,7 @@ def _tagged_sentences(text: str) -> list[tuple[str, str]]:
         start = max(masked.rfind(". ", 0, match.start()) + 1, 0)
         end = masked.find(". ", match.end())
         sentence = masked[start : end + 1 if end != -1 else len(masked)].strip()
-        out.append((match.group(1), sentence))
+        out.append((tag[0], tag[1], sentence))
     return out
 
 
@@ -861,19 +1083,36 @@ def node_claims(node: MirrorNode) -> list[dict[str, Any]]:
     implementation computes that, and a field named for it would manufacture a tier nobody
     derived.
     """
-    common = {
-        "node": node.id,
-        "class": node.node_class,
-        "scope": node.meta.get("scope"),
-        "sources": _sources_of(node),
-    }
+    where = {"node": node.id, "class": node.node_class, "sources": _sources_of(node)}
+
+    def claim(
+        text: str, tag: tuple[str, str | None], scope: str, prop: str | None
+    ) -> dict[str, Any]:
+        return {
+            "text": text,
+            "standing": tag[0],
+            # What the bracket narrowed the standing to, or null for a bare tag.
+            "qualifier": tag[1],
+            # WHERE the claim is made (contract 0.21.0) — `statement` in prose, `node` in a
+            # claim-typed property, `edge` on a link. This field used to carry the node's SITE
+            # scope; that lives in `get_node`'s content, and the contract owns this name now.
+            "scope": scope,
+            "property": prop,
+            # The edge arm's two fields. Always null here: a `MirrorLink` carries no claim tag,
+            # so this projection authors no edge claims (see `open_question_nodes`).
+            "relationship": None,
+            "target": None,
+            **where,
+        }
+
     out: list[dict[str, Any]] = []
-    # The property arm contributes the node's own standing ONCE, and its text is the node's
-    # description: the assertion the standing attaches to, not the key the tag was written on.
-    if (standing := _standing_of(node.meta.get(_CLAIM_PROPERTY))) is not None:
-        out.append({"text": node.description or node.label, "standing": standing, **common})
-    for standing, sentence in _tagged_sentences(" ".join(_prose_of(node))):
-        out.append({"text": sentence, "standing": standing, **common})
+    # The property arm contributes the node's own standing ONCE. Its text is the node's LABEL —
+    # upstream's choice for a node-scope claim, and the right one: the claim is about the node,
+    # and the label is what names it.
+    if (tag := _standing_of(node.meta.get(_CLAIM_PROPERTY))) is not None:
+        out.append(claim(node.label, tag, "node", _CLAIM_PROPERTY))
+    for standing, qualifier, sentence in _tagged_sentences(" ".join(_prose_of(node))):
+        out.append(claim(sentence, (standing, qualifier), "statement", None))
     return out
 
 
@@ -947,18 +1186,21 @@ async def claim_tags(_args: dict[str, Any]) -> dict[str, Any]:
             "tags": [
                 {
                     "standing": standing,
-                    # A property the class typed `claim` accepts the bare token; prose is
-                    # scanned for the bracketed one only.
+                    # Prose is scanned for the bracketed token only; a property the class
+                    # typed `claim` reads BOTH spellings — so both are listed there, as
+                    # upstream lists them, and a caller is not left to guess which one counts.
                     "in_prose": f"[{standing}]",
-                    "in_property": standing,
+                    "in_property": [standing, f"[{standing}]"],
                     "meaning": _TAG_MEANINGS[standing],
                 }
                 for standing in STANDINGS
             ],
             "note": (
-                "Write the tag alone. `[verified — Pearl 2009]` matches nothing and counts as "
-                "no claim at all: it looks tagged to a reader and reads as bare assertion to "
-                "every tool. Write the tag and put the citation beside it."
+                "In prose, only the bracketed token is scanned — a bare `open` in a sentence is "
+                "a word. In a property the class declared `type: claim`, both spellings are "
+                "read. Write the tag alone and put any citation beside it: "
+                "`[verified — Pearl 2009]` matches nothing and is counted as no claim at all, "
+                "so it looks tagged to a reader and reads as bare assertion to every tool."
             ),
         }
     )
@@ -1078,7 +1320,7 @@ async def neighbors(args: dict[str, Any]) -> dict[str, Any]:
 # lives in `corpus_query` rather than here — `yidam_tools` is the MCP surface.
 
 
-def _query_envelope(run: corpus_query.Execution, *, across: bool = False) -> dict[str, Any]:
+def _query_envelope(run: corpus_query.Execution) -> dict[str, Any]:
     """The fields every ontology response shares, in the discipline the contract sets.
 
     `rejected` and `absence` are both present on every response and **at most one is non-null**.
@@ -1087,11 +1329,12 @@ def _query_envelope(run: corpus_query.Execution, *, across: bool = False) -> dic
     """
     return {
         "query": run.query,
-        # `scope` reports what was ASKED FOR, not what was found: a spanning query over a
-        # repository with no installed dependency is still a spanning query, and answering
-        # `local` would tell the caller its flag was ignored. BOSC pins no tonpa dependency, so
-        # the reachable set is identical either way and every result carries `origin: null`.
-        "scope": "across" if across else "local",
+        # `scope` reports WHAT HAPPENED, not what was asked (contract 0.24.0 — it was the other
+        # way round at 0.13.0, and the reversal is the point). A spanning query over a
+        # repository with no installed dependency read one corpus, and saying `across` told the
+        # caller something had been consulted that was not. BOSC pins no tonpa dependency, so
+        # this is always `local`; every result carries `origin: null` for the same reason.
+        "scope": "local",
         "rejected": run.rejected.to_dict() if run.rejected else None,
         "absence": run.absence.to_dict() if run.absence else None,
         "diagnostics": [d.to_dict() for d in run.diagnostics],
@@ -1119,6 +1362,9 @@ async def query(args: dict[str, Any]) -> dict[str, Any]:
         str(args.get("query") or ""),
         anchor_k=max(1, int(args.get("anchor_k") or 1)),
         vector_ready=vector_ready(settings),
+        # Changes nothing about the walk — there is no dependency to span into — except that an
+        # anchored spanning query is refused `anchor-across`, as upstream refuses it.
+        across=bool(args.get("across")),
     )
     if bad_field is not None and run.rejected is None:
         run.rejected = bad_field
@@ -1134,7 +1380,7 @@ async def query(args: dict[str, Any]) -> dict[str, Any]:
     run.cost.read(n.id for n in projected)
     body = {
         "kind": "query",
-        **_query_envelope(run, across=bool(args.get("across"))),
+        **_query_envelope(run),
         # A LIST, not a count. `steps[i].classes` is what a `*` narrowed to, which is the
         # difference between "every class" and "the one that declares the property".
         "steps": [
@@ -1144,7 +1390,9 @@ async def query(args: dict[str, Any]) -> dict[str, Any]:
                 "classes": list(run.step_classes[i]) if i < len(run.step_classes) else [],
                 "relationship": step.relationship,
                 "direction": step.direction if step.relationship else None,
-                "predicate": list(step.predicate) if step.predicate else None,
+                # One string per predicate, as written back by the parser — upstream's
+                # `StepView.predicates`. Empty, not null, when the step filters nothing.
+                "predicates": [p.text() for p in step.predicates],
             }
             for i, step in enumerate(run.steps)
         ],
@@ -1158,6 +1406,39 @@ async def query(args: dict[str, Any]) -> dict[str, Any]:
         # server holding one declares `ontology: false` and serves no `query` at all.
         "unschematised": False,
     }
+    return _json(body)
+
+
+_PATHS = _spec("paths")
+
+
+def _int_arg(args: dict[str, Any], name: str, default: int) -> int:
+    """An optional integer argument, defaulted only when ABSENT — `0` is floored, not replaced."""
+    raw = args.get(name)
+    return default if raw is None else int(raw)
+
+
+@tool(_PATHS["name"], _PATHS["description"], _PATHS["inputSchema"])
+@traced_tool
+async def paths(args: dict[str, Any]) -> dict[str, Any]:
+    """How two nodes are related, as typed paths — each one a `query` that runs.
+
+    The engine is :func:`corpus_query.find_paths`, a port of upstream's `--paths`: every path
+    returned has been run through the same `execute` the `query` tool uses, and its answer
+    holds `to`. An unresolvable node is an `unknown-node` rejection (an answer, not an
+    `isError`), because an empty list would assert the two nodes are unrelated.
+    """
+    args = args or {}
+    for name in ("from", "to"):
+        if not isinstance(args.get(name), str):
+            return _error(f"`{name}` is required — a node id such as `site/lima`")
+    body = corpus_query.find_paths(
+        _mirror(get_settings()),
+        args["from"],
+        args["to"],
+        max_hops=_int_arg(args, "max_hops", corpus_query.PATHS_MAX_HOPS),
+        limit=_int_arg(args, "limit", corpus_query.PATHS_LIMIT),
+    )
     return _json(body)
 
 
@@ -1384,6 +1665,7 @@ _HANDLERS: dict[str, Any] = {
     "claim_tags": claim_tags,
     "neighbors": neighbors,
     "query": query,
+    "paths": paths,
     "pack": pack,
     "estimate": estimate,
     "licensed_edges": licensed_edges,

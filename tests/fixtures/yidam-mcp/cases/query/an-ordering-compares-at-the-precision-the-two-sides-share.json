@@ -1,0 +1,12 @@
+{
+  "tool": "query",
+  "corpus": "corpus-dated",
+  "capability": "ontology",
+  "why": "The one assertion no other case can make, and the reason this corpus exists. `partial.yml` knows `began` to the YEAR — `1893` — and the query asks to the day. An ordering drops both sides to the coarser precision, so `1893` and `1893-06-01` are compared on the years they share and the row is returned; as text, `\"1893\" < \"1893-06-01\"` and a lexical implementation answers ZERO rows here. This is deliberately not `=`'s rule and the divergence is the point: `began=1893-06-01` matches nothing, because an equality asked more precisely than the corpus knows is genuinely unanswerable, while an ordering usually is not — 1893 is after 1893-06-01 or before it on some day, and dropping the row would be a silent undercount in the direction of a smaller answer. The consequence a caller must know: where the corpus is coarser than the query, `<=` and `>=` can BOTH hold for a value `=` rejects. This row is in all three of `began>=1893-06-01`, `began<=1893-06-01` and not in `began=1893-06-01`.",
+  "call": { "query": "tenure[began>=1893-06-01]" },
+  "expect": {
+    "equals": { "scope": "local", "matched": 1, "rejected": null, "absence": null },
+    "count": { "results": 1 },
+    "equalsAt": { "results.0.node": "tenure/partial.yml" }
+  }
+}

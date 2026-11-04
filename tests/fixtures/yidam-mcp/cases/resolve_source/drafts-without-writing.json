@@ -1,0 +1,50 @@
+{
+  "tool": "resolve_source",
+  "corpus": "corpus-sourced",
+  "capability": "sources",
+  "why": "The entry `source add` would write, returned and not written. The identifier is the first location whatever the build: what a describe adds after it, through `then`, needs `source-transforms`, and the case asserts only what holds in both. Nothing in the catalog holds this DOI, so `catalogued` is null rather than absent — a client testing the key must not have to tell \"not catalogued\" from \"a server too old to say\".\n\n`needs` names what the pack's transport asks of the SERVER's environment, which is not the caller's. The pack requires a contact address, so `needs.contact` is `required` on every server; whether it is set is a fact about the machine and the case does not assert it.",
+  "call": {
+    "identifier": "doi:10.1167/tvst.8.5.14"
+  },
+  "expect": {
+    "fields": [
+      "identifier",
+      "pack",
+      "entry",
+      "path",
+      "catalogued",
+      "frontmatter",
+      "body",
+      "locations",
+      "draft",
+      "ttl_days",
+      "answered",
+      "unfollowed",
+      "needs",
+      "unmet"
+    ],
+    "nonEmpty": [
+      "frontmatter",
+      "body",
+      "locations",
+      "entry"
+    ],
+    "each": {
+      "locations": [
+        "identifier",
+        "url",
+        "via",
+        "description"
+      ]
+    },
+    "equalsAt": {
+      "identifier": "doi:10.1167/tvst.8.5.14",
+      "pack": "scholarly",
+      "locations.0.identifier": "doi:10.1167/tvst.8.5.14",
+      "catalogued": null,
+      "ttl_days": 365,
+      "draft.type": "paper",
+      "needs.contact": "required"
+    }
+  }
+}
