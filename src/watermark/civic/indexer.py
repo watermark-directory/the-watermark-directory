@@ -107,6 +107,29 @@ class OcrUnavailableError(RuntimeError):
     """OCR was requested but pytesseract / the tesseract binary isn't available."""
 
 
+class IndexDowngrade(BaseModel):
+    """One document a re-index would leave unread that the committed index had read."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    filename: str
+    before: str  # the committed text_method
+    before_chars: int
+    before_hits: list[str]
+
+
+class IndexDowngradeError(RuntimeError):
+    """A re-index would discard text the committed index holds (#2163)."""
+
+    def __init__(self, out_path: Path, downgrades: list[IndexDowngrade]) -> None:
+        self.out_path = out_path
+        self.downgrades = downgrades
+        super().__init__(
+            f"refusing to overwrite {out_path}: {len(downgrades)} document(s) the committed "
+            "index read would be written as text_method: none"
+        )
+
+
 def _pdf_text(path: Path) -> str:
     pdf = PdfDocument(path)
     try:
@@ -363,8 +386,49 @@ def _text_extraction_note(report: IndexReport) -> str:
     return note
 
 
-def write_index(report: IndexReport, out_path: Path) -> Path:
-    """Write the meeting index YAML (a timeline source; corridor hits drive events)."""
+def index_downgrades(report: IndexReport, out_path: Path) -> list[IndexDowngrade]:
+    """Documents the committed index at ``out_path`` read that ``report`` leaves unread.
+
+    A re-index is total, not incremental, so a document whose text was read before (most
+    often by ``--ocr``) and yields nothing now would lose its text, its verified date and its
+    corridor hits on write. That is never what a re-run means: it happens when OCR is left
+    off, or when the source bytes are not in the working tree (they are vaulted since #2147,
+    and a missing file indexes as ``none``). Matched by filename.
+    """
+    if not out_path.exists():
+        return []
+    prior = yaml.safe_load(out_path.read_text(encoding="utf-8")) or {}
+    rows = prior.get("documents", []) if isinstance(prior, dict) else []
+    before = {
+        str(r["filename"]): r
+        for r in rows
+        if isinstance(r, dict) and r.get("filename") and r.get("text_method", "none") != "none"
+    }
+    out: list[IndexDowngrade] = []
+    for d in report.docs:
+        was = before.get(d.filename)
+        if was is not None and d.text_method == "none":
+            out.append(
+                IndexDowngrade(
+                    filename=d.filename,
+                    before=str(was["text_method"]),
+                    before_chars=int(was.get("char_count") or 0),
+                    before_hits=list(was.get("hits") or []),
+                )
+            )
+    return out
+
+
+def write_index(report: IndexReport, out_path: Path, *, force: bool = False) -> Path:
+    """Write the meeting index YAML (a timeline source; corridor hits drive events).
+
+    Refuses (:class:`IndexDowngradeError`) to overwrite a committed index in a way that
+    discards text it holds — see :func:`index_downgrades`. ``force=True`` writes anyway.
+    """
+    if not force:
+        downgrades = index_downgrades(report, out_path)
+        if downgrades:
+            raise IndexDowngradeError(out_path, downgrades)
     out_path.parent.mkdir(parents=True, exist_ok=True)
     doc: dict[str, Any] = {
         "meta": {

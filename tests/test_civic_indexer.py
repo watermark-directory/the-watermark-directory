@@ -8,9 +8,11 @@ from pathlib import Path
 import yaml
 
 from watermark.civic.indexer import (
+    IndexDowngradeError,
     _date_appears,
     _verify_date,
     extract_text,
+    index_downgrades,
     index_meetings,
     write_index,
 )
@@ -318,6 +320,56 @@ def test_write_index_shape(tmp_path: Path) -> None:
     assert "NO OCR" in doc["meta"]["text_extraction"]
     assert doc["meta"]["counts"]["with_corridor_hits"] == 1
     assert doc["documents"][0]["date_verified"] == "2026-01-06"
+
+
+def test_write_index_refuses_to_discard_committed_text(tmp_path: Path) -> None:
+    """#2163: a default re-run must not silently drop text an earlier run read.
+
+    Lima lost six OCR'd council minutes (~120k chars, three corridor-hit meetings) this way,
+    from a run whose own summary line went UP. The same loss follows from indexing a tree
+    whose vaulted sources were never hydrated: a missing file reads as ``none``.
+    """
+    settings = _seed_corpus(tmp_path, text="data center rezoning on January 6, 2026")
+    out = tmp_path / "meeting-index.yaml"
+    write_index(index_meetings(_body(), settings=settings), out)
+    committed = out.read_text(encoding="utf-8")
+
+    # The source is no longer in the working tree (un-hydrated) → the re-read finds nothing.
+    (settings.documents_dir / "bath-township" / "meetings" / "1-6-26 minutes.docx").unlink()
+    poorer = index_meetings(_body(), settings=settings)
+    assert poorer.docs[0].text_method == "none"
+
+    [down] = index_downgrades(poorer, out)
+    assert (down.filename, down.before) == ("1-6-26 minutes.docx", "docx")
+    assert down.before_hits == ["datacenter", "rezoning"]
+    assert down.before_chars > 0
+
+    try:
+        write_index(poorer, out)
+    except IndexDowngradeError as exc:
+        assert exc.downgrades == [down]
+    else:
+        raise AssertionError("a downgrading write was not refused")
+    assert out.read_text(encoding="utf-8") == committed  # untouched
+
+    # --force is the deliberate path, and then the loss is written as asked.
+    write_index(poorer, out, force=True)
+    assert yaml.safe_load(out.read_text())["documents"][0]["text_method"] == "none"
+
+
+def test_write_index_allows_reads_that_do_not_lose_text(tmp_path: Path) -> None:
+    """A fresh index, an unchanged re-run, and a still-unread row all write without --force."""
+    settings = _seed_corpus(tmp_path, text="data center on January 6, 2026")
+    out = tmp_path / "meeting-index.yaml"
+    report = index_meetings(_body(), settings=settings)
+    assert index_downgrades(report, out) == []  # nothing committed yet
+    write_index(report, out)
+    write_index(report, out)  # an identical re-run
+
+    (settings.documents_dir / "bath-township" / "meetings" / "1-6-26 minutes.docx").unlink()
+    unread = index_meetings(_body(), settings=settings)
+    write_index(unread, out, force=True)
+    write_index(unread, out)  # none → none loses nothing
 
 
 def test_extract_text_ocr_fallback(tmp_path: Path, monkeypatch: object) -> None:

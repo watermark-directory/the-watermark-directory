@@ -244,6 +244,11 @@ def subdivisions_index(
     ocr: bool = typer.Option(
         False, "--ocr", help="OCR image-only scanned PDFs (needs the tesseract binary)."
     ),
+    force: bool = typer.Option(
+        False,
+        "--force",
+        help="Write even if documents the committed index read would become unread.",
+    ),
 ) -> None:
     """OCR/text-index a body's downloaded meetings: verify dates + scan corridor topics.
 
@@ -252,9 +257,17 @@ def subdivisions_index(
     text (PDF text layer / DOCX / HTML; --ocr also reads image-only scans), confirms
     the listing date against the file's own content, scans for corridor topics, and
     writes meeting-index.yaml. Meetings with a corridor hit then surface on the timeline.
+
+    Refuses to overwrite the committed index if a document it read (e.g. by an earlier
+    --ocr run) would now be written unread; pass --ocr, hydrate the sources, or --force.
     """
     from watermark.civic import load_registry
-    from watermark.civic.indexer import OcrUnavailableError, index_meetings, write_index
+    from watermark.civic.indexer import (
+        IndexDowngradeError,
+        OcrUnavailableError,
+        index_meetings,
+        write_index,
+    )
     from watermark.civic.layout import meetings_dir
 
     settings = get_settings()
@@ -276,9 +289,23 @@ def subdivisions_index(
         )
         raise typer.Exit(1)
 
-    out = write_index(
-        report, meetings_dir(settings.extracted_dir, slug, settings) / "meeting-index.yaml"
-    )
+    try:
+        out = write_index(
+            report,
+            meetings_dir(settings.extracted_dir, slug, settings) / "meeting-index.yaml",
+            force=force,
+        )
+    except IndexDowngradeError as exc:
+        console.print(f"[red]Not written:[/] {exc}.")
+        for d in exc.downgrades:
+            hits = f" {d.before_hits}" if d.before_hits else ""
+            console.print(f"  {d.filename}: {d.before}, {d.before_chars:,} chars{hits} → none")
+        console.print(
+            "Re-run with [bold]--ocr[/] if they were OCR'd, run "
+            "[bold]watermark documents hydrate[/] if the sources are missing, or pass "
+            "[bold]--force[/] to discard that text deliberately."
+        )
+        raise typer.Exit(1) from exc
     scanned = report.text_extracted
     console.print(
         f"[green]{report.text_extracted}/{len(report.docs)}[/] text-extracted, "
@@ -288,7 +315,7 @@ def subdivisions_index(
     if scanned < len(report.docs):
         console.print(
             f"[dim]{len(report.docs) - scanned} file(s) had no text layer "
-            f"(image-only scans) — they need an OCR pass not wired here.[/]"
+            f"(image-only scans, or sources not hydrated) — `--ocr` reads a scan.[/]"
         )
     console.print(f"[green]Index[/] {out}")
 
