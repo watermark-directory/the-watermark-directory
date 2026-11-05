@@ -251,10 +251,13 @@ reading:
 - **`site.exhibits`** — deliberately **not** changed. Slicing pages out of a PDF needs the actual
   bytes, so `available: false` there is the truth, and it already reads false in today's CI.
 
-⚠️ **One consequence to state plainly: `watermark documents manifest --check` becomes vacuous in
-CI.** With no source bytes present, `present_rels` returns nothing and there is no file that could
-be unrecorded — so the gate passes by having nothing to ask about. It still bites where it matters
-(a developer's tree, an ingest, a hydrated runner). Making it bite in CI would mean hydrating there,
+⚠️ **One consequence to state plainly: half of `watermark documents manifest --check` is vacuous
+in CI.** With no source bytes present, `present_rels` returns nothing, so the byte-level rules —
+`unrecorded`, `address-changed`, `size-changed` — have nothing to examine and pass by having nothing
+to ask about. #2159 split the check so the rules that read only the record run over every artifact
+regardless, and the command prints how many artifacts the byte rules reached (`byte rules: 0 of N
+present here`) instead of one green line for both. The byte rules still bite where it matters (a
+developer's tree, an ingest, a hydrated runner). Making them bite in CI would mean hydrating there,
 which needs R2 credentials in Actions; that is a separate decision and not one this change assumes.
 
 ## The record: `watermark documents manifest`
@@ -293,14 +296,26 @@ Four properties of that record are deliberate, and each one is a decision rather
   custody paths to one blob is a fact about the corpus, and collapsing them would lose one. Content
   addressing dedupes in the store, which is where dedup belongs.
 
-`--check` needs neither the real bytes nor the network — the same argument that makes the record
-free — so CI can run it, and the `catalog` job does (#2148). It reports six kinds of drift, and the
-asymmetry between them matters: **`unrecorded`** (a vaultable file that exists, or that Git-LFS
-tracks, and no manifest names) is the one that counts, because a file no manifest names is a source
-byte with no record at all. **`orphaned`** is not automatically wrong: it is the expected state once
-nothing is LFS-tracked. **`address-changed`** means a source file was replaced, which chain of
-custody forbids outright. **`missing`** is reported rather than treated as drift, because an absent
-file on a partial checkout is not evidence the record is wrong.
+`--check` needs neither the real bytes nor the network, so CI can run it, and the `catalog` job
+does (#2148). **What it can catch there is narrower than what it can run**, so its rules come in two
+tiers (#2159).
+
+The **record rules** read the manifests alone and run over every recorded artifact, hydrated or not
+— these are what gate in CI: `malformed` (a `vault.yaml` that does not parse or validate),
+`collection-mismatch` and `counts-mismatch` (a `meta` block that disagrees with its file),
+`duplicated` (a rel recorded twice), `misfiled` (recorded under a collection it does not belong
+to), `not-vaultable` (a rel the vaulted-set predicate rejects, so git would commit its bytes too),
+`bad-address` (a `sha256` that is not one) and `media-changed` (the extension table types the file
+differently).
+
+The **byte rules** compare the record against what is on disk, and run only where the bytes are:
+**`unrecorded`** (a vaultable file that exists, or that Git-LFS tracks, and no manifest names) is
+the one that counts *on a tree with bytes*, because a file no manifest names is a source byte with
+no record at all — and it cannot fire in CI, where there is no file to be unrecorded.
+**`address-changed`** means a source file was replaced, which chain of custody forbids outright; a
+well-formed but wrong digest is invisible without the bytes. **`orphaned`** is not automatically
+wrong: it is the expected state once nothing is LFS-tracked. **`missing`** is reported rather than
+treated as drift, because an absent file on a partial checkout is not evidence the record is wrong.
 
 ⚠️ **What CI can run is not what CI can catch.** After the untrack a runner holds no source bytes, so
 there is no file that *could* be unrecorded and `unrecorded` has nothing to report — the run passes

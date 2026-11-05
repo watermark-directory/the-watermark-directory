@@ -14,15 +14,20 @@ from __future__ import annotations
 import hashlib
 import shutil
 import subprocess
+from collections.abc import Callable
 from pathlib import Path
+from typing import Any
 
 import pytest
 import yaml
 
 from watermark.documents.vault import (
+    INVENTORY_KINDS,
     MANIFEST_NAME,
+    RECORD_KINDS,
     UnaddressableError,
     VaultArtifact,
+    VaultManifest,
     build,
     check,
     collection_of,
@@ -358,7 +363,109 @@ def test_the_same_rel_recorded_in_two_manifests_is_reported(data_dir: Path) -> N
     write(data_dir, [duplicate])
 
     findings = check(data_dir, data_dir.parent, rels=["documents/aedg/a.pdf"])
-    assert [(f.kind, f.rel) for f in findings] == [("duplicated", "documents/aedg/a.pdf")]
+    # The second occurrence is also filed under a collection the rel does not belong to.
+    assert [(f.kind, f.rel) for f in findings] == [
+        ("misfiled", "documents/aedg/a.pdf"),
+        ("duplicated", "documents/aedg/a.pdf"),
+    ]
+
+
+# --- the record tier: what a source-less runner can still catch (#2159) -------
+
+
+def _unhydrated(data_dir: Path, monkeypatch: pytest.MonkeyPatch) -> VaultManifest:
+    """A recorded artifact whose bytes are NOT here, with Git-LFS answering nothing: CI's tree."""
+    from watermark.documents import vault as vault_mod
+
+    _seed(data_dir, {"documents/aedg/a.pdf": _CONTENT})
+    manifest = build(data_dir, data_dir.parent, rels=["documents/aedg/a.pdf"])[0]
+    write(data_dir, [manifest])
+    (data_dir / "documents/aedg/a.pdf").unlink()
+    monkeypatch.setattr(vault_mod, "tracked_rels", lambda *a, **k: [])
+    return manifest
+
+
+def _rewrite(data_dir: Path, collection: str, mutate: Callable[[dict[str, Any]], None]) -> None:
+    path = data_dir / collection / "vault.yaml"
+    raw = yaml.safe_load(path.read_text(encoding="utf-8"))
+    mutate(raw)
+    path.write_text(yaml.safe_dump(raw, sort_keys=False), encoding="utf-8")
+
+
+def test_a_source_less_tree_over_a_sound_record_is_clean(
+    data_dir: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    _unhydrated(data_dir, monkeypatch)
+    assert check(data_dir, data_dir.parent) == []
+
+
+@pytest.mark.parametrize(
+    ("mutate", "kind"),
+    [
+        (lambda m: m["artifacts"][0].update(media_type="text/plain"), "media-changed"),
+        (lambda m: m["artifacts"][0].update(sha256="deadbeef"), "bad-address"),
+        (lambda m: m["artifacts"][0].update(sha256=_SHA.upper()), "bad-address"),
+        (lambda m: m["artifacts"][0].update(rel="reference/usgs/a.pdf"), "misfiled"),
+        (lambda m: m["artifacts"][0].update(rel="documents/aedg/a.pdf.txt"), "not-vaultable"),
+        (lambda m: m["meta"].update(collection="documents/other"), "collection-mismatch"),
+        (lambda m: m["meta"]["counts"].update(artifacts=2), "counts-mismatch"),
+        (lambda m: m["artifacts"][0].pop("redistributable"), "malformed"),
+    ],
+)
+def test_the_record_rules_fire_without_the_bytes(
+    data_dir: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    mutate: Callable[[dict[str, Any]], None],
+    kind: str,
+) -> None:
+    """The issue's measurement, inverted: each of these used to pass on a source-less runner.
+
+    `media-changed` looped over `inventory & recorded`, and the inventory is empty there; the
+    placement rule existed only in a test that skips once nothing is LFS-tracked. They read the
+    record alone, so they now run over every artifact whether or not its bytes are here.
+    """
+    _unhydrated(data_dir, monkeypatch)
+    _rewrite(data_dir, "documents/aedg", mutate)
+
+    kinds = [f.kind for f in check(data_dir, data_dir.parent)]
+    assert kind in kinds
+    assert set(kinds) <= RECORD_KINDS
+
+
+def test_a_wrong_address_is_still_invisible_without_the_bytes(
+    data_dir: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """The limit, stated as a test: a well-formed but WRONG digest needs the bytes to refute.
+
+    No credential-free rule can catch it, which is why `byte_coverage` exists — so a green over a
+    tree holding nothing says what it did not examine.
+    """
+    from watermark.documents.vault import byte_coverage
+
+    _unhydrated(data_dir, monkeypatch)
+    _rewrite(data_dir, "documents/aedg", lambda m: m["artifacts"][0].update(sha256="0" * 64))
+    assert check(data_dir, data_dir.parent) == []
+    assert byte_coverage(data_dir) == (1, 0)
+
+    _seed(data_dir, {"documents/aedg/a.pdf": _CONTENT})
+    assert byte_coverage(data_dir) == (1, 1)
+    assert [f.kind for f in check(data_dir, data_dir.parent)] == ["address-changed"]
+
+
+def test_the_committed_record_passes_every_record_rule() -> None:
+    """What CI's `manifest --check` now actually gates, asserted here without any bytes.
+
+    Replaces the placement half of the real-corpus test below, which skips after #2147.
+    """
+    from watermark.documents.vault import _check_record
+
+    findings, recorded = _check_record(REPO_ROOT / "data")
+    assert findings == []
+    assert recorded, "no committed vault.yaml found — the rule set would be vacuous"
+
+
+def test_the_two_tiers_partition_the_finding_kinds() -> None:
+    assert RECORD_KINDS.isdisjoint(INVENTORY_KINDS)
 
 
 # --- hydration ----------------------------------------------------------------

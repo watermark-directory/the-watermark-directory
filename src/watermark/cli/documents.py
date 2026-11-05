@@ -39,8 +39,10 @@ def documents_manifest_cmd(
 ) -> None:
     """Write (or verify) the committed `vault.yaml` record for every vaulted collection."""
     from watermark.documents.vault import (
+        RECORD_KINDS,
         UnaddressableError,
         build,
+        byte_coverage,
         collection_of,
         tracked_rels,
         write,
@@ -63,6 +65,19 @@ def documents_manifest_cmd(
 
     if check:
         findings = check_manifests(data_dir, repo_root, rels=rels)
+        recorded, present = byte_coverage(data_dir)
+        # Two tiers, reported separately (#2159): the record rules ran over every artifact; the
+        # byte rules ran over only what is on this disk. One green line for both read as "the
+        # corpus is sound" on a runner holding no bytes, where it meant "nothing was asked".
+        record_found = sum(f.kind in RECORD_KINDS for f in findings)
+        console.print(f"record rules: {recorded} artifact(s) checked · {record_found} finding(s)")
+        if present == 0 and rels is None:
+            console.print(
+                f"[yellow]byte rules: 0 of {recorded} artifact(s) present here — "
+                "unrecorded / address-changed / size-changed had nothing to examine[/]"
+            )
+        else:
+            console.print(f"byte rules: {present} of {recorded} artifact(s) present here")
         if not findings:
             console.print("[green]Vault manifests current[/]")
             return
