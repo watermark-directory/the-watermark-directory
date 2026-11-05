@@ -1,4 +1,7 @@
 meta:
+  # How a portal fetch into this shelf names an eDocument: <docid>.pdf, the shelf's established
+  # convention (#2162). `watermark oepa fetch` reads this, and refuses the shelf without it.
+  portal_filenames: bare
   subject: >-
     Canonical filename map for permits/bistrozzi-permits/ — the DSWPTI-260597 (BOSC-1A Rev. 1)
     acquisition of 2026-08-23, and the §401 water-quality-certification backfill of 2026-09-05

@@ -20,8 +20,10 @@ corrupts a bulk fetch while every individual response looks fine:
   as-received basename is ``ViewDocument.aspx`` for *every* document the portal serves —
   a 261-document fetch would land one file plus 260 ``conflict`` rows, each reported as
   "same name, different bytes" when nothing actually collided. :func:`_basename` names these
-  ``edoc-<docid>.pdf`` instead, matching the convention the corpus already uses for the
-  hand-curated west-union and urbana trees.
+  ``edoc-<docid>.pdf`` instead, matching the convention the oepa/<site>/ pulls use. Five older
+  shelves name them bare ``<docid>.pdf`` and say so as ``meta.portal_filenames: bare``;
+  :func:`shelf_portal_naming` reads that, and refuses an undeclared shelf whose recorded rows
+  disagree with the default rather than writing a second convention beside the first (#2162).
 * **At least one docid is served truncated at exactly 2 MiB**, with the server's own
   ``Content-Length`` agreeing, so neither a short read nor a length mismatch reveals it.
   :func:`_pdf_is_complete` checks for the trailing ``%%EOF`` marker and the fetch is recorded
@@ -78,6 +80,17 @@ FetchStatus = Literal[
 # The portal addresses a document by query string, not by path, so its URL carries no
 # filename at all. The docid IS the as-served identity.
 _PORTAL_DOC_RE = re.compile(r"ViewDocument\.aspx\?docid=(\d+)", re.I)
+
+# How a shelf names a portal document. ``edoc-<docid>.pdf`` is the fetcher's default and what
+# the oepa/<site>/ pulls use; several shelves predate it with bare ``<docid>.pdf`` (sidney,
+# urbana, permits/bistrozzi-permits, permits/highland55). Whichever #2073 settles on, a shelf
+# that already names its portal documents one way must not get the other written beside it
+# (#2162) — a directory carrying both is the state that misleads.
+PortalNaming = Literal["edoc", "bare"]
+_PORTAL_NAMINGS: tuple[PortalNaming, ...] = ("edoc", "bare")
+_NAMING_KEY = "portal_filenames"
+_EDOC_NAME_RE = re.compile(r"edoc-(\d+)\.pdf")
+_BARE_NAME_RE = re.compile(r"(\d+)\.pdf")
 
 # A PDF ends with a %%EOF marker, optionally followed by whitespace. The portal has served
 # a response truncated at exactly 2 MiB whose Content-Length agreed with the short body, so
@@ -196,10 +209,65 @@ def _refusal(content: bytes, content_type: str | None) -> tuple[FetchStatus, str
     return None
 
 
-def _basename(url: str, content_disposition: str | None) -> str:
+class ShelfNamingError(ValueError):
+    """A destination shelf names its portal documents in a way the fetch would contradict."""
+
+
+def _row_docid(row: dict[str, Any]) -> str | None:
+    """The portal docid a manifest row records — from its ``source_url``, else ``edoc_id``."""
+    portal = _PORTAL_DOC_RE.search(str(row.get("source_url") or ""))
+    if portal:
+        return portal.group(1)
+    edoc = row.get("edoc_id")
+    return str(edoc) if edoc not in (None, "") else None
+
+
+def shelf_portal_naming(dest_dir: Path) -> PortalNaming:
+    """How the shelf at ``dest_dir`` names portal documents — declared, else ``edoc``.
+
+    A shelf declares its rule as ``meta.portal_filenames: edoc | bare`` in its
+    ``filename-map.yaml``, and the declaration wins. An undeclared shelf defaults to ``edoc``
+    — unless rows it already records (a docid from ``source_url`` or ``edoc_id`` named
+    ``<docid>.pdf``) say otherwise, in which case this refuses rather than guesses: the
+    rule is written down once, by a person, not inferred from a sample (#2162).
+    """
+    map_path = dest_dir / "filename-map.yaml"
+    if not map_path.exists():
+        return "edoc"
+    doc = yaml.safe_load(map_path.read_text(encoding="utf-8")) or {}
+    meta = doc.get("meta") if isinstance(doc, dict) else None
+    declared = meta.get(_NAMING_KEY) if isinstance(meta, dict) else None
+    if declared is not None:
+        if declared not in _PORTAL_NAMINGS:
+            raise ShelfNamingError(
+                f"{map_path}: meta.{_NAMING_KEY} is {declared!r}; expected one of "
+                f"{', '.join(_PORTAL_NAMINGS)}"
+            )
+        return declared  # type: ignore[no-any-return]
+
+    rows = doc.get("documents") if isinstance(doc, dict) else None
+    bare: list[str] = []
+    for row in rows if isinstance(rows, list) else []:
+        if not isinstance(row, dict):
+            continue
+        docid = _row_docid(row)
+        if docid is not None and str(row.get("filename")) == f"{docid}.pdf":
+            bare.append(str(row["filename"]))
+    if bare:
+        raise ShelfNamingError(
+            f"{map_path} records {len(bare)} portal document(s) named <docid>.pdf "
+            f"(e.g. {bare[0]}) and declares no meta.{_NAMING_KEY}; a fetch would write "
+            "edoc-<docid>.pdf beside them. Declare the shelf's rule "
+            f"(meta.{_NAMING_KEY}: bare | edoc) and re-run."
+        )
+    return "edoc"
+
+
+def _basename(url: str, content_disposition: str | None, naming: PortalNaming = "edoc") -> str:
     portal = _PORTAL_DOC_RE.search(url)
     if portal:
-        return f"edoc-{portal.group(1)}.pdf"
+        docid = portal.group(1)
+        return f"{docid}.pdf" if naming == "bare" else f"edoc-{docid}.pdf"
     if content_disposition:
         for part in content_disposition.split(";"):
             part = part.strip()
@@ -215,10 +283,17 @@ def fetch_one(
     dest_dir: Path,
     *,
     permit_id: str | None = None,
+    naming: PortalNaming | None = None,
     settings: Settings | None = None,
 ) -> FetchedPermit:
-    """Stream one URL to ``dest_dir``; return the outcome record."""
+    """Stream one URL to ``dest_dir``; return the outcome record.
+
+    ``naming`` is the shelf's portal-filename rule; ``None`` reads it from ``dest_dir``
+    (:func:`shelf_portal_naming`, which refuses a shelf whose recorded names disagree).
+    """
     settings = settings or get_settings()
+    if naming is None:
+        naming = shelf_portal_naming(dest_dir)
     base = FetchedPermit(
         filename="",
         permit_id=permit_id,
@@ -250,7 +325,7 @@ def fetch_one(
         )
 
     digest = hashlib.sha256(content).hexdigest()
-    filename = _basename(url, disposition)
+    filename = _basename(url, disposition, naming)
     target = dest_dir / filename
     status: FetchStatus = "downloaded"
 

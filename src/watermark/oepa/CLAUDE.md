@@ -67,9 +67,17 @@ fetch:
 - Portal documents have **no `Content-Disposition`** and no filename in the URL *path* (the
   docid is a query parameter), so the as-received basename was `ViewDocument.aspx` for
   **every** document the portal serves. `_basename` now names them `edoc-<docid>.pdf`,
-  matching the hand-curated west-union/urbana trees. Without it a bulk fetch writes one
-  file and N-1 `conflict` rows reporting "same name, different bytes" — a false collision,
-  since those documents never shared a name.
+  matching the `oepa/<site>/` pulls and the hand-curated west-union tree. Without it a bulk
+  fetch writes one file and N-1 `conflict` rows reporting "same name, different bytes" — a
+  false collision, since those documents never shared a name.
+  ⚠️ **A shelf's naming rule is declared, and the fetch obeys it** (#2162). Five older shelves
+  (`oepa/sidney`, `oepa/urbana`, `grid/sidney`, `permits/bistrozzi-permits`,
+  `permits/highland55`) name portal documents bare `<docid>.pdf` and carry
+  `meta.portal_filenames: bare`. `shelf_portal_naming` reads it, and **refuses an undeclared
+  shelf** whose recorded rows (a docid from `source_url` or `edoc_id`, named `<docid>.pdf`)
+  disagree with the default, before anything is fetched. A §401 backfill once wrote twelve
+  `edoc-*` files beside 36 bare ones. Which convention the corpus *should* use is #2073; this
+  only stops one shelf from carrying both.
 - At least one docid is served **truncated at exactly 2 MiB** with the server's own
   `Content-Length` agreeing, so neither a short read nor a length check exposes it.
   `_pdf_is_complete` requires the trailing `%%EOF` and the fetch is recorded `truncated`

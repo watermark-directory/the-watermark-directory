@@ -1,4 +1,7 @@
 meta:
+  # How a portal fetch into this shelf names an eDocument: <docid>.pdf, the shelf's established
+  # convention (#2162). `watermark oepa fetch` reads this, and refuses the shelf without it.
+  portal_filenames: bare
   subject: Canonical filename map for oepa/urbana/ — as-received eDoc IDs to canonical
     names
   policy: non-destructive — originals keep as-received names

@@ -182,7 +182,14 @@ def fetch(
     ``data/documents/oepa/<site>/`` with as-received names; provenance is recorded in
     ``filename-map.yaml``.  Run ``watermark ingest`` + ``watermark extract`` afterward.
     """
-    from watermark.oepa.fetch import FetchedPermit, dam_url, fetch_one, update_filename_map
+    from watermark.oepa.fetch import (
+        FetchedPermit,
+        ShelfNamingError,
+        dam_url,
+        fetch_one,
+        shelf_portal_naming,
+        update_filename_map,
+    )
 
     settings = get_settings()
 
@@ -215,11 +222,21 @@ def fetch(
         return
 
     dest = Path(out) if out else (settings.documents_dir / "oepa" / site_slug)
+    # Read the shelf's naming rule BEFORE anything is fetched: a shelf whose recorded names
+    # disagree with the fetcher's is refused up front, not discovered in the diff (#2162).
+    try:
+        naming = shelf_portal_naming(dest)
+    except ShelfNamingError as exc:
+        console.print(f"[red]Refusing to fetch:[/] {exc}")
+        raise typer.Exit(1) from exc
     dest.mkdir(parents=True, exist_ok=True)
     map_path = dest / "filename-map.yaml"
 
     if offline:
-        console.print(f"[dim]--offline: would fetch {len(urls)} file(s) to {dest}[/]")
+        console.print(
+            f"[dim]--offline: would fetch {len(urls)} file(s) to {dest} "
+            f"(portal documents named {naming})[/]"
+        )
         for doc_url, doc_id in urls:
             console.print(f"  {doc_id or '?'}: {doc_url}")
         return
@@ -227,7 +244,7 @@ def fetch(
     table = Table("permit_id", "filename", "status", "bytes")
     fetched: list[FetchedPermit] = []
     for doc_url, doc_id in urls:
-        r = fetch_one(doc_url, dest, permit_id=doc_id, settings=settings)
+        r = fetch_one(doc_url, dest, permit_id=doc_id, naming=naming, settings=settings)
         fetched.append(r)
         color = {
             "downloaded": "green",
