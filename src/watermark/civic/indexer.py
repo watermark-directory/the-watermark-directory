@@ -116,6 +116,7 @@ class IndexDowngrade(BaseModel):
     before: str  # the committed text_method
     before_chars: int
     before_hits: list[str]
+    now: str = "none"  # none (re-read found no text) | omitted (absent from the new report)
 
 
 class IndexDowngradeError(RuntimeError):
@@ -126,7 +127,7 @@ class IndexDowngradeError(RuntimeError):
         self.downgrades = downgrades
         super().__init__(
             f"refusing to overwrite {out_path}: {len(downgrades)} document(s) the committed "
-            "index read would be written as text_method: none"
+            "index read would be written as text_method: none or dropped from the index"
         )
 
 
@@ -394,6 +395,10 @@ def index_downgrades(report: IndexReport, out_path: Path) -> list[IndexDowngrade
     corridor hits on write. That is never what a re-run means: it happens when OCR is left
     off, or when the source bytes are not in the working tree (they are vaulted since #2147,
     and a missing file indexes as ``none``). Matched by filename.
+
+    A read document **absent** from ``report`` is a downgrade too (``now="omitted"``): the write
+    replaces the whole file, so a row that drops out — a manifest entry removed, or collapsed by
+    :func:`_dedup_entries` — takes its text, hits and verified date with it just the same.
     """
     if not out_path.exists():
         return []
@@ -404,18 +409,21 @@ def index_downgrades(report: IndexReport, out_path: Path) -> list[IndexDowngrade
         for r in rows
         if isinstance(r, dict) and r.get("filename") and r.get("text_method", "none") != "none"
     }
+    now = {d.filename: d.text_method for d in report.docs}
     out: list[IndexDowngrade] = []
-    for d in report.docs:
-        was = before.get(d.filename)
-        if was is not None and d.text_method == "none":
-            out.append(
-                IndexDowngrade(
-                    filename=d.filename,
-                    before=str(was["text_method"]),
-                    before_chars=int(was.get("char_count") or 0),
-                    before_hits=list(was.get("hits") or []),
-                )
+    for filename, was in before.items():
+        method = now.get(filename)
+        if method is not None and method != "none":
+            continue
+        out.append(
+            IndexDowngrade(
+                filename=filename,
+                before=str(was["text_method"]),
+                before_chars=int(was.get("char_count") or 0),
+                before_hits=list(was.get("hits") or []),
+                now="omitted" if method is None else "none",
             )
+        )
     return out
 
 

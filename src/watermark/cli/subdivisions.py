@@ -299,7 +299,7 @@ def subdivisions_index(
         console.print(f"[red]Not written:[/] {exc}.")
         for d in exc.downgrades:
             hits = f" {d.before_hits}" if d.before_hits else ""
-            console.print(f"  {d.filename}: {d.before}, {d.before_chars:,} chars{hits} → none")
+            console.print(f"  {d.filename}: {d.before}, {d.before_chars:,} chars{hits} → {d.now}")
         console.print(
             "Re-run with [bold]--ocr[/] if they were OCR'd, run "
             "[bold]watermark documents hydrate[/] if the sources are missing, or pass "

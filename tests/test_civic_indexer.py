@@ -340,7 +340,7 @@ def test_write_index_refuses_to_discard_committed_text(tmp_path: Path) -> None:
     assert poorer.docs[0].text_method == "none"
 
     [down] = index_downgrades(poorer, out)
-    assert (down.filename, down.before) == ("1-6-26 minutes.docx", "docx")
+    assert (down.filename, down.before, down.now) == ("1-6-26 minutes.docx", "docx", "none")
     assert down.before_hits == ["datacenter", "rezoning"]
     assert down.before_chars > 0
 
@@ -355,6 +355,31 @@ def test_write_index_refuses_to_discard_committed_text(tmp_path: Path) -> None:
     # --force is the deliberate path, and then the loss is written as asked.
     write_index(poorer, out, force=True)
     assert yaml.safe_load(out.read_text())["documents"][0]["text_method"] == "none"
+
+
+def test_write_index_refuses_to_drop_a_read_document_from_the_index(tmp_path: Path) -> None:
+    """A read row absent from the new report is lost on write exactly like one read as none."""
+    settings = _seed_corpus(tmp_path, text="data center rezoning on January 6, 2026")
+    out = tmp_path / "meeting-index.yaml"
+    report = index_meetings(_body(), settings=settings)
+    write_index(report, out)
+    committed = out.read_text(encoding="utf-8")
+
+    emptied = report.model_copy(update={"docs": []})
+    [down] = index_downgrades(emptied, out)
+    assert (down.filename, down.before, down.now) == ("1-6-26 minutes.docx", "docx", "omitted")
+    assert down.before_hits == ["datacenter", "rezoning"]
+
+    try:
+        write_index(emptied, out)
+    except IndexDowngradeError as exc:
+        assert exc.downgrades == [down]
+    else:
+        raise AssertionError("a write dropping a read document was not refused")
+    assert out.read_text(encoding="utf-8") == committed  # untouched
+
+    write_index(emptied, out, force=True)
+    assert yaml.safe_load(out.read_text())["documents"] == []
 
 
 def test_write_index_allows_reads_that_do_not_lose_text(tmp_path: Path) -> None:
