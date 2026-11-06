@@ -23,10 +23,12 @@ import yaml
 
 from watermark.oepa.fetch import (
     FetchedPermit,
+    ShelfNamingError,
     _basename,
     _pdf_is_complete,
     _refusal,
     fetch_one,
+    shelf_portal_naming,
     update_filename_map,
 )
 
@@ -569,3 +571,103 @@ def test_a_refused_row_is_retired_by_a_later_success(tmp_path: Path) -> None:
     rows = _documents(path)
     assert [e["status"] for e in rows] == ["downloaded"]
     assert rows[0]["filename"] == "2PD00006.pdf"
+
+
+# --- #2162: a shelf's declared portal-filename rule --------------------------------------
+
+_PDF = b"%PDF-1.7\n" + b"x" * 64 + b"\n%%EOF\n"
+_BARE_SHELF = """\
+meta:
+  subject: a shelf that names portal documents by bare docid
+documents:
+  - edoc_id: '4230060'
+    filename: 4230060.pdf
+    status: committed
+"""
+
+
+def test_an_undeclared_bare_shelf_is_refused_before_anything_is_written(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Regression (#2162): a §401 backfill into permits/bistrozzi-permits/ wrote twelve
+    ``edoc-*.pdf`` beside thirty-six bare ``<docid>.pdf``, and nothing flagged it."""
+    (tmp_path / "filename-map.yaml").write_text(_BARE_SHELF, encoding="utf-8")
+    monkeypatch.setattr(
+        "watermark.oepa.fetch._browser_request",
+        _stub_request(_PDF, {"content-type": "application/pdf"}),
+    )
+    with pytest.raises(ShelfNamingError, match=r"4230060\.pdf"):
+        fetch_one(_PORTAL_URL, tmp_path, permit_id="2DP00130")
+    assert sorted(p.name for p in tmp_path.iterdir()) == ["filename-map.yaml"]
+
+
+def test_a_declared_bare_shelf_gets_bare_names(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    (tmp_path / "filename-map.yaml").write_text(
+        _BARE_SHELF.replace("meta:\n", "meta:\n  portal_filenames: bare\n"), encoding="utf-8"
+    )
+    monkeypatch.setattr(
+        "watermark.oepa.fetch._browser_request",
+        _stub_request(_PDF, {"content-type": "application/pdf"}),
+    )
+    result = fetch_one(_PORTAL_URL, tmp_path, permit_id="2DP00130")
+    assert result.filename == "4116210.pdf"
+    assert (tmp_path / "4116210.pdf").read_bytes() == _PDF
+
+    # The declaration survives the map merge the fetch ends with.
+    update_filename_map([result], tmp_path / "filename-map.yaml")
+    assert shelf_portal_naming(tmp_path) == "bare"
+
+
+def test_a_declaration_overrides_what_the_rows_suggest(tmp_path: Path) -> None:
+    """The rule is written down, not inferred: an explicit ``edoc`` wins over bare rows."""
+    (tmp_path / "filename-map.yaml").write_text(
+        _BARE_SHELF.replace("meta:\n", "meta:\n  portal_filenames: edoc\n"), encoding="utf-8"
+    )
+    assert shelf_portal_naming(tmp_path) == "edoc"
+
+
+def test_an_unknown_declaration_is_refused(tmp_path: Path) -> None:
+    (tmp_path / "filename-map.yaml").write_text(
+        "meta:\n  portal_filenames: docid\ndocuments: []\n", encoding="utf-8"
+    )
+    with pytest.raises(ShelfNamingError, match="docid"):
+        shelf_portal_naming(tmp_path)
+
+
+def test_fresh_and_edoc_shelves_default_to_edoc(tmp_path: Path) -> None:
+    """The oepa/<site>/ default is unchanged: no map, or a map of edoc rows, names edoc."""
+    assert shelf_portal_naming(tmp_path) == "edoc"
+    (tmp_path / "filename-map.yaml").write_text(
+        "meta: {}\ndocuments:\n  - filename: edoc-4192703.pdf\n"
+        "    source_url: https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4192703\n",
+        encoding="utf-8",
+    )
+    assert shelf_portal_naming(tmp_path) == "edoc"
+
+
+def test_a_dam_file_named_by_number_is_not_a_portal_row(tmp_path: Path) -> None:
+    """Only a row that records a portal docid counts; a DAM ``2PD00006.pdf`` is its own name."""
+    (tmp_path / "filename-map.yaml").write_text(
+        f"meta: {{}}\ndocuments:\n  - filename: '12345.pdf'\n    source_url: {_URL}\n",
+        encoding="utf-8",
+    )
+    assert shelf_portal_naming(tmp_path) == "edoc"
+
+
+def test_every_committed_shelf_resolves_a_portal_naming() -> None:
+    """No committed shelf is in the refused state: each that names by bare docid declares it."""
+    root = Path(__file__).resolve().parents[1] / "data" / "documents"
+    bare = {
+        m.parent.relative_to(root).as_posix()
+        for m in root.rglob("filename-map.yaml")
+        if shelf_portal_naming(m.parent) == "bare"
+    }
+    assert bare == {
+        "grid/sidney",
+        "oepa/sidney",
+        "oepa/urbana",
+        "permits/bistrozzi-permits",
+        "permits/highland55",
+    }
