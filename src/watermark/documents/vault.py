@@ -450,11 +450,7 @@ def build(
                 policy=_POLICY,
                 generated_at=now,
                 generated_by=_GENERATED_BY,
-                counts={
-                    "artifacts": len(artifacts),
-                    "bytes": sum(a.bytes for a in artifacts),
-                    "distinct_addresses": len({a.sha256 for a in artifacts}),
-                },
+                counts=_manifest_counts(artifacts),
             ),
             artifacts=artifacts,
         )
@@ -793,11 +789,36 @@ class VaultFinding(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    # unrecorded | duplicated | missing | address-changed | size-changed | media-changed |
-    # orphaned — see check() for what each one means and why they are not equally severe.
+    # One of RECORD_KINDS or INVENTORY_KINDS — see check() for what each one means and why they are
+    # not equally severe.
     kind: str
     rel: str
     detail: str
+
+
+#: The rules that read the committed record ALONE (#2159). They run over every recorded artifact,
+#: hydrated or not, so they are the half of ``--check`` that means the same thing on a source-less
+#: CI runner as on a developer's tree.
+RECORD_KINDS: frozenset[str] = frozenset(
+    {
+        "malformed",
+        "collection-mismatch",
+        "counts-mismatch",
+        "duplicated",
+        "misfiled",
+        "not-vaultable",
+        "bad-address",
+        "media-changed",
+    }
+)
+
+#: The rules that compare the record against bytes on this disk. They can fire only where the
+#: bytes are, so on a tree holding none they run over nothing — see :func:`byte_coverage`.
+INVENTORY_KINDS: frozenset[str] = frozenset(
+    {"unrecorded", "orphaned", "missing", "address-changed", "size-changed"}
+)
+
+_HEX = frozenset("0123456789abcdef")
 
 
 def _iter_committed(data_dir: Path) -> Iterator[tuple[str, VaultArtifact]]:
@@ -814,18 +835,160 @@ def _iter_committed(data_dir: Path) -> Iterator[tuple[str, VaultArtifact]]:
                 yield collection, artifact
 
 
+def _manifest_counts(artifacts: list[VaultArtifact]) -> dict[str, int]:
+    return {
+        "artifacts": len(artifacts),
+        "bytes": sum(a.bytes for a in artifacts),
+        "distinct_addresses": len({a.sha256 for a in artifacts}),
+    }
+
+
+def _check_record(data_dir: Path) -> tuple[list[VaultFinding], dict[str, VaultArtifact]]:
+    """The record-internal rules, and the recorded artifacts keyed by rel (first occurrence wins).
+
+    Reads no bytes and asks no witness, so an empty tree changes nothing here — which is the whole
+    point of splitting it out (#2159). Every rule held at zero findings over the corpus when it was
+    added, so each one gates from the start rather than through a baseline.
+    """
+    from watermark.site.documents import media_type_by_extension
+
+    findings: list[VaultFinding] = []
+    recorded: dict[str, VaultArtifact] = {}
+    for root in VAULTED_ROOTS:
+        root_dir = data_dir / root
+        if not root_dir.is_dir():
+            continue
+        for path in sorted(root_dir.glob(f"*/{MANIFEST_NAME}")):
+            collection = f"{root}/{path.parent.name}"
+            where = f"{collection}/{MANIFEST_NAME}"
+            try:
+                manifest = load_manifest(data_dir, collection)
+            except (
+                yaml.YAMLError,
+                ValueError,
+            ) as exc:  # pydantic's ValidationError is a ValueError
+                first = str(exc).splitlines()[0] if str(exc) else type(exc).__name__
+                findings.append(VaultFinding(kind="malformed", rel=where, detail=first))
+                continue
+            if manifest is None:  # pragma: no cover - glob just found it
+                continue
+            if manifest.meta.collection != collection:
+                findings.append(
+                    VaultFinding(
+                        kind="collection-mismatch",
+                        rel=where,
+                        detail=f"meta.collection says {manifest.meta.collection!r}",
+                    )
+                )
+            counts = _manifest_counts(manifest.artifacts)
+            if manifest.meta.counts != counts:
+                findings.append(
+                    VaultFinding(
+                        kind="counts-mismatch",
+                        rel=where,
+                        detail=f"meta.counts says {manifest.meta.counts}, artifacts sum to {counts}",
+                    )
+                )
+            for artifact in manifest.artifacts:
+                rel = artifact.rel
+                try:
+                    home = collection_of(rel)
+                except ValueError:
+                    home = None
+                if home != collection:
+                    findings.append(
+                        VaultFinding(
+                            kind="misfiled",
+                            rel=rel,
+                            detail=f"recorded in {where}, belongs to {home or 'no collection'}",
+                        )
+                    )
+                if rel in recorded:
+                    findings.append(
+                        VaultFinding(
+                            kind="duplicated",
+                            rel=rel,
+                            detail=f"recorded twice — second occurrence in {where}",
+                        )
+                    )
+                    continue
+                recorded[rel] = artifact
+                if not vaultable(rel):
+                    # The .gitignore block is generated from the same predicate, so a recorded rel
+                    # it rejects is a file git would COMMIT beside its record — two copies of a
+                    # source byte, one of them outside the vault.
+                    findings.append(
+                        VaultFinding(
+                            kind="not-vaultable",
+                            rel=rel,
+                            detail="recorded, but VAULTED_SUFFIXES / VAULTED_EXTENSIONLESS "
+                            "do not claim it",
+                        )
+                    )
+                if len(artifact.sha256) != 64 or not set(artifact.sha256) <= _HEX:
+                    findings.append(
+                        VaultFinding(
+                            kind="bad-address",
+                            rel=rel,
+                            detail=f"{artifact.sha256!r} is not a lower-case hex sha256",
+                        )
+                    )
+                expected_media = media_type_by_extension(_suffix(rel))
+                if expected_media != artifact.media_type:
+                    findings.append(
+                        VaultFinding(
+                            kind="media-changed",
+                            rel=rel,
+                            detail=(
+                                f"records {artifact.media_type}, extension table says "
+                                f"{expected_media}"
+                            ),
+                        )
+                    )
+    return findings, recorded
+
+
+def byte_coverage(data_dir: Path) -> tuple[int, int]:
+    """``(recorded, present)``: how many recorded artifacts the byte-level rules could reach here.
+
+    The honest denominator for a green ``--check`` (#2159). On a source-less runner ``present`` is
+    0, and the inventory rules passed by having nothing to ask about — which is a different claim
+    from passing over a hydrated tree, and the CLI says so rather than printing one green line
+    for both.
+    """
+    recorded = set(recorded_rels(data_dir))
+    return len(recorded), len(recorded & set(present_rels(data_dir)))
+
+
 def check(
     data_dir: Path, repo_root: Path, *, rels: Iterable[str] | None = None
 ) -> list[VaultFinding]:
     """Report drift between the committed manifests and the tracked tree.
 
-    Six kinds, and the asymmetry between them is the point:
+    **Two tiers, and only the first means anything on a tree with no bytes** (#2159).
+
+    The record-internal rules (:data:`RECORD_KINDS`) read the manifests alone and run over every
+    recorded artifact, hydrated or not:
+
+    * ``malformed`` — a ``vault.yaml`` that does not parse or validate.
+    * ``collection-mismatch`` — ``meta.collection`` names a different collection than its directory.
+    * ``counts-mismatch`` — ``meta.counts`` disagrees with the artifacts the manifest lists.
+    * ``duplicated`` — one rel recorded twice. ``exactly once`` is the invariant a record has to
+      hold to be usable as one; two entries make "what does the vault hold for this file"
+      ambiguous even when both agree today.
+    * ``misfiled`` — an artifact recorded under a collection it does not belong to.
+    * ``not-vaultable`` — a recorded rel the vaulted-set predicate rejects, so git would commit it.
+    * ``bad-address`` — a ``sha256`` that is not one.
+    * ``media-changed`` — the extension table types the file differently than the record.
+
+    The inventory rules (:data:`INVENTORY_KINDS`) compare the record against bytes, and so run
+    only over what is on this disk:
 
     * ``unrecorded`` — a vaultable file that exists, or that Git-LFS tracks, and no manifest names.
-      **This is the one that matters most**, and the reason the inventory is read from the
-      filesystem as well as from Git-LFS: after the untrack (#2147) a file the manifest does not
-      name is a source byte with no record at all — exactly the state the vault exists to make
-      impossible — and an LFS-only inventory would have stopped being able to see one.
+      **This is the one that matters most where the bytes are**, and the reason the inventory is
+      read from the filesystem as well as from Git-LFS: after the untrack (#2147) a file the
+      manifest does not name is a source byte with no record at all, and an LFS-only inventory
+      would have stopped being able to see one. It cannot fire on a tree holding no bytes.
     * ``orphaned`` — recorded, and neither tracked nor on disk. Reported only while Git-LFS still
       answers: after #2147 the same shape means *not hydrated here*, which ``hydrate --check``
       reports and which is not drift.
@@ -834,15 +997,10 @@ def check(
       forbids outright.
     * ``missing`` — recorded and tracked, but unreadable here. Reported rather than treated as
       drift: an absent file on a partial checkout is not evidence that the record is wrong.
-    * ``media-changed`` — the extension table now types the file differently.
-    * ``duplicated`` — one rel recorded by two manifests. ``exactly once`` is the invariant a
-      record has to hold to be usable as one; two entries for a path make "what does the vault hold
-      for this file" ambiguous even when both agree today.
 
-    Needs neither the real bytes nor the network, by the same argument as :func:`content_address`.
+    Needs neither the real bytes nor the network, by the same argument as :func:`content_address`
+    — but without the bytes, only the first tier has anything to examine.
     """
-    from watermark.site.documents import media_type_by_extension
-
     tracked = set(sorted(rels) if rels is not None else tracked_rels(repo_root, data_dir.name))
     # Two witnesses, because each answers in a world the other cannot. Git-LFS is authoritative
     # today and SILENT after #2147 — at which point `tracked` is empty and every check below that
@@ -851,20 +1009,7 @@ def check(
     # simply not hydrated here. An explicit `rels` overrides both (tests, a narrowed run).
     present = set() if rels is not None else set(present_rels(data_dir))
     inventory = tracked | present
-    findings: list[VaultFinding] = []
-    recorded: dict[str, VaultArtifact] = {}
-
-    for collection, artifact in _iter_committed(data_dir):
-        if artifact.rel in recorded:
-            findings.append(
-                VaultFinding(
-                    kind="duplicated",
-                    rel=artifact.rel,
-                    detail=f"recorded twice — second occurrence in {collection}/{MANIFEST_NAME}",
-                )
-            )
-            continue
-        recorded[artifact.rel] = artifact
+    findings, recorded = _check_record(data_dir)
 
     for rel in sorted(inventory - recorded.keys()):
         where = "Git-LFS tracked" if rel in tracked else "present on disk"
@@ -915,15 +1060,6 @@ def check(
                     kind="size-changed",
                     rel=rel,
                     detail=f"records {artifact.bytes} bytes, tree has {size}",
-                )
-            )
-        expected_media = media_type_by_extension(_suffix(rel))
-        if expected_media != artifact.media_type:
-            findings.append(
-                VaultFinding(
-                    kind="media-changed",
-                    rel=rel,
-                    detail=f"records {artifact.media_type}, extension table says {expected_media}",
                 )
             )
 
