@@ -109,7 +109,11 @@ corridor-actor list — plus the read path's unstated depth contract. Each is ca
   index. Confirms the listing date against the file's own text
   (`date_verified` + `date_evidence`; conservative — null when the body doesn't
   restate the date), and scans for corridor topics (`keywords.scan_text`). Writes
-  `data/extracted/<slug>/meetings/meeting-index.yaml`. The timeline
+  `data/extracted/<slug>/meetings/meeting-index.yaml`.
+  ⚠️ **A re-index is total, so `write_index` refuses to downgrade** (#2163): a document the
+  committed index read that this run leaves `none` (OCR left off, or the vaulted source not
+  hydrated) — or drops from the index altogether — fails the write with the list, and `--force` is the only way past it. Lima lost six
+  OCR'd minutes to a default re-run whose summary count went *up*. The timeline
   (`pipeline/timeline.py:_subdivision_meeting_events`) surfaces **only** meetings
   whose text names one of the **active site's** corridor subjects as `category:
   subdivision_meeting` (agenda+minutes collapse via a shared `ref`). That vocabulary
