@@ -139,6 +139,19 @@ def test_isd_coverage_reports_a_gapped_quarter_the_annual_figure_hides() -> None
     assert cov.quarters[0].fraction == pytest.approx(1488 / 2160, abs=0.001)  # Jan + Mar = 62 days
 
 
+@pytest.mark.parametrize(("q1_hours", "short"), [(1943, True), (1944, False)])
+def test_isd_coverage_floor_uses_the_unrounded_fraction(q1_hours: int, short: bool) -> None:
+    # 1943/2160 = 89.95%, which rounds to 0.900 for display but is below the 90% floor.
+    every = _every_hour(2023)
+    q1 = [o for o in every if o.time[5:7] in ("01", "02", "03")]
+    rest = [o for o in every if o.time[5:7] not in ("01", "02", "03")]
+    cov = _series(2023, q1[:q1_hours] + rest).coverage()
+    assert cov.quarters[0].hours == 2160
+    assert cov.quarters[0].fraction == 0.9  # rounded display value, identical at both counts
+    assert ([q.quarter for q in cov.short_quarters] == [1]) is short
+    assert cov.meets_floor is not short
+
+
 def test_aermet_refuses_below_the_recovery_floor(air_settings: Settings, tmp_path: Path) -> None:
     ua = igra.fetch_upperair(settings=air_settings)
     surf = _series(2023, _every_hour(2023, skip_months=(2,)))
@@ -304,6 +317,64 @@ def test_ned_truncated_tiff_is_not_cached(tmp_path: Path, monkeypatch: pytest.Mo
 
     def fake_get(url: str, **_: object) -> httpx.Response:
         return httpx.Response(200, content=b"II*\x00garbage", request=httpx.Request("GET", url))
+
+    monkeypatch.setattr(ned.httpx, "get", fake_get)
+    with pytest.raises(ned.NedExportError, match="unreadable GeoTIFF"):
+        ned.fetch_terrain(center_lat=40.7, center_lon=-84.1, settings=settings)
+    cache = settings.air_cache_dir / "ned"
+    assert not any(cache.glob("*")) if cache.exists() else True
+
+
+def test_ned_non_object_json_body_keeps_the_excerpt(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    # A JSON body that is not an object (a list) must not crash the diagnostic path.
+    settings = _live_ned_settings(tmp_path)
+
+    def fake_get(url: str, **_: object) -> httpx.Response:
+        return httpx.Response(200, json=["service busy"], request=httpx.Request("GET", url))
+
+    monkeypatch.setattr(ned.httpx, "get", fake_get)
+    with pytest.raises(ned.NedExportError, match="service busy"):
+        ned.fetch_terrain(center_lat=40.7, center_lon=-84.1, settings=settings)
+    cache = settings.air_cache_dir / "ned"
+    assert not any(cache.glob("*")) if cache.exists() else True
+
+
+def test_ned_corrupt_later_block_is_not_cached(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    # The first tile decodes (so a one-pixel probe would pass); the last tile does not.
+    settings = _live_ned_settings(tmp_path)
+    src = tmp_path / "tiled.tif"
+    with rasterio.open(
+        src,
+        "w",
+        driver="GTiff",
+        width=64,
+        height=64,
+        count=1,
+        dtype="float32",
+        crs="EPSG:4326",
+        transform=from_origin(-84.2, 40.8, 0.001, 0.001),
+        tiled=True,
+        blockxsize=16,
+        blockysize=16,
+        compress="deflate",
+    ) as dst:
+        dst.write(np.arange(64 * 64, dtype="float32").reshape(64, 64), 1)
+    with rasterio.open(src) as s:
+        off = int(s.get_tag_item("BLOCK_OFFSET_3_3", "TIFF", bidx=1))
+        size = int(s.get_tag_item("BLOCK_SIZE_3_3", "TIFF", bidx=1))
+    body = bytearray(src.read_bytes())
+    body[off : off + size] = b"\xff" * size
+    corrupt = tmp_path / "corrupt.tif"
+    corrupt.write_bytes(bytes(body))
+    with rasterio.open(corrupt) as s:
+        s.read(1, window=((0, 1), (0, 1)))  # the first block is intact
+
+    def fake_get(url: str, **_: object) -> httpx.Response:
+        return httpx.Response(200, content=bytes(body), request=httpx.Request("GET", url))
 
     monkeypatch.setattr(ned.httpx, "get", fake_get)
     with pytest.raises(ned.NedExportError, match="unreadable GeoTIFF"):

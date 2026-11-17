@@ -91,7 +91,11 @@ class QuarterCoverage(BaseModel):
     quarter: int  # 1..4
     covered_hours: int
     hours: int  # the quarter's real hour count (Q1 is 2160 or 2184)
-    fraction: float
+    fraction: float  # rounded for display only — never compared against the floor
+
+    def below(self, floor: float) -> bool:
+        """Whether the *unrounded* recovery is under ``floor`` (1943/2160 is 89.95%, short)."""
+        return self.covered_hours / self.hours < floor
 
 
 class SurfaceCoverage(BaseModel):
@@ -113,7 +117,7 @@ class SurfaceCoverage(BaseModel):
     @property
     def short_quarters(self) -> list[QuarterCoverage]:
         """Quarters below the recovery floor (empty when the station-year passes)."""
-        return [q for q in self.quarters if q.fraction < self.floor]
+        return [q for q in self.quarters if q.below(self.floor)]
 
     @property
     def meets_floor(self) -> bool:

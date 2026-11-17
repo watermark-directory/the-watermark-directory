@@ -136,9 +136,11 @@ def _resolve_dem(
     dest.parent.mkdir(parents=True, exist_ok=True)
     tmp = dest.with_suffix(".tif.part")
     tmp.write_bytes(resp.content)
-    try:  # a TIFF header is necessary, not sufficient: prove rasterio can read it as a DEM
+    try:  # a TIFF header is necessary, not sufficient: decode every band-1 block, one at a
+        # time (bounded memory), so a body truncated past its first tile is refused too
         with rasterio.open(tmp) as probe:
-            probe.read(1, window=((0, 1), (0, 1)))
+            for _, window in probe.block_windows(1):
+                probe.read(1, window=window)
     except rasterio.errors.RasterioError as exc:
         tmp.unlink(missing_ok=True)
         raise NedExportError(
@@ -156,7 +158,8 @@ def _require_geotiff(resp: httpx.Response, *, url: str, key: str) -> None:
         return
     detail = body[:300].decode("utf-8", errors="replace").strip()
     try:
-        err = resp.json().get("error", {})
+        payload = resp.json()
+        err = payload.get("error") if isinstance(payload, dict) else None
         if isinstance(err, dict) and err:
             parts = [str(err.get("code", "")), str(err.get("message", ""))]
             parts += [str(d) for d in err.get("details") or []]
