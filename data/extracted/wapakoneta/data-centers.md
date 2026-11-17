@@ -1,7 +1,7 @@
 # Wapakoneta / Auglaize Co., OH — Data-Center Activity Register
 
 Discover-and-pin register for the Wapakoneta watershed point (upper Auglaize River → **Maumee** at
-Defiance → Lake Erie). Status **as of 2026-11-03; CTS's November appearances added 2026-11-17** (#2184). Tags are BOSC evidentiary discipline:
+Defiance → Lake Erie). Status **as of 2026-11-03; CTS's November appearances and Duos's Q3 2026 10-Q added 2026-11-17** (#2184). Tags are BOSC evidentiary discipline:
 `[verified]` = cited primary/government source, `[reference]` = secondary source or a party's own
 self-report (leads only, never a finding), `[inference]` = arithmetic or pattern from cited inputs,
 `[open]` = not found in any public source yet. This records the public record as of the date above
@@ -673,12 +673,50 @@ unchanged: **a proposal with no instrument behind it**, `facilities=()`.
   - Construction Review Online (2026-11-17) gives "$500 million-plus" from CTS concept materials
     `[reference]` — the same order as the $500 million figure in §1.2a; still CTS's self-report.
 
+### What Duos has told the SEC (added 2026-11-17)
+
+Duos Technologies Group's Form 10-Q for the quarter ended 2026-09-30 (accession
+0001079973-26-001535, Commission file no. 001-39227), shelved at
+`data/documents/wapakoneta/sec/0001079973-26-001535.pdf` and read in full. The tags below hold
+**as to the filing**: they say what Duos reported, not what is true on the ground.
+
+- `[verified]` **The 10-Q names no Ohio site.** Wapakoneta, Auglaize, Short Road and "Project Apollo"
+  do not appear in it. The sites it does name are the Columbus, **Georgia** campus (acquired 2026-07-14)
+  and "Project Atlas" (below).
+  - `[inference]` **This silence does not show there is no arrangement.** A 10-Q need not list every
+    site in development. The filing describes contracted capacity "across multiple U.S. locations"
+    (Axe, up to 55 MW, August 2026) and a 20 MW cloud contract to deploy "at one of our planned
+    campuses" in Q2 2027 (printed p.59), and places neither. So the WDTN report that Duos would
+    operate Project Apollo is neither confirmed nor contradicted. It stays `[reference]`.
+- `[verified]` **Duos is contracting with an entity named "CTS Infrastructure LLC"** (Note 14,
+  printed p.43). On 2026-09-30 its subsidiary Duos Edge AI, Inc. entered a Membership Interest Purchase
+  Agreement with "CTS Infrastructure LLC" to buy 100% of "CTS SC Holdings LLC":
+  - $10.0 million paid into escrow, used at closing to pay "**Lee County**" for a site. The filing does
+    not name the state.
+  - Closing requires the County's approval and validated electric service of at least **19.9 MW** by
+    2027-06-30.
+  - Duos "intends to develop **Project Atlas** as a 20 MW colocation compute center."
+  - **Project Atlas is not Project Apollo, and Lee County is not Auglaize.**
+  - `[inference]` **"SC" may stand for South Carolina.** colotech.co's project map names only South
+    Carolina (guardrail above), and a Lee County, SC exists. If so, Atlas would sit in a state the CTS
+    website claims. That fits the two being one company, and it rests on initials and a map, nothing
+    more.
+  - `[open]` **The filing does not show whether "CTS Infrastructure LLC" is the "Colocation Technology
+    Services" before Wapakoneta Council.** Settling it needs the SOS records (Ohio, and South Carolina
+    for the seller) or the counterparty's own filing. **Never merge the two on the initials.**
+- `[inference]` **The 10-Q's own size range sits below the reported Wapakoneta figure.** Duos describes
+  its business as compute centers "generally ranging from 1 to 20 megawatts" (Note 1; MD&A). WDTN's
+  "Project Apollo would be 50 megawatts" would be outside that range. That is a reason to check the
+  50 MW figure, or what Duos's role in Apollo would be, not evidence that either is wrong.
+
 ### Instruments to pull (added 2026-11-17)
 
 - The minutes of the **2026-11-16** Council meeting (what CTS said on the record).
 - The City's own posting of the notice, and the dated schedule of CTS's information sessions.
-- Duos Technologies Group's own disclosure of the arrangement, if any (it is a public company;
-  an SEC filing would be the primary record) `[open]`.
+- The Ohio SOS filing for "Colocation Technology Services LLC", and the South Carolina SOS filing for
+  "CTS Infrastructure LLC" / "CTS SC Holdings LLC": organizers, agents, and any shared principal `[open]`.
+- Any later Duos filing (8-K, or the FY2026 10-K) that names an Ohio site `[open]`. The Q3 2026 10-Q
+  names none (above).
 
 ### Sources (added 2026-11-17)
 
