@@ -1,7 +1,7 @@
 # Wapakoneta / Auglaize Co., OH — Data-Center Activity Register
 
 Discover-and-pin register for the Wapakoneta watershed point (upper Auglaize River → **Maumee** at
-Defiance → Lake Erie). Status **as of 2026-11-03** (#2184). Tags are BOSC evidentiary discipline:
+Defiance → Lake Erie). Status **as of 2026-11-03; CTS's November appearances added 2026-11-17** (#2184). Tags are BOSC evidentiary discipline:
 `[verified]` = cited primary/government source, `[reference]` = secondary source or a party's own
 self-report (leads only, never a finding), `[inference]` = arithmetic or pattern from cited inputs,
 `[open]` = not found in any public source yet. This records the public record as of the date above
@@ -642,6 +642,50 @@ This is **not** a data-center entry. It is recorded because it concerns the same
   <https://jobsohio.com/available-sites/west-central-ohio-industrial-center>
 - AMP, "Member Spotlight: Wapakoneta" (2019): <https://www.amppartners.org/news/member-spotlight/wapakoneta-ohio/>
 - St. Marys moratorium: <https://www.limaohio.com/top-stories/2026/06/23/st-marys-council-adopts-temporary-data-center-ban/>
+
+## Update 2026-11-17 — "Project Apollo" and CTS before Council
+
+Press and a posted notice only; no instrument has been filed, so the finding at the top stands
+unchanged: **a proposal with no instrument behind it**, `facilities=()`.
+
+- `[reference]` **WAEDC annual meeting, 2026-11-04.** Developers outlined the proposed data center
+  (Hometown Stations video); the page gives no figures or speakers.
+- `[reference]` **Public notice, posted 2026-11-12** (Mercer County Outlook; the issuing office is
+  not named on the page): CTS representatives would attend the **2026-11-16** Council meeting to
+  introduce themselves; "CTS will not be giving a formal presentation about the project at this
+  Council meeting"; and "No project approvals or development agreements have been made." Online
+  sessions, information meetings and an open house are promised **without dates** — §1.1's
+  "informational meetings" are still `[open]`.
+- `[reference]` **WDTN, 2026-11-17** (Megan Southall, syndicated on Yahoo): "The concept is called
+  **Project Apollo**, and the idea is for it to be a **30-acre site on Short Road**"; "Project
+  Apollo would be 50 megawatts"; "**Duos Technologies Group** would operate the computers inside
+  the facility." Mayor Dan Lee: "In Wapakoneta, we want transparency, we want accountability, and
+  then we want trust." Next Council meeting **2026-12-07, 7:30 p.m.**
+  - **New to this register:** the project name, Duos as operator, and Short Road. The 30 ac and
+    50 MW match §1.2.
+  - `[inference]` **Short Road narrows, but does not resolve, the parcel.** §2 already records AEP
+    Ohio Transmission's 4.27 ac at **570 Short Road** among the WCOIC parcels; a 30-acre site "on
+    Short Road" is consistent with WCOIC but does not identify the parcel(s). §1.2's `[open]`
+    stands.
+  - ⚠️ **Name collisions.** "Apollo" is also the Meta/Will-Power gas-plant thread at
+    **bowling-green** (OPSB 25-0973-EL-BLN) — unrelated. CTS (Colocation Technology Services) is
+    **not QTS** (van-wert).
+  - Construction Review Online (2026-11-17) gives "$500 million-plus" from CTS concept materials
+    `[reference]` — the same order as the $500 million figure in §1.2a; still CTS's self-report.
+
+### Instruments to pull (added 2026-11-17)
+
+- The minutes of the **2026-11-16** Council meeting (what CTS said on the record).
+- The City's own posting of the notice, and the dated schedule of CTS's information sessions.
+- Duos Technologies Group's own disclosure of the arrangement, if any (it is a public company;
+  an SEC filing would be the primary record) `[open]`.
+
+### Sources (added 2026-11-17)
+
+- <https://www.yahoo.com/news/articles/wapakoneta-considers-50-megawatt-project-032037772.html> (WDTN)
+- <https://mercercountyoutlook.net/2026/11/12/public-notice-data-center-developer-colocation-technology-services-cts-at-wapakoneta-city-council-meeting/>
+- <https://constructionreviewonline.com/proposed-500m-project-apollo-data-center-in-wapakoneta-ohio-in-council-consideration/>
+- <https://www.hometownstations.com/video/2026/11/04/developers-outline-plans-proposed-wapakoneta-data-center/>
 
 ## Appendix — the City's statement, as pasted (2026-10-12)
 

@@ -398,3 +398,53 @@ Sources for this section:
 - citizenportal.ai (403 on fetch), Piqua: <https://citizenportal.ai/articles/10592244/ohio/miami-county/piqua/piqua-commissioners-place-three-charter-measures-including-data-center-ban-on-special-election-ballot>
 - citizenportal.ai (403 on fetch), Troy UDC: <https://citizenportal.ai/articles/10569722/ohio/miami-county/troy/residents-urge-limits-or-ban-on-data-centers-during-troy-udc-public-hearing>
 - Ohio Supreme Court slip opinion 2026-Ohio-3406: <https://www.supremecourt.ohio.gov/rod/docs/pdf/0/2026/2026-Ohio-3406.pdf>
+
+## Update 2026-11-17 — the 2026-11-03 returns
+
+Two Miami County Board of Elections reports were read; neither is captured into the corpus, so
+every figure is `[reference]`, and neither is the **official** canvass (reported due by
+2026-11-24).
+
+**Charter §138 (25 MW) — YES 4,061 (66.70%), NO 2,027 (33.30%).** 6,242 ballots, 153 undervotes,
+1 overvote — the board's unofficial canvass, 2026-11-03 21:50:26,
+<https://www.boe.ohio.gov/miami/c/elecres/20261103results.pdf>.
+
+- **It settles the "one question or two" `[open]` above.** The board's report carries a single
+  Piqua data-center contest. The 2026-08-11 data-center/crypto amendment was not on the
+  2026-11-03 ballot, which is consistent with the citizenportal.ai report of a **2027-02-02**
+  special election for it `[reference]`; that date is still unconfirmed by any board record.
+- ⚠️ **Effect on the Meta/J5 campus is `[open]`, and the City says so.** "It is unclear at this
+  time if and how this Charter amendment may affect the Meta data center project currently
+  underway within the Piqua I-75 Business & Industrial Park" — the City, quoted by Dayton Daily
+  News (~2026-11-13) `[reference]`. Note that the quotation is the **City** naming Meta; it does
+  not upgrade the attribution in §1 above from `[reported]`, because a quoted press statement is
+  not the City's record. Do not report the vote as stopping the project.
+
+**Recall special election — all three carried** (board's unofficial canvass, 2026-11-03 22:03:19,
+4,440 ballots, <https://www.boe.ohio.gov/miami/c/upload/SpecialElection_PiquaSpecialElection.pdf>):
+
+| Seat | For the recall | Against | Successor |
+|---|---|---|---|
+| 1st Ward Commissioner | **3,226** (72.95%) | 1,196 | Jim Sheats 1,592 / Alexander Hessler 1,550 |
+| 3rd Ward Commissioner | **3,094** (70.33%) | 1,305 | Damon Wilson 2,954 (unopposed) |
+| 5th Ward Commissioner | **3,089** (70.16%) | 1,314 | Kim Heisler 2,997 (unopposed) |
+
+- ⚠️ The board's report names **seats**. That the recalled members are Vetter (Ward 1), Walker
+  (Ward 3) and DeBrosse (Ward 5) is press (WYSO 2026-11-04) `[reference]`.
+- ⚠️ The Ward 1 successor margin is **42 votes** — the one result here the official canvass could
+  plausibly move.
+- `[reference]` The City has cancelled Commission meetings until the new members are seated.
+
+### Instruments to pull (added 2026-11-17)
+
+- The Miami County BOE **official certifications** for §138 and the special election — capture
+  both.
+- The City's own statement on §138 and the Meta project, from the City rather than the press.
+
+### Sources (added 2026-11-17)
+
+- <https://www.boe.ohio.gov/miami/c/elecres/20261103results.pdf> and
+  <https://www.boe.ohio.gov/miami/c/upload/SpecialElection_PiquaSpecialElection.pdf> — board
+  reports `[reference]` (read, not captured).
+- <https://www.wyso.org/government-politics-news/2026-11-04/piqua-voters-reject-data-centers-recall-city-commissioners>
+- <https://www.daytondailynews.com/local/piqua-and-trenton-voters-approved-bans-on-large-data-centers/article_31fd66e3-370d-5190-9115-413295a5e5da.html>
