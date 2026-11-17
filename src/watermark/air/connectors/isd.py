@@ -19,7 +19,9 @@ archive's own quality flags; we keep values whose flag is not a documented faili
 
 from __future__ import annotations
 
+import calendar
 import gzip
+from datetime import datetime
 from typing import Any
 
 import httpx
@@ -60,6 +62,12 @@ _MISSING = {"999", "9999", "99999", "999999", "+9999", "+99999"}
 _BAD_Q = {"3", "7"}
 _MANDATORY_LEN = 105
 
+# EPA's Meteorological Monitoring Guidance for Regulatory Modeling Applications
+# (EPA-454/R-99-005, §5.3.2) expects >= 90% data recovery per calendar quarter for a
+# regulatory met set. AERMET's surface pass can't proceed without wind speed or temperature,
+# so an hour counts as recovered only when some observation in it carries both.
+COVERAGE_FLOOR = 0.90
+
 
 class SurfaceObservation(BaseModel):
     """One hourly ISH surface observation, mandatory-section fields (missing → ``None``)."""
@@ -73,6 +81,43 @@ class SurfaceObservation(BaseModel):
     dew_point_c: float | None
     ceiling_m: int | None
     sea_level_pressure_hpa: float | None
+
+
+class QuarterCoverage(BaseModel):
+    """Recovered hours in one calendar quarter of the met year."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    quarter: int  # 1..4
+    covered_hours: int
+    hours: int  # the quarter's real hour count (Q1 is 2160 or 2184)
+    fraction: float
+
+
+class SurfaceCoverage(BaseModel):
+    """Data recovery of a station-year: annual + per quarter, against :data:`COVERAGE_FLOOR`.
+
+    A *covered hour* is a distinct UTC clock hour (``HH:MM`` truncated to ``HH``) of the met
+    year in which at least one observation has a QC-kept wind speed **and** air temperature.
+    METAR + SPECI specials in the same hour count once, so recovery can never exceed 100%.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    covered_hours: int
+    hours: int  # 8760, or 8784 in a leap year
+    fraction: float
+    quarters: list[QuarterCoverage]
+    floor: float = COVERAGE_FLOOR
+
+    @property
+    def short_quarters(self) -> list[QuarterCoverage]:
+        """Quarters below the recovery floor (empty when the station-year passes)."""
+        return [q for q in self.quarters if q.fraction < self.floor]
+
+    @property
+    def meets_floor(self) -> bool:
+        return not self.short_quarters
 
 
 class SurfaceSeries(BaseModel):
@@ -91,9 +136,36 @@ class SurfaceSeries(BaseModel):
     observations: list[SurfaceObservation]
     raw_ishd: str  # verbatim ISH lines — AERMET's SURFACE ... ISHD input
 
+    def coverage(self) -> SurfaceCoverage:
+        """Distinct recovered hours of :attr:`year`, annually and per calendar quarter."""
+        covered: set[datetime] = set()
+        for o in self.observations:
+            if o.wind_speed_ms is None or o.air_temp_c is None:
+                continue
+            hour = datetime.fromisoformat(o.time[:13] + ":00:00")
+            if hour.year == self.year:
+                covered.add(hour)
+        quarters = []
+        for q in range(1, 5):
+            months = range(3 * q - 2, 3 * q + 1)
+            hours = 24 * sum(calendar.monthrange(self.year, m)[1] for m in months)
+            n = sum(1 for h in covered if h.month in months)
+            quarters.append(
+                QuarterCoverage(
+                    quarter=q, covered_hours=n, hours=hours, fraction=round(n / hours, 3)
+                )
+            )
+        total = sum(q.hours for q in quarters)
+        return SurfaceCoverage(
+            covered_hours=len(covered),
+            hours=total,
+            fraction=round(len(covered) / total, 3),
+            quarters=quarters,
+        )
+
     def coverage_fraction(self) -> float:
-        """Fraction of the year's ~8760 hours with at least an hourly observation present."""
-        return round(len(self.observations) / 8760.0, 3)
+        """Annual fraction of the year's hours recovered (see :meth:`coverage`)."""
+        return self.coverage().fraction
 
 
 def fetch_surface(

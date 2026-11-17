@@ -60,6 +60,11 @@ def aermet_cmd(
     offline: bool = typer.Option(
         False, "--offline", help="Use committed fixtures only; never touch the network."
     ),
+    allow_incomplete: bool = typer.Option(
+        False,
+        "--allow-incomplete",
+        help="Stage a station-year below the 90%/quarter recovery floor (screening only).",
+    ),
 ) -> None:
     """Stage the AERMET met inputs: pull ISD surface + IGRA upper-air, emit files + runstream.
 
@@ -74,18 +79,34 @@ def aermet_cmd(
     surf = isd.fetch_surface(station=surface_station or None, year=year, settings=settings)
     ua = igra.fetch_upperair(station=upperair_station or None, year=year, settings=settings)
     out_dir = Path(out) if out else settings.air_cache_dir / "aermet"
-    inputs = aermet.write_aermet_inputs(
-        surf, ua, out_dir=out_dir, site_label=settings.site, utc_offset=utc_offset
-    )
+    try:
+        inputs = aermet.write_aermet_inputs(
+            surf,
+            ua,
+            out_dir=out_dir,
+            site_label=settings.site,
+            utc_offset=utc_offset,
+            allow_incomplete=allow_incomplete,
+        )
+    except aermet.InsufficientMetCoverageError as exc:
+        console.print(f"[red]refused:[/] {exc}")
+        raise typer.Exit(1) from exc
 
     console.print(
         f"[bold]AERMET[/] {inputs.surface_station} (surface) + {inputs.upperair_station} "
         f"(upper air), {inputs.year}: {inputs.start_date} → {inputs.end_date}"
     )
+    cov = inputs.surface_coverage
+    quarters = " ".join(f"Q{q.quarter} {q.fraction:.1%}" for q in cov.quarters)
     console.print(
-        f"surface coverage {inputs.surface_coverage_fraction:.1%} · {inputs.n_soundings} soundings "
-        f"· GMT offset {inputs.utc_offset} (verify)"
+        f"surface recovery {cov.covered_hours}/{cov.hours} h ({cov.fraction:.1%}) · {quarters}"
+        f" · {inputs.n_soundings} soundings · GMT offset {inputs.utc_offset} (verify)"
     )
+    if inputs.coverage_override:
+        console.print(
+            f"[yellow]below the {cov.floor:.0%} per-quarter floor — staged under "
+            "--allow-incomplete; screening only, not a regulatory met set[/]"
+        )
     for path in (inputs.surface_path, inputs.upperair_path, inputs.runstream_path):
         wrote(path)
 
