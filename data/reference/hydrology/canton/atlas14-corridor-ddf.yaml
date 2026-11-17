@@ -1,0 +1,47 @@
+meta:
+  subject: NOAA Atlas-14 design-storm depths — Tuscarawas corridor (Canton)
+  source: NOAA Atlas-14 PDS, English depths (HDSC point query)
+  point:
+    latitude: 40.8077
+    longitude: -81.3672
+  units: inches (point precipitation depth)
+ddf:
+  latitude: 40.8077
+  longitude: -81.3672
+  durations:
+  - 60-min
+  - 6-hr
+  - 12-hr
+  - 24-hr
+  return_periods:
+  - 2
+  - 10
+  - 25
+  - 50
+  - 100
+  depths_in:
+    60-min:
+      '2': 1.2
+      '10': 1.77
+      '25': 2.1
+      '50': 2.36
+      '100': 2.62
+    6-hr:
+      '2': 1.76
+      '10': 2.64
+      '25': 3.24
+      '50': 3.75
+      '100': 4.31
+    12-hr:
+      '2': 2.08
+      '10': 3.08
+      '25': 3.77
+      '50': 4.36
+      '100': 5.02
+    24-hr:
+      '2': 2.43
+      '10': 3.53
+      '25': 4.28
+      '50': 4.92
+      '100': 5.62
+  source: NOAA Atlas-14 PDS, English depths (HDSC point query)

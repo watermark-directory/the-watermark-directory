@@ -26,7 +26,7 @@ storage:
 refresh:
   cadence: weekly
   ttl_days: 7
-  last_refreshed: '2026-09-16'
+  last_refreshed: '2026-11-17'
 provenance: reference
 tags:
 - data-centers

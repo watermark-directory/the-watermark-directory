@@ -290,3 +290,44 @@ deleted.
 
 - <https://www.urbanacitizen.com/2026/10/08/opposition-wants-no-deal-on-proposed-data-center-settlement/>
 - <https://www.springfieldnewssun.com/local/urbana-council-tables-data-center-settlement-proposal-for-second-time/article_79d7634c-e12e-5aa4-9731-81436857bfd5.html>
+
+## Update 2026-11-17 — the 2026-11-03 returns
+
+The Champaign County Board of Elections' own **unofficial** summary report (2026-11-03 22:12:08,
+8 of 8 precincts) was read at <https://www.boe.ohio.gov/champaign/c/elecres/20261103results.pdf>.
+It is not captured into the corpus, so every row is `[reference]`, and none is an outcome until
+the official canvass (reported for **2026-11-19**, Springfield News-Sun quoting the BOE director).
+
+| Contest | Yes | No | Board report |
+|---|---|---|---|
+| Urbana City Charter Amendment — Data Centers (Art. VIII § 8.07, 7.5 MW) | **2,978 (77.25%)** | 877 (22.75%) | unofficial |
+| Mayor Bill Bean Recall Question | **2,707 (73.32%)** | 985 (26.68%) | unofficial |
+| Mayor of the City of Urbana | Eugene E. Fields, Jr. **2,184**, the only name | — | unofficial |
+
+- ⚠️ **Two questions, one subject in the press, two instruments.** The charter amendment is a
+  data-center measure; the recall is a recall. Do not write "Urbana voted against data centers
+  twice". The recall's grounds alleged a lack of transparency about this project `[reference]`;
+  that is a motive, not the question on the ballot.
+- ⚠️ The report lists **Fields alone** in the successor contest; the 2026-07-20 register line
+  naming a Fields vs. Nawman contest (§2) is superseded by the board's own ballot. Why Nawman
+  does not appear is `[open]`.
+- **The interaction §2 flagged is now live** `[open]`: if certified, the 7.5 MW prohibition binds
+  prospectively while Thor's vested-rights count argues the 2026-02-13 application froze the
+  pre-moratorium rules — and the settlement MOU would resolve the suit on terms that assume
+  construction. Which governs is for the courts and the Council, not this register.
+- **The MOU** `[reference]`: had a second reading on 2026-11-03 with no action; its **third
+  reading was set for 2026-11-17**. The outcome had not been published when this was written —
+  `[open]`. The resolution number is still `[open]`.
+
+### Instruments to pull (added 2026-11-17)
+
+- The Champaign County BOE **official certification** (due ~2026-11-19) — capture it; that converts
+  the three rows above.
+- The Council's 2026-11-17 action on the MOU, with roll call.
+
+### Sources (added 2026-11-17)
+
+- <https://www.boe.ohio.gov/champaign/c/elecres/20261103results.pdf> — board's unofficial report
+  `[reference]` (read, not captured).
+- <https://www.peakofohio.com/local-news/bean-out-as-mayor-data-centers-banned-in-urbana-2026-midterm-election-results/>
+  `[reference]`.

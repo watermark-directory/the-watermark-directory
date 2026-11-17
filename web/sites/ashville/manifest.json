@@ -2,17 +2,17 @@
   "site": "ashville",
   "bundle_version": "1.0.0",
   "contract_version": "2.7.0",
-  "generated_at": "2026-11-04T13:56:26+00:00",
-  "feed_count": 24,
-  "row_total": 332,
+  "generated_at": "2026-11-17T15:42:44+00:00",
+  "feed_count": 29,
+  "row_total": 444,
   "readiness": {
-    "tier": "stub",
+    "tier": "backdrop",
     "domains": {
-      "backdrop": "absent",
+      "backdrop": "live",
       "facility": "absent",
       "places": "absent",
       "record": "absent",
-      "inquiry": "absent"
+      "inquiry": "seeded"
     }
   },
   "facility": null,
@@ -106,6 +106,46 @@
       "count": 0
     },
     {
+      "name": "rsei",
+      "path": "feeds/rsei.json",
+      "media_type": "application/json",
+      "schema": "schemas/rsei.schema.json",
+      "kind": "object",
+      "count": 1
+    },
+    {
+      "name": "economics-baseline",
+      "path": "feeds/economics-baseline.json",
+      "media_type": "application/json",
+      "schema": "schemas/economics-baseline.schema.json",
+      "kind": "object",
+      "count": 1
+    },
+    {
+      "name": "consumer-energy",
+      "path": "feeds/consumer-energy.json",
+      "media_type": "application/json",
+      "schema": "schemas/consumer-energy.schema.json",
+      "kind": "object",
+      "count": 1
+    },
+    {
+      "name": "grid",
+      "path": "feeds/grid.json",
+      "media_type": "application/json",
+      "schema": "schemas/grid.schema.json",
+      "kind": "object",
+      "count": 1
+    },
+    {
+      "name": "energy-burden",
+      "path": "feeds/energy-burden.json",
+      "media_type": "application/json",
+      "schema": "schemas/energy-burden.schema.json",
+      "kind": "object",
+      "count": 1
+    },
+    {
       "name": "network",
       "path": "feeds/network.json",
       "media_type": "application/json",
@@ -159,7 +199,7 @@
       "media_type": "application/json",
       "schema": "schemas/catalog.schema.json",
       "kind": "collection",
-      "count": 58
+      "count": 59
     },
     {
       "name": "facts",
@@ -167,7 +207,7 @@
       "media_type": "application/json",
       "schema": "schemas/facts.schema.json",
       "kind": "collection",
-      "count": 14
+      "count": 120
     },
     {
       "name": "impact-study",

@@ -1262,8 +1262,8 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "d9c6c79313c3791baf9e41fb25e50a3ff874155c450bb5f1b9db8622ca1cd29a",
-      "size_bytes": 5733,
+      "sha256": "908c06fc8ba959a7613924cd9a113d7cea31d83c6693032bb18a4f8504661926",
+      "size_bytes": 7792,
       "lfs_materialized": true,
       "file_count": 1,
       "stale": false,
@@ -1507,8 +1507,8 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "2fbcc7b67b619d57457ac08074927597b75f7a7d2fcce219a1059291ef482141",
-      "size_bytes": 2466,
+      "sha256": "abee7c3759376ece9e01095afdca194f2fcbfa3c8f43ac09da60d4f4b81d79cc",
+      "size_bytes": 3369,
       "lfs_materialized": true,
       "file_count": 1,
       "stale": false,
@@ -2282,8 +2282,8 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "122ccd742dc38f14b287a44380126639814b5dfd5194c7662a8e5784c9cdd305",
-      "size_bytes": 33419,
+      "sha256": "7724ac2975af59c4fa7fc3fcfd0d39db9533d2ef59a6183a1294dbfedb52e2f1",
+      "size_bytes": 36521,
       "lfs_materialized": true,
       "file_count": 1,
       "stale": false,
@@ -2334,8 +2334,8 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "c61ab99ec3676602f810b1d449f70152205cfebdf01174eaa2d75a85c6932ed2",
-      "size_bytes": 20843,
+      "sha256": "6ea3d33c8bafdc60ebf1280a0d80f0c481d70b5ff8a35d8d81583f58a87a681d",
+      "size_bytes": 23372,
       "lfs_materialized": true,
       "file_count": 1,
       "stale": false,
@@ -2441,8 +2441,8 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "5fd5688cd71888c904fdb2332533b5d60bb4c096becd8e7ea4715c5d81fcdc02",
-      "size_bytes": 56811,
+      "sha256": "02c61e9b326905a6f395bc772ad191bfac4bcc97c89e28d6ca165074bababbb1",
+      "size_bytes": 62984,
       "lfs_materialized": true,
       "file_count": 1,
       "stale": false,
@@ -2558,8 +2558,8 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "8def5e9726d40049d831ff6012410a4fe822b7d0adf91e678260c6d231561bf4",
-      "size_bytes": 34874,
+      "sha256": "f055142408020440c03ca513c88427f79289d3e7d669d031b84f94fb5321c852",
+      "size_bytes": 37551,
       "lfs_materialized": true,
       "file_count": 1,
       "stale": false,
@@ -3772,7 +3772,7 @@
     "site_scope": "state:OH",
     "cadence": "weekly",
     "ttl_days": 7,
-    "last_refreshed": "2026-09-16",
+    "last_refreshed": "2026-11-17",
     "tags": [
       "data-centers",
       "ballot-measure",
@@ -3796,11 +3796,11 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "7a2816989ebdc2df3e0fabcd611583fc30d4ac14ef2269c502eaa69204fb2a90",
-      "size_bytes": 49336,
+      "sha256": "cf6e9823ed6aea538ec7ec0340d6004207a1701b41f7e4bf660f3d4ae71bc39c",
+      "size_bytes": 61401,
       "lfs_materialized": true,
       "file_count": 2,
-      "stale": true,
+      "stale": false,
       "asof": null
     },
     "observed_network": null,
@@ -9234,7 +9234,7 @@
     "producer_kind": "manual",
     "command": null,
     "connector_ref": null,
-    "source": "Codified Ordinances of Wapakoneta, Ohio, Part Twelve (Planning and Zoning Code), as published by American Legal Publishing (supplement 2026 S-27, local legislation current through 2026-05-18): §1250.10(174), §1252.07, §1254.08, §1278.02, §1280.02, §1282.01, §1282.02 and §1282.04, each captured as HTML on 2026-10-18 under data/documents/wapakoneta/governance/. The 2024 City Council record of those ordinances (the 2024-09-03 agenda and the 09-03, 09-16, 10-07, 10-21, 11-04 and 11-18 minutes, from the City's own document library, captured 2026-10-28) as a dated timeline. The 2024-01-02 and 2025-12-15 minutes (Council's WAEDC and CIC representative appointments) and the 2024-2025 minutes recording WAEDC executive sessions and the Mayor's WAEDC meetings, captured 2026-11-03, are cited by page in the register's §1.7. WAEDC's Form 990-EZ returns for the tax years ending 2016-09-30 to 2025-09-30 (IRS TEOS copies, with the e-file XML for the last three), fetched 2026-11-03 under data/documents/wapakoneta/irs/, supply §1.7's board lists. The 2018-2022 minutes recording the City's funding of WAEDC (Res. 2022-64, $85,000 a year), and three Auglaize County commissioners' minutes recording its dealings with WAEDC, captured 2026-11-03 under data/documents/wapakoneta/governance/ and auglaize-commissioners/, are cited by page in the register's §1.8. Also R.C. 149.43 requests to the City (drafted 2026-10-18) and to the County commissioners (drafted 2026-11-03), both NOT SENT, with their response logs.",
+    "source": "Codified Ordinances of Wapakoneta, Ohio, Part Twelve (Planning and Zoning Code), as published by American Legal Publishing (supplement 2026 S-27, local legislation current through 2026-05-18): §1250.10(174), §1252.07, §1254.08, §1278.02, §1280.02, §1282.01, §1282.02 and §1282.04, each captured as HTML on 2026-10-18 under data/documents/wapakoneta/governance/. The 2024 City Council record of those ordinances (the 2024-09-03 agenda and the 09-03, 09-16, 10-07, 10-21, 11-04 and 11-18 minutes, from the City's own document library, captured 2026-10-28) as a dated timeline. The 2024-01-02 and 2025-12-15 minutes (Council's WAEDC and CIC representative appointments) and the 2024-2025 minutes recording WAEDC executive sessions and the Mayor's WAEDC meetings, captured 2026-11-03, are cited by page in the register's §1.7. WAEDC's Form 990-EZ returns for the tax years ending 2016-09-30 to 2025-09-30 (IRS TEOS copies, with the e-file XML for the last three), fetched 2026-11-03 under data/documents/wapakoneta/irs/, supply §1.7's board lists. The 2018-2022 minutes recording the City's funding of WAEDC (Res. 2022-64, $85,000 a year), and three Auglaize County commissioners' minutes recording its dealings with WAEDC, captured 2026-11-03 under data/documents/wapakoneta/governance/ and auglaize-commissioners/, are cited by page in the register's §1.8. Duos Technologies Group's Form 10-Q for the quarter ended 2026-09-30 (accession 0001079973-26-001535), supplied 2026-11-17 under data/documents/wapakoneta/sec/, is read in the register's 2026-11-17 update for what Duos itself has disclosed. Also R.C. 149.43 requests to the City (drafted 2026-10-18) and to the County commissioners (drafted 2026-11-03), both NOT SENT, with their response logs.",
     "external_url": null,
     "license": "Public record (municipal codified ordinances); the codification is American Legal Publishing's",
     "access_tier": "public",
@@ -9282,7 +9282,7 @@
     },
     "observed_network": null,
     "citation": {
-      "source": "Codified Ordinances of Wapakoneta, Ohio, Part Twelve (Planning and Zoning Code), as published by American Legal Publishing (supplement 2026 S-27, local legislation current through 2026-05-18): §1250.10(174), §1252.07, §1254.08, §1278.02, §1280.02, §1282.01, §1282.02 and §1282.04, each captured as HTML on 2026-10-18 under data/documents/wapakoneta/governance/. The 2024 City Council record of those ordinances (the 2024-09-03 agenda and the 09-03, 09-16, 10-07, 10-21, 11-04 and 11-18 minutes, from the City's own document library, captured 2026-10-28) as a dated timeline. The 2024-01-02 and 2025-12-15 minutes (Council's WAEDC and CIC representative appointments) and the 2024-2025 minutes recording WAEDC executive sessions and the Mayor's WAEDC meetings, captured 2026-11-03, are cited by page in the register's §1.7. WAEDC's Form 990-EZ returns for the tax years ending 2016-09-30 to 2025-09-30 (IRS TEOS copies, with the e-file XML for the last three), fetched 2026-11-03 under data/documents/wapakoneta/irs/, supply §1.7's board lists. The 2018-2022 minutes recording the City's funding of WAEDC (Res. 2022-64, $85,000 a year), and three Auglaize County commissioners' minutes recording its dealings with WAEDC, captured 2026-11-03 under data/documents/wapakoneta/governance/ and auglaize-commissioners/, are cited by page in the register's §1.8. Also R.C. 149.43 requests to the City (drafted 2026-10-18) and to the County commissioners (drafted 2026-11-03), both NOT SENT, with their response logs.",
+      "source": "Codified Ordinances of Wapakoneta, Ohio, Part Twelve (Planning and Zoning Code), as published by American Legal Publishing (supplement 2026 S-27, local legislation current through 2026-05-18): §1250.10(174), §1252.07, §1254.08, §1278.02, §1280.02, §1282.01, §1282.02 and §1282.04, each captured as HTML on 2026-10-18 under data/documents/wapakoneta/governance/. The 2024 City Council record of those ordinances (the 2024-09-03 agenda and the 09-03, 09-16, 10-07, 10-21, 11-04 and 11-18 minutes, from the City's own document library, captured 2026-10-28) as a dated timeline. The 2024-01-02 and 2025-12-15 minutes (Council's WAEDC and CIC representative appointments) and the 2024-2025 minutes recording WAEDC executive sessions and the Mayor's WAEDC meetings, captured 2026-11-03, are cited by page in the register's §1.7. WAEDC's Form 990-EZ returns for the tax years ending 2016-09-30 to 2025-09-30 (IRS TEOS copies, with the e-file XML for the last three), fetched 2026-11-03 under data/documents/wapakoneta/irs/, supply §1.7's board lists. The 2018-2022 minutes recording the City's funding of WAEDC (Res. 2022-64, $85,000 a year), and three Auglaize County commissioners' minutes recording its dealings with WAEDC, captured 2026-11-03 under data/documents/wapakoneta/governance/ and auglaize-commissioners/, are cited by page in the register's §1.8. Duos Technologies Group's Form 10-Q for the quarter ended 2026-09-30 (accession 0001079973-26-001535), supplied 2026-11-17 under data/documents/wapakoneta/sec/, is read in the register's 2026-11-17 update for what Duos itself has disclosed. Also R.C. 149.43 requests to the City (drafted 2026-10-18) and to the County commissioners (drafted 2026-11-03), both NOT SENT, with their response logs.",
       "source_kind": "reference",
       "page": null,
       "pages": null,
@@ -11430,7 +11430,7 @@
       "asof": null
     },
     "observed_network": {
-      "sites_present": 23,
+      "sites_present": 26,
       "sites_total": 37
     },
     "citation": {
@@ -11540,7 +11540,7 @@
       "asof": null
     },
     "observed_network": {
-      "sites_present": 23,
+      "sites_present": 26,
       "sites_total": 37
     },
     "citation": {
@@ -11660,7 +11660,7 @@
       "asof": null
     },
     "observed_network": {
-      "sites_present": 23,
+      "sites_present": 26,
       "sites_total": 37
     },
     "citation": {
@@ -12551,7 +12551,7 @@
       "asof": null
     },
     "observed_network": {
-      "sites_present": 23,
+      "sites_present": 26,
       "sites_total": 37
     },
     "citation": {
@@ -12671,7 +12671,7 @@
       "asof": null
     },
     "observed_network": {
-      "sites_present": 23,
+      "sites_present": 26,
       "sites_total": 37
     },
     "citation": {
@@ -14443,7 +14443,7 @@
       "asof": null
     },
     "observed_network": {
-      "sites_present": 23,
+      "sites_present": 26,
       "sites_total": 37
     },
     "citation": {
@@ -14608,6 +14608,108 @@
     }
   },
   {
+    "id": "subdivisions-ashville",
+    "title": "Pickaway County Political-Subdivision Meeting-Records Registry (Ashville)",
+    "scope": "reference",
+    "collection": "subdivisions",
+    "status": "needs-review",
+    "producer_kind": "connector",
+    "command": "--site ashville subdivisions discover",
+    "connector_ref": "watermark.civic.registry",
+    "source": "Scaffolded empty by `watermark onboard ashville` (2026-11-17). No Pickaway County roster is committed yet, so no body is enumerated and no discovery sweep has run.",
+    "external_url": null,
+    "license": "Public records (local government open data)",
+    "access_tier": "public",
+    "site_scope": "site:ashville",
+    "cadence": "on-demand",
+    "ttl_days": null,
+    "last_refreshed": null,
+    "tags": [
+      "subdivisions",
+      "civic",
+      "pickaway-county",
+      "ashville",
+      "meeting-records"
+    ],
+    "storage": [
+      {
+        "relpath": "reference/subdivisions/ashville/subdivisions.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "2b03c34f6a5b3c5d74caa5beb75f5535d461b3ac56110d7c35a053d692b1ae9e",
+      "size_bytes": 1239,
+      "lfs_materialized": true,
+      "file_count": 1,
+      "stale": false,
+      "asof": null
+    },
+    "observed_network": null,
+    "citation": {
+      "source": "Scaffolded empty by `watermark onboard ashville` (2026-11-17). No Pickaway County roster is committed yet, so no body is enumerated and no discovery sweep has run.",
+      "source_kind": "connector",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": "watermark --site ashville subdivisions discover",
+      "verified": true
+    }
+  },
+  {
+    "id": "subdivisions-canton",
+    "title": "Stark County Political-Subdivision Meeting-Records Registry (Canton)",
+    "scope": "reference",
+    "collection": "subdivisions",
+    "status": "needs-review",
+    "producer_kind": "connector",
+    "command": "--site canton subdivisions discover",
+    "connector_ref": "watermark.civic.registry",
+    "source": "Scaffolded empty by `watermark onboard canton` (2026-11-17). No Stark County roster is committed yet, so no body is enumerated and no discovery sweep has run.",
+    "external_url": null,
+    "license": "Public records (local government open data)",
+    "access_tier": "public",
+    "site_scope": "site:canton",
+    "cadence": "on-demand",
+    "ttl_days": null,
+    "last_refreshed": null,
+    "tags": [
+      "subdivisions",
+      "civic",
+      "stark-county",
+      "canton",
+      "meeting-records"
+    ],
+    "storage": [
+      {
+        "relpath": "reference/subdivisions/canton/subdivisions.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "6d241ba4f4da7dceeb1110f2c5e70094d6b96efe7223be1b4895d7df214c04b6",
+      "size_bytes": 1216,
+      "lfs_materialized": true,
+      "file_count": 1,
+      "stale": false,
+      "asof": null
+    },
+    "observed_network": null,
+    "citation": {
+      "source": "Scaffolded empty by `watermark onboard canton` (2026-11-17). No Stark County roster is committed yet, so no body is enumerated and no discovery sweep has run.",
+      "source_kind": "connector",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": "watermark --site canton subdivisions discover",
+      "verified": true
+    }
+  },
+  {
     "id": "subdivisions-findlay",
     "title": "Hancock County Political-Subdivision Meeting-Records Registry (Findlay)",
     "scope": "reference",
@@ -14655,6 +14757,57 @@
       "pages": null,
       "confidence": "medium",
       "note": "watermark --site findlay subdivisions discover",
+      "verified": true
+    }
+  },
+  {
+    "id": "subdivisions-shalersville",
+    "title": "Portage County Political-Subdivision Meeting-Records Registry (Shalersville)",
+    "scope": "reference",
+    "collection": "subdivisions",
+    "status": "needs-review",
+    "producer_kind": "connector",
+    "command": "--site shalersville subdivisions discover",
+    "connector_ref": "watermark.civic.registry",
+    "source": "Scaffolded empty by `watermark onboard shalersville` (2026-11-17). No Portage County roster is committed yet, so no body is enumerated and no discovery sweep has run.",
+    "external_url": null,
+    "license": "Public records (local government open data)",
+    "access_tier": "public",
+    "site_scope": "site:shalersville",
+    "cadence": "on-demand",
+    "ttl_days": null,
+    "last_refreshed": null,
+    "tags": [
+      "subdivisions",
+      "civic",
+      "portage-county",
+      "shalersville",
+      "meeting-records"
+    ],
+    "storage": [
+      {
+        "relpath": "reference/subdivisions/shalersville/subdivisions.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "09a8f7133ad9990c988b20ddf64dad93f6c9473f5c8c3d95db591f060a34e774",
+      "size_bytes": 1264,
+      "lfs_materialized": true,
+      "file_count": 1,
+      "stale": false,
+      "asof": null
+    },
+    "observed_network": null,
+    "citation": {
+      "source": "Scaffolded empty by `watermark onboard shalersville` (2026-11-17). No Portage County roster is committed yet, so no body is enumerated and no discovery sweep has run.",
+      "source_kind": "connector",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": "watermark --site shalersville subdivisions discover",
       "verified": true
     }
   },

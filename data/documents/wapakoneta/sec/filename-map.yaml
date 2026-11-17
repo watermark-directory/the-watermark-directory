@@ -1,0 +1,34 @@
+meta:
+  collection: wapakoneta/sec
+  note: 'Duos Technologies Group, Inc.''s own SEC filings, shelved here because WDTN (2026-11-17)
+    reported that Duos "would operate the computers inside" CTS''s proposed Wapakoneta facility
+    ("Project Apollo"). Duos is a public company, so its periodic reports are the primary record of
+    what it has disclosed. A filing establishes what Duos told the SEC [verified as to the filing]. It
+    does not establish any fact about a Wapakoneta project the filing does not mention, and what it
+    omits is not proof that no arrangement exists: a 10-Q need not list every site in development.
+    Supplied by the requester on 2026-11-17 (fetched_at is the download''s file time). The filename is
+    the EDGAR accession number as received and is kept verbatim. Added for #2184.'
+documents:
+- filename: 0001079973-26-001535.pdf
+  title: Duos Technologies Group, Inc. Form 10-Q for the quarter ended 2026-09-30 (accession 0001079973-26-001535)
+  type: sec-filing
+  filer: Duos Technologies Group, Inc. (Commission file number 001-39227)
+  form: 10-Q
+  period_end: '2026-09-30'
+  accession: 0001079973-26-001535
+  sha256: bedc2513b5f9371c15033c977c09554a31a72ed6475f8028142618b167d9cf6f
+  bytes: 8640085
+  pages: 84
+  content_type: application/pdf
+  fetched_at: '2026-11-17T16:21:10Z'
+  status: downloaded
+  content_verified: text-layer
+  note: 'A PDF rendering of the filing with a usable text layer; the PDF metadata gives a 2026-11-16
+    creation date. Read in full for #2184. It names no Ohio site, and neither Wapakoneta, Auglaize,
+    Short Road nor "Project Apollo" appears in it. It does record (Note 14, Commitments and Contingencies, printed p.43): on 2026-09-30
+    Duos Edge AI, Inc. entered a Membership Interest Purchase Agreement with "CTS Infrastructure LLC"
+    to acquire 100% of "CTS SC Holdings LLC" for $10.0 million in escrow, to pay "Lee County" (state
+    not given) for a site; closing is conditioned on County approval and validated electric service of
+    at least 19.9 MW by 2027-06-30; Duos "intends to develop Project Atlas as a 20 MW colocation
+    compute center." Whether CTS Infrastructure LLC is the "Colocation Technology Services" that
+    appeared before Wapakoneta Council is not established by this filing.'

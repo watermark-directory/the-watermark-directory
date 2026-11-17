@@ -1,6 +1,6 @@
 {
   "site": "ashville",
-  "catalog_version": "87d386a0f62954ff4601c5413dbc9db5f8a877d0b6a30a900cbf6231b73db20f",
+  "catalog_version": "17975d959436e4d129730ea450f18f77d9b7d234e6c5439808af81df22bc122d",
   "contract_version": "2.7.0",
   "atoms": [
     {
@@ -1017,6 +1017,14 @@
       "site": "ashville",
       "local_id": "rsei-inventory",
       "title": "Pickaway County, OH RSEI Toxic-Release Inventory (EPA RSEI Public Data Set v2.3.12)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:ashville:subdivisions-ashville",
+      "kind": "dataset",
+      "site": "ashville",
+      "local_id": "subdivisions-ashville",
+      "title": "Pickaway County Political-Subdivision Meeting-Records Registry (Ashville)",
       "feed": "catalog"
     },
     {

@@ -1,0 +1,1291 @@
+fips: '39129'
+area_name: Pickaway County, Ohio
+latest:
+  fips: '39129'
+  area_name: Pickaway County, Ohio
+  year: 2024
+  total_employment:
+    value: 16097.0
+    unit: jobs
+    source: connector
+    citation: BLS QCEW 2024 annual averages, area 39129
+    confidence: high
+    asof: '2024'
+    low: null
+    high: null
+  establishments:
+    value: 1082.0
+    unit: establishments
+    source: connector
+    citation: BLS QCEW 2024 annual averages, area 39129
+    confidence: high
+    asof: '2024'
+    low: null
+    high: null
+  avg_annual_pay:
+    value: 56992.0
+    unit: USD/year
+    source: connector
+    citation: BLS QCEW 2024 annual averages, area 39129
+    confidence: high
+    asof: '2024'
+    low: null
+    high: null
+  avg_weekly_wage:
+    value: 1096.0
+    unit: USD/week
+    source: connector
+    citation: BLS QCEW 2024 annual averages, area 39129
+    confidence: high
+    asof: '2024'
+    low: null
+    high: null
+  sectors:
+  - naics: 31-33
+    sector_name: Manufacturing
+    annual_avg_employment:
+      value: 2252.0
+      unit: jobs
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    establishments:
+      value: 42.0
+      unit: establishments
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    avg_annual_pay:
+      value: 76676.0
+      unit: USD/year
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    avg_weekly_wage:
+      value: 1475.0
+      unit: USD/week
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    location_quotient:
+      value: 1.7
+      unit: ratio
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+  - naics: 48-49
+    sector_name: Transportation & Warehousing
+    annual_avg_employment:
+      value: 1917.0
+      unit: jobs
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    establishments:
+      value: 72.0
+      unit: establishments
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    avg_annual_pay:
+      value: 51429.0
+      unit: USD/year
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    avg_weekly_wage:
+      value: 989.0
+      unit: USD/week
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    location_quotient:
+      value: 2.81
+      unit: ratio
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+  - naics: 44-45
+    sector_name: Retail Trade
+    annual_avg_employment:
+      value: 1539.0
+      unit: jobs
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    establishments:
+      value: 110.0
+      unit: establishments
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    avg_annual_pay:
+      value: 35056.0
+      unit: USD/year
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    avg_weekly_wage:
+      value: 674.0
+      unit: USD/week
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    location_quotient:
+      value: 0.96
+      unit: ratio
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+  - naics: '72'
+    sector_name: Accommodation & Food Services
+    annual_avg_employment:
+      value: 1430.0
+      unit: jobs
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    establishments:
+      value: 89.0
+      unit: establishments
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    avg_annual_pay:
+      value: 21448.0
+      unit: USD/year
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    avg_weekly_wage:
+      value: 412.0
+      unit: USD/week
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    location_quotient:
+      value: 0.98
+      unit: ratio
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+  - naics: '23'
+    sector_name: Construction
+    annual_avg_employment:
+      value: 813.0
+      unit: jobs
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    establishments:
+      value: 116.0
+      unit: establishments
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    avg_annual_pay:
+      value: 65727.0
+      unit: USD/year
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    avg_weekly_wage:
+      value: 1264.0
+      unit: USD/week
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    location_quotient:
+      value: 0.96
+      unit: ratio
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+  - naics: '56'
+    sector_name: Administrative & Support & Waste Management
+    annual_avg_employment:
+      value: 465.0
+      unit: jobs
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    establishments:
+      value: 69.0
+      unit: establishments
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    avg_annual_pay:
+      value: 52459.0
+      unit: USD/year
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    avg_weekly_wage:
+      value: 1009.0
+      unit: USD/week
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    location_quotient:
+      value: 0.49
+      unit: ratio
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+  - naics: '81'
+    sector_name: Other Services (except Public Administration)
+    annual_avg_employment:
+      value: 334.0
+      unit: jobs
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    establishments:
+      value: 66.0
+      unit: establishments
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    avg_annual_pay:
+      value: 44173.0
+      unit: USD/year
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    avg_weekly_wage:
+      value: 849.0
+      unit: USD/week
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    location_quotient:
+      value: 0.69
+      unit: ratio
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+  - naics: '52'
+    sector_name: Finance & Insurance
+    annual_avg_employment:
+      value: 266.0
+      unit: jobs
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    establishments:
+      value: 50.0
+      unit: establishments
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    avg_annual_pay:
+      value: 59249.0
+      unit: USD/year
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    avg_weekly_wage:
+      value: 1139.0
+      unit: USD/week
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    location_quotient:
+      value: 0.41
+      unit: ratio
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+  - naics: '11'
+    sector_name: Agriculture, Forestry, Fishing & Hunting
+    annual_avg_employment:
+      value: 249.0
+      unit: jobs
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    establishments:
+      value: 41.0
+      unit: establishments
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    avg_annual_pay:
+      value: 44630.0
+      unit: USD/year
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    avg_weekly_wage:
+      value: 858.0
+      unit: USD/week
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    location_quotient:
+      value: 1.91
+      unit: ratio
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+  - naics: '54'
+    sector_name: Professional, Scientific & Technical Services
+    annual_avg_employment:
+      value: 243.0
+      unit: jobs
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    establishments:
+      value: 80.0
+      unit: establishments
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    avg_annual_pay:
+      value: 56959.0
+      unit: USD/year
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    avg_weekly_wage:
+      value: 1095.0
+      unit: USD/week
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    location_quotient:
+      value: 0.22
+      unit: ratio
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+  - naics: '53'
+    sector_name: Real Estate & Rental & Leasing
+    annual_avg_employment:
+      value: 110.0
+      unit: jobs
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    establishments:
+      value: 27.0
+      unit: establishments
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    avg_annual_pay:
+      value: 45771.0
+      unit: USD/year
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    avg_weekly_wage:
+      value: 880.0
+      unit: USD/week
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    location_quotient:
+      value: 0.44
+      unit: ratio
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+  - naics: '71'
+    sector_name: Arts, Entertainment & Recreation
+    annual_avg_employment:
+      value: 107.0
+      unit: jobs
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    establishments:
+      value: 16.0
+      unit: establishments
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    avg_annual_pay:
+      value: 35293.0
+      unit: USD/year
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    avg_weekly_wage:
+      value: 679.0
+      unit: USD/week
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    location_quotient:
+      value: 0.4
+      unit: ratio
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+  - naics: '51'
+    sector_name: Information
+    annual_avg_employment:
+      value: 58.0
+      unit: jobs
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    establishments:
+      value: 16.0
+      unit: establishments
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    avg_annual_pay:
+      value: 74210.0
+      unit: USD/year
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    avg_weekly_wage:
+      value: 1427.0
+      unit: USD/week
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    location_quotient:
+      value: 0.19
+      unit: ratio
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+  - naics: '21'
+    sector_name: Mining, Quarrying, Oil & Gas Extraction
+    annual_avg_employment:
+      value: 34.0
+      unit: jobs
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    establishments:
+      value: 5.0
+      unit: establishments
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    avg_annual_pay:
+      value: 83153.0
+      unit: USD/year
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    avg_weekly_wage:
+      value: 1599.0
+      unit: USD/week
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    location_quotient:
+      value: 0.56
+      unit: ratio
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+  - naics: '55'
+    sector_name: Management of Companies & Enterprises
+    annual_avg_employment:
+      value: 22.0
+      unit: jobs
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    establishments:
+      value: 4.0
+      unit: establishments
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    avg_annual_pay:
+      value: 134061.0
+      unit: USD/year
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    avg_weekly_wage:
+      value: 2578.0
+      unit: USD/week
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    location_quotient:
+      value: 0.08
+      unit: ratio
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+  - naics: '22'
+    sector_name: Utilities
+    annual_avg_employment:
+      value: 0.0
+      unit: jobs
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    establishments:
+      value: 2.0
+      unit: establishments
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    avg_annual_pay: null
+    avg_weekly_wage: null
+    location_quotient:
+      value: 0.0
+      unit: ratio
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+  - naics: '42'
+    sector_name: Wholesale Trade
+    annual_avg_employment:
+      value: 0.0
+      unit: jobs
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    establishments:
+      value: 38.0
+      unit: establishments
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    avg_annual_pay: null
+    avg_weekly_wage: null
+    location_quotient:
+      value: 0.0
+      unit: ratio
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+  - naics: '61'
+    sector_name: Educational Services
+    annual_avg_employment:
+      value: 0.0
+      unit: jobs
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    establishments:
+      value: 4.0
+      unit: establishments
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    avg_annual_pay: null
+    avg_weekly_wage: null
+    location_quotient:
+      value: 0.0
+      unit: ratio
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+  - naics: '62'
+    sector_name: Health Care & Social Assistance
+    annual_avg_employment:
+      value: 0.0
+      unit: jobs
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    establishments:
+      value: 133.0
+      unit: establishments
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    avg_annual_pay: null
+    avg_weekly_wage: null
+    location_quotient:
+      value: 0.0
+      unit: ratio
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+  government:
+  - ownership: '1'
+    ownership_name: Federal Government
+    annual_avg_employment:
+      value: 95.0
+      unit: jobs
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    establishments:
+      value: 10.0
+      unit: establishments
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    avg_annual_pay:
+      value: 64576.0
+      unit: USD/year
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    avg_weekly_wage:
+      value: 1242.0
+      unit: USD/week
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    location_quotient:
+      value: 0.3
+      unit: ratio
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+  - ownership: '2'
+    ownership_name: State Government
+    annual_avg_employment:
+      value: 1292.0
+      unit: jobs
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    establishments:
+      value: 15.0
+      unit: establishments
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    avg_annual_pay:
+      value: 87276.0
+      unit: USD/year
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    avg_weekly_wage:
+      value: 1678.0
+      unit: USD/week
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    location_quotient:
+      value: 2.58
+      unit: ratio
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+  - ownership: '3'
+    ownership_name: Local Government
+    annual_avg_employment:
+      value: 2206.0
+      unit: jobs
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    establishments:
+      value: 76.0
+      unit: establishments
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    avg_annual_pay:
+      value: 56995.0
+      unit: USD/year
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    avg_weekly_wage:
+      value: 1096.0
+      unit: USD/week
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+    location_quotient:
+      value: 1.45
+      unit: ratio
+      source: connector
+      citation: BLS QCEW 2024 annual averages, area 39129
+      confidence: high
+      asof: '2024'
+      low: null
+      high: null
+  source: 'BLS QCEW (annual averages): private-ownership NAICS sectors + federal/state/local
+    government ownership; excludes uniformed active-duty military'
+trend:
+- year: 2014
+  total_employment:
+    value: 13584.0
+    unit: jobs
+    source: connector
+    citation: BLS QCEW 2014 annual averages, area 39129
+    confidence: high
+    asof: '2014'
+    low: null
+    high: null
+  establishments:
+    value: 886.0
+    unit: establishments
+    source: connector
+    citation: BLS QCEW 2014 annual averages, area 39129
+    confidence: high
+    asof: '2014'
+    low: null
+    high: null
+- year: 2015
+  total_employment:
+    value: 13773.0
+    unit: jobs
+    source: connector
+    citation: BLS QCEW 2015 annual averages, area 39129
+    confidence: high
+    asof: '2015'
+    low: null
+    high: null
+  establishments:
+    value: 902.0
+    unit: establishments
+    source: connector
+    citation: BLS QCEW 2015 annual averages, area 39129
+    confidence: high
+    asof: '2015'
+    low: null
+    high: null
+- year: 2016
+  total_employment:
+    value: 13568.0
+    unit: jobs
+    source: connector
+    citation: BLS QCEW 2016 annual averages, area 39129
+    confidence: high
+    asof: '2016'
+    low: null
+    high: null
+  establishments:
+    value: 907.0
+    unit: establishments
+    source: connector
+    citation: BLS QCEW 2016 annual averages, area 39129
+    confidence: high
+    asof: '2016'
+    low: null
+    high: null
+- year: 2017
+  total_employment:
+    value: 13646.0
+    unit: jobs
+    source: connector
+    citation: BLS QCEW 2017 annual averages, area 39129
+    confidence: high
+    asof: '2017'
+    low: null
+    high: null
+  establishments:
+    value: 907.0
+    unit: establishments
+    source: connector
+    citation: BLS QCEW 2017 annual averages, area 39129
+    confidence: high
+    asof: '2017'
+    low: null
+    high: null
+- year: 2018
+  total_employment:
+    value: 14033.0
+    unit: jobs
+    source: connector
+    citation: BLS QCEW 2018 annual averages, area 39129
+    confidence: high
+    asof: '2018'
+    low: null
+    high: null
+  establishments:
+    value: 930.0
+    unit: establishments
+    source: connector
+    citation: BLS QCEW 2018 annual averages, area 39129
+    confidence: high
+    asof: '2018'
+    low: null
+    high: null
+- year: 2019
+  total_employment:
+    value: 13913.0
+    unit: jobs
+    source: connector
+    citation: BLS QCEW 2019 annual averages, area 39129
+    confidence: high
+    asof: '2019'
+    low: null
+    high: null
+  establishments:
+    value: 958.0
+    unit: establishments
+    source: connector
+    citation: BLS QCEW 2019 annual averages, area 39129
+    confidence: high
+    asof: '2019'
+    low: null
+    high: null
+- year: 2020
+  total_employment:
+    value: 13465.0
+    unit: jobs
+    source: connector
+    citation: BLS QCEW 2020 annual averages, area 39129
+    confidence: high
+    asof: '2020'
+    low: null
+    high: null
+  establishments:
+    value: 985.0
+    unit: establishments
+    source: connector
+    citation: BLS QCEW 2020 annual averages, area 39129
+    confidence: high
+    asof: '2020'
+    low: null
+    high: null
+- year: 2021
+  total_employment:
+    value: 14301.0
+    unit: jobs
+    source: connector
+    citation: BLS QCEW 2021 annual averages, area 39129
+    confidence: high
+    asof: '2021'
+    low: null
+    high: null
+  establishments:
+    value: 1016.0
+    unit: establishments
+    source: connector
+    citation: BLS QCEW 2021 annual averages, area 39129
+    confidence: high
+    asof: '2021'
+    low: null
+    high: null
+- year: 2022
+  total_employment:
+    value: 14841.0
+    unit: jobs
+    source: connector
+    citation: BLS QCEW 2022 annual averages, area 39129
+    confidence: high
+    asof: '2022'
+    low: null
+    high: null
+  establishments:
+    value: 1052.0
+    unit: establishments
+    source: connector
+    citation: BLS QCEW 2022 annual averages, area 39129
+    confidence: high
+    asof: '2022'
+    low: null
+    high: null
+- year: 2023
+  total_employment:
+    value: 16953.0
+    unit: jobs
+    source: connector
+    citation: BLS QCEW 2023 annual averages, area 39129
+    confidence: high
+    asof: '2023'
+    low: null
+    high: null
+  establishments:
+    value: 1067.0
+    unit: establishments
+    source: connector
+    citation: BLS QCEW 2023 annual averages, area 39129
+    confidence: high
+    asof: '2023'
+    low: null
+    high: null
+- year: 2024
+  total_employment:
+    value: 16097.0
+    unit: jobs
+    source: connector
+    citation: BLS QCEW 2024 annual averages, area 39129
+    confidence: high
+    asof: '2024'
+    low: null
+    high: null
+  establishments:
+    value: 1082.0
+    unit: establishments
+    source: connector
+    citation: BLS QCEW 2024 annual averages, area 39129
+    confidence: high
+    asof: '2024'
+    low: null
+    high: null
+population:
+  fips: '39129'
+  area_name: Pickaway County, Ohio
+  points:
+  - year: 2010
+    population:
+      value: 55128.0
+      unit: people
+      source: connector
+      citation: US Census ACS5 2010 B01003_001E (Pickaway County, Ohio)
+      confidence: high
+      asof: '2010'
+      low: null
+      high: null
+  - year: 2015
+    population:
+      value: 56515.0
+      unit: people
+      source: connector
+      citation: US Census ACS5 2015 B01003_001E (Pickaway County, Ohio)
+      confidence: high
+      asof: '2015'
+      low: null
+      high: null
+  - year: 2020
+    population:
+      value: 58112.0
+      unit: people
+      source: connector
+      citation: US Census ACS5 2020 B01003_001E (Pickaway County, Ohio)
+      confidence: high
+      asof: '2020'
+      low: null
+      high: null
+  - year: 2023
+    population:
+      value: 59407.0
+      unit: people
+      source: connector
+      citation: US Census ACS5 2023 B01003_001E (Pickaway County, Ohio)
+      confidence: high
+      asof: '2023'
+      low: null
+      high: null
+  source: US Census ACS 5-year (B01003)
+median_household_income:
+  value: 72927.0
+  unit: USD/yr
+  source: connector
+  citation: US Census ACS5 2023 B19013_001E median household income (Pickaway County,
+    Ohio)
+  confidence: high
+  asof: '2023'
+  low: null
+  high: null
+unit_caveat: null
+coverage_note: BLS QCEW counts UI-covered (private, state, local) plus federal-civilian
+  (UCFE) employment. Uniformed active-duty military is excluded — it appears in neither
+  the county total nor any ownership row — so at a federal enclave the covered total
+  understates the base's real employment footprint beyond even the federal-civilian
+  jobs shown here.
+note: Employment from BLS QCEW (keyless open data). Location quotient = county sector
+  share / national share (export-orientation; the county-level proxy for an import/export
+  ratio). Population from US Census ACS 5-year (B01003). Median household income from
+  US Census ACS 5-year (B19013, 2023).

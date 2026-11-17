@@ -165,8 +165,44 @@ publishing now: `troy-piqua` and `urbana` are live + selectable and `sidney` is 
 selectable, and each publishes a governance picture that until this record omitted a pending
 measure against its own facility. `wilmington` is queued and omits four.
 
+## Returns — 2026-11-03 (read 2026-11-17)
+
+The election has happened. The YAML's `returns` block carries what each board reported, and the
+one thing to read before citing any of it is **which board instrument** a figure comes from. Not
+one is captured under `data/documents/` yet, so every row is still `[reference]`; the first
+capture is the YAML's new pull **priority 0**.
+
+| Community | Question | Yes | No | Instrument |
+|---|---|---|---|---|
+| Defiance | Charter amendment, >25 MW | **3,866** (64.67%) | 2,112 | **official certification**, signed 2026-11-12 |
+| Urbana | Charter Art. VIII § 8.07, 7.5 MW | **2,978** (77.25%) | 877 | board's unofficial report |
+| Piqua | Charter §138, 25 MW | **4,061** (66.70%) | 2,027 | board's unofficial report |
+| Wilmington | Referendums O-26-04 … O-26-07 | 716–739 | **2,885–2,909** | board's unofficial report ("Final") |
+| Ashville | Referendum, Resolution 06-2026 | 331 | **1,469** (81.61%) | press only — board URL still served the pre-election zero report |
+
+- ⚠️ **Defiance's widely reported 3,823 / 2,083 is the unofficial count.** Cite the certification.
+- ⚠️ **Wilmington's NO is a rejection only by inference.** An Ohio municipal referendum asks
+  whether the ordinance shall be approved; the certified ballot language was not read. The board's
+  report does settle the four ordinance numbers the measure entry carried as `[open]`.
+- **Piqua carried one data-center question, not two.** The board's report has a single §138
+  contest; the 2026-08-11 crypto/data-center amendment was not on the 2026-11-03 ballot.
+- **Recalls are not data-center measures**, and the same night carried three: Urbana's mayor
+  (YES 2,707 / NO 985; Eugene E. Fields, Jr. unopposed for the seat) and Piqua's Ward 1, 3 and 5
+  commissioners (72.95%, 70.33%, 70.16% for recall; Piqua special election, unofficial). The
+  board's report names **seats**, not incumbents.
+- **Everything else is press** — the Statehouse News Bureau's 2026-11-10 roundup reports Trenton,
+  Hubbard, Conneaut, Grove City, Oregon (Issue 25), Upper Sandusky, Monroe and Sprigg townships
+  (Adams County) and others, as single percentages that do not always say which side. That
+  roundup **moves the three dated negatives above** from "unconfirmed" to "reported on the
+  ballot" — not to an outcome.
+
+The `standing` on each measure is deliberately **not** rewritten: it records the question as it
+went to the ballot, and the returns are recorded beside it. Official canvasses were reported due
+2026-11-19 (Champaign) and by 2026-11-24 statewide.
+
 ## Next check
 
 Weekly through 2026-11-03 — the election is a hard dated trigger, not an interval, and the
-pre-election window is when the certification record is live and cheapest to obtain. Dated
+pre-election window is when the certification record is live and cheapest to obtain. After it:
+the official canvasses as each county certifies (by ~2026-11-24), captured, not re-read. Dated
 triggers, cadence rationale and the full pull queue are in the YAML's `next_check` block.

@@ -1,4 +1,4 @@
-reconciled_at: '2026-11-03T21:50:20.742197+00:00'
+reconciled_at: '2026-11-17T16:24:39.665393+00:00'
 entries:
   abatement-parameters:
     exists: true
@@ -334,8 +334,8 @@ entries:
     site_scope: basin-shared
   data-centers:
     exists: true
-    sha256: edf00cb47a6a520a9c48a29629942a5f36b5c357dc08c51adeda043ceadac9ac
-    size_bytes: 629495
+    sha256: d1e7b976f2cc3ff4f0144359e5f2e5b89fcabe125dbb08a28d6e311fff621673
+    size_bytes: 646938
     lfs_materialized: true
     file_count: 35
     missing: []
@@ -353,8 +353,8 @@ entries:
         stale: false
       ashville:
         exists: true
-        sha256: d9c6c79313c3791baf9e41fb25e50a3ff874155c450bb5f1b9db8622ca1cd29a
-        size_bytes: 5733
+        sha256: 908c06fc8ba959a7613924cd9a113d7cea31d83c6693032bb18a4f8504661926
+        size_bytes: 7792
         lfs_materialized: true
         file_count: 1
         asof: null
@@ -409,8 +409,8 @@ entries:
         stale: false
       defiance:
         exists: true
-        sha256: 2fbcc7b67b619d57457ac08074927597b75f7a7d2fcce219a1059291ef482141
-        size_bytes: 2466
+        sha256: abee7c3759376ece9e01095afdca194f2fcbfa3c8f43ac09da60d4f4b81d79cc
+        size_bytes: 3369
         lfs_materialized: true
         file_count: 1
         asof: null
@@ -553,16 +553,16 @@ entries:
         stale: false
       troy-piqua:
         exists: true
-        sha256: 122ccd742dc38f14b287a44380126639814b5dfd5194c7662a8e5784c9cdd305
-        size_bytes: 33419
+        sha256: 7724ac2975af59c4fa7fc3fcfd0d39db9533d2ef59a6183a1294dbfedb52e2f1
+        size_bytes: 36521
         lfs_materialized: true
         file_count: 1
         asof: null
         stale: false
       urbana:
         exists: true
-        sha256: c61ab99ec3676602f810b1d449f70152205cfebdf01174eaa2d75a85c6932ed2
-        size_bytes: 20843
+        sha256: 6ea3d33c8bafdc60ebf1280a0d80f0c481d70b5ff8a35d8d81583f58a87a681d
+        size_bytes: 23372
         lfs_materialized: true
         file_count: 1
         asof: null
@@ -577,8 +577,8 @@ entries:
         stale: false
       wapakoneta:
         exists: true
-        sha256: 5fd5688cd71888c904fdb2332533b5d60bb4c096becd8e7ea4715c5d81fcdc02
-        size_bytes: 56811
+        sha256: 02c61e9b326905a6f395bc772ad191bfac4bcc97c89e28d6ca165074bababbb1
+        size_bytes: 62984
         lfs_materialized: true
         file_count: 1
         asof: null
@@ -593,8 +593,8 @@ entries:
         stale: false
       wilmington:
         exists: true
-        sha256: 8def5e9726d40049d831ff6012410a4fe822b7d0adf91e678260c6d231561bf4
-        size_bytes: 34874
+        sha256: f055142408020440c03ca513c88427f79289d3e7d669d031b84f94fb5321c852
+        size_bytes: 37551
         lfs_materialized: true
         file_count: 1
         asof: null
@@ -635,8 +635,8 @@ entries:
     site_scope: site:akron
   data-centers-ashville:
     exists: true
-    sha256: d9c6c79313c3791baf9e41fb25e50a3ff874155c450bb5f1b9db8622ca1cd29a
-    size_bytes: 5733
+    sha256: 908c06fc8ba959a7613924cd9a113d7cea31d83c6693032bb18a4f8504661926
+    size_bytes: 7792
     lfs_materialized: true
     file_count: 1
     missing: []
@@ -685,8 +685,8 @@ entries:
     site_scope: site:coshocton
   data-centers-defiance:
     exists: true
-    sha256: 2fbcc7b67b619d57457ac08074927597b75f7a7d2fcce219a1059291ef482141
-    size_bytes: 2466
+    sha256: abee7c3759376ece9e01095afdca194f2fcbfa3c8f43ac09da60d4f4b81d79cc
+    size_bytes: 3369
     lfs_materialized: true
     file_count: 1
     missing: []
@@ -835,8 +835,8 @@ entries:
     site_scope: site:toledo
   data-centers-troy-piqua:
     exists: true
-    sha256: 122ccd742dc38f14b287a44380126639814b5dfd5194c7662a8e5784c9cdd305
-    size_bytes: 33419
+    sha256: 7724ac2975af59c4fa7fc3fcfd0d39db9533d2ef59a6183a1294dbfedb52e2f1
+    size_bytes: 36521
     lfs_materialized: true
     file_count: 1
     missing: []
@@ -845,8 +845,8 @@ entries:
     site_scope: site:troy-piqua
   data-centers-urbana:
     exists: true
-    sha256: c61ab99ec3676602f810b1d449f70152205cfebdf01174eaa2d75a85c6932ed2
-    size_bytes: 20843
+    sha256: 6ea3d33c8bafdc60ebf1280a0d80f0c481d70b5ff8a35d8d81583f58a87a681d
+    size_bytes: 23372
     lfs_materialized: true
     file_count: 1
     missing: []
@@ -865,8 +865,8 @@ entries:
     site_scope: site:van-wert
   data-centers-wapakoneta:
     exists: true
-    sha256: 5fd5688cd71888c904fdb2332533b5d60bb4c096becd8e7ea4715c5d81fcdc02
-    size_bytes: 56811
+    sha256: 02c61e9b326905a6f395bc772ad191bfac4bcc97c89e28d6ca165074bababbb1
+    size_bytes: 62984
     lfs_materialized: true
     file_count: 1
     missing: []
@@ -885,8 +885,8 @@ entries:
     site_scope: site:west-union
   data-centers-wilmington:
     exists: true
-    sha256: 8def5e9726d40049d831ff6012410a4fe822b7d0adf91e678260c6d231561bf4
-    size_bytes: 34874
+    sha256: f055142408020440c03ca513c88427f79289d3e7d669d031b84f94fb5321c852
+    size_bytes: 37551
     lfs_materialized: true
     file_count: 1
     missing: []
@@ -1085,15 +1085,23 @@ entries:
     site_scope: basin:scioto
   economics-baseline:
     exists: true
-    sha256: fd40d0acddc771dd9a04fd12aba9a964909414d07a2c05032c1e3250469b1cd7
-    size_bytes: 496734
+    sha256: e0bb9f3f2319761c88e548e4ac35466b3195b9e67e092d6ade0c2eb34a3e6020
+    size_bytes: 596165
     lfs_materialized: true
-    file_count: 23
+    file_count: 26
     missing: []
     asof: null
     stale: false
     site_scope: slug-scoped
     sites:
+      ashville:
+        exists: true
+        sha256: 3e5fe2b4b0cb957927d945ce78882bb6edeeb351050ce9383e29c793ed9920e3
+        size_bytes: 31582
+        lfs_materialized: true
+        file_count: 1
+        asof: null
+        stale: false
       bowling-green:
         exists: true
         sha256: 476dba2986620904ab65d1628e031fe28d84c6c73fa25195f2c0adcbc095be8e
@@ -1106,6 +1114,14 @@ entries:
         exists: true
         sha256: c9822cf1c64dd2adc6546a7ebd3bd7059587b0b2825619de7a277987fe80a4c1
         size_bytes: 18821
+        lfs_materialized: true
+        file_count: 1
+        asof: null
+        stale: false
+      canton:
+        exists: true
+        sha256: 6103d22055a904410c3b64beb88566a3a09543942e325a79389c1c130297750b
+        size_bytes: 34322
         lfs_materialized: true
         file_count: 1
         asof: null
@@ -1186,6 +1202,14 @@ entries:
         exists: true
         sha256: da25892cfdfd09a14564bfeeee3ad3912b2b56476e3fece4d766a0206f737728
         size_bytes: 18177
+        lfs_materialized: true
+        file_count: 1
+        asof: null
+        stale: false
+      shalersville:
+        exists: true
+        sha256: 05d2b0d6bdd53f98a02a90c3e66a462f4018d64020745d3b44f4e4fde784e1e9
+        size_bytes: 33527
         lfs_materialized: true
         file_count: 1
         asof: null
@@ -1290,15 +1314,23 @@ entries:
     site_scope: basin-shared
   eia-consumer-energy:
     exists: true
-    sha256: c5c9835c768976882593c545696c8f694e39cb78f99e458ea2914c9e276f9b6a
-    size_bytes: 53077
+    sha256: 0cf4985a250b15deb8c33d5b7d24c4a4e3da865c70ec0271e26b9f9622d57207
+    size_bytes: 69220
     lfs_materialized: true
-    file_count: 23
+    file_count: 26
     missing: []
     asof: null
     stale: false
     site_scope: slug-scoped
     sites:
+      ashville:
+        exists: true
+        sha256: 3f34dec06b8a87ce76278f2e8fcaf03612ceea199cc3bb1ea01af538fdbd752b
+        size_bytes: 5381
+        lfs_materialized: true
+        file_count: 1
+        asof: null
+        stale: false
       bowling-green:
         exists: true
         sha256: 66016ee786474e8f2d0ba63e7e6d2107a4e4d18fe3bb287eb39be27fb01c982c
@@ -1311,6 +1343,14 @@ entries:
         exists: true
         sha256: 27e447a04909a5c9c4652a1432cc273efb858ebddc130173d1a490de9fb0a081
         size_bytes: 1232
+        lfs_materialized: true
+        file_count: 1
+        asof: null
+        stale: false
+      canton:
+        exists: true
+        sha256: 3f34dec06b8a87ce76278f2e8fcaf03612ceea199cc3bb1ea01af538fdbd752b
+        size_bytes: 5381
         lfs_materialized: true
         file_count: 1
         asof: null
@@ -1391,6 +1431,14 @@ entries:
         exists: true
         sha256: 27e447a04909a5c9c4652a1432cc273efb858ebddc130173d1a490de9fb0a081
         size_bytes: 1232
+        lfs_materialized: true
+        file_count: 1
+        asof: null
+        stale: false
+      shalersville:
+        exists: true
+        sha256: 3f34dec06b8a87ce76278f2e8fcaf03612ceea199cc3bb1ea01af538fdbd752b
+        size_bytes: 5381
         lfs_materialized: true
         file_count: 1
         asof: null
@@ -1576,15 +1624,23 @@ entries:
         stale: false
   eia-grid-profile:
     exists: true
-    sha256: 50b673a694ffae7bf828846b84aa226c9c548a06ac5811065a31da2dc3b1cc38
-    size_bytes: 109788
+    sha256: 085e5bd0bb950dffbffe959ef96b13609c2391213fba879a5a398253f753d809
+    size_bytes: 120738
     lfs_materialized: true
-    file_count: 23
+    file_count: 26
     missing: []
     asof: null
     stale: false
     site_scope: slug-scoped
     sites:
+      ashville:
+        exists: true
+        sha256: 10d32c696a0eed0c2ebb4ac67a5bd3f6abfd88442b230c95aecea682236c1dc1
+        size_bytes: 3768
+        lfs_materialized: true
+        file_count: 1
+        asof: null
+        stale: false
       bowling-green:
         exists: true
         sha256: 7a5657ceca9bfe31efc4697a579fdc7d4b5c1190a5c0d8cfbe78ffa8e57d7766
@@ -1597,6 +1653,14 @@ entries:
         exists: true
         sha256: 366384a783ad6c8518dc82778a21f0f641fc14c0658b768bb501c67a2e3b89f2
         size_bytes: 3534
+        lfs_materialized: true
+        file_count: 1
+        asof: null
+        stale: false
+      canton:
+        exists: true
+        sha256: aebba5db441928dee5f8d5dcc47fee48ea389043940c19ce813f33d52a4d1573
+        size_bytes: 3587
         lfs_materialized: true
         file_count: 1
         asof: null
@@ -1677,6 +1741,14 @@ entries:
         exists: true
         sha256: 737c0f4730622e72c014ee1e852b3af15e9c31e35ed23945022a2503e8d82303
         size_bytes: 3493
+        lfs_materialized: true
+        file_count: 1
+        asof: null
+        stale: false
+      shalersville:
+        exists: true
+        sha256: 250f6fe2e3b4e79487c55dfbb77e05eabb991018ad4e2282cdde10b09bbca094
+        size_bytes: 3595
         lfs_materialized: true
         file_count: 1
         asof: null
@@ -2019,15 +2091,23 @@ entries:
     site_scope: basin:maumee
   hydrology-atlas14-corridor-ddf:
     exists: true
-    sha256: b6ecf7c30de5961fec5e9e8ab2d28b7f33ade37f016cebdf1474371adca19d4b
-    size_bytes: 19855
+    sha256: 4344a6abc9522217958e367b55e43b851f2b544cbedf95b697876881665cf32f
+    size_bytes: 22440
     lfs_materialized: true
-    file_count: 23
+    file_count: 26
     missing: []
     asof: null
     stale: false
     site_scope: slug-scoped
     sites:
+      ashville:
+        exists: true
+        sha256: ab4e25ca945cff35083b40eb3d475a5a25e02111f77f0604ee8df837c9db693d
+        size_bytes: 862
+        lfs_materialized: true
+        file_count: 1
+        asof: null
+        stale: false
       bowling-green:
         exists: true
         sha256: e8aa5574855fd0dd39fb939142512df7cdcac3f4c925a49f594e73c77b425ee5
@@ -2040,6 +2120,14 @@ entries:
         exists: true
         sha256: 62f5980cb3c8b0e886a869b125204b1a99b0d6f83158747653c4a72dc5a857bd
         size_bytes: 865
+        lfs_materialized: true
+        file_count: 1
+        asof: null
+        stale: false
+      canton:
+        exists: true
+        sha256: 75741ae0ae788e3c242b965ada2b06eb60f5a8f66e759d4338c3379f28c1bd80
+        size_bytes: 857
         lfs_materialized: true
         file_count: 1
         asof: null
@@ -2120,6 +2208,14 @@ entries:
         exists: true
         sha256: 417b248fc4d271938b230ff4ca08b6af835c01742281ed34f53e23ed86f61e83
         size_bytes: 860
+        lfs_materialized: true
+        file_count: 1
+        asof: null
+        stale: false
+      shalersville:
+        exists: true
+        sha256: 1d95f2361c7926d969b008d03785e8f2a8c424ac33a984eb1d728b8a766de7fc
+        size_bytes: 866
         lfs_materialized: true
         file_count: 1
         asof: null
@@ -2224,15 +2320,23 @@ entries:
     site_scope: lima-legacy
   hydrology-nasa-power-climatology:
     exists: true
-    sha256: db25b148f52cc55f59323019c1f60e0da22d2b665c15eb8ade7dcd21eacb4dc6
-    size_bytes: 60876
+    sha256: d74a75363f8cc562ecddd3637447db3c7bdd174db3bb788ed100fa1e6094f115
+    size_bytes: 68847
     lfs_materialized: true
-    file_count: 23
+    file_count: 26
     missing: []
     asof: null
     stale: false
     site_scope: slug-scoped
     sites:
+      ashville:
+        exists: true
+        sha256: 91617ea771408b77fe3586c24c9182a132b2fcde0e6a6b965cb6f3c71b367a3c
+        size_bytes: 2658
+        lfs_materialized: true
+        file_count: 1
+        asof: null
+        stale: false
       bowling-green:
         exists: true
         sha256: 801d1d9ecbb4664cc817a0fe891793890bca76b991dabe0a4a1339b6a5acfa11
@@ -2245,6 +2349,14 @@ entries:
         exists: true
         sha256: b15b62422e078bf753cd8d60019f0a9981b287520b0fc49f029eae7a693dd3f6
         size_bytes: 2641
+        lfs_materialized: true
+        file_count: 1
+        asof: null
+        stale: false
+      canton:
+        exists: true
+        sha256: f9ce06baef73f02197f6edfb7324e0422fed5e7103cdd2fdd81a31b66d036f5e
+        size_bytes: 2653
         lfs_materialized: true
         file_count: 1
         asof: null
@@ -2325,6 +2437,14 @@ entries:
         exists: true
         sha256: 9cb8e2f7a2207c70e30f0a04b2efb66da3b8987d991110a25b2fac83c2225886
         size_bytes: 2642
+        lfs_materialized: true
+        file_count: 1
+        asof: null
+        stale: false
+      shalersville:
+        exists: true
+        sha256: 0d565c412725141464819ec87f29520f7260f18c4011fcd5fb86ef631956a2d6
+        size_bytes: 2660
         lfs_materialized: true
         file_count: 1
         asof: null
@@ -2593,13 +2713,13 @@ entries:
     site_scope: lima-legacy
   legal-datacenter-ballot-2026-11:
     exists: true
-    sha256: 7a2816989ebdc2df3e0fabcd611583fc30d4ac14ef2269c502eaa69204fb2a90
-    size_bytes: 49336
+    sha256: cf6e9823ed6aea538ec7ec0340d6004207a1701b41f7e4bf660f3d4ae71bc39c
+    size_bytes: 61401
     lfs_materialized: true
     file_count: 2
     missing: []
     asof: null
-    stale: true
+    stale: false
     site_scope: state:OH
   legal-datacenter-legislation-hb983-3744:
     exists: true
@@ -3571,15 +3691,23 @@ entries:
     site_scope: basin-shared
   rsei-inventory:
     exists: true
-    sha256: 5a3ab29e39b012075004d66b3481057e5c94d4ea862d7e9359b3100976167ac5
-    size_bytes: 3448535
+    sha256: 5faebad25681304d7cc73f7b8a884ba567c287b7f11772a0abb0a3a3d5858380
+    size_bytes: 4036317
     lfs_materialized: true
-    file_count: 24
+    file_count: 27
     missing: []
     asof: null
     stale: false
     site_scope: slug-scoped
     sites:
+      ashville:
+        exists: true
+        sha256: d69ee6feeac3bcea9276800e3004117795f5057c17ee24b8d272459116370eec
+        size_bytes: 49777
+        lfs_materialized: true
+        file_count: 1
+        asof: null
+        stale: false
       bowling-green:
         exists: true
         sha256: 08fccb2926736c6190fd77510ac9e80b8642e632ad4331aafd68506523358377
@@ -3592,6 +3720,14 @@ entries:
         exists: true
         sha256: fcc3cf96b3450a97df21000b070f3c949222411a6134ca54cc8a916122b5ce90
         size_bytes: 102636
+        lfs_materialized: true
+        file_count: 1
+        asof: null
+        stale: false
+      canton:
+        exists: true
+        sha256: fb898c8ea1aa8287d772d56f09ab9402be5891931d85bbb5fcb2e2ae23288939
+        size_bytes: 370838
         lfs_materialized: true
         file_count: 1
         asof: null
@@ -3672,6 +3808,14 @@ entries:
         exists: true
         sha256: 5bdb4a76bdbdcb85f22dfd3c1a4520e87f9c0303a90c1c6ec40bb9315c826252
         size_bytes: 48726
+        lfs_materialized: true
+        file_count: 1
+        asof: null
+        stale: false
+      shalersville:
+        exists: true
+        sha256: 99e9a836a1d275c4e8b2e3677eb705c50689a35d4b3227641a245f8fe106ed60
+        size_bytes: 167167
         lfs_materialized: true
         file_count: 1
         asof: null
@@ -3834,6 +3978,26 @@ entries:
     asof: null
     stale: false
     site_scope: lima-legacy
+  subdivisions-ashville:
+    exists: true
+    sha256: 2b03c34f6a5b3c5d74caa5beb75f5535d461b3ac56110d7c35a053d692b1ae9e
+    size_bytes: 1239
+    lfs_materialized: true
+    file_count: 1
+    missing: []
+    asof: null
+    stale: false
+    site_scope: site:ashville
+  subdivisions-canton:
+    exists: true
+    sha256: 6d241ba4f4da7dceeb1110f2c5e70094d6b96efe7223be1b4895d7df214c04b6
+    size_bytes: 1216
+    lfs_materialized: true
+    file_count: 1
+    missing: []
+    asof: null
+    stale: false
+    site_scope: site:canton
   subdivisions-findlay:
     exists: true
     sha256: 4cb78d5c7aeba90d5be8452feb66740218ccde578493c0dd50655c967d580fee
@@ -3844,6 +4008,16 @@ entries:
     asof: null
     stale: false
     site_scope: site:findlay
+  subdivisions-shalersville:
+    exists: true
+    sha256: 09a8f7133ad9990c988b20ddf64dad93f6c9473f5c8c3d95db591f060a34e774
+    size_bytes: 1264
+    lfs_materialized: true
+    file_count: 1
+    missing: []
+    asof: null
+    stale: false
+    site_scope: site:shalersville
   subdivisions-sidney:
     exists: true
     sha256: edfeff3d83f15689ea4fff5cb7769860b531af5817f3ee46196aad54e77b6220

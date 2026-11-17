@@ -16,6 +16,11 @@
 # ⚠️ A BALLOT MEASURE IS NOT AN OUTCOME. Until 2026-11-03 every measure here is a PENDING
 # INSTRUMENT. Nothing in this file licenses a claim about what any community decided, and no
 # `readiness` domain may rise on it — a pending question is not a record.
+#
+# 2026-11-17: the election has happened. `returns` (below the measures) carries what the boards
+# reported, labelled by WHICH board instrument — one official certification (Defiance), three
+# unofficial canvasses, one press-only. The `standing` on each measure still describes the
+# question as it went to the ballot; it is not overwritten with an outcome.
 meta:
   subject: >-
     The local data-center measures on Ohio's 2026-11-03 ballots, at mixed standings — ten certified to the 2026-11-03 ballot, one ordered onto it by the Supreme Court of Ohio, four unconfirmed, one whose election is undetermined, and — nested under Wilmington — one further initiative a board of elections refused
@@ -25,7 +30,7 @@ meta:
   kind: ballot-measure-register
   scope: state:OH
   extracted_at: '2026-09-16'
-  checked_on: '2026-09-16'
+  checked_on: '2026-11-17'   # the `returns` block; the measures themselves were last read 2026-09-16
   filing_deadline: '2026-09-04'   # 60th day before the election; charter-amendment ordinances
   election_day: '2026-11-03'
   method: >-
@@ -597,8 +602,166 @@ measures:
       - wcpo.com — "Adams County data center gets federal permit, as voters sign petitions to block it"
       - ohiocapitaljournal.com 2026-09-14
 
+# ── 2026-11-03 returns (read 2026-11-17) ─────────────────────────────────────────────────
+# ⚠️ RETURNS ARE NOT ALL THE SAME INSTRUMENT, and the `canvass` field says which one each is.
+#   official-certification = the county board's signed certification of the official canvass
+#   unofficial-canvass     = the board's own election-night summary report; the instrument this
+#                            file's 2026-11-10 trigger says NOT to record an outcome from. Carried
+#                            here as RETURNS, with `outcome` left '[open]' until the official
+#                            canvass is certified.
+#   press                  = no board record reached at all
+# Every row is '[reference]': each board report was read from boe.ohio.gov but NOT captured into
+# data/documents/, so none can be '[verified]' under this file's own rule. The first capture is
+# pull priority 0 below.
+returns:
+  checked_on: '2026-11-17'
+  rows:
+    - community: Defiance
+      measure: City of Defiance — Proposed Charter Amendment — Prohibition of a Data Center (>25 MW)
+      canvass: official-certification
+      certified_on: '2026-11-12'
+      instrument_url: https://www.boe.ohio.gov/defiance/c/elecres/20261103results.pdf
+      instrument_page: 5   # image-only scan, no text layer; digits read from the page image
+      yes: 3866
+      no: 2112
+      total: 5978
+      yes_pct: 64.67
+      undervotes: 182
+      overvotes: 1
+      precincts: 12 of 12
+      outcome: passed
+      tag: '[reference]'
+      note: >-
+        ⚠️ The widely reported 3,823 / 2,083 is the UNOFFICIAL election-night count; the certified
+        figures are the ones above. The certification is held, not captured — the outcome is
+        '[reference]' until the PDF is in data/documents/.
+
+    - community: Urbana
+      measure: Urbana City Charter Amendment — Data Centers (7.5 MW)
+      canvass: unofficial-canvass
+      report_time: '2026-11-03 22:12:08'
+      instrument_url: https://www.boe.ohio.gov/champaign/c/elecres/20261103results.pdf
+      yes: 2978
+      no: 877
+      total: 3855
+      yes_pct: 77.25
+      precincts: 8 of 8
+      outcome: '[open] — unofficial YES majority; official canvass reported due 2026-11-19'
+      tag: '[reference]'
+      same_ballot:
+        - >-
+          Mayor Bill Bean Recall Question — YES 2,707 (73.32%), NO 985 (26.68%); Mayor of the City
+          of Urbana — Eugene E. Fields, Jr. 2,184, unopposed. Same unofficial report. A recall is
+          NOT a data-center measure (see do_not_conflate); it is recorded because the press links
+          it to the Thor suit and settlement, and the two must not be summed into "Urbana voted
+          against data centers twice".
+
+    - community: Piqua
+      measure: Piqua City Charter Amendment — Data Centers (§138, 25 MW)
+      canvass: unofficial-canvass
+      report_time: '2026-11-03 21:50:26'
+      instrument_url: https://www.boe.ohio.gov/miami/c/elecres/20261103results.pdf
+      yes: 4061
+      no: 2027
+      total: 6088
+      yes_pct: 66.70
+      undervotes: 153
+      overvotes: 1
+      outcome: '[open] — unofficial YES majority; official canvass not yet certified'
+      tag: '[reference]'
+      resolves: >-
+        The county report carries ONE Piqua data-center question, not two. The 2026-08-11
+        second §138 amendment did not appear on the 2026-11-03 ballot ('[reference]', from the
+        absence of a second contest in the board's own report).
+      same_day_special_election:
+        instrument_url: https://www.boe.ohio.gov/miami/c/upload/SpecialElection_PiquaSpecialElection.pdf
+        canvass: unofficial-canvass
+        ballots: 4440
+        recalls:
+          - {seat: 1st Ward Commissioner, for: 3226, against: 1196, for_pct: 72.95,
+             successor: 'Jim Sheats 1,592 / Alexander Hessler 1,550 — a 42-vote margin'}
+          - {seat: 3rd Ward Commissioner, for: 3094, against: 1305, for_pct: 70.33,
+             successor: Damon Wilson 2,954 (unopposed)}
+          - {seat: 5th Ward Commissioner, for: 3089, against: 1314, for_pct: 70.16,
+             successor: Kim Heisler 2,997 (unopposed)}
+        note: >-
+          ⚠️ The board's report names SEATS, not incumbents. Which commissioner held which ward
+          (press: Vetter, Walker, DeBrosse) is '[reference]' from press, not from this report.
+          The Ward 1 successor margin (42) is narrow enough that the official canvass can move it.
+
+    - community: Wilmington
+      measure: FOUR referendums on City ordinances O-26-04, O-26-05, O-26-06, O-26-07
+      canvass: unofficial-canvass
+      report_title: Clinton County Unofficial Canvass — Summary Report — Final
+      report_time: '2026-11-03 23:01:17'
+      instrument_url: https://www.boe.ohio.gov/clinton/c/elecres/20261103results.pdf
+      contests:
+        - {ordinance: O-26-04, yes: 739, no: 2885}
+        - {ordinance: O-26-05, yes: 732, no: 2886}
+        - {ordinance: O-26-06, yes: 724, no: 2887}
+        - {ordinance: O-26-07, yes: 716, no: 2909}
+      resolves: >-
+        The four ordinance numbers, '[open]' in the measure above, are named by the board's
+        report: O-26-04 through O-26-07. '[reference]'
+      outcome: '[open] — unofficial NO majorities of ~80% on all four'
+      what_no_means: >-
+        '[inference]' — on an Ohio municipal referendum the question is whether the ordinance
+        shall be APPROVED, so a NO majority rejects it. The certified ballot language was not
+        read; until it is, "the ordinances were rejected" is an inference from the referendum form,
+        not a quotation of the question.
+      tag: '[reference]'
+
+    - community: Ashville
+      measure: referendum on Village Resolution No. 06-2026 (EdgeConneX preliminary agreement)
+      canvass: press
+      instrument_url: >-
+        https://www.boe.ohio.gov/pickaway/c/elecres/20261103results.pdf — ⚠️ on 2026-11-17 this
+        URL still served the 2026-10-07 PRE-ELECTION zero report (0 of 4 precincts). No board
+        return was read.
+      reported: NO 1,469 (81.61%), YES 331
+      outcome: '[open] — press-reported rejection of the resolution; no board record reached'
+      tag: '[reference]'
+      after: >-
+        Reported since: construction work continues on the site; OPSB case 26-196-EL-BGN (the
+        ~800 MW gas plant) remains undecided; Council is weighing community-investment
+        districts and a $3.5M donation. None of these is an instrument held here. '[reference]'
+      sources:
+        - 10tv.com; sciotopost.com (the returns)
+        - sciotovalleyguardian.com 2026-11-16 (the post-election Council items)
+
+    - community: (statewide roundup — every other measure)
+      canvass: press
+      source: >-
+        Statehouse News Bureau 2026-11-10,
+        https://www.statenews.org/section/the-ohio-newsroom/2026-11-10/heres-how-every-data-center-related-ballot-measure-fared-in-ohio
+      reported:
+        - Trenton (ban >25 MW) — 80%
+        - Hubbard (ban) — 76%
+        - Conneaut (ban >25 MW) — 64%
+        - Grove City (vote on large developments) — 54.6%
+        - Oregon (ban >25 MW, Issue 25) — 61%
+        - Upper Sandusky (ban) — 77%
+        - Adams County, Monroe Township (zoning) — 60%
+        - Adams County, Sprigg Township (zoning) — 53%
+        - Granville, Pataskala, Sunbury, Perry village (Lake Co.), Monroeville — see the source
+      tag: '[reference]'
+      note: >-
+        ⚠️ Single percentages, not always stated as YES or NO; carry them as reported and do not
+        convert them into outcomes. The roundup does settle that Conneaut, Upper Sandusky and
+        Oregon were ON the ballot (their `standing: unconfirmed` is about certification detail, and
+        is left as written) and NAMES the two Adams County townships as Monroe and Sprigg — the
+        pairing this file carried as '[inference]' is now '[reference]'. ⚠️ "Perry" here is the
+        Lake County village, not any Perry Township (cf. Canton's Panattoni Perry Twp).
+
 # ── The R.C. 149.43 queue ────────────────────────────────────────────────────────────────
 pulls:
+  - priority: 0
+    what: >-
+      CAPTURE the four board returns already read (Defiance's 2026-11-12 official certification;
+      the Champaign, Miami and Clinton unofficial canvasses, then each county's OFFICIAL
+      certification as it posts) into data/documents/, and the Pickaway return once it posts.
+      They are public web documents — no R.C. 149.43 request is needed — and each capture is
+      the one step that turns its `returns` row from '[reference]' into '[verified]'.
   - priority: 1
     body: Ohio Secretary of State
     what: >-
@@ -668,3 +831,9 @@ next_check:
       what: >-
         Official canvass begins. Do not record an outcome from election-night returns; the
         canvass and the BOE's abstract of votes are the instruments.
+    - date: '2026-11-19'
+      what: Champaign County official canvass (reported date) — settles Urbana's `outcome`
+    - date: '2026-11-24'
+      what: >-
+        Ohio's deadline for boards to certify the official canvass (reported) — every remaining
+        `returns` row should have an official certification to capture by then

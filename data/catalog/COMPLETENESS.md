@@ -4,12 +4,12 @@
 
 The **mechanical** half of the corpus-completeness audit: every dataset registered in the data catalog (`data/catalog/`) checked for existence and freshness against the committed reconcile snapshot (`data/catalog/_observed.yaml`). The **substantive** half — records an authority has *withheld* — stays human-authored in [`data/extracted/legal/corpus-completeness-audit.md`](../extracted/legal/corpus-completeness-audit.md).
 
-Snapshot reconciled: **2026-11-03T21:50:20.742197+00:00**. Regenerate with `watermark catalog audit --apply` after `watermark catalog reconcile`.
+Snapshot reconciled: **2026-11-17T16:24:39.665393+00:00**. Regenerate with `watermark catalog audit --apply` after `watermark catalog reconcile`.
 
 ## Headline
 
-- **241** catalogued datasets — **219** reviewed.
-- **240** present and fresh · **1** stale · **0** LFS pointer (not materialized in this checkout).
+- **244** catalogued datasets — **219** reviewed.
+- **244** present and fresh · **0** stale · **0** LFS pointer (not materialized in this checkout).
 - **0** missing (declared files absent) · **0** unobserved (no snapshot record).
 
 ## Coverage by collection
@@ -40,7 +40,7 @@ Snapshot reconciled: **2026-11-03T21:50:20.742197+00:00**. Regenerate with `wate
 | extracted | idem | 1 | 1 | 0 | 0 |
 | extracted | lacrpc | 2 | 2 | 0 | 0 |
 | extracted | lancaster | 1 | 1 | 0 | 0 |
-| extracted | legal | 24 | 23 | 1 | 0 |
+| extracted | legal | 24 | 24 | 0 | 0 |
 | extracted | lima | 3 | 3 | 0 | 0 |
 | extracted | limaohio | 1 | 1 | 0 | 0 |
 | extracted | lordstown | 1 | 1 | 0 | 0 |
@@ -102,7 +102,7 @@ Snapshot reconciled: **2026-11-03T21:50:20.742197+00:00**. Regenerate with `wate
 | reference | reference | 3 | 3 | 0 | 0 |
 | reference | rsei | 2 | 2 | 0 | 0 |
 | reference | sidney | 2 | 2 | 0 | 0 |
-| reference | subdivisions | 4 | 4 | 0 | 0 |
+| reference | subdivisions | 7 | 7 | 0 | 0 |
 | reference | thermal | 2 | 2 | 0 | 0 |
 | reference | troy-piqua | 1 | 1 | 0 | 0 |
 | reference | troy-piqua-gis | 1 | 1 | 0 | 0 |
@@ -117,11 +117,11 @@ Snapshot reconciled: **2026-11-03T21:50:20.742197+00:00**. Regenerate with `wate
 | site | relevant | present | missing |
 | --- | --- | --- | --- |
 | akron | 58 | 42 | 16 |
-| ashville | 58 | 42 | 16 |
+| ashville | 59 | 49 | 10 |
 | athens | 58 | 42 | 16 |
 | bowling-green | 63 | 57 | 6 |
 | bryan | 60 | 49 | 11 |
-| canton | 58 | 42 | 16 |
+| canton | 59 | 49 | 10 |
 | cleveland | 58 | 42 | 16 |
 | columbus | 58 | 48 | 10 |
 | coshocton | 59 | 43 | 16 |
@@ -140,7 +140,7 @@ Snapshot reconciled: **2026-11-03T21:50:20.742197+00:00**. Regenerate with `wate
 | piketon | 59 | 43 | 16 |
 | portsmouth | 60 | 44 | 16 |
 | sandusky | 59 | 43 | 16 |
-| shalersville | 58 | 42 | 16 |
+| shalersville | 59 | 49 | 10 |
 | sidney | 67 | 62 | 5 |
 | springfield | 58 | 49 | 9 |
 | toledo | 63 | 53 | 10 |
@@ -156,6 +156,4 @@ Snapshot reconciled: **2026-11-03T21:50:20.742197+00:00**. Regenerate with `wate
 
 ## Integrity gaps
 
-| dataset | scope | state |
-| --- | --- | --- |
-| `legal-datacenter-ballot-2026-11` | extracted | stale |
+None — every catalogued dataset is present and within its refresh cadence.

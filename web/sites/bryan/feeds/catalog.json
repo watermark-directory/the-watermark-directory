@@ -263,7 +263,7 @@
     "site_scope": "state:OH",
     "cadence": "weekly",
     "ttl_days": 7,
-    "last_refreshed": "2026-09-16",
+    "last_refreshed": "2026-11-17",
     "tags": [
       "data-centers",
       "ballot-measure",
@@ -287,11 +287,11 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "7a2816989ebdc2df3e0fabcd611583fc30d4ac14ef2269c502eaa69204fb2a90",
-      "size_bytes": 49336,
+      "sha256": "cf6e9823ed6aea538ec7ec0340d6004207a1701b41f7e4bf660f3d4ae71bc39c",
+      "size_bytes": 61401,
       "lfs_materialized": true,
       "file_count": 2,
-      "stale": true,
+      "stale": false,
       "asof": null
     },
     "observed_network": null,

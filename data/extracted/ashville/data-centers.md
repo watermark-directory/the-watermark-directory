@@ -1,7 +1,7 @@
 # Ashville / Pickaway Co., OH — Data-Center Activity Register
 
 Discover-and-pin register for the Ashville watershed point (Walnut Creek → Scioto). Status **as of
-2026-11-02** (#2209). Tags are BOSC evidentiary discipline: `[verified]` = cited primary/government
+2026-11-02; referendum result added 2026-11-17** (#2209). Tags are BOSC evidentiary discipline: `[verified]` = cited primary/government
 source, `[reference]` = secondary source or a party's own self-report (leads only, never a
 finding), `[inference]` = arithmetic or pattern from cited inputs, `[open]` = not found in any
 public source yet. **Nothing here is in the BOSC corpus yet**; this records the public record and
@@ -57,6 +57,17 @@ is before the Power Siting Board.
   certification itself is `[open]`. The vote is on the resolution, not on a data center.
 - Council was reported on 2026-09-04 to be weighing repeal of the deal `[reference]`; whether it
   did is `[open]`.
+- **Result — the resolution was rejected** `[reference]`: **No 1,469 (81.61%), Yes 331**, 4 of 4
+  precincts, reported as the Pickaway County BOE's unofficial figures (10TV; Scioto Valley
+  Guardian). Scioto Post's 1,468 / 330 is probably an earlier count. ⚠️ No board record was read:
+  on 2026-11-17 the BOE's results URL still served its **2026-10-07 pre-election zero report**. The
+  official canvass is `[open]`.
+- ⚠️ **What the vote did and did not reach.** The question was Resolution 06-2026 — the preliminary
+  agreement — not the buildings. Press (NBC4) reports construction already under way **continues**
+  `[reference]`; the legal effect of the rejection on work already permitted is `[open]`.
+- **After the vote** `[reference]` (Scioto Valley Guardian, 2026-11-16): Council is to weigh
+  Community Infrastructure Incentive Districts and the **$3.5M EdgeConneX donation** the Village
+  received before the referendum (same outlet, 2026-10-08). Neither instrument is in hand.
 
 ### Financial / tax instruments
 
@@ -75,15 +86,18 @@ separate from the data centers' `[inference]`.
 
 - OPSB 26-196-EL-BGN: filed; hearings held; **decision and current status `[open]`**.
 - Ohio EPA air PTI for the plant: `[open]`.
-- Referendum: on the 2026-11-03 ballot `[reference]`; **result `[open]`**.
+- Referendum: **rejected 1,469–331** on unofficial returns `[reference]`; official canvass `[open]`.
+- OPSB 26-196-EL-BGN: still **undecided** as of 2026-11-17 per press `[reference]`; DIS not re-read.
 
 ## Instruments to pull (priority order)
 
 1. **OPSB DIS, case 26-196-EL-BGN** — the docket index, any withdrawal, any order.
 2. **Resolution 06-2026, the December 2025 moratorium, and the preliminary agreement** — R.C.
    149.43 to the Village.
-3. **The Pickaway BOE certification (2026-08-24) and the 2026-11-03 result.**
-4. **Ohio EPA air PTI** for the Ashville Energy Center.
+3. **The Pickaway BOE certification (2026-08-24) and the 2026-11-03 official canvass** — the
+   results URL had not been updated as of 2026-11-17.
+4. **Council action on the CIIDs and the $3.5M donation** — the legislation and roll calls.
+5. **Ohio EPA air PTI** for the Ashville Energy Center.
 
 ## Sources
 
@@ -96,3 +110,12 @@ separate from the data centers' `[inference]`.
 - <https://www.edgeconnex.com/ashville-oh-energy-center/> — developer page `[reference]`.
 - `data/extracted/legal/datacenter-legislation/local-ballot-2026-11.yaml` — the Ashville ballot
   entry (written before this site was registered; its `bosc: site: null` predates #2209).
+- <https://www.10tv.com/article/news/politics/elections/ohio-election-results-voters-turn-down-data-centers/530-65672138-7004-4f40-a469-2b84b44719dc>
+  — returns `[reference]`.
+- <https://www.sciotopost.com/ashville-voters-overwhelmingly-reject-edgeconnex-data-center-deal-in-landslide-referendum/>
+  `[reference]`.
+- <https://sciotovalleyguardian.com/2026/10/08/ashville-receives-3-5-million-from-edgeconnex-ahead-of-referendum/>
+  and <https://sciotovalleyguardian.com/2026/11/16/ashville-council-to-weigh-incentive-districts-edgeconnex-donation/>
+  `[reference]`.
+- <https://www.nbc4i.com/news/local-news/central-ohio-news/datacenters/pickaway-county-voters-look-to-have-say-in-data-center-construction/>
+  `[reference]`.

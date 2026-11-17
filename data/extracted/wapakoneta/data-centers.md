@@ -1,7 +1,7 @@
 # Wapakoneta / Auglaize Co., OH — Data-Center Activity Register
 
 Discover-and-pin register for the Wapakoneta watershed point (upper Auglaize River → **Maumee** at
-Defiance → Lake Erie). Status **as of 2026-11-03** (#2184). Tags are BOSC evidentiary discipline:
+Defiance → Lake Erie). Status **as of 2026-11-03; CTS's November appearances and Duos's Q3 2026 10-Q added 2026-11-17** (#2184). Tags are BOSC evidentiary discipline:
 `[verified]` = cited primary/government source, `[reference]` = secondary source or a party's own
 self-report (leads only, never a finding), `[inference]` = arithmetic or pattern from cited inputs,
 `[open]` = not found in any public source yet. This records the public record as of the date above
@@ -642,6 +642,88 @@ This is **not** a data-center entry. It is recorded because it concerns the same
   <https://jobsohio.com/available-sites/west-central-ohio-industrial-center>
 - AMP, "Member Spotlight: Wapakoneta" (2019): <https://www.amppartners.org/news/member-spotlight/wapakoneta-ohio/>
 - St. Marys moratorium: <https://www.limaohio.com/top-stories/2026/06/23/st-marys-council-adopts-temporary-data-center-ban/>
+
+## Update 2026-11-17 — "Project Apollo" and CTS before Council
+
+Press and a posted notice only; no instrument has been filed, so the finding at the top stands
+unchanged: **a proposal with no instrument behind it**, `facilities=()`.
+
+- `[reference]` **WAEDC annual meeting, 2026-11-04.** Developers outlined the proposed data center
+  (Hometown Stations video); the page gives no figures or speakers.
+- `[reference]` **Public notice, posted 2026-11-12** (Mercer County Outlook; the issuing office is
+  not named on the page): CTS representatives would attend the **2026-11-16** Council meeting to
+  introduce themselves; "CTS will not be giving a formal presentation about the project at this
+  Council meeting"; and "No project approvals or development agreements have been made." Online
+  sessions, information meetings and an open house are promised **without dates** — §1.1's
+  "informational meetings" are still `[open]`.
+- `[reference]` **WDTN, 2026-11-17** (Megan Southall, syndicated on Yahoo): "The concept is called
+  **Project Apollo**, and the idea is for it to be a **30-acre site on Short Road**"; "Project
+  Apollo would be 50 megawatts"; "**Duos Technologies Group** would operate the computers inside
+  the facility." Mayor Dan Lee: "In Wapakoneta, we want transparency, we want accountability, and
+  then we want trust." Next Council meeting **2026-12-07, 7:30 p.m.**
+  - **New to this register:** the project name, Duos as operator, and Short Road. The 30 ac and
+    50 MW match §1.2.
+  - `[inference]` **Short Road narrows, but does not resolve, the parcel.** §2 already records AEP
+    Ohio Transmission's 4.27 ac at **570 Short Road** among the WCOIC parcels; a 30-acre site "on
+    Short Road" is consistent with WCOIC but does not identify the parcel(s). §1.2's `[open]`
+    stands.
+  - ⚠️ **Name collisions.** "Apollo" is also the Meta/Will-Power gas-plant thread at
+    **bowling-green** (OPSB 25-0973-EL-BLN) — unrelated. CTS (Colocation Technology Services) is
+    **not QTS** (van-wert).
+  - Construction Review Online (2026-11-17) gives "$500 million-plus" from CTS concept materials
+    `[reference]` — the same order as the $500 million figure in §1.2a; still CTS's self-report.
+
+### What Duos has told the SEC (added 2026-11-17)
+
+Duos Technologies Group's Form 10-Q for the quarter ended 2026-09-30 (accession
+0001079973-26-001535, Commission file no. 001-39227), shelved at
+`data/documents/wapakoneta/sec/0001079973-26-001535.pdf` and read in full. The tags below hold
+**as to the filing**: they say what Duos reported, not what is true on the ground.
+
+- `[verified]` **The 10-Q names no Ohio site.** Wapakoneta, Auglaize, Short Road and "Project Apollo"
+  do not appear in it. The sites it does name are the Columbus, **Georgia** campus (acquired 2026-07-14)
+  and "Project Atlas" (below).
+  - `[inference]` **This silence does not show there is no arrangement.** A 10-Q need not list every
+    site in development. The filing describes contracted capacity "across multiple U.S. locations"
+    (Axe, up to 55 MW, August 2026) and a 20 MW cloud contract to deploy "at one of our planned
+    campuses" in Q2 2027 (printed p.59), and places neither. So the WDTN report that Duos would
+    operate Project Apollo is neither confirmed nor contradicted. It stays `[reference]`.
+- `[verified]` **Duos is contracting with an entity named "CTS Infrastructure LLC"** (Note 14,
+  printed p.43). On 2026-09-30 its subsidiary Duos Edge AI, Inc. entered a Membership Interest Purchase
+  Agreement with "CTS Infrastructure LLC" to buy 100% of "CTS SC Holdings LLC":
+  - $10.0 million paid into escrow, used at closing to pay "**Lee County**" for a site. The filing does
+    not name the state.
+  - Closing requires the County's approval and validated electric service of at least **19.9 MW** by
+    2027-06-30.
+  - Duos "intends to develop **Project Atlas** as a 20 MW colocation compute center."
+  - **Project Atlas is not Project Apollo, and Lee County is not Auglaize.**
+  - `[inference]` **"SC" may stand for South Carolina.** colotech.co's project map names only South
+    Carolina (guardrail above), and a Lee County, SC exists. If so, Atlas would sit in a state the CTS
+    website claims. That fits the two being one company, and it rests on initials and a map, nothing
+    more.
+  - `[open]` **The filing does not show whether "CTS Infrastructure LLC" is the "Colocation Technology
+    Services" before Wapakoneta Council.** Settling it needs the SOS records (Ohio, and South Carolina
+    for the seller) or the counterparty's own filing. **Never merge the two on the initials.**
+- `[inference]` **The 10-Q's own size range sits below the reported Wapakoneta figure.** Duos describes
+  its business as compute centers "generally ranging from 1 to 20 megawatts" (Note 1; MD&A). WDTN's
+  "Project Apollo would be 50 megawatts" would be outside that range. That is a reason to check the
+  50 MW figure, or what Duos's role in Apollo would be, not evidence that either is wrong.
+
+### Instruments to pull (added 2026-11-17)
+
+- The minutes of the **2026-11-16** Council meeting (what CTS said on the record).
+- The City's own posting of the notice, and the dated schedule of CTS's information sessions.
+- The Ohio SOS filing for "Colocation Technology Services LLC", and the South Carolina SOS filing for
+  "CTS Infrastructure LLC" / "CTS SC Holdings LLC": organizers, agents, and any shared principal `[open]`.
+- Any later Duos filing (8-K, or the FY2026 10-K) that names an Ohio site `[open]`. The Q3 2026 10-Q
+  names none (above).
+
+### Sources (added 2026-11-17)
+
+- <https://www.yahoo.com/news/articles/wapakoneta-considers-50-megawatt-project-032037772.html> (WDTN)
+- <https://mercercountyoutlook.net/2026/11/12/public-notice-data-center-developer-colocation-technology-services-cts-at-wapakoneta-city-council-meeting/>
+- <https://constructionreviewonline.com/proposed-500m-project-apollo-data-center-in-wapakoneta-ohio-in-council-consideration/>
+- <https://www.hometownstations.com/video/2026/11/04/developers-outline-plans-proposed-wapakoneta-data-center/>
 
 ## Appendix — the City's statement, as pasted (2026-10-12)
 

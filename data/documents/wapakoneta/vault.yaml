@@ -5,12 +5,12 @@ meta:
     Regenerate with `watermark documents manifest`; verify with `--check`. Never hand-edit an entry —
     the next run reverts it. Losing the vault costs no claim, only a re-fetch, because every digest here
     is in a commit.'
-  generated_at: '2026-11-03T19:21:16+00:00'
+  generated_at: '2026-11-17T16:23:34+00:00'
   generated_by: watermark documents manifest
   counts:
-    artifacts: 41
-    bytes: 13971882
-    distinct_addresses: 41
+    artifacts: 42
+    bytes: 22611967
+    distinct_addresses: 42
 artifacts:
 - rel: documents/wapakoneta/auglaize-commissioners/April 2, 2026_0.pdf
   sha256: f67b97945a919d4dafd3e33edc36bb5f85a0c231c5bb4642b26dd154a52f4fc0
@@ -217,3 +217,8 @@ artifacts:
   bytes: 2887120
   media_type: application/pdf
   redistributable: false
+- rel: documents/wapakoneta/sec/0001079973-26-001535.pdf
+  sha256: bedc2513b5f9371c15033c977c09554a31a72ed6475f8028142618b167d9cf6f
+  bytes: 8640085
+  media_type: application/pdf
+  redistributable: true

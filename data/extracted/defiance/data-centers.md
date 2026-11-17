@@ -1,7 +1,7 @@
 # Defiance / Defiance Co., OH — Data-Center Activity Register
 
 Discover-and-pin register for the Defiance watershed point (Auglaize + Tiffin → **Maumee**
-mainstem). Status **as of 2026-11-02** (#1264). Tags are BOSC evidentiary discipline: `[verified]` =
+mainstem). Status **as of 2026-11-02; election result added 2026-11-17** (#1264). Tags are BOSC evidentiary discipline: `[verified]` =
 cited primary/government source, `[reference]` = secondary source or a party's own self-report
 (leads only, never a finding), `[inference]` = arithmetic or pattern from cited inputs, `[open]` =
 not found in any public source yet. Nothing here is fabricated; every figure is cited or marked
@@ -24,7 +24,18 @@ status in [`ONBOARDING.md`](ONBOARDING.md).
 - The network ballot ledger records the citizen charter amendment as **certified, 270 valid / 225
   required** (`data/extracted/legal/datacenter-legislation/local-ballot-2026-11.md`).
 - `[reference]` The Crescent-News reports the signatures valid and the amendment on the
-  2026-11-03 ballot. The result is `[open]` until the Defiance County BOE canvass.
+  2026-11-03 ballot.
+- `[reference]` **Passed, on the official canvass.** The Defiance County Board of Elections'
+  **official certification**, signed **2026-11-12**, reports "City of Defiance - Proposed Charter
+  Amendment - Prohibition of a Data Center": **YES 3,866 (64.67%), NO 2,112 (35.33%)**, 5,978
+  votes, 182 undervotes, 1 overvote, 12 of 12 precincts (certification p. 5,
+  <https://www.boe.ohio.gov/defiance/c/elecres/20261103results.pdf>; an image-only scan, digits
+  read from the page image). `[reference]`, not `[verified]`, only because the certification is
+  read but not yet captured into `data/documents/`.
+- ⚠️ The press figure **3,823 / 2,083** is the unofficial election-night count. Cite the certified
+  figures.
+- `[open]` Whether the amendment is challenged, and what it reaches: there is still **no pending
+  project** to apply it to, so it is a standing prohibition with no subject `[inference]`.
 
 ## 2 — Council: moratorium and conditional-use ordinances
 
@@ -34,7 +45,7 @@ status in [`ONBOARDING.md`](ONBOARDING.md).
 
 ## Instruments to pull (priority order)
 
-1. Defiance County BOE certification + canvass for the charter amendment.
+1. Capture the Defiance County BOE's 2026-11-12 official certification (read, not yet captured).
 2. Defiance City Council ordinances (moratorium; conditional use) as adopted, with roll calls.
 
 ## Sources

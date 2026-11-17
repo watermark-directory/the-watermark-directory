@@ -465,3 +465,48 @@ above by deletion: where an entry above is now answered, this section says so an
 - *Sharp* order coverage: <https://www.wyso.org/news/2026-07-24/federal-judge-wilmington-has-to-redo-key-steps-to-consider-amazon-data-center-proposal>
 - Emergency rezoning and *Brooks*: <https://www.fox19.com/2026/09/04/resident-sues-wilmington-over-emergency-rezoning-proposed-data-center/>
 - The "20-18" article (cited only to record the error): <https://www.fox19.com/2026/09/19/wilmington-data-center-opponents-lose-bid-november-ballot-measure/>
+
+## Update 2026-11-17 — the 2026-11-03 returns
+
+The Clinton County Board of Elections' **"Unofficial Canvass — Summary Report — Final"**
+(2026-11-03 23:01:17, 36 of 36 precincts) was read at
+<https://www.boe.ohio.gov/clinton/c/elecres/20261103results.pdf>. It is not captured into the
+corpus, so every row is `[reference]`, and none is an outcome until the official canvass is
+certified (reported due by 2026-11-24). Wilmington registered voters: 7,383.
+
+| Contest | Yes | No |
+|---|---|---|
+| Wilmington Referendum Ordinance **O-26-04** | 739 | **2,885** |
+| Wilmington Referendum Ordinance **O-26-05** | 732 | **2,886** |
+| Wilmington Referendum Ordinance **O-26-06** | 724 | **2,887** |
+| Wilmington Referendum Ordinance **O-26-07** | 716 | **2,909** |
+
+- **It answers the "four ordinance numbers `[open]`" in the 2026-09-16 ballot thread:** the
+  board's own report names them O-26-04 through O-26-07 `[reference]`.
+- `[inference]` **NO is a rejection.** An Ohio municipal referendum asks whether the ordinance
+  shall be approved, so a ~80% NO majority rejects each. The certified ballot language was not
+  read; until it is, that reading rests on the referendum form, not on the question as printed.
+  Press (Statehouse News Bureau 2026-11-10) reports the four as "reversing the rezoning"
+  `[reference]`.
+- ⚠️ **Which rezoning is `[open]`, and it matters.** The 2026-11-02 update records that Council
+  re-enacted the **Cosler Farm** map rezoning on 2026-09-03 **as emergency legislation**, which
+  takes it out of referendum reach (and is itself challenged in *Brooks*). The 2026-11-02 update
+  also has the **Ardent/TAC** (§2) referendum still reported on this ballot. So the four NO votes
+  may reach the 545-acre Ardent/TAC corridor, the superseded pre-emergency Cosler ordinances, or
+  both. **Do not report the vote as stopping the Amazon campus** until the four ordinances are
+  read and matched to §1 and §2.
+- §5's "Local referendum … on the Nov 2026 ballot" is now answered as a vote held; the outcome
+  awaits the official canvass.
+
+### Instruments to pull (added 2026-11-17)
+
+- **Ordinances O-26-04 … O-26-07** from the City — subject, parcels, and which campus each reaches.
+- The Clinton County BOE official certification — capture it.
+- *Brooks v. City of Wilmington*: any ruling on the 2026-09-03 emergency clause.
+
+### Sources (added 2026-11-17)
+
+- <https://www.boe.ohio.gov/clinton/c/elecres/20261103results.pdf> — board's unofficial report
+  `[reference]` (read, not captured).
+- <https://www.statenews.org/section/the-ohio-newsroom/2026-11-10/heres-how-every-data-center-related-ballot-measure-fared-in-ohio>
+  `[reference]`.

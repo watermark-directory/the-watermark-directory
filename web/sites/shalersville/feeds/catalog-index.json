@@ -1,6 +1,6 @@
 {
   "site": "shalersville",
-  "catalog_version": "beca65ec1f860a5697a6750d7f25156933d52d2db59f205be80fb25653cc7565",
+  "catalog_version": "36e4fb7e6b9187c12f8b8aaf43e16df327f4fb5c42118d6212d7f88e86f52aec",
   "contract_version": "2.7.0",
   "atoms": [
     {
@@ -1017,6 +1017,14 @@
       "site": "shalersville",
       "local_id": "rsei-inventory",
       "title": "Portage County, OH RSEI Toxic-Release Inventory (EPA RSEI Public Data Set v2.3.12)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:shalersville:subdivisions-shalersville",
+      "kind": "dataset",
+      "site": "shalersville",
+      "local_id": "subdivisions-shalersville",
+      "title": "Portage County Political-Subdivision Meeting-Records Registry (Shalersville)",
       "feed": "catalog"
     },
     {
