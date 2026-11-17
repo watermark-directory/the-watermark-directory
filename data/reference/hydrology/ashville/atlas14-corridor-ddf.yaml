@@ -1,0 +1,47 @@
+meta:
+  subject: NOAA Atlas-14 design-storm depths — Upper Scioto corridor (Ashville)
+  source: NOAA Atlas-14 PDS, English depths (HDSC point query)
+  point:
+    latitude: 39.7243
+    longitude: -82.9575
+  units: inches (point precipitation depth)
+ddf:
+  latitude: 39.7243
+  longitude: -82.9575
+  durations:
+  - 60-min
+  - 6-hr
+  - 12-hr
+  - 24-hr
+  return_periods:
+  - 2
+  - 10
+  - 25
+  - 50
+  - 100
+  depths_in:
+    60-min:
+      '2': 1.32
+      '10': 1.92
+      '25': 2.28
+      '50': 2.56
+      '100': 2.85
+    6-hr:
+      '2': 1.94
+      '10': 2.82
+      '25': 3.41
+      '50': 3.89
+      '100': 4.42
+    12-hr:
+      '2': 2.26
+      '10': 3.27
+      '25': 3.94
+      '50': 4.5
+      '100': 5.11
+    24-hr:
+      '2': 2.62
+      '10': 3.73
+      '25': 4.45
+      '50': 5.04
+      '100': 5.66
+  source: NOAA Atlas-14 PDS, English depths (HDSC point query)

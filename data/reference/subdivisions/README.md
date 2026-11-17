@@ -116,6 +116,26 @@ Regenerate: `watermark subdivisions discover`
 | --- | --- | --- |
 | `reference/subdivisions/subdivisions.yaml` | application/x-yaml | no |
 
+### `subdivisions-ashville` — Pickaway County Political-Subdivision Meeting-Records Registry (Ashville)
+
+Source: Scaffolded empty by `watermark onboard ashville` (2026-11-17). No Pickaway County roster is committed yet, so no body is enumerated and no discovery sweep has run. · License: Public records (local government open data) · Access: public · Site scope: site:ashville · Refresh: on-demand
+
+Regenerate: `watermark --site ashville subdivisions discover`
+
+| file | type | lfs |
+| --- | --- | --- |
+| `reference/subdivisions/ashville/subdivisions.yaml` | application/x-yaml | no |
+
+### `subdivisions-canton` — Stark County Political-Subdivision Meeting-Records Registry (Canton)
+
+Source: Scaffolded empty by `watermark onboard canton` (2026-11-17). No Stark County roster is committed yet, so no body is enumerated and no discovery sweep has run. · License: Public records (local government open data) · Access: public · Site scope: site:canton · Refresh: on-demand
+
+Regenerate: `watermark --site canton subdivisions discover`
+
+| file | type | lfs |
+| --- | --- | --- |
+| `reference/subdivisions/canton/subdivisions.yaml` | application/x-yaml | no |
+
 ### `subdivisions-findlay` — Hancock County Political-Subdivision Meeting-Records Registry (Findlay)
 
 Source: Hancock County, Ohio Directory of Officials 2026 (data/documents/findlay/reference/) for every grounded fact, plus a live-web discovery sweep of all 32 bodies (2026-08-01) for the publishing blocks. · License: Public records (local government open data) · Access: public · Site scope: site:findlay · Refresh: on-demand, last 2026-08-01
@@ -125,6 +145,16 @@ Regenerate: `watermark --site findlay subdivisions discover`
 | file | type | lfs |
 | --- | --- | --- |
 | `reference/subdivisions/findlay/subdivisions.yaml` | application/x-yaml | no |
+
+### `subdivisions-shalersville` — Portage County Political-Subdivision Meeting-Records Registry (Shalersville)
+
+Source: Scaffolded empty by `watermark onboard shalersville` (2026-11-17). No Portage County roster is committed yet, so no body is enumerated and no discovery sweep has run. · License: Public records (local government open data) · Access: public · Site scope: site:shalersville · Refresh: on-demand
+
+Regenerate: `watermark --site shalersville subdivisions discover`
+
+| file | type | lfs |
+| --- | --- | --- |
+| `reference/subdivisions/shalersville/subdivisions.yaml` | application/x-yaml | no |
 
 ### `subdivisions-sidney` — Shelby County OH political subdivisions — meeting-records registry
 

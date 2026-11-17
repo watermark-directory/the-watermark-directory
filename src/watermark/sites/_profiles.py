@@ -5166,8 +5166,11 @@ _ASHVILLE = SiteProfile(
     nasa_power_lon=-82.9575,  # the watershed point, NOT a facility location
     rsei_fips="39129",  # [verified] Pickaway County, OH
     econ_fips="39129",
-    eia861_utility_number=0,  # [open] pending the serving-utility EIA-861 id
+    eia861_utility_number=18085,  # [verified] South Central Power Company, EIA-861 2024 Sales_Ult_Cust (Cooperative, BA Code PJM)
     eia_state="OH",
+    ba_code="PJM",  # off the confirmed _UTILITY_GRID map (#18085), so pin the BA (South Central Power = Buckeye Power co-op member, PJM) —
+    # [verified] EIA-861 2024 Sales_Ult_Cust BA Code PJM
+    rto_name="PJM Interconnection",
     parcels_url="TODO",  # [open] pending the county parcel REST endpoint
     zoning_url="TODO",
     floodzone_url="TODO",
@@ -5179,7 +5182,7 @@ _ASHVILLE = SiteProfile(
     gis_flood=None,
     design_lat=39.7243,  # [verified] Census Gazetteer place centroid = NOAA Atlas-14 point
     design_lon=-82.9575,
-    corridor_name="TODO",  # [open] pending the receiving-water design corridor
+    corridor_name="Upper Scioto corridor (Ashville)",  # [inference] the HUC-8 the centroid falls in; receiving reach [open]
     dominant_hsg="TODO",
     hsg_citation="TODO",
     pre_cover="TODO",
@@ -5204,7 +5207,12 @@ _ASHVILLE = SiteProfile(
     passby_secondary_cfs=0.0,
     facilities=(),  # [open] no pinned SiteFacility; the register's entries are not yet instruments
     # Honest [open] citations, not raw "TODO" (B3/#1639), so the grid-knob check locks rather than renders.
-    serving_utility_citation="[open] serving-utility EIA-861 record pending — not yet confirmed",
+    serving_utility_citation=(
+        "[reference] The Census place centroid falls in South Central Power Company's certified electric territory "
+        "(PUCO Electric_Certified_Territory MapServer layer 2, company id 26, southcentralpower.com; queried "
+        "2026-11-17); EIA-861 2024 utility #18085, BA Code PJM. The territory at the WATERSHED "
+        "POINT, not a confirmed service arrangement for any proposed data center."
+    ),
     lmp_usd_mwh=0.0,
     lmp_citation="[open] PJM pricing zone pending the serving-utility confirmation",
     county_name="Pickaway County, OH",  # [verified] FIPS 39129
@@ -5224,7 +5232,7 @@ _CANTON = SiteProfile(
     nasa_power_lon=-81.3672,  # the watershed point, NOT a facility location
     rsei_fips="39151",  # [verified] Stark County, OH
     econ_fips="39151",
-    eia861_utility_number=0,  # [open] pending the serving-utility EIA-861 id
+    eia861_utility_number=14006,  # [verified] Ohio Power Co (AEP Ohio), EIA-861 2024 Sales_Ult_Cust (Investor Owned, BA Code PJM)
     eia_state="OH",
     parcels_url="TODO",  # [open] pending the county parcel REST endpoint
     zoning_url="TODO",
@@ -5237,7 +5245,7 @@ _CANTON = SiteProfile(
     gis_flood=None,
     design_lat=40.8077,  # [verified] Census Gazetteer place centroid = NOAA Atlas-14 point
     design_lon=-81.3672,
-    corridor_name="TODO",  # [open] pending the receiving-water design corridor
+    corridor_name="Tuscarawas corridor (Canton)",  # [inference] the HUC-8 the centroid falls in; receiving reach [open]
     dominant_hsg="TODO",
     hsg_citation="TODO",
     pre_cover="TODO",
@@ -5262,7 +5270,12 @@ _CANTON = SiteProfile(
     passby_secondary_cfs=0.0,
     facilities=(),  # [open] no pinned SiteFacility; the register's entries are not yet instruments
     # Honest [open] citations, not raw "TODO" (B3/#1639), so the grid-knob check locks rather than renders.
-    serving_utility_citation="[open] serving-utility EIA-861 record pending — not yet confirmed",
+    serving_utility_citation=(
+        "[reference] The Census place centroid falls in Ohio Power Co (AEP Ohio)'s certified electric territory "
+        "(PUCO Electric_Certified_Territory MapServer layer 2, company id 23, aepohio.com; queried "
+        "2026-11-17); EIA-861 2024 utility #14006, BA Code PJM. The territory at the WATERSHED "
+        "POINT, not a confirmed service arrangement for any proposed data center."
+    ),
     lmp_usd_mwh=0.0,
     lmp_citation="[open] PJM pricing zone pending the serving-utility confirmation",
     county_name="Stark County, OH",  # [verified] FIPS 39151
@@ -5283,8 +5296,11 @@ _SHALERSVILLE = SiteProfile(
     nasa_power_lon=-81.2457,  # the watershed point, NOT a facility location
     rsei_fips="39133",  # [verified] Portage County, OH
     econ_fips="39133",
-    eia861_utility_number=0,  # [open] pending the serving-utility EIA-861 id
+    eia861_utility_number=13998,  # [verified] Ohio Edison Co, EIA-861 2024 Sales_Ult_Cust (Investor Owned, BA Code PJM)
     eia_state="OH",
+    ba_code="PJM",  # off the confirmed _UTILITY_GRID map (#13998), so pin the BA (Ohio Edison = PJM ATSI) —
+    # [verified] EIA-861 2024 Sales_Ult_Cust BA Code PJM
+    rto_name="PJM Interconnection",
     parcels_url="TODO",  # [open] pending the county parcel REST endpoint
     zoning_url="TODO",
     floodzone_url="TODO",
@@ -5296,7 +5312,7 @@ _SHALERSVILLE = SiteProfile(
     gis_flood=None,
     design_lat=41.2362,  # [verified] Census Gazetteer county-subdivision centroid (2024_Gaz_cousubs_39) = NOAA Atlas-14 point
     design_lon=-81.2457,
-    corridor_name="TODO",  # [open] pending the receiving-water design corridor
+    corridor_name="Upper Cuyahoga corridor (Shalersville)",  # [inference] the HUC-8 the centroid falls in; receiving reach [open]
     dominant_hsg="TODO",
     hsg_citation="TODO",
     pre_cover="TODO",
@@ -5321,7 +5337,12 @@ _SHALERSVILLE = SiteProfile(
     passby_secondary_cfs=0.0,
     facilities=(),  # [open] no pinned SiteFacility; the register's entries are not yet instruments
     # Honest [open] citations, not raw "TODO" (B3/#1639), so the grid-knob check locks rather than renders.
-    serving_utility_citation="[open] serving-utility EIA-861 record pending — not yet confirmed",
+    serving_utility_citation=(
+        "[reference] The Census place centroid falls in Ohio Edison Co's certified electric territory "
+        "(PUCO Electric_Certified_Territory MapServer layer 2, company id 22, firstenergycorp.com/ohio_edison.html; queried "
+        "2026-11-17); EIA-861 2024 utility #13998, BA Code PJM. The territory at the WATERSHED "
+        "POINT, not a confirmed service arrangement for any proposed data center."
+    ),
     lmp_usd_mwh=0.0,
     lmp_citation="[open] PJM pricing zone pending the serving-utility confirmation",
     county_name="Portage County, OH",  # [verified] FIPS 39133

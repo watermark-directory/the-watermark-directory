@@ -1,0 +1,47 @@
+meta:
+  subject: NOAA Atlas-14 design-storm depths — Upper Cuyahoga corridor (Shalersville)
+  source: NOAA Atlas-14 PDS, English depths (HDSC point query)
+  point:
+    latitude: 41.2362
+    longitude: -81.2457
+  units: inches (point precipitation depth)
+ddf:
+  latitude: 41.2362
+  longitude: -81.2457
+  durations:
+  - 60-min
+  - 6-hr
+  - 12-hr
+  - 24-hr
+  return_periods:
+  - 2
+  - 10
+  - 25
+  - 50
+  - 100
+  depths_in:
+    60-min:
+      '2': 1.21
+      '10': 1.78
+      '25': 2.1
+      '50': 2.36
+      '100': 2.63
+    6-hr:
+      '2': 1.77
+      '10': 2.6
+      '25': 3.15
+      '50': 3.61
+      '100': 4.1
+    12-hr:
+      '2': 2.08
+      '10': 3.02
+      '25': 3.65
+      '50': 4.18
+      '100': 4.76
+    24-hr:
+      '2': 2.45
+      '10': 3.53
+      '25': 4.24
+      '50': 4.84
+      '100': 5.49
+  source: NOAA Atlas-14 PDS, English depths (HDSC point query)
