@@ -1,6 +1,6 @@
 {
   "site": "canton",
-  "catalog_version": "05269783f70003a23d9d765fb6de66aa73115c86a375f9cc337e4e69a5c082ee",
+  "catalog_version": "405ce0c005ee467ffb292ee6352c3524728fd49f50b707dd52bb3ced68e99064",
   "contract_version": "2.7.0",
   "atoms": [
     {
@@ -1020,6 +1020,14 @@
       "feed": "catalog"
     },
     {
+      "handle": "dataset:canton:subdivisions-canton",
+      "kind": "dataset",
+      "site": "canton",
+      "local_id": "subdivisions-canton",
+      "title": "Stark County Political-Subdivision Meeting-Records Registry (Canton)",
+      "feed": "catalog"
+    },
+    {
       "handle": "dataset:canton:thermal",
       "kind": "dataset",
       "site": "canton",
@@ -1081,6 +1089,22 @@
       "site": "canton",
       "local_id": "GENERAL DYNAMICS LAND SYSTEMS",
       "title": "General Dynamics Land Systems Inc.",
+      "feed": "entities"
+    },
+    {
+      "handle": "entity:canton:MARATHON PETROLEUM",
+      "kind": "entity",
+      "site": "canton",
+      "local_id": "MARATHON PETROLEUM",
+      "title": "MARATHON PETROLEUM CORPORATION",
+      "feed": "entities"
+    },
+    {
+      "handle": "entity:canton:MARATHON PETROLEUM CO LP OHIO REFINING DIV",
+      "kind": "entity",
+      "site": "canton",
+      "local_id": "MARATHON PETROLEUM CO LP OHIO REFINING DIV",
+      "title": "MARATHON PETROLEUM CO LP OHIO REFINING DIV",
       "feed": "entities"
     }
   ]

@@ -1,6 +1,6 @@
 {
   "site": "lima",
-  "catalog_version": "1e3d12c6118a73464d33a992a7d28efbb2b920a92ab773166002b73c2b90bb00",
+  "catalog_version": "83941175acac2276d68fe2836b1e2c89bb30ae59118f9293f4e1493cf8304f79",
   "contract_version": "2.7.0",
   "atoms": [
     {
@@ -2316,11 +2316,35 @@
       "feed": "catalog"
     },
     {
+      "handle": "dataset:lima:subdivisions-ashville",
+      "kind": "dataset",
+      "site": "lima",
+      "local_id": "subdivisions-ashville",
+      "title": "Pickaway County Political-Subdivision Meeting-Records Registry (Ashville)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:lima:subdivisions-canton",
+      "kind": "dataset",
+      "site": "lima",
+      "local_id": "subdivisions-canton",
+      "title": "Stark County Political-Subdivision Meeting-Records Registry (Canton)",
+      "feed": "catalog"
+    },
+    {
       "handle": "dataset:lima:subdivisions-findlay",
       "kind": "dataset",
       "site": "lima",
       "local_id": "subdivisions-findlay",
       "title": "Hancock County Political-Subdivision Meeting-Records Registry (Findlay)",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:lima:subdivisions-shalersville",
+      "kind": "dataset",
+      "site": "lima",
+      "local_id": "subdivisions-shalersville",
+      "title": "Portage County Political-Subdivision Meeting-Records Registry (Shalersville)",
       "feed": "catalog"
     },
     {

@@ -169,8 +169,8 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "d9c6c79313c3791baf9e41fb25e50a3ff874155c450bb5f1b9db8622ca1cd29a",
-      "size_bytes": 5733,
+      "sha256": "908c06fc8ba959a7613924cd9a113d7cea31d83c6693032bb18a4f8504661926",
+      "size_bytes": 7792,
       "lfs_materialized": true,
       "file_count": 1,
       "stale": false,
@@ -218,8 +218,8 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "d9c6c79313c3791baf9e41fb25e50a3ff874155c450bb5f1b9db8622ca1cd29a",
-      "size_bytes": 5733,
+      "sha256": "908c06fc8ba959a7613924cd9a113d7cea31d83c6693032bb18a4f8504661926",
+      "size_bytes": 7792,
       "lfs_materialized": true,
       "file_count": 1,
       "stale": false,
@@ -312,7 +312,7 @@
     "site_scope": "state:OH",
     "cadence": "weekly",
     "ttl_days": 7,
-    "last_refreshed": "2026-09-16",
+    "last_refreshed": "2026-11-17",
     "tags": [
       "data-centers",
       "ballot-measure",
@@ -336,11 +336,11 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "7a2816989ebdc2df3e0fabcd611583fc30d4ac14ef2269c502eaa69204fb2a90",
-      "size_bytes": 49336,
+      "sha256": "cf6e9823ed6aea538ec7ec0340d6004207a1701b41f7e4bf660f3d4ae71bc39c",
+      "size_bytes": 61401,
       "lfs_materialized": true,
       "file_count": 2,
-      "stale": true,
+      "stale": false,
       "asof": null
     },
     "observed_network": null,
@@ -887,11 +887,11 @@
       }
     ],
     "observed": {
-      "exists": false,
-      "sha256": null,
-      "size_bytes": 0,
+      "exists": true,
+      "sha256": "3e5fe2b4b0cb957927d945ce78882bb6edeeb351050ce9383e29c793ed9920e3",
+      "size_bytes": 31582,
       "lfs_materialized": true,
-      "file_count": 0,
+      "file_count": 1,
       "stale": false,
       "asof": null
     },
@@ -994,11 +994,11 @@
       }
     ],
     "observed": {
-      "exists": false,
-      "sha256": null,
-      "size_bytes": 0,
+      "exists": true,
+      "sha256": "3f34dec06b8a87ce76278f2e8fcaf03612ceea199cc3bb1ea01af538fdbd752b",
+      "size_bytes": 5381,
       "lfs_materialized": true,
-      "file_count": 0,
+      "file_count": 1,
       "stale": false,
       "asof": null
     },
@@ -1108,11 +1108,11 @@
       }
     ],
     "observed": {
-      "exists": false,
-      "sha256": null,
-      "size_bytes": 0,
+      "exists": true,
+      "sha256": "10d32c696a0eed0c2ebb4ac67a5bd3f6abfd88442b230c95aecea682236c1dc1",
+      "size_bytes": 3768,
       "lfs_materialized": true,
-      "file_count": 0,
+      "file_count": 1,
       "stale": false,
       "asof": null
     },
@@ -1690,11 +1690,11 @@
       }
     ],
     "observed": {
-      "exists": false,
-      "sha256": null,
-      "size_bytes": 0,
+      "exists": true,
+      "sha256": "ab4e25ca945cff35083b40eb3d475a5a25e02111f77f0604ee8df837c9db693d",
+      "size_bytes": 862,
       "lfs_materialized": true,
-      "file_count": 0,
+      "file_count": 1,
       "stale": false,
       "asof": null
     },
@@ -1746,11 +1746,11 @@
       }
     ],
     "observed": {
-      "exists": false,
-      "sha256": null,
-      "size_bytes": 0,
+      "exists": true,
+      "sha256": "91617ea771408b77fe3586c24c9182a132b2fcde0e6a6b965cb6f3c71b367a3c",
+      "size_bytes": 2658,
       "lfs_materialized": true,
-      "file_count": 0,
+      "file_count": 1,
       "stale": false,
       "asof": null
     },
@@ -2904,11 +2904,11 @@
       }
     ],
     "observed": {
-      "exists": false,
-      "sha256": null,
-      "size_bytes": 0,
+      "exists": true,
+      "sha256": "d69ee6feeac3bcea9276800e3004117795f5057c17ee24b8d272459116370eec",
+      "size_bytes": 49777,
       "lfs_materialized": true,
-      "file_count": 0,
+      "file_count": 1,
       "stale": false,
       "asof": null
     },
@@ -2920,6 +2920,57 @@
       "pages": null,
       "confidence": "medium",
       "note": "watermark rsei",
+      "verified": true
+    }
+  },
+  {
+    "id": "subdivisions-ashville",
+    "title": "Pickaway County Political-Subdivision Meeting-Records Registry (Ashville)",
+    "scope": "reference",
+    "collection": "subdivisions",
+    "status": "needs-review",
+    "producer_kind": "connector",
+    "command": "--site ashville subdivisions discover",
+    "connector_ref": "watermark.civic.registry",
+    "source": "Scaffolded empty by `watermark onboard ashville` (2026-11-17). No Pickaway County roster is committed yet, so no body is enumerated and no discovery sweep has run.",
+    "external_url": null,
+    "license": "Public records (local government open data)",
+    "access_tier": "public",
+    "site_scope": "site:ashville",
+    "cadence": "on-demand",
+    "ttl_days": null,
+    "last_refreshed": null,
+    "tags": [
+      "subdivisions",
+      "civic",
+      "pickaway-county",
+      "ashville",
+      "meeting-records"
+    ],
+    "storage": [
+      {
+        "relpath": "reference/subdivisions/ashville/subdivisions.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "2b03c34f6a5b3c5d74caa5beb75f5535d461b3ac56110d7c35a053d692b1ae9e",
+      "size_bytes": 1239,
+      "lfs_materialized": true,
+      "file_count": 1,
+      "stale": false,
+      "asof": null
+    },
+    "observed_network": null,
+    "citation": {
+      "source": "Scaffolded empty by `watermark onboard ashville` (2026-11-17). No Pickaway County roster is committed yet, so no body is enumerated and no discovery sweep has run.",
+      "source_kind": "connector",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": "watermark --site ashville subdivisions discover",
       "verified": true
     }
   },

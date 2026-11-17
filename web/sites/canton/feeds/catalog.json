@@ -312,7 +312,7 @@
     "site_scope": "state:OH",
     "cadence": "weekly",
     "ttl_days": 7,
-    "last_refreshed": "2026-09-16",
+    "last_refreshed": "2026-11-17",
     "tags": [
       "data-centers",
       "ballot-measure",
@@ -336,11 +336,11 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "7a2816989ebdc2df3e0fabcd611583fc30d4ac14ef2269c502eaa69204fb2a90",
-      "size_bytes": 49336,
+      "sha256": "cf6e9823ed6aea538ec7ec0340d6004207a1701b41f7e4bf660f3d4ae71bc39c",
+      "size_bytes": 61401,
       "lfs_materialized": true,
       "file_count": 2,
-      "stale": true,
+      "stale": false,
       "asof": null
     },
     "observed_network": null,
@@ -887,11 +887,11 @@
       }
     ],
     "observed": {
-      "exists": false,
-      "sha256": null,
-      "size_bytes": 0,
+      "exists": true,
+      "sha256": "6103d22055a904410c3b64beb88566a3a09543942e325a79389c1c130297750b",
+      "size_bytes": 34322,
       "lfs_materialized": true,
-      "file_count": 0,
+      "file_count": 1,
       "stale": false,
       "asof": null
     },
@@ -994,11 +994,11 @@
       }
     ],
     "observed": {
-      "exists": false,
-      "sha256": null,
-      "size_bytes": 0,
+      "exists": true,
+      "sha256": "3f34dec06b8a87ce76278f2e8fcaf03612ceea199cc3bb1ea01af538fdbd752b",
+      "size_bytes": 5381,
       "lfs_materialized": true,
-      "file_count": 0,
+      "file_count": 1,
       "stale": false,
       "asof": null
     },
@@ -1108,11 +1108,11 @@
       }
     ],
     "observed": {
-      "exists": false,
-      "sha256": null,
-      "size_bytes": 0,
+      "exists": true,
+      "sha256": "aebba5db441928dee5f8d5dcc47fee48ea389043940c19ce813f33d52a4d1573",
+      "size_bytes": 3587,
       "lfs_materialized": true,
-      "file_count": 0,
+      "file_count": 1,
       "stale": false,
       "asof": null
     },
@@ -1690,11 +1690,11 @@
       }
     ],
     "observed": {
-      "exists": false,
-      "sha256": null,
-      "size_bytes": 0,
+      "exists": true,
+      "sha256": "75741ae0ae788e3c242b965ada2b06eb60f5a8f66e759d4338c3379f28c1bd80",
+      "size_bytes": 857,
       "lfs_materialized": true,
-      "file_count": 0,
+      "file_count": 1,
       "stale": false,
       "asof": null
     },
@@ -1746,11 +1746,11 @@
       }
     ],
     "observed": {
-      "exists": false,
-      "sha256": null,
-      "size_bytes": 0,
+      "exists": true,
+      "sha256": "f9ce06baef73f02197f6edfb7324e0422fed5e7103cdd2fdd81a31b66d036f5e",
+      "size_bytes": 2653,
       "lfs_materialized": true,
-      "file_count": 0,
+      "file_count": 1,
       "stale": false,
       "asof": null
     },
@@ -2904,11 +2904,11 @@
       }
     ],
     "observed": {
-      "exists": false,
-      "sha256": null,
-      "size_bytes": 0,
+      "exists": true,
+      "sha256": "fb898c8ea1aa8287d772d56f09ab9402be5891931d85bbb5fcb2e2ae23288939",
+      "size_bytes": 370838,
       "lfs_materialized": true,
-      "file_count": 0,
+      "file_count": 1,
       "stale": false,
       "asof": null
     },
@@ -2920,6 +2920,57 @@
       "pages": null,
       "confidence": "medium",
       "note": "watermark rsei",
+      "verified": true
+    }
+  },
+  {
+    "id": "subdivisions-canton",
+    "title": "Stark County Political-Subdivision Meeting-Records Registry (Canton)",
+    "scope": "reference",
+    "collection": "subdivisions",
+    "status": "needs-review",
+    "producer_kind": "connector",
+    "command": "--site canton subdivisions discover",
+    "connector_ref": "watermark.civic.registry",
+    "source": "Scaffolded empty by `watermark onboard canton` (2026-11-17). No Stark County roster is committed yet, so no body is enumerated and no discovery sweep has run.",
+    "external_url": null,
+    "license": "Public records (local government open data)",
+    "access_tier": "public",
+    "site_scope": "site:canton",
+    "cadence": "on-demand",
+    "ttl_days": null,
+    "last_refreshed": null,
+    "tags": [
+      "subdivisions",
+      "civic",
+      "stark-county",
+      "canton",
+      "meeting-records"
+    ],
+    "storage": [
+      {
+        "relpath": "reference/subdivisions/canton/subdivisions.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "6d241ba4f4da7dceeb1110f2c5e70094d6b96efe7223be1b4895d7df214c04b6",
+      "size_bytes": 1216,
+      "lfs_materialized": true,
+      "file_count": 1,
+      "stale": false,
+      "asof": null
+    },
+    "observed_network": null,
+    "citation": {
+      "source": "Scaffolded empty by `watermark onboard canton` (2026-11-17). No Stark County roster is committed yet, so no body is enumerated and no discovery sweep has run.",
+      "source_kind": "connector",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": "watermark --site canton subdivisions discover",
       "verified": true
     }
   },

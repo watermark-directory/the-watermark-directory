@@ -8,5 +8,15 @@
     "source": "data/reference/gleif/lei-records.yaml",
     "relation_class": null,
     "relation_basis": null
+  },
+  {
+    "src": "MARATHON PETROLEUM CO LP OHIO REFINING DIV",
+    "rel": "owned_by",
+    "dst": "MARATHON PETROLEUM",
+    "date": "",
+    "ref": "RSEI parent / GLEIF 3BNYRYQHD39K4LCKQF12",
+    "source": "data/reference/rsei/inventory.yaml",
+    "relation_class": null,
+    "relation_basis": null
   }
 ]

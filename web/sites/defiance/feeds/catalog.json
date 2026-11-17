@@ -169,8 +169,8 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "2fbcc7b67b619d57457ac08074927597b75f7a7d2fcce219a1059291ef482141",
-      "size_bytes": 2466,
+      "sha256": "abee7c3759376ece9e01095afdca194f2fcbfa3c8f43ac09da60d4f4b81d79cc",
+      "size_bytes": 3369,
       "lfs_materialized": true,
       "file_count": 1,
       "stale": false,
@@ -218,8 +218,8 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "2fbcc7b67b619d57457ac08074927597b75f7a7d2fcce219a1059291ef482141",
-      "size_bytes": 2466,
+      "sha256": "abee7c3759376ece9e01095afdca194f2fcbfa3c8f43ac09da60d4f4b81d79cc",
+      "size_bytes": 3369,
       "lfs_materialized": true,
       "file_count": 1,
       "stale": false,
@@ -382,7 +382,7 @@
     "site_scope": "state:OH",
     "cadence": "weekly",
     "ttl_days": 7,
-    "last_refreshed": "2026-09-16",
+    "last_refreshed": "2026-11-17",
     "tags": [
       "data-centers",
       "ballot-measure",
@@ -406,11 +406,11 @@
     ],
     "observed": {
       "exists": true,
-      "sha256": "7a2816989ebdc2df3e0fabcd611583fc30d4ac14ef2269c502eaa69204fb2a90",
-      "size_bytes": 49336,
+      "sha256": "cf6e9823ed6aea538ec7ec0340d6004207a1701b41f7e4bf660f3d4ae71bc39c",
+      "size_bytes": 61401,
       "lfs_materialized": true,
       "file_count": 2,
-      "stale": true,
+      "stale": false,
       "asof": null
     },
     "observed_network": null,

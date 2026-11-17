@@ -1,0 +1,1623 @@
+{
+  "fips": "39151",
+  "area_name": "Stark County, Ohio",
+  "latest": {
+    "fips": "39151",
+    "area_name": "Stark County, Ohio",
+    "year": 2024,
+    "total_employment": {
+      "value": 158502.0,
+      "unit": "jobs",
+      "source": "connector",
+      "citation": "BLS QCEW 2024 annual averages, area 39151",
+      "confidence": "high",
+      "asof": "2024",
+      "low": null,
+      "high": null
+    },
+    "establishments": {
+      "value": 9494.0,
+      "unit": "establishments",
+      "source": "connector",
+      "citation": "BLS QCEW 2024 annual averages, area 39151",
+      "confidence": "high",
+      "asof": "2024",
+      "low": null,
+      "high": null
+    },
+    "avg_annual_pay": {
+      "value": 54631.0,
+      "unit": "USD/year",
+      "source": "connector",
+      "citation": "BLS QCEW 2024 annual averages, area 39151",
+      "confidence": "high",
+      "asof": "2024",
+      "low": null,
+      "high": null
+    },
+    "avg_weekly_wage": {
+      "value": 1051.0,
+      "unit": "USD/week",
+      "source": "connector",
+      "citation": "BLS QCEW 2024 annual averages, area 39151",
+      "confidence": "high",
+      "asof": "2024",
+      "low": null,
+      "high": null
+    },
+    "sectors": [
+      {
+        "naics": "62",
+        "sector_name": "Health Care & Social Assistance",
+        "annual_avg_employment": {
+          "value": 27075.0,
+          "unit": "jobs",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "establishments": {
+          "value": 1042.0,
+          "unit": "establishments",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "avg_annual_pay": {
+          "value": 54170.0,
+          "unit": "USD/year",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "avg_weekly_wage": {
+          "value": 1042.0,
+          "unit": "USD/week",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "location_quotient": {
+          "value": 1.19,
+          "unit": "ratio",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        }
+      },
+      {
+        "naics": "31-33",
+        "sector_name": "Manufacturing",
+        "annual_avg_employment": {
+          "value": 24085.0,
+          "unit": "jobs",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "establishments": {
+          "value": 550.0,
+          "unit": "establishments",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "avg_annual_pay": {
+          "value": 70909.0,
+          "unit": "USD/year",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "avg_weekly_wage": {
+          "value": 1364.0,
+          "unit": "USD/week",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "location_quotient": {
+          "value": 1.85,
+          "unit": "ratio",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        }
+      },
+      {
+        "naics": "44-45",
+        "sector_name": "Retail Trade",
+        "annual_avg_employment": {
+          "value": 19138.0,
+          "unit": "jobs",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "establishments": {
+          "value": 1156.0,
+          "unit": "establishments",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "avg_annual_pay": {
+          "value": 33841.0,
+          "unit": "USD/year",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "avg_weekly_wage": {
+          "value": 651.0,
+          "unit": "USD/week",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "location_quotient": {
+          "value": 1.21,
+          "unit": "ratio",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        }
+      },
+      {
+        "naics": "72",
+        "sector_name": "Accommodation & Food Services",
+        "annual_avg_employment": {
+          "value": 16263.0,
+          "unit": "jobs",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "establishments": {
+          "value": 838.0,
+          "unit": "establishments",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "avg_annual_pay": {
+          "value": 22265.0,
+          "unit": "USD/year",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "avg_weekly_wage": {
+          "value": 428.0,
+          "unit": "USD/week",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "location_quotient": {
+          "value": 1.13,
+          "unit": "ratio",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        }
+      },
+      {
+        "naics": "23",
+        "sector_name": "Construction",
+        "annual_avg_employment": {
+          "value": 8031.0,
+          "unit": "jobs",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "establishments": {
+          "value": 869.0,
+          "unit": "establishments",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "avg_annual_pay": {
+          "value": 78841.0,
+          "unit": "USD/year",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "avg_weekly_wage": {
+          "value": 1516.0,
+          "unit": "USD/week",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "location_quotient": {
+          "value": 0.97,
+          "unit": "ratio",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        }
+      },
+      {
+        "naics": "56",
+        "sector_name": "Administrative & Support & Waste Management",
+        "annual_avg_employment": {
+          "value": 7059.0,
+          "unit": "jobs",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "establishments": {
+          "value": 632.0,
+          "unit": "establishments",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "avg_annual_pay": {
+          "value": 48863.0,
+          "unit": "USD/year",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "avg_weekly_wage": {
+          "value": 940.0,
+          "unit": "USD/week",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "location_quotient": {
+          "value": 0.76,
+          "unit": "ratio",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        }
+      },
+      {
+        "naics": "48-49",
+        "sector_name": "Transportation & Warehousing",
+        "annual_avg_employment": {
+          "value": 6621.0,
+          "unit": "jobs",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "establishments": {
+          "value": 273.0,
+          "unit": "establishments",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "avg_annual_pay": {
+          "value": 55630.0,
+          "unit": "USD/year",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "avg_weekly_wage": {
+          "value": 1070.0,
+          "unit": "USD/week",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "location_quotient": {
+          "value": 0.99,
+          "unit": "ratio",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        }
+      },
+      {
+        "naics": "42",
+        "sector_name": "Wholesale Trade",
+        "annual_avg_employment": {
+          "value": 6012.0,
+          "unit": "jobs",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "establishments": {
+          "value": 538.0,
+          "unit": "establishments",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "avg_annual_pay": {
+          "value": 71911.0,
+          "unit": "USD/year",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "avg_weekly_wage": {
+          "value": 1383.0,
+          "unit": "USD/week",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "location_quotient": {
+          "value": 0.96,
+          "unit": "ratio",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        }
+      },
+      {
+        "naics": "81",
+        "sector_name": "Other Services (except Public Administration)",
+        "annual_avg_employment": {
+          "value": 5669.0,
+          "unit": "jobs",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "establishments": {
+          "value": 832.0,
+          "unit": "establishments",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "avg_annual_pay": {
+          "value": 39706.0,
+          "unit": "USD/year",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "avg_weekly_wage": {
+          "value": 764.0,
+          "unit": "USD/week",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "location_quotient": {
+          "value": 1.19,
+          "unit": "ratio",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        }
+      },
+      {
+        "naics": "54",
+        "sector_name": "Professional, Scientific & Technical Services",
+        "annual_avg_employment": {
+          "value": 5327.0,
+          "unit": "jobs",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "establishments": {
+          "value": 1004.0,
+          "unit": "establishments",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "avg_annual_pay": {
+          "value": 93514.0,
+          "unit": "USD/year",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "avg_weekly_wage": {
+          "value": 1798.0,
+          "unit": "USD/week",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "location_quotient": {
+          "value": 0.48,
+          "unit": "ratio",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        }
+      },
+      {
+        "naics": "52",
+        "sector_name": "Finance & Insurance",
+        "annual_avg_employment": {
+          "value": 4399.0,
+          "unit": "jobs",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "establishments": {
+          "value": 534.0,
+          "unit": "establishments",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "avg_annual_pay": {
+          "value": 78099.0,
+          "unit": "USD/year",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "avg_weekly_wage": {
+          "value": 1502.0,
+          "unit": "USD/week",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "location_quotient": {
+          "value": 0.68,
+          "unit": "ratio",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        }
+      },
+      {
+        "naics": "61",
+        "sector_name": "Educational Services",
+        "annual_avg_employment": {
+          "value": 2851.0,
+          "unit": "jobs",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "establishments": {
+          "value": 119.0,
+          "unit": "establishments",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "avg_annual_pay": {
+          "value": 34364.0,
+          "unit": "USD/year",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "avg_weekly_wage": {
+          "value": 661.0,
+          "unit": "USD/week",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "location_quotient": {
+          "value": 0.87,
+          "unit": "ratio",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        }
+      },
+      {
+        "naics": "71",
+        "sector_name": "Arts, Entertainment & Recreation",
+        "annual_avg_employment": {
+          "value": 2072.0,
+          "unit": "jobs",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "establishments": {
+          "value": 134.0,
+          "unit": "establishments",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "avg_annual_pay": {
+          "value": 28890.0,
+          "unit": "USD/year",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "avg_weekly_wage": {
+          "value": 556.0,
+          "unit": "USD/week",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "location_quotient": {
+          "value": 0.78,
+          "unit": "ratio",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        }
+      },
+      {
+        "naics": "55",
+        "sector_name": "Management of Companies & Enterprises",
+        "annual_avg_employment": {
+          "value": 1757.0,
+          "unit": "jobs",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "establishments": {
+          "value": 66.0,
+          "unit": "establishments",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "avg_annual_pay": {
+          "value": 96290.0,
+          "unit": "USD/year",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "avg_weekly_wage": {
+          "value": 1852.0,
+          "unit": "USD/week",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "location_quotient": {
+          "value": 0.66,
+          "unit": "ratio",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        }
+      },
+      {
+        "naics": "53",
+        "sector_name": "Real Estate & Rental & Leasing",
+        "annual_avg_employment": {
+          "value": 1688.0,
+          "unit": "jobs",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "establishments": {
+          "value": 358.0,
+          "unit": "establishments",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "avg_annual_pay": {
+          "value": 56401.0,
+          "unit": "USD/year",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "avg_weekly_wage": {
+          "value": 1085.0,
+          "unit": "USD/week",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "location_quotient": {
+          "value": 0.69,
+          "unit": "ratio",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        }
+      },
+      {
+        "naics": "51",
+        "sector_name": "Information",
+        "annual_avg_employment": {
+          "value": 1416.0,
+          "unit": "jobs",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "establishments": {
+          "value": 139.0,
+          "unit": "establishments",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "avg_annual_pay": {
+          "value": 60608.0,
+          "unit": "USD/year",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "avg_weekly_wage": {
+          "value": 1166.0,
+          "unit": "USD/week",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "location_quotient": {
+          "value": 0.48,
+          "unit": "ratio",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        }
+      },
+      {
+        "naics": "22",
+        "sector_name": "Utilities",
+        "annual_avg_employment": {
+          "value": 731.0,
+          "unit": "jobs",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "establishments": {
+          "value": 24.0,
+          "unit": "establishments",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "avg_annual_pay": {
+          "value": 109302.0,
+          "unit": "USD/year",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "avg_weekly_wage": {
+          "value": 2102.0,
+          "unit": "USD/week",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "location_quotient": {
+          "value": 1.21,
+          "unit": "ratio",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        }
+      },
+      {
+        "naics": "21",
+        "sector_name": "Mining, Quarrying, Oil & Gas Extraction",
+        "annual_avg_employment": {
+          "value": 287.0,
+          "unit": "jobs",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "establishments": {
+          "value": 36.0,
+          "unit": "establishments",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "avg_annual_pay": {
+          "value": 78122.0,
+          "unit": "USD/year",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "avg_weekly_wage": {
+          "value": 1502.0,
+          "unit": "USD/week",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "location_quotient": {
+          "value": 0.48,
+          "unit": "ratio",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        }
+      },
+      {
+        "naics": "11",
+        "sector_name": "Agriculture, Forestry, Fishing & Hunting",
+        "annual_avg_employment": {
+          "value": 175.0,
+          "unit": "jobs",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "establishments": {
+          "value": 38.0,
+          "unit": "establishments",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "avg_annual_pay": {
+          "value": 38586.0,
+          "unit": "USD/year",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "avg_weekly_wage": {
+          "value": 742.0,
+          "unit": "USD/week",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "location_quotient": {
+          "value": 0.14,
+          "unit": "ratio",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        }
+      },
+      {
+        "naics": "99",
+        "sector_name": "Unclassified",
+        "annual_avg_employment": {
+          "value": 5.0,
+          "unit": "jobs",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "establishments": {
+          "value": 4.0,
+          "unit": "establishments",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "avg_annual_pay": {
+          "value": 33722.0,
+          "unit": "USD/year",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "avg_weekly_wage": {
+          "value": 648.0,
+          "unit": "USD/week",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "location_quotient": {
+          "value": 0.02,
+          "unit": "ratio",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        }
+      }
+    ],
+    "government": [
+      {
+        "ownership": "1",
+        "ownership_name": "Federal Government",
+        "annual_avg_employment": {
+          "value": 926.0,
+          "unit": "jobs",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "establishments": {
+          "value": 44.0,
+          "unit": "establishments",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "avg_annual_pay": {
+          "value": 79530.0,
+          "unit": "USD/year",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "avg_weekly_wage": {
+          "value": 1529.0,
+          "unit": "USD/week",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "location_quotient": {
+          "value": 0.3,
+          "unit": "ratio",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        }
+      },
+      {
+        "ownership": "2",
+        "ownership_name": "State Government",
+        "annual_avg_employment": {
+          "value": 1152.0,
+          "unit": "jobs",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "establishments": {
+          "value": 18.0,
+          "unit": "establishments",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "avg_annual_pay": {
+          "value": 83983.0,
+          "unit": "USD/year",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "avg_weekly_wage": {
+          "value": 1615.0,
+          "unit": "USD/week",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "location_quotient": {
+          "value": 0.23,
+          "unit": "ratio",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        }
+      },
+      {
+        "ownership": "3",
+        "ownership_name": "Local Government",
+        "annual_avg_employment": {
+          "value": 15762.0,
+          "unit": "jobs",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "establishments": {
+          "value": 246.0,
+          "unit": "establishments",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "avg_annual_pay": {
+          "value": 53390.0,
+          "unit": "USD/year",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "avg_weekly_wage": {
+          "value": 1027.0,
+          "unit": "USD/week",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        },
+        "location_quotient": {
+          "value": 1.06,
+          "unit": "ratio",
+          "source": "connector",
+          "citation": "BLS QCEW 2024 annual averages, area 39151",
+          "confidence": "high",
+          "asof": "2024",
+          "low": null,
+          "high": null
+        }
+      }
+    ],
+    "source": "BLS QCEW (annual averages): private-ownership NAICS sectors + federal/state/local government ownership; excludes uniformed active-duty military"
+  },
+  "trend": [
+    {
+      "year": 2014,
+      "total_employment": {
+        "value": 158336.0,
+        "unit": "jobs",
+        "source": "connector",
+        "citation": "BLS QCEW 2014 annual averages, area 39151",
+        "confidence": "high",
+        "asof": "2014",
+        "low": null,
+        "high": null
+      },
+      "establishments": {
+        "value": 8730.0,
+        "unit": "establishments",
+        "source": "connector",
+        "citation": "BLS QCEW 2014 annual averages, area 39151",
+        "confidence": "high",
+        "asof": "2014",
+        "low": null,
+        "high": null
+      }
+    },
+    {
+      "year": 2015,
+      "total_employment": {
+        "value": 158017.0,
+        "unit": "jobs",
+        "source": "connector",
+        "citation": "BLS QCEW 2015 annual averages, area 39151",
+        "confidence": "high",
+        "asof": "2015",
+        "low": null,
+        "high": null
+      },
+      "establishments": {
+        "value": 8604.0,
+        "unit": "establishments",
+        "source": "connector",
+        "citation": "BLS QCEW 2015 annual averages, area 39151",
+        "confidence": "high",
+        "asof": "2015",
+        "low": null,
+        "high": null
+      }
+    },
+    {
+      "year": 2016,
+      "total_employment": {
+        "value": 158204.0,
+        "unit": "jobs",
+        "source": "connector",
+        "citation": "BLS QCEW 2016 annual averages, area 39151",
+        "confidence": "high",
+        "asof": "2016",
+        "low": null,
+        "high": null
+      },
+      "establishments": {
+        "value": 8610.0,
+        "unit": "establishments",
+        "source": "connector",
+        "citation": "BLS QCEW 2016 annual averages, area 39151",
+        "confidence": "high",
+        "asof": "2016",
+        "low": null,
+        "high": null
+      }
+    },
+    {
+      "year": 2017,
+      "total_employment": {
+        "value": 159282.0,
+        "unit": "jobs",
+        "source": "connector",
+        "citation": "BLS QCEW 2017 annual averages, area 39151",
+        "confidence": "high",
+        "asof": "2017",
+        "low": null,
+        "high": null
+      },
+      "establishments": {
+        "value": 8570.0,
+        "unit": "establishments",
+        "source": "connector",
+        "citation": "BLS QCEW 2017 annual averages, area 39151",
+        "confidence": "high",
+        "asof": "2017",
+        "low": null,
+        "high": null
+      }
+    },
+    {
+      "year": 2018,
+      "total_employment": {
+        "value": 160016.0,
+        "unit": "jobs",
+        "source": "connector",
+        "citation": "BLS QCEW 2018 annual averages, area 39151",
+        "confidence": "high",
+        "asof": "2018",
+        "low": null,
+        "high": null
+      },
+      "establishments": {
+        "value": 8608.0,
+        "unit": "establishments",
+        "source": "connector",
+        "citation": "BLS QCEW 2018 annual averages, area 39151",
+        "confidence": "high",
+        "asof": "2018",
+        "low": null,
+        "high": null
+      }
+    },
+    {
+      "year": 2019,
+      "total_employment": {
+        "value": 159294.0,
+        "unit": "jobs",
+        "source": "connector",
+        "citation": "BLS QCEW 2019 annual averages, area 39151",
+        "confidence": "high",
+        "asof": "2019",
+        "low": null,
+        "high": null
+      },
+      "establishments": {
+        "value": 8673.0,
+        "unit": "establishments",
+        "source": "connector",
+        "citation": "BLS QCEW 2019 annual averages, area 39151",
+        "confidence": "high",
+        "asof": "2019",
+        "low": null,
+        "high": null
+      }
+    },
+    {
+      "year": 2020,
+      "total_employment": {
+        "value": 149687.0,
+        "unit": "jobs",
+        "source": "connector",
+        "citation": "BLS QCEW 2020 annual averages, area 39151",
+        "confidence": "high",
+        "asof": "2020",
+        "low": null,
+        "high": null
+      },
+      "establishments": {
+        "value": 8679.0,
+        "unit": "establishments",
+        "source": "connector",
+        "citation": "BLS QCEW 2020 annual averages, area 39151",
+        "confidence": "high",
+        "asof": "2020",
+        "low": null,
+        "high": null
+      }
+    },
+    {
+      "year": 2021,
+      "total_employment": {
+        "value": 152590.0,
+        "unit": "jobs",
+        "source": "connector",
+        "citation": "BLS QCEW 2021 annual averages, area 39151",
+        "confidence": "high",
+        "asof": "2021",
+        "low": null,
+        "high": null
+      },
+      "establishments": {
+        "value": 8925.0,
+        "unit": "establishments",
+        "source": "connector",
+        "citation": "BLS QCEW 2021 annual averages, area 39151",
+        "confidence": "high",
+        "asof": "2021",
+        "low": null,
+        "high": null
+      }
+    },
+    {
+      "year": 2022,
+      "total_employment": {
+        "value": 154738.0,
+        "unit": "jobs",
+        "source": "connector",
+        "citation": "BLS QCEW 2022 annual averages, area 39151",
+        "confidence": "high",
+        "asof": "2022",
+        "low": null,
+        "high": null
+      },
+      "establishments": {
+        "value": 9166.0,
+        "unit": "establishments",
+        "source": "connector",
+        "citation": "BLS QCEW 2022 annual averages, area 39151",
+        "confidence": "high",
+        "asof": "2022",
+        "low": null,
+        "high": null
+      }
+    },
+    {
+      "year": 2023,
+      "total_employment": {
+        "value": 156051.0,
+        "unit": "jobs",
+        "source": "connector",
+        "citation": "BLS QCEW 2023 annual averages, area 39151",
+        "confidence": "high",
+        "asof": "2023",
+        "low": null,
+        "high": null
+      },
+      "establishments": {
+        "value": 9368.0,
+        "unit": "establishments",
+        "source": "connector",
+        "citation": "BLS QCEW 2023 annual averages, area 39151",
+        "confidence": "high",
+        "asof": "2023",
+        "low": null,
+        "high": null
+      }
+    },
+    {
+      "year": 2024,
+      "total_employment": {
+        "value": 158502.0,
+        "unit": "jobs",
+        "source": "connector",
+        "citation": "BLS QCEW 2024 annual averages, area 39151",
+        "confidence": "high",
+        "asof": "2024",
+        "low": null,
+        "high": null
+      },
+      "establishments": {
+        "value": 9494.0,
+        "unit": "establishments",
+        "source": "connector",
+        "citation": "BLS QCEW 2024 annual averages, area 39151",
+        "confidence": "high",
+        "asof": "2024",
+        "low": null,
+        "high": null
+      }
+    }
+  ],
+  "population": {
+    "fips": "39151",
+    "area_name": "Stark County, Ohio",
+    "points": [
+      {
+        "year": 2010,
+        "population": {
+          "value": 376346.0,
+          "unit": "people",
+          "source": "connector",
+          "citation": "US Census ACS5 2010 B01003_001E (Stark County, Ohio)",
+          "confidence": "high",
+          "asof": "2010",
+          "low": null,
+          "high": null
+        }
+      },
+      {
+        "year": 2015,
+        "population": {
+          "value": 374979.0,
+          "unit": "people",
+          "source": "connector",
+          "citation": "US Census ACS5 2015 B01003_001E (Stark County, Ohio)",
+          "confidence": "high",
+          "asof": "2015",
+          "low": null,
+          "high": null
+        }
+      },
+      {
+        "year": 2020,
+        "population": {
+          "value": 371516.0,
+          "unit": "people",
+          "source": "connector",
+          "citation": "US Census ACS5 2020 B01003_001E (Stark County, Ohio)",
+          "confidence": "high",
+          "asof": "2020",
+          "low": null,
+          "high": null
+        }
+      },
+      {
+        "year": 2023,
+        "population": {
+          "value": 373764.0,
+          "unit": "people",
+          "source": "connector",
+          "citation": "US Census ACS5 2023 B01003_001E (Stark County, Ohio)",
+          "confidence": "high",
+          "asof": "2023",
+          "low": null,
+          "high": null
+        }
+      }
+    ],
+    "source": "US Census ACS 5-year (B01003)"
+  },
+  "median_household_income": {
+    "value": 65740.0,
+    "unit": "USD/yr",
+    "source": "connector",
+    "citation": "US Census ACS5 2023 B19013_001E median household income (Stark County, Ohio)",
+    "confidence": "high",
+    "asof": "2023",
+    "low": null,
+    "high": null
+  },
+  "unit_caveat": null,
+  "coverage_note": "BLS QCEW counts UI-covered (private, state, local) plus federal-civilian (UCFE) employment. Uniformed active-duty military is excluded — it appears in neither the county total nor any ownership row — so at a federal enclave the covered total understates the base's real employment footprint beyond even the federal-civilian jobs shown here.",
+  "note": "Employment from BLS QCEW (keyless open data). Location quotient = county sector share / national share (export-orientation; the county-level proxy for an import/export ratio). Population from US Census ACS 5-year (B01003). Median household income from US Census ACS 5-year (B19013, 2023)."
+}
