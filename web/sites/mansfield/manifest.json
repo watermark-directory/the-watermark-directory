@@ -2,9 +2,9 @@
   "site": "mansfield",
   "bundle_version": "1.0.0",
   "contract_version": "2.7.0",
-  "generated_at": "2026-11-17T15:44:40+00:00",
+  "generated_at": "2026-11-18T01:43:03+00:00",
   "feed_count": 32,
-  "row_total": 514,
+  "row_total": 515,
   "readiness": {
     "tier": "case",
     "domains": {
@@ -207,7 +207,7 @@
       "media_type": "application/json",
       "schema": "schemas/catalog.schema.json",
       "kind": "collection",
-      "count": 59
+      "count": 60
     },
     {
       "name": "geo/campus",

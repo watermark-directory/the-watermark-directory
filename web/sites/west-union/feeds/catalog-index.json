@@ -1,6 +1,6 @@
 {
   "site": "west-union",
-  "catalog_version": "6b83855efae2c57f6e063c6d8047b80fa05c8cb8388cc19a1c1f449301f51981",
+  "catalog_version": "e743522a989d3eeb73711658b2242de67ad1146ec66789a002d125da343f30c7",
   "contract_version": "2.7.0",
   "atoms": [
     {
@@ -873,6 +873,14 @@
       "site": "west-union",
       "local_id": "legal-datacenter-legislation-hb983-3744",
       "title": "Data-Center Legislation — H.B. 983 (136th G.A.) Digest & Analysis",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:west-union:legal-datacenter-policy-ocrf-2026",
+      "kind": "dataset",
+      "site": "west-union",
+      "local_id": "legal-datacenter-policy-ocrf-2026",
+      "title": "State of Ohio Data Centers 2026 (OCRF / SRC EvalMetrics) — Digest",
       "feed": "catalog"
     },
     {

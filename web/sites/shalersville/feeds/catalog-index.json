@@ -1,6 +1,6 @@
 {
   "site": "shalersville",
-  "catalog_version": "36e4fb7e6b9187c12f8b8aaf43e16df327f4fb5c42118d6212d7f88e86f52aec",
+  "catalog_version": "5e268b2a8b4713c0f21bc9e0d3fb9408f052f7184e069a252c3c86f80b42f6b3",
   "contract_version": "2.7.0",
   "atoms": [
     {
@@ -865,6 +865,14 @@
       "site": "shalersville",
       "local_id": "legal-datacenter-legislation-hb983-3744",
       "title": "Data-Center Legislation — H.B. 983 (136th G.A.) Digest & Analysis",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:shalersville:legal-datacenter-policy-ocrf-2026",
+      "kind": "dataset",
+      "site": "shalersville",
+      "local_id": "legal-datacenter-policy-ocrf-2026",
+      "title": "State of Ohio Data Centers 2026 (OCRF / SRC EvalMetrics) — Digest",
       "feed": "catalog"
     },
     {

@@ -1,6 +1,6 @@
 {
   "site": "cleveland",
-  "catalog_version": "c76a235c8d106063c63e4b78f2a9e50f0b668bf91312efa20b7c906ef9bfaa84",
+  "catalog_version": "785c1ece0bf1f4a3df3b03131ed175160b8ae7a6bb389d69fdd20f1728f22a78",
   "contract_version": "2.7.0",
   "atoms": [
     {
@@ -865,6 +865,14 @@
       "site": "cleveland",
       "local_id": "legal-datacenter-legislation-hb983-3744",
       "title": "Data-Center Legislation — H.B. 983 (136th G.A.) Digest & Analysis",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:cleveland:legal-datacenter-policy-ocrf-2026",
+      "kind": "dataset",
+      "site": "cleveland",
+      "local_id": "legal-datacenter-policy-ocrf-2026",
+      "title": "State of Ohio Data Centers 2026 (OCRF / SRC EvalMetrics) — Digest",
       "feed": "catalog"
     },
     {

@@ -1,6 +1,6 @@
 {
   "site": "van-wert",
-  "catalog_version": "2cfb6fc65579cc43a1dad94e7f5993edf2281a9bb590b9b7fa89583f85316ce0",
+  "catalog_version": "1b613ec8b7524d8bd01c1da14a2d44ce3ca4b320ae6657b90ae6e2cd0fab4acd",
   "contract_version": "2.7.0",
   "atoms": [
     {
@@ -881,6 +881,14 @@
       "site": "van-wert",
       "local_id": "legal-datacenter-legislation-hb983-3744",
       "title": "Data-Center Legislation — H.B. 983 (136th G.A.) Digest & Analysis",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:van-wert:legal-datacenter-policy-ocrf-2026",
+      "kind": "dataset",
+      "site": "van-wert",
+      "local_id": "legal-datacenter-policy-ocrf-2026",
+      "title": "State of Ohio Data Centers 2026 (OCRF / SRC EvalMetrics) — Digest",
       "feed": "catalog"
     },
     {

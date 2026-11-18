@@ -17054,6 +17054,21 @@
         "supersedes": []
       },
       {
+        "rel": "legal/datacenter-policy/The-State-of-Ohio-Data-Centers-2026-Ohio-Chamber-Research-Foundation-Final.pdf",
+        "name": "The-State-of-Ohio-Data-Centers-2026-Ohio-Chamber-Research-Foundation-Final.pdf",
+        "size_bytes": 5760382,
+        "suffix": "pdf",
+        "media_type": "application/pdf",
+        "render_class": "pdf",
+        "published": false,
+        "available": true,
+        "download_url": null,
+        "duplicate_cluster": null,
+        "canonical_document_id": null,
+        "version": null,
+        "supersedes": []
+      },
+      {
         "rel": "legal/ohio-revised-code/122.17-10-3-2023.pdf",
         "name": "122.17-10-3-2023.pdf",
         "size_bytes": 270881,

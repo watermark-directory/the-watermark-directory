@@ -140,7 +140,10 @@ describe("isRoutableDoc — measured against the committed Lima corpus", () => {
     // deferred them; the re-fetched bytes match the sha256 recorded at deferral. Committed, NOT
     // published — the shelf is default-deny and sheet 1A-C-0001 carries an R.C. 149.433 legend.
     // The 54 exclusions are unchanged: both plan sets are ordinary routable PDFs.
-    expect(entries.length).toBe(3424);
+    // 3,424 -> 3,425: the OCRF / SRC EvalMetrics "State of Ohio Data Centers 2026" report, shelved
+    // `legal/datacenter-policy/`. A third-party study held to read and cite: committed, NOT published
+    // (vault `redistributable: false`); an ordinary routable PDF.
+    expect(entries.length).toBe(3425);
     expect(entries.filter((e) => !isRoutableDoc(e))).toHaveLength(54);
   });
 

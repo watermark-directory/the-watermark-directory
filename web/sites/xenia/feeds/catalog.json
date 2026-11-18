@@ -416,6 +416,59 @@
     }
   },
   {
+    "id": "legal-datacenter-policy-ocrf-2026",
+    "title": "State of Ohio Data Centers 2026 (OCRF / SRC EvalMetrics) — Digest",
+    "scope": "extracted",
+    "collection": "legal",
+    "status": "reviewed",
+    "producer_kind": "extracted",
+    "command": null,
+    "connector_ref": null,
+    "source": "\"The State of Ohio Data Centers in 2026: Economic Contribution, Tax Policy, and Community Benefits\", SRC EvalMetrics, LLC (S. Roychoudhury; Section 7 J. M. Ross; Section 8 A. Woodrum), November 2026, commissioned and funded by the Ohio Chamber of Commerce Research Foundation",
+    "external_url": null,
+    "license": "© SRC EvalMetrics / Ohio Chamber of Commerce Research Foundation — no licence stated; held to read and cite, not redistributed (vault record redistributable false; not cleared for the public site)",
+    "access_tier": "public",
+    "site_scope": "state:OH",
+    "cadence": "static",
+    "ttl_days": null,
+    "last_refreshed": null,
+    "tags": [
+      "data-centers",
+      "economic-contribution",
+      "r.c.-122.175",
+      "sales-tax-exemption",
+      "property-tax",
+      "community-benefits",
+      "secondary-source"
+    ],
+    "storage": [
+      {
+        "relpath": "extracted/legal/datacenter-policy/ocrf-2026-state-of-ohio-data-centers.digest.yaml",
+        "media_type": "application/x-yaml",
+        "lfs": false
+      }
+    ],
+    "observed": {
+      "exists": true,
+      "sha256": "ab7816042331b85d3885a354c0d9982646ef6951e7a299c292a231921bbde48c",
+      "size_bytes": 26590,
+      "lfs_materialized": true,
+      "file_count": 1,
+      "stale": false,
+      "asof": null
+    },
+    "observed_network": null,
+    "citation": {
+      "source": "\"The State of Ohio Data Centers in 2026: Economic Contribution, Tax Policy, and Community Benefits\", SRC EvalMetrics, LLC (S. Roychoudhury; Section 7 J. M. Ross; Section 8 A. Woodrum), November 2026, commissioned and funded by the Ohio Chamber of Commerce Research Foundation",
+      "source_kind": "document",
+      "page": null,
+      "pages": null,
+      "confidence": "medium",
+      "note": null,
+      "verified": true
+    }
+  },
+  {
     "id": "legal-records-legislation",
     "title": "Public-Records Legislation — Sub. H.B. 314 (136th G.A.) Digest & Analysis",
     "scope": "extracted",

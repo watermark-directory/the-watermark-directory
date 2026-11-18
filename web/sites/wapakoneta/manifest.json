@@ -2,9 +2,9 @@
   "site": "wapakoneta",
   "bundle_version": "1.0.0",
   "contract_version": "2.7.0",
-  "generated_at": "2026-11-17T15:46:01+00:00",
+  "generated_at": "2026-11-18T01:45:05+00:00",
   "feed_count": 31,
-  "row_total": 562,
+  "row_total": 563,
   "readiness": {
     "tier": "case",
     "domains": {
@@ -207,7 +207,7 @@
       "media_type": "application/json",
       "schema": "schemas/catalog.schema.json",
       "kind": "collection",
-      "count": 66
+      "count": 67
     },
     {
       "name": "facts",

@@ -1,6 +1,6 @@
 {
   "site": "fremont",
-  "catalog_version": "f1356dd46096277367cee166d00d2bb4d8a022d227242add1eb00b508fec2cfb",
+  "catalog_version": "116b0e9971c60bc47eae58a5818a38123c8859a26d454e3d3fb0597abb7c2512",
   "contract_version": "2.7.0",
   "atoms": [
     {
@@ -865,6 +865,14 @@
       "site": "fremont",
       "local_id": "legal-datacenter-legislation-hb983-3744",
       "title": "Data-Center Legislation — H.B. 983 (136th G.A.) Digest & Analysis",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:fremont:legal-datacenter-policy-ocrf-2026",
+      "kind": "dataset",
+      "site": "fremont",
+      "local_id": "legal-datacenter-policy-ocrf-2026",
+      "title": "State of Ohio Data Centers 2026 (OCRF / SRC EvalMetrics) — Digest",
       "feed": "catalog"
     },
     {

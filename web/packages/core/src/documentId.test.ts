@@ -128,7 +128,12 @@ describe("documentId — the corpus it has to address", () => {
     // published — the shelf is default-deny and sheet 1A-C-0001 carries an R.C. 149.433 legend.
     // Reviewed: 3,424 rels, 3,424 distinct rels, 3,424 distinct handles — the new handles are
     // `dvdk7ns0` (4230061) and `n8yqfhra` (4230062). Checked as a set, not inferred from the delta.
-    expect(rels.length).toBe(3424); // a corpus change should surface here, not a silent collision
+    // 3,424 -> 3,425: the OCRF / SRC EvalMetrics "State of Ohio Data Centers 2026" report, shelved
+    // `legal/datacenter-policy/`. A third-party study held to read and cite: committed, NOT published
+    // (vault `redistributable: false`); an ordinary routable PDF.
+    // Reviewed: 3,425 rels, 3,425 distinct rels, 3,425 distinct handles — the new handle is
+    // `n0b6ad7n`. Checked as a set, not inferred from the delta.
+    expect(rels.length).toBe(3425); // a corpus change should surface here, not a silent collision
     const ids = new Set(rels.map(documentId));
     expect(ids.size).toBe(rels.length);
   });

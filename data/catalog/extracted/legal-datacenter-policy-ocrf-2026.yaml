@@ -1,0 +1,39 @@
+id: legal-datacenter-policy-ocrf-2026
+title: State of Ohio Data Centers 2026 (OCRF / SRC EvalMetrics) — Digest
+scope: extracted
+status: reviewed
+producer:
+  kind: extracted
+  source: '"The State of Ohio Data Centers in 2026: Economic Contribution, Tax Policy, and Community
+    Benefits", SRC EvalMetrics, LLC (S. Roychoudhury; Section 7 J. M. Ross; Section 8 A. Woodrum),
+    November 2026, commissioned and funded by the Ohio Chamber of Commerce Research Foundation'
+license: © SRC EvalMetrics / Ohio Chamber of Commerce Research Foundation — no licence stated; held
+  to read and cite, not redistributed (vault record redistributable false; not cleared for the
+  public site)
+access_tier: public
+site_scope: state:OH
+storage:
+- relpath: extracted/legal/datacenter-policy/ocrf-2026-state-of-ohio-data-centers.digest.yaml
+  media_type: application/x-yaml
+  lfs: false
+refresh:
+  cadence: static
+provenance: document
+tags:
+- data-centers
+- economic-contribution
+- r.c.-122.175
+- sales-tax-exemption
+- property-tax
+- community-benefits
+- secondary-source
+notes: >-
+  A secondary source: every claim is [reference]. A commissioned IMPLAN contribution estimate
+  for 2025 ($9.1B GDP, ~69,600 jobs, 14,257 direct payroll jobs). Gross activity, not net impact;
+  the report does not estimate public-service, electricity or water costs. Also: a 90-campus
+  inventory with 13 pipeline sites outside Central Ohio, most of them network sites. The R.C.
+  122.175 exemption cost ($554.9M state in 2024, $1,568.7M in 2025, against a ~$136M published
+  estimate) and its break-even attribution (60% for old 100% agreements, 30% for recent 50%
+  ones). A 4,479-district property-tax simulation: median 98% of a campus's bill stays with local
+  governments, which is little homeowner relief. A community-benefit disclosure framework. The
+  Technical Appendix (A-I) is unpublished and not held.

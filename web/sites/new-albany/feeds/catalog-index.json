@@ -1,6 +1,6 @@
 {
   "site": "new-albany",
-  "catalog_version": "674e236950ce8eaa1e037253efe7c44da0cd57bbf42b52a90a0bec113184d7f3",
+  "catalog_version": "eed0f430cfd9a5d659931efe9e0566d6c7408cb47c2dbb08c6bf0670583aa1f0",
   "contract_version": "2.7.0",
   "atoms": [
     {
@@ -857,6 +857,14 @@
       "site": "new-albany",
       "local_id": "legal-datacenter-legislation-hb983-3744",
       "title": "Data-Center Legislation — H.B. 983 (136th G.A.) Digest & Analysis",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:new-albany:legal-datacenter-policy-ocrf-2026",
+      "kind": "dataset",
+      "site": "new-albany",
+      "local_id": "legal-datacenter-policy-ocrf-2026",
+      "title": "State of Ohio Data Centers 2026 (OCRF / SRC EvalMetrics) — Digest",
       "feed": "catalog"
     },
     {

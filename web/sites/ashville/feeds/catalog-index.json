@@ -1,6 +1,6 @@
 {
   "site": "ashville",
-  "catalog_version": "17975d959436e4d129730ea450f18f77d9b7d234e6c5439808af81df22bc122d",
+  "catalog_version": "9fa2c50d47e05b089a76e184e61af4d1db629d674ad4347212218af16f2bd46a",
   "contract_version": "2.7.0",
   "atoms": [
     {
@@ -865,6 +865,14 @@
       "site": "ashville",
       "local_id": "legal-datacenter-legislation-hb983-3744",
       "title": "Data-Center Legislation — H.B. 983 (136th G.A.) Digest & Analysis",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:ashville:legal-datacenter-policy-ocrf-2026",
+      "kind": "dataset",
+      "site": "ashville",
+      "local_id": "legal-datacenter-policy-ocrf-2026",
+      "title": "State of Ohio Data Centers 2026 (OCRF / SRC EvalMetrics) — Digest",
       "feed": "catalog"
     },
     {

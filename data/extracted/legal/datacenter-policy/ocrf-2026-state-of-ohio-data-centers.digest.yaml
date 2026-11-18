@@ -1,0 +1,414 @@
+kind: policy-research
+subject: >-
+  "The State of Ohio Data Centers in 2026: Economic Contribution, Tax Policy, and Community
+  Benefits" — SRC EvalMetrics, LLC, November 2026, commissioned and funded by the Ohio Chamber of
+  Commerce Research Foundation. An IMPLAN economic-contribution estimate of Ohio's data-center
+  industry (2025, projected to 2030), a cost and break-even analysis of the R.C. 122.175 sales and
+  use tax exemption, a levy-by-levy simulation of a $10B campus in each of Ohio's 4,479 taxing
+  districts, and a community-benefit framework for host communities.
+
+provenance:
+  source: data/documents/legal/datacenter-policy/The-State-of-Ohio-Data-Centers-2026-Ohio-Chamber-Research-Foundation-Final.pdf
+  canonical: ocrf-src-evalmetrics-state-of-ohio-data-centers-2026.pdf
+  sha256: eec1d42055ae457055bccb24b08a356351d6c680338fccaf04890e712c7a636a
+  pages: 64
+  content_verified: '2026-11-17'   # read from the PDF's native text layer
+  redistributable: false           # see documents/legal/datacenter-policy/filename-map.yaml
+  citation_convention: >-
+    "p. N" is the PRINTED page number, which equals the 1-based PDF page (the cover is p. 1).
+    Exhibit numbers are the report's own.
+  note: >-
+    Every figure below is [reference]: it is what this commissioned study reports, not the
+    record of the thing reported. Where the report rests a figure on a primary source, that
+    source is named in `rests_on` so the figure can be upgraded by capturing THAT document, never
+    by citing this one. The report's Technical Appendix (A-I) is a separate, unpublished volume
+    (p. 2, p. 53); every method it documents is [open] here. Synthesis against the corpus is
+    [inference]; unresolved questions are [open].
+
+report:
+  title: "The State of Ohio Data Centers in 2026: Economic Contribution, Tax Policy, and Community Benefits"
+  publisher: SRC EvalMetrics, LLC
+  date: '2026-11'
+  commissioned_and_funded_by: Ohio Chamber of Commerce Research Foundation
+  authors:
+    - name: Saurav Roychoudhury, Ph.D.
+      affiliation: SRC EvalMetrics (founder/president); Capital University
+      wrote: Sections 1-6 and 9
+    - name: Justin M. Ross, Ph.D.
+      affiliation: Indiana University, O'Neill School of Public and Environmental Affairs
+      wrote: Section 7 (property taxes)
+    - name: Amanda Woodrum
+      affiliation: ReImagine Appalachia
+      wrote: Section 8 and Appendix H (community benefits)
+  location: "pp. 2, 58"
+  independence_statement: >-
+    "The authors retained sole control over the methods, assumptions, findings and conclusions."
+    Section 8 is expressly "options for communities to consider, not recommendations of the Ohio
+    Chamber of Commerce Research Foundation or SRC EvalMetrics" (p. 45). [reference]
+  model: IMPLAN, 2024 Data for Ohio; not reviewed, endorsed or verified by IMPLAN Group LLC (pp. 2, 53, 57).
+  dollars: >-
+    Economic-contribution estimates in 2025 dollars; exemption costs, reported investment and
+    property-tax bills in the dollars of the year shown (p. 2).
+  technical_appendix:
+    tag: open
+    location: "pp. 2, 53"
+    note: >-
+      Appendices A-I are "not published with this report"; copies on request from the Foundation
+      (research@ohiochamber.com). Not held. The facility database (App. A/F), the exemption
+      method (App. G), the attribution evidence (App. I.4) and the community-benefit provision
+      tables (App. H) are therefore unreviewable from this corpus.
+
+# ----------------------------------------------------------------------------
+# Economic contribution (Sections 4-5; executive summary pp. 4-6)
+# ----------------------------------------------------------------------------
+economic_contribution:
+  tag: reference
+  industry_definition: >-
+    NAICS 518210 / IMPLAN Industry 418, narrowed: payroll jobs only (no self-employed), activity
+    reassigned from management consulting and design excluded (~7,300 jobs), on-site contractors
+    counted in their own industries (pp. 14, 54).
+  y2025:
+    gdp_total: {value: "$9.1B", detail: "operations $6.17B + construction $2.91B ≈ $9.08B; ~$4.7B via suppliers and household spending", location: "pp. 4, 6, 28 (Exh. 5.3)"}
+    jobs_combined: {value: "~69,600", detail: "operations 43,459 + construction/equipment 26,145; ~97,900 if servers pass through Ohio distributors", location: "pp. 4, 28"}
+    direct_payroll_jobs: {value: 14257, detail: "11,574 in NAICS 518210 establishments + 2,683 reassigned from computer services", location: "pp. 4-5, 14"}
+    direct_avg_pay_and_benefits: {value: "$147,700", location: "p. 4"}
+    operations_gdp: {value: "$6.2B", location: "pp. 20 (Exh. 4.1), 52"}
+    alternative_direct_counts: >-
+      16,979 counting 2,721 self-employed owners in data processing; ~28,700 IMPLAN industry
+      total; 24,120 in PwC 2026 for the Data Center Coalition (p. 55).
+  multipliers:
+    location: "pp. 53-54 (Exh. M.1)"
+    operations_jobs: 3.05          # 2.72 with self-employed counted as direct
+    operations_gdp: 2.11
+    construction_jobs: 1.88        # 2.04 if servers pass through Ohio distributors
+    construction_gdp: 2.05
+  projection_2030:
+    location: "pp. 4-5, 22"
+    operating_jobs_base: "~61,500 (range 50,600-73,200)"
+    direct_jobs_base: "~20,200"
+  construction_2025_2030:
+    location: "pp. 4-5, 19, 26"
+    capital_spending_base: "~$109B"
+    job_years: "~257,100 (avg ~42,800/yr; peak ~56,600 in 2029); ~382,000 if servers pass through Ohio distributors"
+    peak_share_of_private_construction_workforce: "~7% (2029)"
+    note: >-
+      2025 modelled spending is about two-thirds of what exemption recipients reported, so the
+      report says 2025 may be understated (p. 19).
+  facility_staffing:
+    location: "pp. 24 (Exh. 4.5), 52"
+    hyperscale_and_large_colo_26_facilities: "~1,100-1,800 operator payroll (central ~1,450)"
+    backed_by_current_admin_records: "~640-710 (TIRC/CRA filings covering 6 of the 26)"
+    incl_smaller_colo_and_edge: "~1,200-2,400"
+    recurring_contractors_and_tenant_staff: "~600-1,400 (not direct)"
+    per_large_campus_tirc_implied: "~120-230 reported jobs (p. 50)"
+    note: >-
+      Not added to the industry total (overlap). Company-reported TIRC "jobs" are undefined and may
+      include contractors; Google's New Albany figure (199, TY2025) "likely does". Some campus
+      employment is unobservable because municipal income-tax data are confidential (R.C. 718.13).
+  employer_disclosures:
+    tag: reference
+    location: "p. 24"
+    rests_on: "PUCO 24-0508-EL-ATA, Opinion and Order of 9 July 2025, ¶ 68 (citing Google testimony)"
+    amazon: ">1,500 Ohio full-time hires supporting data-center operations by end of 2025"
+    google: ">850 Ohio positions related to data-center operations"
+  classification_gap:
+    location: "p. 14"
+    note: >-
+      Meta and Google reported 296 permanent jobs at New Albany to the Licking County TIRC (2024)
+      while QCEW recorded 138 private NAICS 518210 jobs in all of Licking County — hyperscaler
+      staff are often classified under the parent's industry. [reference]
+  what_the_estimates_do_not_show:
+    location: "p. 52"
+    quote: >-
+      "The report does not estimate net effects, the cost of public services and infrastructure,
+      or the effects of data centers' electricity and water demand on other users."
+    note: >-
+      The contribution figures are gross activity, not net impact ("they describe activity
+      associated with the industry rather than what Ohio would lose without it", p. 52). Nothing
+      here may be quoted as a net benefit. [reference]
+
+# ----------------------------------------------------------------------------
+# Facility inventory (Section 3.1)
+# ----------------------------------------------------------------------------
+facility_inventory:
+  tag: reference
+  location: "pp. 16-17 (Exh. 3.1, 3.2)"
+  as_of: "public records through 2026-09-29; status reviewed October 2026"
+  unit: campus or standalone site, counted once regardless of building count
+  totals: {campuses: 90, counties: 28, operating: 60, under_construction: 14, permitted_or_committed: 5, announced_or_proposed: 11}
+  by_type:   # operating / under construction / permitted / announced / total
+    hyperscale: [12, 11, 3, 8, 34]
+    large_colocation: [16, 3, 2, 1, 22]
+    smaller_colocation_and_edge: [23, 0, 0, 0, 23]
+    enterprise_and_public: [4, 0, 0, 0, 4]
+    other_crypto_and_uncertain: [5, 0, 0, 2, 7]
+  caveats: >-
+    Five operating sites are carried provisionally (status unverifiable). Enterprise row incomplete
+    by design. Data Center Map lists 257 Ohio data centers from 58 operators (building-level,
+    unit undefined, includes planned) — about three times the campus count.
+  central_ohio: "44 of 90 sites, including all 12 operating hyperscale campuses"
+  pipeline: "30 sites under construction, permitted or announced: 22 hyperscale, 6 large colocation"
+  outside_central_ohio:
+    location: "p. 17"
+    count: 13
+    under_construction:
+      - {developer: Google, county: Allen, network_site: lima}
+      - {developer: Amazon, county: Shelby, network_site: sidney}
+      - {developer: Meta, county: Wood, network_site: bowling-green}
+      - {developer: Aligned, county: Coshocton, network_site: coshocton}
+      - {developer: Aligned, county: Erie, network_site: sandusky}
+    permitted_or_proposed:
+      - {developer: Amazon, county: Adams, network_site: west-union}
+      - {developer: Amazon, county: Butler, network_site: hamilton-middletown}
+      - {developer: Amazon, county: Clinton, network_site: wilmington}
+      - {developer: Amazon, county: Fayette, network_site: wilmington}
+      - {developer: Google, county: Scioto, network_site: portsmouth}
+      - {developer: Vantage, county: "near Toledo", network_site: toledo}
+      - {developer: QTS, county: "Van Wert", network_site: van-wert}
+    also_named: "PORTS campus at Piketon (Pike County), a former federal site proposed for data-center use (pp. 12, 49) — network_site: piketon"
+    mapping_tag: inference
+    mapping_note: >-
+      The `network_site` column is this repo's mapping of the report's county to a registered
+      watershed point, not the report's. The report names 12 developer/county pairs for "13" sites
+      (Piketon is mentioned separately); the 13th is not identified in the main volume. [open]
+      The report gives no MW, acreage or parcel for any of them; it is a status roll-call, and a
+      site's own record outranks it wherever they disagree.
+
+# ----------------------------------------------------------------------------
+# Market, land, power, investment (Sections 3.2-3.4)
+# ----------------------------------------------------------------------------
+market:
+  tag: reference
+  rests_on: "Cushman & Wakefield, Americas Data Center Update H1 2026 (C&W 2026c) and H2 2025 (C&W 2026b)"
+  location: "pp. 11-12, 17-18"
+  central_ohio_operating_mw: "3,488 MW mid-2026 (third in US, behind N. Virginia 12,338 and Portland/E. Oregon 3,632); 3,150 at end-2025"
+  under_construction_mw: "2,043 MW mid-2026 (1,953 pre-committed); 1,150 end-2025; 546 in 2024; 43 in 2021"
+  planned_mw: "11,545 MW (~46% pre-committed; undefined, not a forecast); 293 MW in 2021"
+  colocation_vacancy: "2.2% (1.9% end-2025)"
+  land: "8 significant Central Ohio purchases Jul 2025-Apr 2026, ~$347M / ~1,175 acres; Meta near Johnstown 3 purchases = 686 acres / $255M"
+power:
+  tag: reference
+  location: "pp. 18, 49"
+  on_site_generation: >-
+    PowerConneX (EdgeConneX affiliate) applied to OPSB for a natural-gas plant up to 430 MW in New
+    Albany to "serve as a primary source of electricity to a data center on the same site".
+  on_site_rests_on: "OPSB case 26-361-EL-BGN, public notice of 12 May 2026"
+  aep_tariff: >-
+    AEP Ohio data-center tariff: new loads >=25 MW pay a minimum monthly demand charge of at least
+    85% of contracted capacity for up to 12 years and post exit collateral.
+  aep_tariff_rests_on: "PUCO 24-0508-EL-ATA, Opinion and Order of 9 July 2025"
+investment:
+  tag: reference
+  location: "p. 19"
+  statewide_exemption_recipients: "$27.2B in 2025 (Governor's office, 27 May 2026); ~$9.6B in 2024 (ENR trade press, not a state publication)"
+  new_albany_tirc:
+    rests_on: "City of New Albany, Annual Tax Abatement Report, Franklin and Licking Counties, 2026 (TY2025)"
+    six_agreements_cumulative_ty2025: "~$36.0B"
+    added_ty2024_to_ty2025: "~$17.3B (Meta $9.2B, Google $4.6B, Amazon Newton Court $3.0B)"
+    vs_original_estimates: "Meta agreement est. $750M and Google $600M; each now reports >$12B"
+  amazon_hilliard: "$3.1B by TY2024 against $425M committed (rests on City of Hilliard Res. 25-R-74, 22 Sept 2025)"
+  equipment_share: >-
+    Amazon's 2024 Licking County filings: buildings $492M / $656M vs equipment and servers
+    $2.31B / $2.27B — equipment 78-83% of reported investment. Meta's building share from Licking
+    County appraisal records: 3.24% of its reported 2025 increase (pp. 19, 26).
+
+# ----------------------------------------------------------------------------
+# Sales and use tax exemption (Section 6; summary pp. 4, 7-8)
+# ----------------------------------------------------------------------------
+sales_tax_exemption:
+  statute: "R.C. 122.175 (Tax Credit Authority; state sales/use, county and transit-authority tax on equipment and building materials)"
+  program_terms:
+    tag: reference
+    location: "pp. 7, 29"
+    terms: >-
+      Minimum $100M investment at the site and $1.5M/yr Ohio-withheld wages; the exemption must be
+      "a major factor" in the decision. 18 companies hold agreements; first agreement 2013; older
+      agreements often 100% for up to 40 years, recent generally 50% for 10-15 years.
+    corroborated_by: >-
+      data/extracted/legal/select-committee-2026/witness-submissions.digest.yaml
+      (odod_dcte_second_subsidy — ODOD Director Mihalik, 2026-05-27: 18 agreements, first 2013,
+      100%/40 yr vs ~50%/10-15 yr). The report's terms AGREE with the primary testimony already
+      in the corpus; cite that, not this. [inference]
+  status:
+    tag: reference
+    location: "pp. 7, 29"
+    note: >-
+      New agreements paused since 27 May 2026; the Governor has said the pause continues until he
+      leaves office in January 2027. The exemption remains in law. Proposals range from a 50% cap
+      to prohibiting new agreements (App. G.2, not held).
+  cost:
+    tag: reference
+    location: "pp. 7, 29 (Exh. 6.1)"
+    rests_on: >-
+      State costs: Ohio Department of Taxation actuals given to the Associated Press (21 May 2026),
+      "not yet in a published table". Published estimates: Tax Expenditure Report FY2026-2027,
+      item 1.53. 2025 investment: Governor's office (27 May 2026).
+    exhibit_6_1:
+      state_forgone: {y2024: "$554.9M", y2025: "$1,568.7M"}
+      local_forgone: {y2024: "$166.8M", y2025: "≈$471.5M (ESTIMATED at the 2024 local-to-state ratio)"}
+      combined: {y2024: "$721.7M", y2025: "≈$2,040M (part reported, part estimated)"}
+      investment_reported: {y2024: "$9.6B", y2025: "$27.2B"}
+      cost_share_of_investment: {y2024: "7.5%", y2025: "7.5%"}
+    published_estimate: "$130.4M FY2024 and $135.8M FY2025 (GRF); reporting periods and revenue covered differ, so the comparison is approximate"
+    caveats: >-
+      The reporting does not say whether "2024"/"2025" are calendar or fiscal years. State cost
+      alone ≈ 5.77% of reported investment vs the 5.75% state rate (different bases).
+  break_even_attribution:
+    tag: reference
+    location: "pp. 4, 7-8, 30-31 (Exh. 6.2), 33"
+    question: "share of the investment the exemption must DECIDE for it to pay for itself in state + local tax"
+    tax_generated_by_2025_investment: "A = $1.37B ($1.15-1.99B): construction $397M one-time + operations $975M PV over 15 yr"
+    assumptions: "$30M all-in per MW; PUE 1.12; Ohio 2024 industrial electricity price (ranges $20-38M/MW, PUE 1.08-1.3)"
+    older_100pct_agreements: "60% (51-64%)"
+    recent_50pct_agreements: "30% (25-32%)"
+    if_replacement_servers_exempt: "75% (older) / 38% (recent)"
+    state_revenue_only: "69% (repeal of a full exemption) / 34% (recent terms); 52% for cutting 100%->50%"
+    cutting_100_to_50: "raises revenue unless the cut deters >43% of investment"
+  repeal_scenarios:
+    tag: reference
+    location: "p. 32 (Exh. 6.3)"
+    basis: "2025 investment under 100% agreements"
+    attribution_25pct: {investment_elsewhere: "$6.8B", construction_job_years_lost: 16100, operating_jobs_lost_direct_total: "157; 1,490", net_fiscal_effect_of_repeal: "+$1.2B"}
+    attribution_50pct: {investment_elsewhere: "$13.6B", construction_job_years_lost: 32100, operating_jobs_lost_direct_total: "314; 2,980", net_fiscal_effect_of_repeal: "+$0.3B"}
+    attribution_75pct: {investment_elsewhere: "$20.4B", construction_job_years_lost: 48200, operating_jobs_lost_direct_total: "471; 4,470", net_fiscal_effect_of_repeal: "-$0.5B"}
+  attribution_evidence:
+    tag: reference
+    location: "pp. 31-32, 34"
+    items:
+      - "Bartik 2018: typical incentives tip 2-25% of the decisions they reward"
+      - "Georgia 2025 evaluation: ~30% (its 2022 evaluation had assumed 90%)"
+      - "Minnesota 2025 evaluation: 50% in 2013 falling to 24% in 2024; both GA and MN find net state fiscal effect negative every recent year"
+      - "Washington auditor: urban-county exemption had no influence on location"
+      - "Virginia (JLARC 2019; Tax Dept 2026): ASSUME rather than estimate up to 90%"
+      - "Gargano & Giacoletti 2026 (SSRN 5881105): Ohio repealing alone would lose ~63% of its hyperscale pipeline; all states repealing together, national investment falls <3%"
+      - "As of September 2026, three peer states had repealed similar exemptions and five, including Ohio, had paused them (states not named in the main volume)"
+    report_interpretation: >-
+      The estimated state shares (24-50%) fall below the 60% break-even for older agreements but
+      near or above the 30% break-even for recent ones; the model-based 63% clears both, narrowly
+      for older agreements, and falls short if server replacements are exempt (p. 32).
+  evaluation_gaps_named:
+    tag: reference
+    location: "p. 34"
+    note: >-
+      The report says the next evaluation needs the state to publish: "the annual program report
+      the statute requires"; aggregate employment and investment from recipients' compliance
+      reports; the local as well as the state cost. That is a named records gap. [open]
+
+# ----------------------------------------------------------------------------
+# Property tax (Section 7, Ross)
+# ----------------------------------------------------------------------------
+property_tax:
+  tag: reference
+  author: Justin M. Ross
+  location: "pp. 35-44"
+  rests_on: "Ohio Department of Taxation, Tax Data Series: TY2025 real property tax rates, taxable values and taxes charged, by taxing district"
+  hypothetical: >-
+    A $10B campus; 20% building/site share + 500 acres at $180,000/acre = $2.09B market value,
+    assessed at 35% = $731.5M taxable, placed in each of Ohio's 4,479 taxing districts in turn,
+    fully taxable (no abatement, CRA or TIF), against bills payable in 2026 (p. 37).
+  current_law:
+    location: "pp. 8-9, 37-43 (Exh. 7.2, 7.7, 7.11)"
+    median_bill: "$34.7M (p10 $27.8M; p90 $54.0M)"
+    kept_by_governments_median: "$33.7M — 98% in the median district"
+    returned_to_existing_taxpayers_median: "$0.8M"
+    pooled_statewide: "$96.50 of every $100 stays with local governments (~$53 with school districts); $3.50 returns to existing taxpayers"
+    districts_retaining_100pct: "959 of 4,479 (21%)"
+    median_recipients: "school $17.4M; county $6.8M; township $3.0M; career-tech and special districts ~$1.5M each; municipal median $0 (61% of districts lie outside any municipality)"
+    homeowner_change_per_100k_assessed_median: "-$128"
+    business_change_per_100k_assessed_median: "-$136"
+    lowest_retained_share: "71% — Hamilton County district served by Cincinnati city schools"
+    county_medians: "89% (Fayette) to 100% (Pike, Ross, Scioto, Wyandot)"
+  residual_rate_alternative:
+    location: "pp. 40-41 (Exh. 7.5, 7.7)"
+    note: "every levy held at its TY2025 proceeds — the relief end of the range; explicitly 'not offered as a policy proposal' (p. 37)"
+    median_bill: "$15.9M"
+    homeowner_change_per_100k_assessed_median: "-$2,050"
+    business_change_per_100k_assessed_median: "-$2,636"
+  worked_example_jersey_township:
+    location: "pp. 39-42 (Exh. 7.4, 7.5, 7.9)"
+    district: "Jersey Township (Licking County), Johnstown-Monroe schools, within New Albany limits; 24 levies"
+    bill_current_law: "$26.76M — $24.94M kept, $1.81M returned (93% revenue)"
+    bill_all_fixed_amount: "$17.70M — all returned"
+    home_300k_saving: "$235/yr current law vs $1,476 fixed-amount"
+  conclusion_for_hosts:
+    location: "pp. 43-44"
+    note: >-
+      "The expectation that data centers will immediately lower residents' property taxes is ...
+      largely unfounded in most of the state." Every result assumes a fully taxable development;
+      an abatement, CRA exemption or TIF redirects the base, "and the governments that share the
+      tax base are not always the governments that negotiate the incentive."
+
+# ----------------------------------------------------------------------------
+# Community benefit framework (Section 8, Woodrum)
+# ----------------------------------------------------------------------------
+community_benefits:
+  tag: reference
+  author: Amanda Woodrum (ReImagine Appalachia)
+  location: "pp. 45-51"
+  standing: options for communities to consider, NOT recommendations of the Foundation or SRC (p. 45)
+  pre_approval_disclosure:   # Box 8.2, pp. 46-47
+    - "Energy: peak and average MW, backup generator count and fuel, planned on-site generation, confirmation of a minimum-demand tariff"
+    - "Water: average and peak daily withdrawal, net evaporative consumption, cooling design, source (municipal / reclaimed / groundwater), discharge controls"
+    - "Footprint and acoustics: acreage, square footage, setbacks, stormwater, pre-construction modelling of dBA and low-frequency dBC noise at property lines"
+    - "Workforce: construction schedule and peak headcount by trade; permanent payroll vs contracted jobs; construction job-years vs operating staff"
+    - "Local procurement and subcontracting scope"
+    - "Full fiscal and incentive term sheet: state exemption share and term, local abatement % and duration, PILOTs / revenue sharing to schools, townships, fire/EMS"
+  other_provisions: >-
+    Narrowly tailored NDAs; a community benefit advisory board; decommissioning plan at permitting
+    plus up-front surety bonds; bonded road-use agreements; developer-funded water/sewer upgrades;
+    fire/EMS equipment grants; PILOTs to schools during abatement; project labor agreement with
+    prevailing wage, local-hire targets and registered-apprenticeship hours; first-source hiring;
+    local purchasing; a community benefit fund of e.g. 0.5% of total project cost (pp. 46-51).
+  cited_scale: >-
+    A hyperscale campus draws ~20 MW to >1 GW (~750,000 homes at the top); "hundreds of thousands,
+    or even millions, of gallons of water in a single day"; up to ~1,000 acres; noise effect
+    greatest within ~half a mile (p. 49). These are generic, unsourced in-text ranges. [reference]
+  provision_tables:
+    tag: open
+    note: "Exhibits H.1/H.2 (the negotiating tables) are in the unpublished Technical Appendix."
+
+# ----------------------------------------------------------------------------
+# Relevance to the corpus — [inference] unless stated
+# ----------------------------------------------------------------------------
+relevance:
+  tag: inference
+  items:
+    - id: dcte-second-subsidy
+      note: >-
+        The Lima public ledger already carries an open follow-up to obtain any DCTE agreement for
+        Bistrozzi/Google (src/watermark/ledger.py). This report puts the statewide cost at ~$1.57B
+        (2025) against a ~$136M published estimate and names the missing instrument — the annual
+        program report R.C. 122.175 requires — as unpublished. It does not name the 18 holders or
+        any per-campus figure, so it moves no site's cost line. [open]
+    - id: pipeline-roll-call
+      note: >-
+        Twelve of the report's out-of-Central-Ohio pipeline entries map to registered network
+        sites (lima, sidney, bowling-green, coshocton, sandusky, west-union, hamilton-middletown,
+        wilmington, portsmouth, toledo, van-wert) plus piketon. Its statuses (as of 2026-09-29)
+        are a third-party roll-call; a site's own record outranks it. Use it as a cross-check of
+        what each site's data-centers.md asserts, never as a source for readiness.
+    - id: property-tax-expectations
+      note: >-
+        Section 7 is a statewide answer to a question the per-site incentive reads raise: under
+        current Ohio law a campus's real-property tax mostly becomes school/county revenue, not
+        homeowner relief, and a CRA/TIF redirects it. That frames — but does not quantify — each
+        site's abatement (e.g. Lima's CRA, Van Wert's and Urbana's incentive instruments).
+    - id: water-disclosure
+      note: >-
+        Box 8.2's water parameters (average and peak withdrawal, net evaporative consumption,
+        cooling design, source, discharge) are the same quantities the hydrology and closed-loop
+        cooling work back-solves because no host discloses them; HB 983's open-/closed-loop gate
+        turns on the same distinction (data/extracted/legal/datacenter-legislation/).
+    - id: report-scope-limit
+      note: >-
+        The report explicitly does not estimate the effects of electricity and water demand on
+        other users, nor public-service and infrastructure costs (p. 52) — the burdens side the
+        platform models. It is a source for the benefit side only.
+
+open:
+  - "Technical Appendix (A-I) — not published; request from research@ohiochamber.com."
+  - "Publication URL of the report — received as a file; not captured."
+  - "The 13th out-of-Central-Ohio pipeline site (the main volume names 12 developer/county pairs)."
+  - "Ohio Department of Taxation actuals behind the $554.9M / $1,568.7M state cost — reported to the AP (2026-05-21), not in a published table."
+  - "The R.C. 122.175 annual program report the statute requires — named by the report as unpublished."
+  - "Which three states repealed and which five paused (as of September 2026) — not named in the main volume."

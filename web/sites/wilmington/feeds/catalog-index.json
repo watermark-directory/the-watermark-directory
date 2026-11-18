@@ -1,6 +1,6 @@
 {
   "site": "wilmington",
-  "catalog_version": "678319103571aa63528fa8f4966b1d89ee300c1bc6ecd0e8cbee8f6b1022e991",
+  "catalog_version": "1c5e450f32fe4d18900bdb52952e8e64f7875a6a603d762e688d52fd560813aa",
   "contract_version": "2.7.0",
   "atoms": [
     {
@@ -865,6 +865,14 @@
       "site": "wilmington",
       "local_id": "legal-datacenter-legislation-hb983-3744",
       "title": "Data-Center Legislation — H.B. 983 (136th G.A.) Digest & Analysis",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:wilmington:legal-datacenter-policy-ocrf-2026",
+      "kind": "dataset",
+      "site": "wilmington",
+      "local_id": "legal-datacenter-policy-ocrf-2026",
+      "title": "State of Ohio Data Centers 2026 (OCRF / SRC EvalMetrics) — Digest",
       "feed": "catalog"
     },
     {
