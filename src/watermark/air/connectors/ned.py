@@ -23,6 +23,7 @@ from typing import TYPE_CHECKING
 import httpx
 import numpy as np
 import rasterio
+import rasterio.errors
 from pydantic import BaseModel, ConfigDict
 from rasterio.transform import rowcol
 
@@ -39,6 +40,18 @@ _CONNECTOR = "ned"
 # 3DEP native posting is 1/3 arc-second (~10 m); request that so the DEM is faithful.
 _CELLSIZE_DEG = 1.0 / 10800.0
 _MAX_PIXELS = 4000  # ImageServer exportImage size guard
+# GeoTIFF magic bytes: little-endian ``II*\0`` / big-endian ``MM\0*`` (BigTIFF uses 0x2B).
+_TIFF_MAGIC = (b"II*\x00", b"MM\x00*", b"II+\x00", b"MM\x00+")
+
+
+class NedExportError(RuntimeError):
+    """The ImageServer answered ``exportImage`` with something that is not a GeoTIFF.
+
+    ArcGIS reports a failed export (bad bbox, service busy, size limit) as **HTTP 200 with a
+    JSON error body**, so ``raise_for_status`` passes it. Caching those bytes under a ``.tif``
+    key would poison the key forever — every later run would short-circuit to the cached
+    "DEM" and fail far away, inside ``rasterio.open``. This is raised *before* the bytes land.
+    """
 
 
 class PointElevation(BaseModel):
@@ -119,12 +132,44 @@ def _resolve_dem(
         url, params=query, timeout=settings.air_request_timeout_s, follow_redirects=True
     )
     resp.raise_for_status()
+    _require_geotiff(resp, url=url, key=key)
     dest.parent.mkdir(parents=True, exist_ok=True)
     tmp = dest.with_suffix(".tif.part")
     tmp.write_bytes(resp.content)
-    tmp.replace(dest)  # atomic: only a fully-fetched file lands at the cache key
+    try:  # a TIFF header is necessary, not sufficient: decode every band-1 block, one at a
+        # time (bounded memory), so a body truncated past its first tile is refused too
+        with rasterio.open(tmp) as probe:
+            for _, window in probe.block_windows(1):
+                probe.read(1, window=window)
+    except rasterio.errors.RasterioError as exc:
+        tmp.unlink(missing_ok=True)
+        raise NedExportError(
+            f"NED exportImage for key={key} returned an unreadable GeoTIFF ({exc}); not cached"
+        ) from exc
+    tmp.replace(dest)  # atomic: only a validated, fully-fetched file lands at the cache key
     log.info("connector.fetch", connector=_CONNECTOR, key=key)
     return dest, "USGS 3DEP ImageServer"
+
+
+def _require_geotiff(resp: httpx.Response, *, url: str, key: str) -> None:
+    """Refuse an ``exportImage`` body that is not a TIFF, naming the endpoint's own message."""
+    body = resp.content
+    if body[:4] in _TIFF_MAGIC:
+        return
+    detail = body[:300].decode("utf-8", errors="replace").strip()
+    try:
+        payload = resp.json()
+        err = payload.get("error") if isinstance(payload, dict) else None
+        if isinstance(err, dict) and err:
+            parts = [str(err.get("code", "")), str(err.get("message", ""))]
+            parts += [str(d) for d in err.get("details") or []]
+            detail = " · ".join(p for p in parts if p)
+    except ValueError:
+        pass
+    raise NedExportError(
+        f"NED exportImage for key={key} returned {resp.headers.get('content-type', '?')!r}, "
+        f"not a GeoTIFF — not cached. Endpoint said: {detail or '<empty body>'} ({url})"
+    )
 
 
 def fetch_terrain(
@@ -185,9 +230,17 @@ def sample_points(
 def _bilinear(
     dem: DatasetReader, band: np.ma.MaskedArray, lon: float, lat: float, nodata: float | None
 ) -> float | None:
-    """Bilinear interpolation of the DEM at a WGS84 point; ``None`` if outside/nodata."""
+    """Bilinear interpolation of the DEM at a WGS84 point; ``None`` if outside/nodata.
+
+    ``rowcol`` with an identity ``op`` returns continuous coordinates in the pixel-**corner**
+    frame (the centre of pixel ``[0, 0]`` is ``(0.5, 0.5)``), but a pixel's value belongs to
+    its **centre** (``AREA_OR_POINT=Area``), so the interpolation frame is shifted by -0.5.
+    Without the shift every sample reads half a pixel (~5 m at 3DEP posting) south-east.
+    Points between the outermost pixel centres and the raster edge (the outer half-pixel
+    ring) have no four neighbours to interpolate between and read ``None``.
+    """
     row_raw, col_raw = rowcol(dem.transform, lon, lat, op=lambda v: v)
-    row_f, col_f = float(row_raw), float(col_raw)
+    row_f, col_f = float(row_raw) - 0.5, float(col_raw) - 0.5
     if not (0 <= row_f <= dem.height - 1 and 0 <= col_f <= dem.width - 1):
         return None
     r0, c0 = int(np.floor(row_f)), int(np.floor(col_f))
