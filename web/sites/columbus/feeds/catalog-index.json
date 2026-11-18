@@ -1,6 +1,6 @@
 {
   "site": "columbus",
-  "catalog_version": "783dfb011292a6d16ef215a583fd28cf33e0a6d279d20bc6093bddd423d3c356",
+  "catalog_version": "131dcd7146c540aa7b7a8085d8b60912bc1e31dea34b89da662befec142499d4",
   "contract_version": "2.7.0",
   "atoms": [
     {
@@ -857,6 +857,14 @@
       "site": "columbus",
       "local_id": "legal-datacenter-legislation-hb983-3744",
       "title": "Data-Center Legislation — H.B. 983 (136th G.A.) Digest & Analysis",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:columbus:legal-datacenter-policy-ocrf-2026",
+      "kind": "dataset",
+      "site": "columbus",
+      "local_id": "legal-datacenter-policy-ocrf-2026",
+      "title": "State of Ohio Data Centers 2026 (OCRF / SRC EvalMetrics) — Digest",
       "feed": "catalog"
     },
     {

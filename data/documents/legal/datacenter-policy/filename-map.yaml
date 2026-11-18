@@ -1,0 +1,51 @@
+meta:
+  collection: legal/datacenter-policy
+  subject: >-
+    Third-party policy research on Ohio data centers — commissioned economic, fiscal and
+    community-benefit studies that are NOT public records. The sibling of
+    legal/datacenter-legislation/ (the bills these studies argue about) and of
+    legal/select-committee-2026/ (the hearing record in which the same questions were taken up).
+  note: >-
+    Per chain-of-custody rules (CLAUDE.md → Data discipline), source files keep their
+    as-received names; the canonical name is recorded here. Every claim drawn from this shelf is
+    [reference], never [verified]: a commissioned study reporting a figure is not the record of
+    that figure. ⚠️ NOT cleared for the public site (`legal/datacenter-policy` is in no cleared
+    boundary of data/site/published-documents.yaml) and recorded `redistributable: false` in
+    data/documents/legal/vault.yaml, following the wapakoneta/reference precedent (#2184).
+    content_verified is read from the document's own native text layer, NOT the filename.
+documents:
+- filename: The-State-of-Ohio-Data-Centers-2026-Ohio-Chamber-Research-Foundation-Final.pdf
+  canonical: ocrf-src-evalmetrics-state-of-ohio-data-centers-2026.pdf
+  title: >-
+    The State of Ohio Data Centers in 2026: Economic Contribution, Tax Policy, and Community
+    Benefits
+  type: commissioned-research-report
+  publisher: SRC EvalMetrics, LLC
+  commissioned_by: Ohio Chamber of Commerce Research Foundation
+  authors:
+  - Saurav Roychoudhury, Ph.D., SRC EvalMetrics (lead; Sections 1-6 and 9)
+  - Justin M. Ross, Ph.D., Indiana University O'Neill School (Section 7)
+  - Amanda Woodrum, ReImagine Appalachia (Section 8 and Appendix H)
+  date: '2026-11'
+  pdf_created: '2026-11-08'
+  pages: 64
+  sha256: eec1d42055ae457055bccb24b08a356351d6c680338fccaf04890e712c7a636a
+  bytes: 5760382
+  content_type: application/pdf
+  received: '2026-11-17'
+  source_url: null
+  status: received
+  content_verified: text-layer
+  rights: >-
+    Commissioned and funded by the Ohio Chamber of Commerce Research Foundation; prepared by SRC
+    EvalMetrics, LLC (printed p. 2). No licence is stated. Held to read and cite, not to
+    redistribute.
+  note: >-
+    Received as a file (user download); the publication URL was not captured, so `source_url` is
+    null rather than guessed — an [open] item, not an omission to fill from outside knowledge. The
+    date is read off the cover's text layer ("SRC EvalMetrics, LLC November 2026"); the PDF's own
+    CreationDate is 2026-11-08 (InDesign 21.6 export). The text layer is native and clean, so
+    figures were read from it, not from OCR. Printed page N is PDF page N (the cover is printed
+    page 1). The Technical Appendix (Appendices A-I) that most exhibits cite is a SEPARATE volume,
+    "not published with this report" and available on request from the Foundation (printed p. 2);
+    it is NOT held here, and every claim resting on it is [open] as to its underlying method.

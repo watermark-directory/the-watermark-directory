@@ -4,12 +4,12 @@
 
 The **mechanical** half of the corpus-completeness audit: every dataset registered in the data catalog (`data/catalog/`) checked for existence and freshness against the committed reconcile snapshot (`data/catalog/_observed.yaml`). The **substantive** half — records an authority has *withheld* — stays human-authored in [`data/extracted/legal/corpus-completeness-audit.md`](../extracted/legal/corpus-completeness-audit.md).
 
-Snapshot reconciled: **2026-11-17T16:24:39.665393+00:00**. Regenerate with `watermark catalog audit --apply` after `watermark catalog reconcile`.
+Snapshot reconciled: **2026-11-18T01:27:42.651875+00:00**. Regenerate with `watermark catalog audit --apply` after `watermark catalog reconcile`.
 
 ## Headline
 
-- **244** catalogued datasets — **219** reviewed.
-- **244** present and fresh · **0** stale · **0** LFS pointer (not materialized in this checkout).
+- **245** catalogued datasets — **220** reviewed.
+- **245** present and fresh · **0** stale · **0** LFS pointer (not materialized in this checkout).
 - **0** missing (declared files absent) · **0** unobserved (no snapshot record).
 
 ## Coverage by collection
@@ -40,7 +40,7 @@ Snapshot reconciled: **2026-11-17T16:24:39.665393+00:00**. Regenerate with `wate
 | extracted | idem | 1 | 1 | 0 | 0 |
 | extracted | lacrpc | 2 | 2 | 0 | 0 |
 | extracted | lancaster | 1 | 1 | 0 | 0 |
-| extracted | legal | 24 | 24 | 0 | 0 |
+| extracted | legal | 25 | 25 | 0 | 0 |
 | extracted | lima | 3 | 3 | 0 | 0 |
 | extracted | limaohio | 1 | 1 | 0 | 0 |
 | extracted | lordstown | 1 | 1 | 0 | 0 |
@@ -116,43 +116,43 @@ Snapshot reconciled: **2026-11-17T16:24:39.665393+00:00**. Regenerate with `wate
 
 | site | relevant | present | missing |
 | --- | --- | --- | --- |
-| akron | 58 | 42 | 16 |
-| ashville | 59 | 49 | 10 |
-| athens | 58 | 42 | 16 |
-| bowling-green | 63 | 57 | 6 |
-| bryan | 60 | 49 | 11 |
-| canton | 59 | 49 | 10 |
-| cleveland | 58 | 42 | 16 |
-| columbus | 58 | 48 | 10 |
-| coshocton | 59 | 43 | 16 |
-| defiance | 61 | 51 | 10 |
-| findlay | 71 | 65 | 6 |
+| akron | 59 | 43 | 16 |
+| ashville | 60 | 50 | 10 |
+| athens | 59 | 43 | 16 |
+| bowling-green | 64 | 58 | 6 |
+| bryan | 61 | 50 | 11 |
+| canton | 60 | 50 | 10 |
+| cleveland | 59 | 43 | 16 |
+| columbus | 59 | 49 | 10 |
+| coshocton | 60 | 44 | 16 |
+| defiance | 62 | 52 | 10 |
+| findlay | 72 | 66 | 6 |
 | fort-wayne | 49 | 43 | 6 |
-| fremont | 58 | 42 | 16 |
-| greenville | 59 | 49 | 10 |
-| hamilton-middletown | 59 | 49 | 10 |
-| lancaster | 58 | 42 | 16 |
-| lima | 121 | 117 | 4 |
-| lordstown | 58 | 42 | 16 |
-| mansfield | 59 | 49 | 10 |
-| new-albany | 59 | 49 | 10 |
-| ottawa | 62 | 54 | 8 |
-| piketon | 59 | 43 | 16 |
-| portsmouth | 60 | 44 | 16 |
-| sandusky | 59 | 43 | 16 |
-| shalersville | 59 | 49 | 10 |
-| sidney | 67 | 62 | 5 |
-| springfield | 58 | 49 | 9 |
-| toledo | 63 | 53 | 10 |
-| troy-piqua | 62 | 55 | 7 |
-| urbana | 61 | 54 | 7 |
-| van-wert | 67 | 61 | 6 |
-| wapakoneta | 66 | 56 | 10 |
-| west-union | 63 | 54 | 9 |
-| wilmington | 62 | 56 | 6 |
-| wpafb | 60 | 52 | 8 |
-| xenia | 59 | 49 | 10 |
-| youngstown | 58 | 42 | 16 |
+| fremont | 59 | 43 | 16 |
+| greenville | 60 | 50 | 10 |
+| hamilton-middletown | 60 | 50 | 10 |
+| lancaster | 59 | 43 | 16 |
+| lima | 122 | 118 | 4 |
+| lordstown | 59 | 43 | 16 |
+| mansfield | 60 | 50 | 10 |
+| new-albany | 60 | 50 | 10 |
+| ottawa | 63 | 55 | 8 |
+| piketon | 60 | 44 | 16 |
+| portsmouth | 61 | 45 | 16 |
+| sandusky | 60 | 44 | 16 |
+| shalersville | 60 | 50 | 10 |
+| sidney | 68 | 63 | 5 |
+| springfield | 59 | 50 | 9 |
+| toledo | 64 | 54 | 10 |
+| troy-piqua | 63 | 56 | 7 |
+| urbana | 62 | 55 | 7 |
+| van-wert | 68 | 62 | 6 |
+| wapakoneta | 67 | 57 | 10 |
+| west-union | 64 | 55 | 9 |
+| wilmington | 63 | 57 | 6 |
+| wpafb | 61 | 53 | 8 |
+| xenia | 60 | 50 | 10 |
+| youngstown | 59 | 43 | 16 |
 
 ## Integrity gaps
 

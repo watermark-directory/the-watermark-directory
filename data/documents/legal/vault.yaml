@@ -5,18 +5,23 @@ meta:
     Regenerate with `watermark documents manifest`; verify with `--check`. Never hand-edit an entry —
     the next run reverts it. Losing the vault costs no claim, only a re-fetch, because every digest here
     is in a commit.'
-  generated_at: '2026-09-23T01:30:25+00:00'
+  generated_at: '2026-11-18T01:23:22+00:00'
   generated_by: watermark documents manifest
   counts:
-    artifacts: 1598
-    bytes: 1179521804
-    distinct_addresses: 1141
+    artifacts: 1599
+    bytes: 1185282186
+    distinct_addresses: 1142
 artifacts:
 - rel: documents/legal/datacenter-legislation/hb983_00_IN.pdf
   sha256: ff8b8fc736ba5fc7f0f9a80d63afa231e310df0d17f9537b76d0452f6286d8c7
   bytes: 113123
   media_type: application/pdf
   redistributable: true
+- rel: documents/legal/datacenter-policy/The-State-of-Ohio-Data-Centers-2026-Ohio-Chamber-Research-Foundation-Final.pdf
+  sha256: eec1d42055ae457055bccb24b08a356351d6c680338fccaf04890e712c7a636a
+  bytes: 5760382
+  media_type: application/pdf
+  redistributable: false
 - rel: documents/legal/ohio-revised-code/122.17-10-3-2023.pdf
   sha256: 2e1a5176b72eea3eb4b2096ce56f4273b88c729fabc2716ccce9db7c9b70a81b
   bytes: 270881

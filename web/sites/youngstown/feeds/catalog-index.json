@@ -1,6 +1,6 @@
 {
   "site": "youngstown",
-  "catalog_version": "38f89904318418d62958f4aa4e9cee0d4845c3341cd990a91b7dd4eac188d879",
+  "catalog_version": "4ed95be75c9c7f259654a07c575645be182a3379426212da1cea5f38faa691ce",
   "contract_version": "2.7.0",
   "atoms": [
     {
@@ -865,6 +865,14 @@
       "site": "youngstown",
       "local_id": "legal-datacenter-legislation-hb983-3744",
       "title": "Data-Center Legislation — H.B. 983 (136th G.A.) Digest & Analysis",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:youngstown:legal-datacenter-policy-ocrf-2026",
+      "kind": "dataset",
+      "site": "youngstown",
+      "local_id": "legal-datacenter-policy-ocrf-2026",
+      "title": "State of Ohio Data Centers 2026 (OCRF / SRC EvalMetrics) — Digest",
       "feed": "catalog"
     },
     {

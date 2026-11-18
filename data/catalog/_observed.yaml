@@ -1,4 +1,4 @@
-reconciled_at: '2026-11-17T16:24:39.665393+00:00'
+reconciled_at: '2026-11-18T01:27:42.651875+00:00'
 entries:
   abatement-parameters:
     exists: true
@@ -2727,6 +2727,16 @@ entries:
     size_bytes: 33606
     lfs_materialized: true
     file_count: 2
+    missing: []
+    asof: null
+    stale: false
+    site_scope: state:OH
+  legal-datacenter-policy-ocrf-2026:
+    exists: true
+    sha256: ab7816042331b85d3885a354c0d9982646ef6951e7a299c292a231921bbde48c
+    size_bytes: 26590
+    lfs_materialized: true
+    file_count: 1
     missing: []
     asof: null
     stale: false

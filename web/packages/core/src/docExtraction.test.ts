@@ -202,7 +202,7 @@ describe("the join, against the committed Lima bundle", () => {
   // `data/extracted/oepa/lima/2dp00130-surrogate-characterization.yaml`, which is deliberately
   // shaped so `corpus._classify` DECLINES it — it is a reading, not a record, and must never
   // count here.
-  it("extracts 184 of 3,424 documents — 5.4% of the corpus", () => {
+  it("extracts 184 of 3,425 documents — 5.4% of the corpus", () => {
     const entries = documents.flatMap((c) => c.entries);
     // 3,362 -> 3,382 (City of Lima PRR, #1536): the twenty committed files of the City's first
     // public-records production, under `legal/prr-mandamus/prr-production-2026-08-{22,24}-lima/`.
@@ -253,7 +253,10 @@ describe("the join, against the committed Lima bundle", () => {
     // profiles, details and the temporary lift station). The vault retired the Git-LFS budget that
     // deferred them; the re-fetched bytes match the sha256 recorded at deferral. Committed, NOT
     // published — the shelf is default-deny and sheet 1A-C-0001 carries an R.C. 149.433 legend.
-    expect(entries.length).toBe(3424);
+    // 3,424 -> 3,425: the OCRF / SRC EvalMetrics "State of Ohio Data Centers 2026" report, shelved
+    // `legal/datacenter-policy/`. A third-party study held to read and cite: committed, NOT published
+    // (vault `redistributable: false`); an ordinary routable PDF.
+    expect(entries.length).toBe(3425);
     // 159 -> 160 (the American Township CUP): ONE join, from TWO records. Both the BZA decision
     // and the 2018 deed name the SAME packet as their `source.file`, and the join is per-`rel`,
     // so the numerator moves by one while `records.length` moves by two. That asymmetry is the
@@ -312,7 +315,9 @@ describe("the join, against the committed Lima bundle", () => {
     // numerator moved and the denominator did not — the change the note above said to expect. At
     // 2.1% `legal` is still the corpus's largest unread holding by a wide margin; one production
     // read end to end barely registers against 1,781 documents.
-    expect(counts.legal).toEqual([37, 1781]);
+    // 1,781 -> 1,782: the OCRF data-center report (`legal/datacenter-policy/`). Its digest is a
+    // `.digest.yaml`, not an extraction the join reads, so the numerator is unmoved.
+    expect(counts.legal).toEqual([37, 1782]);
     expect(counts.commissioners).toEqual([0, 995]);
     // `oepa` now belongs here: held, and largely READ. 98 of 111 is 88.3% — well above
     // `legal`'s 0.9% and `commissioners`' zero, and well below the instrument collections it used

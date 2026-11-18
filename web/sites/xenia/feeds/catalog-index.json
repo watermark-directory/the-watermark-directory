@@ -1,6 +1,6 @@
 {
   "site": "xenia",
-  "catalog_version": "6ba54a9b10d80ee665d92003c8dff1669b090d6aae897f3b9dcbf79f87070f5b",
+  "catalog_version": "1fc08218cfad81ce1b66b150b1133af3be176e26e9704668eea33af4237d5088",
   "contract_version": "2.7.0",
   "atoms": [
     {
@@ -865,6 +865,14 @@
       "site": "xenia",
       "local_id": "legal-datacenter-legislation-hb983-3744",
       "title": "Data-Center Legislation — H.B. 983 (136th G.A.) Digest & Analysis",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:xenia:legal-datacenter-policy-ocrf-2026",
+      "kind": "dataset",
+      "site": "xenia",
+      "local_id": "legal-datacenter-policy-ocrf-2026",
+      "title": "State of Ohio Data Centers 2026 (OCRF / SRC EvalMetrics) — Digest",
       "feed": "catalog"
     },
     {

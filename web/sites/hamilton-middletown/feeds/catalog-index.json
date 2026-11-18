@@ -1,6 +1,6 @@
 {
   "site": "hamilton-middletown",
-  "catalog_version": "b1c8c9df12219df9cb176c7c29e364d134dd14bdc1a732bc38bf2050d3b92481",
+  "catalog_version": "b461efb8c341d38f70fc18bd7cd6878e5401c65ac554e9ba7e1e158f641e1959",
   "contract_version": "2.7.0",
   "atoms": [
     {
@@ -865,6 +865,14 @@
       "site": "hamilton-middletown",
       "local_id": "legal-datacenter-legislation-hb983-3744",
       "title": "Data-Center Legislation — H.B. 983 (136th G.A.) Digest & Analysis",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:hamilton-middletown:legal-datacenter-policy-ocrf-2026",
+      "kind": "dataset",
+      "site": "hamilton-middletown",
+      "local_id": "legal-datacenter-policy-ocrf-2026",
+      "title": "State of Ohio Data Centers 2026 (OCRF / SRC EvalMetrics) — Digest",
       "feed": "catalog"
     },
     {

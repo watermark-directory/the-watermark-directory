@@ -143,7 +143,10 @@ describe("summarizeCollections — against the committed Lima corpus", () => {
     // profiles, details and the temporary lift station). The vault retired the Git-LFS budget that
     // deferred them; the re-fetched bytes match the sha256 recorded at deferral. Committed, NOT
     // published — the shelf is default-deny and sheet 1A-C-0001 carries an R.C. 149.433 legend.
-    expect(summaries.reduce((n, s) => n + s.count, 0)).toBe(3424);
+    // 3,424 -> 3,425: the OCRF / SRC EvalMetrics "State of Ohio Data Centers 2026" report, shelved
+    // `legal/datacenter-policy/`. A third-party study held to read and cite: committed, NOT published
+    // (vault `redistributable: false`); an ordinary routable PDF.
+    expect(summaries.reduce((n, s) => n + s.count, 0)).toBe(3425);
   });
 
   it("finds the one production that is half the catalog", () => {

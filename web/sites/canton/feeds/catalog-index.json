@@ -1,6 +1,6 @@
 {
   "site": "canton",
-  "catalog_version": "405ce0c005ee467ffb292ee6352c3524728fd49f50b707dd52bb3ced68e99064",
+  "catalog_version": "ab9034ad55d41badbb07c1dc803c9949dfd580680cfba1eb9046eb712c561695",
   "contract_version": "2.7.0",
   "atoms": [
     {
@@ -865,6 +865,14 @@
       "site": "canton",
       "local_id": "legal-datacenter-legislation-hb983-3744",
       "title": "Data-Center Legislation — H.B. 983 (136th G.A.) Digest & Analysis",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:canton:legal-datacenter-policy-ocrf-2026",
+      "kind": "dataset",
+      "site": "canton",
+      "local_id": "legal-datacenter-policy-ocrf-2026",
+      "title": "State of Ohio Data Centers 2026 (OCRF / SRC EvalMetrics) — Digest",
       "feed": "catalog"
     },
     {

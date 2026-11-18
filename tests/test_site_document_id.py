@@ -194,7 +194,10 @@ def test_no_collision_across_the_committed_corpus() -> None:
     # deferral. Committed, NOT published: the shelf is default-deny.
     # Reviewed: 3424 rels, 3424 distinct rels, 3424 distinct handles — the new handles are
     # `dvdk7ns0` and `n8yqfhra`. Checked as a set, not inferred from the delta.
-    assert len(rels) == 3424, "a corpus change belongs in review, not a silent collision"
+    # 3424 → 3425: the OCRF / SRC EvalMetrics "State of Ohio Data Centers 2026" report,
+    # `legal/datacenter-policy/` — committed, NOT published (vault `redistributable: false`).
+    # Reviewed: 3425 rels, 3425 distinct rels, 3425 distinct handles — the new handle is `n0b6ad7n`.
+    assert len(rels) == 3425, "a corpus change belongs in review, not a silent collision"
     assert len({document_id(rel) for rel in rels}) == len(rels)
     # The count alone is a weak proxy: a delete-one-add-one leaves it unmoved. Name all four
     # committed BOSC-1A eDocs. The two plan sets were DEFERRED on the Git-LFS budget until #2090,

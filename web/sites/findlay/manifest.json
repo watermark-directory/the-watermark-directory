@@ -2,9 +2,9 @@
   "site": "findlay",
   "bundle_version": "1.0.0",
   "contract_version": "2.7.0",
-  "generated_at": "2026-11-17T15:43:41+00:00",
+  "generated_at": "2026-11-18T01:41:59+00:00",
   "feed_count": 35,
-  "row_total": 1712,
+  "row_total": 1713,
   "readiness": {
     "tier": "reference",
     "domains": {
@@ -221,7 +221,7 @@
       "media_type": "application/json",
       "schema": "schemas/catalog.schema.json",
       "kind": "collection",
-      "count": 71
+      "count": 72
     },
     {
       "name": "geo/campus",

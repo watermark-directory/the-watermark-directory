@@ -1,6 +1,6 @@
 {
   "site": "urbana",
-  "catalog_version": "e213fa98748ae66e9598f4ca6d6e9ef7c35c16631210b08cb3d2e91d1541fac2",
+  "catalog_version": "b752d2b44a366fa11b248963f525ea6f46ef8086b6077e2ab30196f28c56f236",
   "contract_version": "2.7.0",
   "atoms": [
     {
@@ -865,6 +865,14 @@
       "site": "urbana",
       "local_id": "legal-datacenter-legislation-hb983-3744",
       "title": "Data-Center Legislation — H.B. 983 (136th G.A.) Digest & Analysis",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:urbana:legal-datacenter-policy-ocrf-2026",
+      "kind": "dataset",
+      "site": "urbana",
+      "local_id": "legal-datacenter-policy-ocrf-2026",
+      "title": "State of Ohio Data Centers 2026 (OCRF / SRC EvalMetrics) — Digest",
       "feed": "catalog"
     },
     {

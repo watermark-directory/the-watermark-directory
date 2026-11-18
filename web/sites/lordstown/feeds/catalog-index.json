@@ -1,6 +1,6 @@
 {
   "site": "lordstown",
-  "catalog_version": "348e543dca783feea4018a24d2be4a967613879124c20a8ee7c65e0432a14e7c",
+  "catalog_version": "ead6a9afd59e12fc2786ab6ae33f8b47e0344a9c0c264007442bf8a4a44186a3",
   "contract_version": "2.7.0",
   "atoms": [
     {
@@ -865,6 +865,14 @@
       "site": "lordstown",
       "local_id": "legal-datacenter-legislation-hb983-3744",
       "title": "Data-Center Legislation — H.B. 983 (136th G.A.) Digest & Analysis",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:lordstown:legal-datacenter-policy-ocrf-2026",
+      "kind": "dataset",
+      "site": "lordstown",
+      "local_id": "legal-datacenter-policy-ocrf-2026",
+      "title": "State of Ohio Data Centers 2026 (OCRF / SRC EvalMetrics) — Digest",
       "feed": "catalog"
     },
     {

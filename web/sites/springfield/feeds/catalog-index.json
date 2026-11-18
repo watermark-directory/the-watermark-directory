@@ -1,6 +1,6 @@
 {
   "site": "springfield",
-  "catalog_version": "87f5984d6c2ce00bbd6c237d3d67a107191b314550dd1cff7d6c0b17bd2c2e06",
+  "catalog_version": "746a8a28f8c0a7a7cc7e2b5c7b6f632c2505fc45df83a201048299889a56a1a7",
   "contract_version": "2.7.0",
   "atoms": [
     {
@@ -857,6 +857,14 @@
       "site": "springfield",
       "local_id": "legal-datacenter-legislation-hb983-3744",
       "title": "Data-Center Legislation — H.B. 983 (136th G.A.) Digest & Analysis",
+      "feed": "catalog"
+    },
+    {
+      "handle": "dataset:springfield:legal-datacenter-policy-ocrf-2026",
+      "kind": "dataset",
+      "site": "springfield",
+      "local_id": "legal-datacenter-policy-ocrf-2026",
+      "title": "State of Ohio Data Centers 2026 (OCRF / SRC EvalMetrics) — Digest",
       "feed": "catalog"
     },
     {
